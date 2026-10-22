@@ -5100,10 +5100,17 @@ pKS6qzcaqB:Notify({
 -- NhoiiiX Hub: nut logo dong/mo (70895505430795)
 task.spawn(function()
     local Players = game:GetService("Players")
-    local player = Players.LocalPlayer
-    local playerGui = player:WaitForChild("PlayerGui")
+    local CoreGui = game:GetService("CoreGui")
+    local playerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
+    local roots = {playerGui, CoreGui}
+    if typeof(gethui) == "function" then
+        local ok, hiddenGui = pcall(gethui)
+        if ok and hiddenGui then table.insert(roots, hiddenGui) end
+    end
 
-    -- Tao nut trong PlayerGui de tranh loi khi executor chan CoreGui/gethui.
+    local old = playerGui:FindFirstChild("NhoiiiX_HubToggle_70895505430795")
+    if old then old:Destroy() end
+
     local toggleGui = Instance.new("ScreenGui")
     toggleGui.Name = "NhoiiiX_HubToggle_70895505430795"
     toggleGui.ResetOnSpawn = false
@@ -5123,72 +5130,60 @@ task.spawn(function()
     button.ScaleType = Enum.ScaleType.Fit
     button.Active = true
     button.AutoButtonColor = true
-    button.Visible = true
-    button.ZIndex = 10
+    button.ZIndex = 100
     button.Parent = toggleGui
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(1, 0)
-    corner.Parent = button
-
-    local stroke = Instance.new("UIStroke")
+    Instance.new("UICorner", button).CornerRadius = UDim.new(1, 0)
+    local stroke = Instance.new("UIStroke", button)
     stroke.Color = Color3.fromRGB(135, 90, 255)
     stroke.Thickness = 2
-    stroke.Parent = button
 
     local function findHubGui()
-        local candidates = {}
-        for _, root in ipairs({playerGui, game:GetService("CoreGui")}) do
+        local best, bestScore = nil, 0
+        for _, root in ipairs(roots) do
             local ok, descendants = pcall(function() return root:GetDescendants() end)
             if ok then
                 for _, obj in ipairs(descendants) do
-                    if obj:IsA("ScreenGui") and obj ~= toggleGui then
-                        local matched = false
-                        for _, child in ipairs(obj:GetDescendants()) do
-                            if child:IsA("TextLabel") or child:IsA("TextButton") then
-                                local txt = string.lower(tostring(child.Text or ""))
-                                if string.find(txt, "nhoiiix hub", 1, true)
-                                    or string.find(txt, "blox fruit", 1, true) then
-                                    matched = true
-                                    break
-                                end
+                    if obj:IsA("TextLabel") or obj:IsA("TextButton") then
+                        local txt = string.lower(tostring(obj.Text or ""))
+                        if string.find(txt, "nhoiiix hub", 1, true)
+                            or string.find(txt, "blox fruit", 1, true)
+                            or string.find(txt, "by nhoiiix", 1, true) then
+                            local gui = obj
+                            while gui and not gui:IsA("ScreenGui") do gui = gui.Parent end
+                            if gui and gui ~= toggleGui then
+                                local score = #gui:GetDescendants()
+                                if score > bestScore then best, bestScore = gui, score end
                             end
                         end
-                        if matched then table.insert(candidates, obj) end
                     end
                 end
             end
         end
-        return candidates[#candidates]
+        return best
     end
 
-    local hubGui = nil
-    for _ = 1, 20 do
+    local hubGui
+    for _ = 1, 30 do
         hubGui = findHubGui()
         if hubGui then break end
         task.wait(0.5)
     end
 
     button.Activated:Connect(function()
-        if not hubGui or not hubGui.Parent then
-            hubGui = findHubGui()
-        end
+        if not hubGui or not hubGui.Parent then hubGui = findHubGui() end
         if hubGui then
             hubGui.Enabled = not hubGui.Enabled
-            return
-        end
-
-        -- Thu dung phim toggle da khai bao o phan khoi tao UI.
-        local ok, vim = pcall(function()
-            return game:GetService("VirtualInputManager")
-        end)
-        if ok and vim then
-            pcall(function()
-                vim:SendKeyEvent(true, Enum.KeyCode.RightControl, false, game)
-                vim:SendKeyEvent(false, Enum.KeyCode.RightControl, false, game)
-            end)
         else
-            warn("NhoiiiX Hub: khong tim thay GUI va executor khong ho tro phim ao.")
+            -- Thu phim tat RightControl da duoc UI dang ky.
+            local ok, vim = pcall(function() return game:GetService("VirtualInputManager") end)
+            if ok and vim then
+                pcall(function()
+                    vim:SendKeyEvent(true, Enum.KeyCode.RightControl, false, game)
+                    task.wait(0.05)
+                    vim:SendKeyEvent(false, Enum.KeyCode.RightControl, false, game)
+                end)
+            end
         end
     end)
 end)
