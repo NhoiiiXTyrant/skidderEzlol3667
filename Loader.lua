@@ -1,4 +1,49 @@
--- leaked by stinker da goat🤑
+-- GUI logo đóng/mở Hub
+local ToggleGui = Instance.new("ScreenGui")
+ToggleGui.Name = "NhoiiiX_Toggle"
+ToggleGui.ResetOnSpawn = false
+ToggleGui.IgnoreGuiInset = true
+ToggleGui.Parent = playerGui
+
+local ToggleButton = Instance.new("ImageButton")
+ToggleButton.Name = "HubToggle"
+ToggleButton.Size = UDim2.fromOffset(55, 55)
+ToggleButton.Position = UDim2.new(0, 15, 0.5, -27)
+ToggleButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+ToggleButton.BackgroundTransparency = 0.1
+ToggleButton.Image = "rbxassetid://70895505430795"
+ToggleButton.ScaleType = Enum.ScaleType.Fit
+ToggleButton.Active = true
+ToggleButton.Visible = true
+ToggleButton.Parent = ToggleGui
+
+local Corner = Instance.new("UICorner")
+Corner.CornerRadius = UDim.new(1, 0)
+Corner.Parent = ToggleButton
+
+local Stroke = Instance.new("UIStroke")
+Stroke.Color = Color3.fromRGB(120, 80, 255)
+Stroke.Thickness = 2
+Stroke.Parent = ToggleButton
+
+-- Thay bằng ScreenGui chính của Hub
+local HubGui = playerGui:FindFirstChild("NhoiiiX-Hub")
+
+local isOpen = true
+
+ToggleButton.Activated:Connect(function()
+    if not HubGui then
+        HubGui = playerGui:FindFirstChild("NhoiiiX-Hub")
+    end
+
+    if HubGui and HubGui:IsA("ScreenGui") then
+        isOpen = not HubGui.Enabled
+        HubGui.Enabled = isOpen
+    else
+        warn("Không tìm thấy ScreenGui chính của Hub!")
+    end
+end)
+
 local pKS6qzcaqB, tbl
 
 do
