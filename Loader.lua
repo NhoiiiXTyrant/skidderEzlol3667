@@ -1,37 +1,9 @@
--- GUI logo đóng/mở Hub
-local ToggleGui = Instance.new("ScreenGui")
-ToggleGui.Name = "NhoiiiX_Toggle"
-ToggleGui.ResetOnSpawn = false
-ToggleGui.IgnoreGuiInset = true
-ToggleGui.Parent = playerGui
-
-local ToggleButton = Instance.new("ImageButton")
-ToggleButton.Name = "HubToggle"
-ToggleButton.Size = UDim2.fromOffset(55, 55)
-ToggleButton.Position = UDim2.new(0, 15, 0.5, -27)
-ToggleButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-ToggleButton.BackgroundTransparency = 0.1
-ToggleButton.Image = "rbxassetid://70895505430795"
-ToggleButton.ScaleType = Enum.ScaleType.Fit
-ToggleButton.Active = true
-ToggleButton.Visible = true
-ToggleButton.Parent = ToggleGui
-
-local Corner = Instance.new("UICorner")
-Corner.CornerRadius = UDim.new(1, 0)
-Corner.Parent = ToggleButton
-
-local Stroke = Instance.new("UIStroke")
-Stroke.Color = Color3.fromRGB(120, 80, 255)
-Stroke.Thickness = 2
-Stroke.Parent = ToggleButton
-
-
+-- leaked by stinker da goat🤑
 local pKS6qzcaqB, tbl
 
 do
     loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptpastebin/Blox-Fruits/refs/heads/main/core.luau"))()
-    pKS6qzcaqB = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Arcylic/refs/heads/main/Eclipse/ui.luau"))().new("Eclipse Hub : discord.gg/pKS6qzcaqB", "by @Eclipse")
+    pKS6qzcaqB = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Arcylic/refs/heads/main/Eclipse/ui.luau"))().new("NhoiiiX Hub | Blox Fruit", "by NhoiiiX")
     pKS6qzcaqB:SetToggleKey(Enum.KeyCode.RightControl)
     local Main = pKS6qzcaqB:CreateSection("Main")
 
@@ -5125,3 +5097,95 @@ pKS6qzcaqB:Notify({
     Icon = "rbxassetid://70895505430795",
     Duration = 5,
 })
+-- NhoiiiX Hub: logo button dong/mo bang asset ID 70895505430795
+-- Tim ScreenGui cua hub theo noi dung tieu de, khong an cac GUI khac.
+task.spawn(function()
+    local Players = game:GetService("Players")
+    local CoreGui = game:GetService("CoreGui")
+    local player = Players.LocalPlayer
+    local playerGui = player:WaitForChild("PlayerGui")
+
+    local function getGuiRoot()
+        if typeof(gethui) == "function" then
+            local ok, root = pcall(gethui)
+            if ok and root then return root end
+        end
+        return CoreGui
+    end
+
+    local root = getGuiRoot()
+    local function findHubGui()
+        local roots = {root, playerGui}
+        for _, container in ipairs(roots) do
+            for _, obj in ipairs(container:GetDescendants()) do
+                if obj:IsA("ScreenGui") then
+                    local matched = false
+                    for _, child in ipairs(obj:GetDescendants()) do
+                        if child:IsA("TextLabel") or child:IsA("TextButton") then
+                            local text = string.lower(tostring(child.Text or ""))
+                            if string.find(text, "nhoiiix hub", 1, true)
+                                or string.find(text, "blox fruit", 1, true) then
+                                matched = true
+                                break
+                            end
+                        end
+                    end
+                    if matched then return obj end
+                end
+            end
+        end
+        return nil
+    end
+
+    local hubGui
+    for _ = 1, 30 do
+        hubGui = findHubGui()
+        if hubGui then break end
+        task.wait(1)
+    end
+
+    local toggleGui = Instance.new("ScreenGui")
+    toggleGui.Name = "NhoiiiX_HubToggle_70895505430795"
+    toggleGui.ResetOnSpawn = false
+    toggleGui.IgnoreGuiInset = true
+    toggleGui.DisplayOrder = 999999
+    toggleGui.Parent = root
+
+    local button = Instance.new("ImageButton")
+    button.Name = "HubToggleButton"
+    button.Size = UDim2.fromOffset(54, 54)
+    button.Position = UDim2.new(0, 16, 0.5, -27)
+    button.BackgroundColor3 = Color3.fromRGB(24, 24, 32)
+    button.BackgroundTransparency = 0.12
+    button.BorderSizePixel = 0
+    button.Image = "rbxassetid://70895505430795"
+    button.ScaleType = Enum.ScaleType.Fit
+    button.Active = true
+    button.Visible = true
+    button.Parent = toggleGui
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(1, 0)
+    corner.Parent = button
+
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Color3.fromRGB(135, 90, 255)
+    stroke.Thickness = 2
+    stroke.Parent = button
+
+    local function refreshHubGui()
+        if not hubGui or not hubGui.Parent then
+            hubGui = findHubGui()
+        end
+        return hubGui
+    end
+
+    button.Activated:Connect(function()
+        local target = refreshHubGui()
+        if target and target ~= toggleGui then
+            target.Enabled = not target.Enabled
+        else
+            warn("NhoiiiX Hub toggle: khong tim thay ScreenGui cua hub. Hay kiem tra ten/tieu de GUI.")
+        end
+    end)
+end)
