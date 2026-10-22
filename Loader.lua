@@ -26,23 +26,6 @@ Stroke.Color = Color3.fromRGB(120, 80, 255)
 Stroke.Thickness = 2
 Stroke.Parent = ToggleButton
 
--- Thay bằng ScreenGui chính của Hub
-local HubGui = playerGui:FindFirstChild("NhoiiiX-Hub")
-
-local isOpen = true
-
-ToggleButton.Activated:Connect(function()
-    if not HubGui then
-        HubGui = playerGui:FindFirstChild("NhoiiiX-Hub")
-    end
-
-    if HubGui and HubGui:IsA("ScreenGui") then
-        isOpen = not HubGui.Enabled
-        HubGui.Enabled = isOpen
-    else
-        warn("Không tìm thấy ScreenGui chính của Hub!")
-    end
-end)
 
 local pKS6qzcaqB, tbl
 
