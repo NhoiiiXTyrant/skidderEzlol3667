@@ -3770,18 +3770,26 @@ UserInputService.InputBegan:Connect(function(input, processed)
     end
 end)
 
+-- Use Activated for the actual click; InputEnded on a GuiButton can be missed
+-- after the hub ScreenGui is disabled. Keep drag support and ignore drag releases.
 local clickStartPos = Vector2.new()
+local lastPressWasClick = false
 LogoBtn.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
         clickStartPos = Vector2.new(input.Position.X, input.Position.Y)
+        lastPressWasClick = true
     end
 end)
-LogoBtn.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+UserInputService.InputChanged:Connect(function(input)
+    if lastPressWasClick and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
         local dist = (Vector2.new(input.Position.X, input.Position.Y) - clickStartPos).Magnitude
-        if dist < 10 then
-            toggleUI()
-        end
+        if dist >= 10 then lastPressWasClick = false end
+    end
+end)
+LogoBtn.Activated:Connect(function()
+    if lastPressWasClick then
+        lastPressWasClick = false
+        toggleUI()
     end
 end)
 
