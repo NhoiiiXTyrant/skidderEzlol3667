@@ -5097,71 +5097,34 @@ pKS6qzcaqB:Notify({
     Icon = "rbxassetid://70895505430795",
     Duration = 5,
 })
--- NhoiiiX Hub: logo button dong/mo bang asset ID 70895505430795
--- Tim ScreenGui cua hub theo noi dung tieu de, khong an cac GUI khac.
+-- NhoiiiX Hub: nut logo dong/mo (70895505430795)
 task.spawn(function()
     local Players = game:GetService("Players")
-    local CoreGui = game:GetService("CoreGui")
     local player = Players.LocalPlayer
     local playerGui = player:WaitForChild("PlayerGui")
 
-    local function getGuiRoot()
-        if typeof(gethui) == "function" then
-            local ok, root = pcall(gethui)
-            if ok and root then return root end
-        end
-        return CoreGui
-    end
-
-    local root = getGuiRoot()
-    local function findHubGui()
-        local roots = {root, playerGui}
-        for _, container in ipairs(roots) do
-            for _, obj in ipairs(container:GetDescendants()) do
-                if obj:IsA("ScreenGui") then
-                    local matched = false
-                    for _, child in ipairs(obj:GetDescendants()) do
-                        if child:IsA("TextLabel") or child:IsA("TextButton") then
-                            local text = string.lower(tostring(child.Text or ""))
-                            if string.find(text, "nhoiiix hub", 1, true)
-                                or string.find(text, "blox fruit", 1, true) then
-                                matched = true
-                                break
-                            end
-                        end
-                    end
-                    if matched then return obj end
-                end
-            end
-        end
-        return nil
-    end
-
-    local hubGui
-    for _ = 1, 30 do
-        hubGui = findHubGui()
-        if hubGui then break end
-        task.wait(1)
-    end
-
+    -- Tao nut trong PlayerGui de tranh loi khi executor chan CoreGui/gethui.
     local toggleGui = Instance.new("ScreenGui")
     toggleGui.Name = "NhoiiiX_HubToggle_70895505430795"
     toggleGui.ResetOnSpawn = false
     toggleGui.IgnoreGuiInset = true
     toggleGui.DisplayOrder = 999999
-    toggleGui.Parent = root
+    toggleGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    toggleGui.Parent = playerGui
 
     local button = Instance.new("ImageButton")
     button.Name = "HubToggleButton"
-    button.Size = UDim2.fromOffset(54, 54)
-    button.Position = UDim2.new(0, 16, 0.5, -27)
+    button.Size = UDim2.fromOffset(56, 56)
+    button.Position = UDim2.new(0, 18, 0.5, -28)
     button.BackgroundColor3 = Color3.fromRGB(24, 24, 32)
-    button.BackgroundTransparency = 0.12
+    button.BackgroundTransparency = 0.1
     button.BorderSizePixel = 0
     button.Image = "rbxassetid://70895505430795"
     button.ScaleType = Enum.ScaleType.Fit
     button.Active = true
+    button.AutoButtonColor = true
     button.Visible = true
+    button.ZIndex = 10
     button.Parent = toggleGui
 
     local corner = Instance.new("UICorner")
@@ -5173,19 +5136,59 @@ task.spawn(function()
     stroke.Thickness = 2
     stroke.Parent = button
 
-    local function refreshHubGui()
-        if not hubGui or not hubGui.Parent then
-            hubGui = findHubGui()
+    local function findHubGui()
+        local candidates = {}
+        for _, root in ipairs({playerGui, game:GetService("CoreGui")}) do
+            local ok, descendants = pcall(function() return root:GetDescendants() end)
+            if ok then
+                for _, obj in ipairs(descendants) do
+                    if obj:IsA("ScreenGui") and obj ~= toggleGui then
+                        local matched = false
+                        for _, child in ipairs(obj:GetDescendants()) do
+                            if child:IsA("TextLabel") or child:IsA("TextButton") then
+                                local txt = string.lower(tostring(child.Text or ""))
+                                if string.find(txt, "nhoiiix hub", 1, true)
+                                    or string.find(txt, "blox fruit", 1, true) then
+                                    matched = true
+                                    break
+                                end
+                            end
+                        end
+                        if matched then table.insert(candidates, obj) end
+                    end
+                end
+            end
         end
-        return hubGui
+        return candidates[#candidates]
+    end
+
+    local hubGui = nil
+    for _ = 1, 20 do
+        hubGui = findHubGui()
+        if hubGui then break end
+        task.wait(0.5)
     end
 
     button.Activated:Connect(function()
-        local target = refreshHubGui()
-        if target and target ~= toggleGui then
-            target.Enabled = not target.Enabled
+        if not hubGui or not hubGui.Parent then
+            hubGui = findHubGui()
+        end
+        if hubGui then
+            hubGui.Enabled = not hubGui.Enabled
+            return
+        end
+
+        -- Thu dung phim toggle da khai bao o phan khoi tao UI.
+        local ok, vim = pcall(function()
+            return game:GetService("VirtualInputManager")
+        end)
+        if ok and vim then
+            pcall(function()
+                vim:SendKeyEvent(true, Enum.KeyCode.RightControl, false, game)
+                vim:SendKeyEvent(false, Enum.KeyCode.RightControl, false, game)
+            end)
         else
-            warn("NhoiiiX Hub toggle: khong tim thay ScreenGui cua hub. Hay kiem tra ten/tieu de GUI.")
+            warn("NhoiiiX Hub: khong tim thay GUI va executor khong ho tro phim ao.")
         end
     end)
 end)
