@@ -957,13 +957,13 @@ local WorldPresets = {
 }
 local function ClearWorld()
 	for _,o in ipairs(Lighting:GetChildren()) do
-		if o.Name=="KHUB_Sky" or o.Name=="KHUB_Atmosphere" or o.Name=="KHUB_CC" or o.Name=="KHUB_Bloom" then o:Destroy() end
+		if o.Name=="NhoiiiX_Sky" or o.Name=="KHUB_Atmosphere" or o.Name=="KHUB_CC" or o.Name=="KHUB_Bloom" then o:Destroy() end
 	end
 end
 local function ApplyWorld(preset)
 	if not preset then return end
 	ClearWorld()
-	local sky = Instance.new("Sky"); sky.Name="KHUB_Sky"
+	local sky = Instance.new("Sky"); sky.Name="NhoiiiX_Sky"
 	sky.SkyboxBk=preset.Sky[1]; sky.SkyboxDn=preset.Sky[2]; sky.SkyboxFt=preset.Sky[3]
 	sky.SkyboxLf=preset.Sky[4]; sky.SkyboxRt=preset.Sky[5]; sky.SkyboxUp=preset.Sky[6]
 	sky.Parent = Lighting
