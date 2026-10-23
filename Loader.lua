@@ -1,6 +1,6 @@
 --[[
 	NhoiiiX - Blade Ball
-	Ported from Kittylol full source into KHUB UI
+	Ported from Kittylol full source into NhoiiiX UI
 	Tabs: Welcome | Combat | Spam | Detection | Visual | Misc | World | Unlock | Settings | Config
 	Toggle: RightShift / RightCtrl / K
 ]]
@@ -1417,7 +1417,7 @@ end
 
 -- Pages
 local pWelcome = createPage("Welcome")
-createTabButton("Welcome", "Welcome", 1, "Welcome", "KHUB Blade Ball")
+createTabButton("Welcome", "Welcome", 1, "Welcome", "NhoiiiX Blade Ball")
 do
 	local c = card(pWelcome, "PROFILE")
 	local nameL = Instance.new("TextLabel")
@@ -1767,5 +1767,5 @@ UserInputService.InputBegan:Connect(function(i, gp)
 end)
 
 task.delay(1.7, function() switchPage("Welcome", "Welcome", "NhoiiiX - Blade Ball") end)
-print("[NhoiiiX] Blade Ball loaded - Kittylol systems + KHUB UI")
+print("[NhoiiiX] Blade Ball loaded - Kittylol systems + NhoiiiX UI")
 print("[NhoiiiX] Toggle: RightShift / RightCtrl / K")
