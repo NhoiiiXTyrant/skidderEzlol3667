@@ -1,5 +1,5 @@
 --[[
-	KHUB - Blade Ball
+	NhoiiiX - Blade Ball
 	Ported from Kittylol full source into KHUB UI
 	Tabs: Welcome | Combat | Spam | Detection | Visual | Misc | World | Unlock | Settings | Config
 	Toggle: RightShift / RightCtrl / K
@@ -26,7 +26,7 @@ local DISCORD  = "https://discord.gg/aXWW8hytgX"
 local YOUTUBE  = "https://www.youtube.com/@kyielpambid"
 local ConfigFolder = "KHUB_BladeBall_Configs"
 
-print("[KHUB] Blade Ball starting...")
+print("[NhoiiiX] Blade Ball starting...")
 
 pcall(function()
 	for _, parent in ipairs({CoreGui, player:FindFirstChild("PlayerGui")}) do
@@ -54,7 +54,7 @@ local function detectMobile()
 end
 
 local function notify(msg)
-	print("[KHUB Blade Ball]", msg)
+	print("[NhoiiiX Blade Ball]", msg)
 end
 
 local Alive = Workspace:FindFirstChild("Alive") or Workspace:WaitForChild("Alive", 15)
@@ -820,7 +820,7 @@ function System.autoparry.stop()
 	end
 end
 
-print("[KHUB] Blade Ball combat core loaded")
+print("[NhoiiiX] Blade Ball combat core loaded")
 
 -- ===================== CHARACTER / MISC BACKENDS =====================
 getgenv().AutoParryMode = "Remote"
@@ -1129,7 +1129,7 @@ Splash.Size = UDim2.new(1,0,1,0); Splash.BackgroundColor3 = THEME.bg; Splash.Bor
 Splash.ZIndex = 200; Splash.Parent = ScreenGui
 local SpTitle = Instance.new("TextLabel")
 SpTitle.Size = UDim2.new(1,0,0,40); SpTitle.Position = UDim2.new(0,0,0.42,0)
-SpTitle.BackgroundTransparency = 1; SpTitle.Text = "KHUB"; SpTitle.Font = Enum.Font.GothamBlack
+SpTitle.BackgroundTransparency = 1; SpTitle.Text = "NhoiiiX"; SpTitle.Font = Enum.Font.GothamBlack
 SpTitle.TextSize = 42; SpTitle.TextColor3 = THEME.accent; SpTitle.ZIndex = 201; SpTitle.Parent = Splash
 local SpSub = Instance.new("TextLabel")
 SpSub.Size = UDim2.new(1,0,0,24); SpSub.Position = UDim2.new(0,0,0.42,44)
@@ -1168,7 +1168,7 @@ Logo.Size = UDim2.new(0,36,0,36); Logo.Position = UDim2.new(0,12,0.5,-18)
 Logo.BackgroundTransparency = 1; Logo.Image = LOGO_ID; Logo.ZIndex = 6; Logo.Parent = Header
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(0,380,1,0); Title.Position = UDim2.new(0,56,0,0)
-Title.BackgroundTransparency = 1; Title.Text = "KHUB - Blade Ball"; Title.Font = Enum.Font.GothamBlack
+Title.BackgroundTransparency = 1; Title.Text = "NhoiiiX - Blade Ball"; Title.Font = Enum.Font.GothamBlack
 Title.TextSize = 18; Title.TextColor3 = Color3.new(1,1,1); Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.ZIndex = 6; Title.Parent = Header
 local MinBtn = Instance.new("TextButton")
