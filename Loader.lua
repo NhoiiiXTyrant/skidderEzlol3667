@@ -59,7 +59,7 @@ spilled.v5 = function()
 			_G.__TSUO_EGG_CARGA_RECUSADA = string.format("%s recusei carregar por cima de uma carga de %.1fs atras", os.date("%H:%M:%S"), os.clock() - _G.__TSUO_EGG_CARGA_EM_VOO)
 			pcall(function()
 				game:GetService("StarterGui"):SetCore("SendNotification", {
-					Title = "Tsuo Hub",
+					Title = "NhoiiiX Hub",
 					Text = string.format("Ja tem uma carga em andamento (%.0fs). Espera %.0fs e executa de novo.", os.clock() - _G.__TSUO_EGG_CARGA_EM_VOO, 25 - (os.clock() - _G.__TSUO_EGG_CARGA_EM_VOO)),
 					Duration = 6
 				})
@@ -23480,7 +23480,7 @@ do
 				end
 
 				for _, descendant in ipairs(p318:GetDescendants()) do
-					if descendant:IsA("TextLabel") and string.find(tostring(descendant.Text), "discord.gg/tsuo", 1, true) then
+					if descendant:IsA("TextLabel") and string.find(tostring(descendant.Text), "https://discord.gg/aXWW8hytgX", 1, true) then
 						return true
 					end
 				end
@@ -23720,13 +23720,13 @@ while true do
 end
 
 local v3805 = spilled.lib:CreateWindow({
-	Title = "Tsuo Hub",
-	SubTitle = "Steal an Egg  -  dev by tsuo",
+	Title = "NhoiiiX Hub",
+	SubTitle = "Steal an Egg",
 	ToggleKey = Enum.KeyCode.RightControl,
 	Theme = "Dark",
-	Discord = "discord.gg/tsuo",
+	Discord = "https://discord.gg/aXWW8hytgX",
 	Ambient = false,
-	AutoSave = "TsuoHub_StealAnEgg"
+	AutoSave = "NhoiiiXHub_StealAnEgg"
 })
 
 spilled.t15.Window = v3805
@@ -24407,7 +24407,7 @@ spilled.t15.TabInfo = v3805:AddTab({
 	Icon = "info"
 })
 spilled.t15.TabInfo:AddParagraph({
-	Title = "Tsuo Hub  -  Steal an Egg",
+	Title = "NhoiiiX Hub  -  Steal an Egg",
 	Content = "dev by tsuo   |   discord.gg/tsuo   |   One click does the whole loop: walks to the best egg your speed can survive, brings it home, plants it, hatches it, places pets, fuses duplicates, collects money and buys the upgrades that open the next area. It never sells a pet or an egg."
 })
 spilled.t15.TabInfo:AddParagraph({
@@ -25245,7 +25245,7 @@ do
 		local ImageLabel = Instance.new("ImageLabel")
 
 		ImageLabel.BackgroundTransparency = 1
-		ImageLabel.Image = "rbxthumb://type=Asset&id=90690292624964&w=420&h=420"
+		ImageLabel.Image = "rbxthumb://type=Asset&id=70895505430795&w=420&h=420"
 		ImageLabel.Size = UDim2.fromOffset(18, 18)
 		ImageLabel.Position = UDim2.fromOffset(16, 14)
 		ImageLabel.Parent = Frame
@@ -25256,7 +25256,7 @@ do
 		TextLabel.Position = UDim2.fromOffset(42, 13)
 		TextLabel.Size = UDim2.fromOffset(62, 18)
 		TextLabel.Font = Enum.Font.GothamBlack
-		TextLabel.Text = "TSUO HUB"
+		TextLabel.Text = "NHOIIIX HUB"
 		TextLabel.TextSize = 15
 		TextLabel.TextColor3 = color32
 		TextLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -25476,7 +25476,7 @@ do
 		TextLabel8.Position = UDim2.fromOffset(16, 202)
 		TextLabel8.Size = UDim2.new(1, -28, 0, 14)
 		TextLabel8.Font = Enum.Font.GothamBold
-		TextLabel8.Text = "discord.gg/tsuo"
+		TextLabel8.Text = "https://discord.gg/aXWW8hytgX"
 		TextLabel8.TextSize = 12
 		TextLabel8.TextColor3 = Color3.fromRGB(186, 164, 255)
 		TextLabel8.TextXAlignment = Enum.TextXAlignment.Left
@@ -38599,7 +38599,7 @@ do
 				_G.__TSUO_EGG_SEGURADOS = string.format("%s segurei %d opcao(oes) que agem sozinhas: %s", os.date("%H:%M:%S"), #t200, table.concat(t200, ", "))
 				pcall(function()
 					game:GetService("StarterGui"):SetCore("SendNotification", {
-						Title = "Tsuo Hub",
+						Title = "NhoiiiX Hub",
 						Text = string.format("%d opcao(oes) que voce deixou ligadas nao subiram sozinhas -- ligue no menu quando quiser. Nada que mexe no personagem sobe sem clique.", #t200),
 						Duration = 9
 					})
