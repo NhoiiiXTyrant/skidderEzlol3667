@@ -49,7 +49,7 @@ _G.__TSUO_MARCO = function(p1)
 		writefile("tsuo_saegg_carga.txt", _G.__TSUO_MARCOS)
 	end)
 end
-return true
+
 _G.__TSUO_MARCO("1 abriu o arquivo")
 spilled.v5 = function()
 	local v6 = _G.__TSUO_EGG_LIGAR ~= nil
@@ -81,8 +81,7 @@ do
 		local TITLE = v10.TITLE or "NhoiiiX HUB"
 		local SUBTITLE = v10.SUBTITLE or ""
 		local VERSION = v10.VERSION or ""
-		local SLUG = v10.SLUG or "Tsuo Hub"
-		local API_BASE = v10.API_BASE or "https://tsuoblox.com/api/script-keys"
+		local SLUG = v10.SLUG or "NhoiiiX"
 		local DISCORD = v10.DISCORD or "https://discord.gg/tsuo"
 		local LOGO = v10.LOGO or "rbxthumb://type=Asset&id=90690292624964&w=420&h=420"
 		local KEY_FILE = v10.KEY_FILE or "NhoiiiX_Key"
