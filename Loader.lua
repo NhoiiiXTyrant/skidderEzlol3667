@@ -1425,7 +1425,7 @@ do
 	nameL.Text = LocalPlayer.DisplayName .. " (@" .. LocalPlayer.Name .. ")"
 	nameL.Font = Enum.Font.GothamBold; nameL.TextSize = 14; nameL.TextColor3 = THEME.text
 	nameL.TextXAlignment = Enum.TextXAlignment.Left; nameL.ZIndex = 8; nameL.Parent = c
-	local c2 = card(pWelcome, "KHUB")
+	local c2 = card(pWelcome, "NhoiiiX")
 	local big = Instance.new("TextLabel")
 	big.Size = UDim2.new(1,0,0,36); big.BackgroundTransparency = 1; big.Text = "KHUB"
 	big.Font = Enum.Font.GothamBlack; big.TextSize = 32; big.TextColor3 = THEME.accent; big.ZIndex = 8; big.Parent = c2
