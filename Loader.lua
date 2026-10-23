@@ -21,12 +21,12 @@ local LocalPlayer       = Players.LocalPlayer or Players.PlayerAdded:Wait()
 local player            = LocalPlayer
 
 local LOGO_ID  = "rbxassetid://70895505430795"
-local BG_ID    = "rbxassetid://127230219966945"
-local DISCORD  = "https://discord.gg/EKPb7BRDH8"
+local BG_ID    = "rbxassetid://70895505430795"
+local DISCORD  = "https://discord.gg/aXWW8hytgX"
 local YOUTUBE  = "https://www.youtube.com/@kyielpambid"
 local ConfigFolder = "KHUB_BladeBall_Configs"
 
-print("[NhoiiiX Hub] Blade Ball starting...")
+print("[KHUB] Blade Ball starting...")
 
 pcall(function()
 	for _, parent in ipairs({CoreGui, player:FindFirstChild("PlayerGui")}) do
@@ -54,7 +54,7 @@ local function detectMobile()
 end
 
 local function notify(msg)
-	print("[NhoiiiX Hub • Blade Ball]", msg)
+	print("[KHUB Blade Ball]", msg)
 end
 
 local Alive = Workspace:FindFirstChild("Alive") or Workspace:WaitForChild("Alive", 15)
@@ -820,7 +820,7 @@ function System.autoparry.stop()
 	end
 end
 
-print("[NhoiiiX Hub] Blade Ball combat core loaded")
+print("[KHUB] Blade Ball combat core loaded")
 
 -- ===================== CHARACTER / MISC BACKENDS =====================
 getgenv().AutoParryMode = "Remote"
@@ -1129,7 +1129,7 @@ Splash.Size = UDim2.new(1,0,1,0); Splash.BackgroundColor3 = THEME.bg; Splash.Bor
 Splash.ZIndex = 200; Splash.Parent = ScreenGui
 local SpTitle = Instance.new("TextLabel")
 SpTitle.Size = UDim2.new(1,0,0,40); SpTitle.Position = UDim2.new(0,0,0.42,0)
-SpTitle.BackgroundTransparency = 1; SpTitle.Text = "NhoiiiX Hub"; SpTitle.Font = Enum.Font.GothamBlack
+SpTitle.BackgroundTransparency = 1; SpTitle.Text = "KHUB"; SpTitle.Font = Enum.Font.GothamBlack
 SpTitle.TextSize = 42; SpTitle.TextColor3 = THEME.accent; SpTitle.ZIndex = 201; SpTitle.Parent = Splash
 local SpSub = Instance.new("TextLabel")
 SpSub.Size = UDim2.new(1,0,0,24); SpSub.Position = UDim2.new(0,0,0.42,44)
@@ -1168,7 +1168,7 @@ Logo.Size = UDim2.new(0,36,0,36); Logo.Position = UDim2.new(0,12,0.5,-18)
 Logo.BackgroundTransparency = 1; Logo.Image = LOGO_ID; Logo.ZIndex = 6; Logo.Parent = Header
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(0,380,1,0); Title.Position = UDim2.new(0,56,0,0)
-Title.BackgroundTransparency = 1; Title.Text = "NhoiiiX Hub - Blade Ball"; Title.Font = Enum.Font.GothamBlack
+Title.BackgroundTransparency = 1; Title.Text = "KHUB - Blade Ball"; Title.Font = Enum.Font.GothamBlack
 Title.TextSize = 18; Title.TextColor3 = Color3.new(1,1,1); Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.ZIndex = 6; Title.Parent = Header
 local MinBtn = Instance.new("TextButton")
@@ -1214,7 +1214,7 @@ PageTitle.Text = "Welcome"; PageTitle.Font = Enum.Font.GothamBold; PageTitle.Tex
 PageTitle.TextColor3 = THEME.text; PageTitle.TextXAlignment = Enum.TextXAlignment.Left; PageTitle.ZIndex = 6; PageTitle.Parent = Content
 local PageSub = Instance.new("TextLabel")
 PageSub.Size = UDim2.new(1,0,0,16); PageSub.Position = UDim2.new(0,0,0,20)
-PageSub.BackgroundTransparency = 1; PageSub.Text = "NhoiiiX Hub • Blade Ball"; PageSub.Font = Enum.Font.Gotham
+PageSub.BackgroundTransparency = 1; PageSub.Text = "KHUB Blade Ball"; PageSub.Font = Enum.Font.Gotham
 PageSub.TextSize = 12; PageSub.TextColor3 = THEME.dim; PageSub.TextXAlignment = Enum.TextXAlignment.Left; PageSub.ZIndex = 6; PageSub.Parent = Content
 local Pages = Instance.new("Frame")
 Pages.Size = UDim2.new(1,0,1,-44); Pages.Position = UDim2.new(0,0,0,42)
@@ -1417,7 +1417,7 @@ end
 
 -- Pages
 local pWelcome = createPage("Welcome")
-createTabButton("Welcome", "Welcome", 1, "Welcome", "NhoiiiX Hub • Blade Ball")
+createTabButton("Welcome", "Welcome", 1, "Welcome", "KHUB Blade Ball")
 do
 	local c = card(pWelcome, "PROFILE")
 	local nameL = Instance.new("TextLabel")
@@ -1425,15 +1425,15 @@ do
 	nameL.Text = LocalPlayer.DisplayName .. " (@" .. LocalPlayer.Name .. ")"
 	nameL.Font = Enum.Font.GothamBold; nameL.TextSize = 14; nameL.TextColor3 = THEME.text
 	nameL.TextXAlignment = Enum.TextXAlignment.Left; nameL.ZIndex = 8; nameL.Parent = c
-	local c2 = card(pWelcome, "NhoiiiX Hub")
+	local c2 = card(pWelcome, "KHUB")
 	local big = Instance.new("TextLabel")
-	big.Size = UDim2.new(1,0,0,36); big.BackgroundTransparency = 1; big.Text = "NhoiiiX Hub"
+	big.Size = UDim2.new(1,0,0,36); big.BackgroundTransparency = 1; big.Text = "KHUB"
 	big.Font = Enum.Font.GothamBlack; big.TextSize = 32; big.TextColor3 = THEME.accent; big.ZIndex = 8; big.Parent = c2
 	local moveTxt = Instance.new("TextLabel")
 	moveTxt.Size = UDim2.new(1,0,0,18); moveTxt.BackgroundTransparency = 1
 	moveTxt.Text = "Join Discord - Subscribe"; moveTxt.Font = Enum.Font.Gotham; moveTxt.TextSize = 12
 	moveTxt.TextColor3 = THEME.dim; moveTxt.ZIndex = 8; moveTxt.Parent = c2
-	local msgs = {"Join Discord", "Subscribe on my channel", "NhoiiiX Hub - Blade Ball", "Toggle: RightShift / K", "Auto Parry ready"}
+	local msgs = {"Join Discord", "Subscribe on my channel", "NhoiiiX - Blade Ball", "Toggle: RightShift / K", "Auto Parry ready"}
 	local mi = 1
 	task.spawn(function()
 		while moveTxt.Parent do moveTxt.Text = msgs[mi]; mi = mi % #msgs + 1; task.wait(2.5) end
@@ -1766,6 +1766,6 @@ UserInputService.InputBegan:Connect(function(i, gp)
 	end
 end)
 
-task.delay(1.7, function() switchPage("Welcome", "Welcome", "NhoiiiX Hub - Blade Ball") end)
-print("[NhoiiiX Hub] Blade Ball loaded - Kittylol systems + NhoiiiX Hub UI")
-print("[NhoiiiX Hub] Toggle: RightShift / RightCtrl / K")
+task.delay(1.7, function() switchPage("Welcome", "Welcome", "NhoiiiX - Blade Ball") end)
+print("[NhoiiiX] Blade Ball loaded - Kittylol systems + KHUB UI")
+print("[NhoiiiX] Toggle: RightShift / RightCtrl / K")
