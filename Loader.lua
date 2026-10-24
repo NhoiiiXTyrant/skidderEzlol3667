@@ -67,12 +67,24 @@ local function patchGui(root)
             local ok, imageId = pcall(function() return inst.Image end)
             local name = normalizeText(inst.Name)
             local parentName = ""
+            local ancestorNames = name
             pcall(function()
-                if inst.Parent then parentName = normalizeText(inst.Parent.Name) end
+                local parent = inst.Parent
+                if parent then
+                    parentName = normalizeText(parent.Name)
+                    ancestorNames = ancestorNames .. " " .. parentName
+                    local ancestor = parent.Parent
+                    local depth = 0
+                    while ancestor and depth < 5 do
+                        ancestorNames = ancestorNames .. " " .. normalizeText(ancestor.Name)
+                        ancestor = ancestor.Parent
+                        depth = depth + 1
+                    end
+                end
             end)
 
             -- Keep exit/close controls untouched.
-            local controlName = name .. " " .. parentName
+            local controlName = ancestorNames
             local isExitControl = controlName:find("exit", 1, true)
                 or controlName:find("close", 1, true)
                 or controlName:find("leave", 1, true)
@@ -84,9 +96,30 @@ local function patchGui(root)
             -- applying a broad size-only rule to ordinary feature images.
             local isWatermark = controlName:find("watermark", 1, true)
                 or controlName:find("studio", 1, true)
+                or controlName:find("nhoiiix", 1, true)
+                or controlName:find("nhoiii", 1, true)
 
-            if not isExitControl and isWatermark then
+            -- Some versions name the central brand image generically. Detect
+            -- only large, near-center images; avoid tiny icons and exit controls.
+            local isLargeCenteredImage = false
+            pcall(function()
+                local size = inst.AbsoluteSize
+                local pos = inst.AbsolutePosition
+                local camera = workspace.CurrentCamera
+                if camera and size and pos and camera.ViewportSize.X > 0 and camera.ViewportSize.Y > 0 then
+                    local viewport = camera.ViewportSize
+                    local centerX = pos.X + size.X / 2
+                    local centerY = pos.Y + size.Y / 2
+                    local centered = math.abs(centerX - viewport.X / 2) < viewport.X * 0.22
+                        and math.abs(centerY - viewport.Y / 2) < viewport.Y * 0.22
+                    local large = size.X > viewport.X * 0.18 and size.Y > viewport.Y * 0.12
+                    isLargeCenteredImage = centered and large
+                end
+            end)
+
+            if not isExitControl and (isWatermark or isLargeCenteredImage) then
                 pcall(function()
+                    inst.ImageTransparency = 1
                     inst.Visible = false
                 end)
             else
