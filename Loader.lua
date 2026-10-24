@@ -5,7 +5,6 @@ local SOURCE_URL = "https://raw.githubusercontent.com/kairobloc/stealanegg/refs/
 local HUB_NAME = "NhoiiiX Hub"
 local HUB_LOGO = "rbxassetid://75850663384500"
 local HUB_LOGO_ID = "75850663384500"
-local DEBUG = true
 
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
@@ -44,52 +43,28 @@ local function isBrandText(value)
         or lower:find("venyx", 1, true) ~= nil
 end
 
-local function debugDump(root)
-    if not DEBUG then return end
-    local ok, descendants = pcall(function() return root:GetDescendants() end)
-    if not ok then return end
-    for _, inst in ipairs(descendants) do
-        if inst:IsA("ImageLabel") or inst:IsA("ImageButton") then
-            local img = ""
-            pcall(function() img = tostring(inst.Image) end)
-            print(("[NhoiiiX DEBUG] IMG name=%q parent=%q id=%s")
-                :format(inst.Name, inst.Parent and inst.Parent.Name or "?", img))
-        elseif inst:IsA("TextLabel") or inst:IsA("TextButton") then
-            local txt = ""
-            pcall(function() txt = tostring(inst.Text) end)
-            if txt ~= "" then
-                print(("[NhoiiiX DEBUG] TXT name=%q parent=%q text=%q")
-                    :format(inst.Name, inst.Parent and inst.Parent.Name or "?", txt))
-            end
-        end
-    end
-end
-
-local function patchGui(root)
-    if not root then return end
-
-    local function patch(inst)
+local function patchInstance(inst)
+    if not inst then return end
+    pcall(function()
         if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
-            local ok, current = pcall(function() return inst.Text end)
-            if ok and type(current) == "string" and current ~= "" and isBrandText(current) then
+            local current = inst.Text
+            if type(current) == "string" and current ~= "" and isBrandText(current) then
                 local replacement = current
                 if normalizeText(current):find("chilli hub", 1, true) then
                     replacement = current:gsub("[Cc][Hh][Ii][Ll][Ll][Ii] [Hh][Uu][Bb]", HUB_NAME)
                 else
                     replacement = HUB_NAME
                 end
-                pcall(function() inst.Text = replacement end)
+                inst.Text = replacement
             end
         elseif inst:IsA("ImageLabel") or inst:IsA("ImageButton") then
-            local ok, imageId = pcall(function() return inst.Image end)
-            if not ok or type(imageId) ~= "string" then return end
+            local imageId = inst.Image
+            if type(imageId) ~= "string" then return end
             if imageId:find(HUB_LOGO_ID, 1, true) then return end
 
             local name = normalizeText(inst.Name)
             local parentName = ""
-            pcall(function()
-                if inst.Parent then parentName = normalizeText(inst.Parent.Name) end
-            end)
+            if inst.Parent then parentName = normalizeText(inst.Parent.Name) end
 
             local knownOldLogo = imageId:find("94434236999817", 1, true) ~= nil
             local isLogoNamed =
@@ -101,27 +76,63 @@ local function patchGui(root)
                 or parentName:find("logo") ~= nil or parentName:find("brand") ~= nil
 
             if knownOldLogo or isLogoNamed or parentIsLogo then
-                pcall(function()
-                    inst.Image = HUB_LOGO
-                    inst.ImageTransparency = 0
-                    inst.Visible = true
-                end)
+                inst.Image = HUB_LOGO
+                inst.ImageTransparency = 0
+                inst.Visible = true
             end
         end
-    end
+    end)
+end
 
-    pcall(patch, root)
+local function patchGui(root)
+    if not root then return end
+    patchInstance(root)
     local ok, descendants = pcall(function() return root:GetDescendants() end)
     if ok then
         for _, inst in ipairs(descendants) do
-            pcall(patch, inst)
+            patchInstance(inst)
         end
+    end
+end
+
+-- Hook Instance.new + DescendantAdded so reborn UI gets patched on birth.
+local function startCreationHook()
+    local oldNew = Instance.new
+    Instance.new = function(className, parent)
+        local inst = oldNew(className, parent)
+        task.defer(function()
+            patchInstance(inst)
+            local ok, desc = pcall(function() return inst:GetDescendants() end)
+            if ok then
+                for _, d in ipairs(desc) do patchInstance(d) end
+            end
+        end)
+        return inst
+    end
+
+    local function hookRoot(root)
+        if not root then return end
+        pcall(function()
+            root.DescendantAdded:Connect(function(inst)
+                task.defer(function()
+                    patchInstance(inst)
+                    local ok, desc = pcall(function() return inst:GetDescendants() end)
+                    if ok then
+                        for _, d in ipairs(desc) do patchInstance(d) end
+                    end
+                end)
+            end)
+        end)
+    end
+
+    for _, root in ipairs(getRoots()) do
+        hookRoot(root)
     end
 end
 
 local function startBrandingWatcher()
     task.spawn(function()
-        while task.wait(0.75) do
+        while task.wait(0.5) do
             for _, root in ipairs(getRoots()) do
                 patchGui(root)
             end
@@ -144,6 +155,7 @@ local function main()
         return
     end
 
+    startCreationHook()
     startBrandingWatcher()
 
     local runOk, runError = pcall(chunk)
@@ -151,10 +163,9 @@ local function main()
         warn("[NhoiiiX SAE] Chilli V7 startup error: " .. tostring(runError))
     end
 
-    task.delay(2, function()
+    task.delay(1, function()
         for _, root in ipairs(getRoots()) do
             patchGui(root)
-            debugDump(root)
         end
     end)
 end
