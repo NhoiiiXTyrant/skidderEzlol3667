@@ -94,7 +94,18 @@ local function patchGui(root)
                 or parentName:find("function", 1, true)
                 or parentName:find("use", 1, true)
 
-            if featureImage and not namedLogo and not knownOldLogo then
+            -- Hide the large centered NhoiiiX Studio watermark shown over the UI.
+            -- Do not hide the small header logo or the floating open/close logo.
+            local isLargeCenterWatermark = name:find("watermark", 1, true)
+                or name:find("studio", 1, true)
+                or parentName:find("watermark", 1, true)
+                or parentName:find("studio", 1, true)
+
+            if isLargeCenterWatermark then
+                pcall(function()
+                    inst.Visible = false
+                end)
+            elseif featureImage and not namedLogo and not knownOldLogo then
                 pcall(function()
                     inst.Visible = false
                 end)
