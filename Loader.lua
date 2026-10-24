@@ -1,5 +1,5 @@
 -- NhoiiiX SAE - Chilli Hub V7 compatibility loader
--- Based on the uploaded NhoiiiX-SAE file, adapted for the user's Chilli V7 URL.
+-- NhoiiiX branding patch for Chilli Hub V7.
 -- V5/Venyx-specific patching and teleport-queue hooks are not used because
 -- they are tied to the old UI and may break Chilli V7.
 
@@ -28,37 +28,68 @@ local function getRoots()
     return roots
 end
 
+local function normalizeText(value)
+    return string.lower((tostring(value or ""):gsub("%s+", " "):match("^%s*(.-)%s*$") or ""))
+end
+
+local function isBrandText(value)
+    local lower = normalizeText(value)
+    return lower == "venyx"
+        or lower == "chilli"
+        or lower == "chilli hub"
+        or lower == "chilli hub v7"
+        or lower == "chilli sae"
+        or lower == "venyx sae"
+        or lower == "chilli hub v5"
+        or lower == "chilli hub v7 | sae"
+        or lower == "chilli hub v7 - sae"
+        or lower == "chilli hub | sae"
+        or lower:find("chilli hub", 1, true) ~= nil
+        or lower:find("venyx", 1, true) ~= nil
+end
+
 local function patchGui(root)
     if not root then return end
 
     local function patch(inst)
         if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
             local ok, current = pcall(function() return inst.Text end)
-            if ok and type(current) == "string" and current ~= "" then
-                local lower = string.lower(current)
-                -- Only rename likely hub branding; do not alter normal feature labels.
-                if lower == "venyx"
-                    or lower == "chilli"
-                    or lower == "chilli hub"
-                    or lower == "chilli hub v7"
-                    or lower == "chilli sae"
-                    or lower == "venyx sae"
-                    or lower == "chilli hub v5"
-                    or lower == "chilli hub v7 | sae" then
-                    pcall(function() inst.Text = HUB_NAME end)
-                elseif lower:find("chilli hub", 1, true) then
-                    pcall(function()
-                        inst.Text = current:gsub("[Cc][Hh][Ii][Ll][Ll][Ii] [Hh][Uu][Bb]", HUB_NAME)
-                    end)
+            if ok and type(current) == "string" and current ~= "" and isBrandText(current) then
+                local replacement = current
+                if normalizeText(current):find("chilli hub", 1, true) then
+                    replacement = current:gsub("[Cc][Hh][Ii][Ll][Ll][Ii] [Hh][Uu][Bb]", HUB_NAME)
+                else
+                    replacement = HUB_NAME
                 end
+                pcall(function() inst.Text = replacement end)
             end
         elseif inst:IsA("ImageLabel") or inst:IsA("ImageButton") then
-            -- Replace only images whose asset id matches the old logo used by the uploaded file.
             local ok, imageId = pcall(function() return inst.Image end)
-            if ok and type(imageId) == "string"
-                and (imageId:find("75850663384500", 1, true)
-                or imageId:find("94434236999817", 1, true)) then
-                pcall(function() inst.Image = HUB_LOGO end)
+            local name = normalizeText(inst.Name)
+            local parentName = ""
+            pcall(function()
+                if inst.Parent then parentName = normalizeText(inst.Parent.Name) end
+            end)
+
+            -- V7 may use a different asset ID than the older V5 file.
+            -- Match legacy IDs or UI elements explicitly named as branding/logo.
+            local knownOldLogo = ok and type(imageId) == "string" and (
+                imageId:find("75850663384500", 1, true)
+                or imageId:find("94434236999817", 1, true)
+            )
+            local namedLogo = name:find("logo", 1, true)
+                or name:find("brand", 1, true)
+                or name:find("chilli", 1, true)
+                or name:find("venyx", 1, true)
+                or parentName:find("logo", 1, true)
+                or parentName:find("brand", 1, true)
+
+            if knownOldLogo or namedLogo then
+                pcall(function()
+                    inst.Image = HUB_LOGO
+                    inst.ImageTransparency = 0
+                    inst.Visible = true
+                end)
             end
         end
     end
