@@ -94,13 +94,8 @@ local function patchGui(root)
                 or parentName:find("function", 1, true)
                 or parentName:find("use", 1, true)
 
-            -- Hide only the large centered watermark, not Roblox/core UI controls.
-            -- Exclude CoreGui images/buttons and common exit/close controls.
-            local isCoreGuiControl = false
-            pcall(function()
-                isCoreGuiControl = inst:IsDescendantOf(CoreGui)
-            end)
-
+            -- Only target explicit watermark/studio image objects by name.
+            -- Avoid size/position heuristics because the UI layout changes dynamically.
             local controlName = name .. " " .. parentName
             local isExitControl = controlName:find("exit", 1, true)
                 or controlName:find("close", 1, true)
@@ -108,38 +103,14 @@ local function patchGui(root)
                 or controlName:find("quit", 1, true)
                 or controlName:find("disconnect", 1, true)
 
-            -- Fallback: the watermark image may have a generic name.
-            -- Detect only a large image centered on the screen; Roblox exit controls
-            -- are small and near a screen edge, so they should not match this rule.
-            local largeCenteredImage = false
-            pcall(function()
-                local size = inst.AbsoluteSize
-                local pos = inst.AbsolutePosition
-                local camera = workspace.CurrentCamera
-                if camera and size.X >= 300 and size.Y >= 150 then
-                    local viewport = camera.ViewportSize
-                    local cx = pos.X + size.X / 2
-                    local cy = pos.Y + size.Y / 2
-                    local centeredX = math.abs(cx - viewport.X / 2) <= viewport.X * 0.22
-                    local centeredY = math.abs(cy - viewport.Y / 2) <= viewport.Y * 0.22
-                    largeCenteredImage = centeredX and centeredY
-                end
-            end)
-
             local isLargeCenterWatermark = (
                 name:find("watermark", 1, true)
                 or name:find("studio", 1, true)
                 or parentName:find("watermark", 1, true)
                 or parentName:find("studio", 1, true)
-                or largeCenteredImage
             ) and not isExitControl
 
             if isLargeCenterWatermark then
-                pcall(function()
-                    inst.Visible = false
-                end)
-            elseif featureImage and not namedLogo and not knownOldLogo
-                and not isCoreGuiControl and not isExitControl then
                 pcall(function()
                     inst.Visible = false
                 end)
@@ -162,14 +133,10 @@ local function patchGui(root)
     end
 end
 
-local function startBrandingWatcher()
-    task.spawn(function()
-        while task.wait(0.75) do
-            for _, root in ipairs(getRoots()) do
-                patchGui(root)
-            end
-        end
-    end)
+local function patchAllRoots()
+    for _, root in ipairs(getRoots()) do
+        patchGui(root)
+    end
 end
 
 local function main()
@@ -192,18 +159,15 @@ local function main()
     end
 
     -- Start watching before the UI is created so late-created elements are patched too.
-    startBrandingWatcher()
+    patchAllRoots()
 
     local runOk, runError = pcall(chunk)
     if not runOk then
         warn("[NhoiiiX SAE] Chilli V7 startup error: " .. tostring(runError))
     end
 
-    task.delay(1, function()
-        for _, root in ipairs(getRoots()) do
-            patchGui(root)
-        end
-    end)
+    task.delay(2, patchAllRoots)
+    task.delay(5, patchAllRoots)
 end
 
 task.spawn(main)
