@@ -84,7 +84,21 @@ local function patchGui(root)
                 or parentName:find("logo", 1, true)
                 or parentName:find("brand", 1, true)
 
-            if knownOldLogo or namedLogo then
+            -- Hide decorative pictures/icons in the feature/function area.
+            -- Keep branding/logo images unchanged.
+            local featureImage = name:find("feature", 1, true)
+                or name:find("function", 1, true)
+                or name:find("use", 1, true)
+                or name:find("icon", 1, true)
+                or parentName:find("feature", 1, true)
+                or parentName:find("function", 1, true)
+                or parentName:find("use", 1, true)
+
+            if featureImage and not namedLogo and not knownOldLogo then
+                pcall(function()
+                    inst.Visible = false
+                end)
+            elseif knownOldLogo or namedLogo then
                 pcall(function()
                     inst.Image = HUB_LOGO
                     inst.ImageTransparency = 0
