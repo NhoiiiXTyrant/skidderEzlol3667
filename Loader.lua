@@ -108,12 +108,31 @@ local function patchGui(root)
                 or controlName:find("quit", 1, true)
                 or controlName:find("disconnect", 1, true)
 
+            -- Fallback: the watermark image may have a generic name.
+            -- Detect only a large image centered on the screen; Roblox exit controls
+            -- are small and near a screen edge, so they should not match this rule.
+            local largeCenteredImage = false
+            pcall(function()
+                local size = inst.AbsoluteSize
+                local pos = inst.AbsolutePosition
+                local camera = workspace.CurrentCamera
+                if camera and size.X >= 300 and size.Y >= 150 then
+                    local viewport = camera.ViewportSize
+                    local cx = pos.X + size.X / 2
+                    local cy = pos.Y + size.Y / 2
+                    local centeredX = math.abs(cx - viewport.X / 2) <= viewport.X * 0.22
+                    local centeredY = math.abs(cy - viewport.Y / 2) <= viewport.Y * 0.22
+                    largeCenteredImage = centeredX and centeredY
+                end
+            end)
+
             local isLargeCenterWatermark = (
                 name:find("watermark", 1, true)
                 or name:find("studio", 1, true)
                 or parentName:find("watermark", 1, true)
                 or parentName:find("studio", 1, true)
-            ) and not isCoreGuiControl and not isExitControl
+                or largeCenteredImage
+            ) and not isExitControl
 
             if isLargeCenterWatermark then
                 pcall(function()
