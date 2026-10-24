@@ -1,12 +1,11 @@
 -- NhoiiiX SAE - Chilli Hub V7 compatibility loader
 -- NhoiiiX branding patch for Chilli Hub V7.
--- V5/Venyx-specific patching and teleport-queue hooks are not used because
--- they are tied to the old UI and may break Chilli V7.
 
 local SOURCE_URL = "https://raw.githubusercontent.com/kairobloc/stealanegg/refs/heads/main/chillihubv7.lua"
 local HUB_NAME = "NhoiiiX Hub"
 local HUB_LOGO = "rbxassetid://75850663384500"
 local HUB_LOGO_ID = "75850663384500"
+local DEBUG = true
 
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
@@ -20,7 +19,6 @@ local function getRoots()
         end
     end)
     table.insert(roots, CoreGui)
-
     local player = Players.LocalPlayer
     if player then
         local pg = player:FindFirstChildOfClass("PlayerGui")
@@ -42,11 +40,29 @@ local function isBrandText(value)
         or lower == "chilli sae"
         or lower == "venyx sae"
         or lower == "chilli hub v5"
-        or lower == "chilli hub v7 | sae"
-        or lower == "chilli hub v7 - sae"
-        or lower == "chilli hub | sae"
         or lower:find("chilli hub", 1, true) ~= nil
         or lower:find("venyx", 1, true) ~= nil
+end
+
+local function debugDump(root)
+    if not DEBUG then return end
+    local ok, descendants = pcall(function() return root:GetDescendants() end)
+    if not ok then return end
+    for _, inst in ipairs(descendants) do
+        if inst:IsA("ImageLabel") or inst:IsA("ImageButton") then
+            local img = ""
+            pcall(function() img = tostring(inst.Image) end)
+            print(("[NhoiiiX DEBUG] IMG name=%q parent=%q id=%s")
+                :format(inst.Name, inst.Parent and inst.Parent.Name or "?", img))
+        elseif inst:IsA("TextLabel") or inst:IsA("TextButton") then
+            local txt = ""
+            pcall(function() txt = tostring(inst.Text) end)
+            if txt ~= "" then
+                print(("[NhoiiiX DEBUG] TXT name=%q parent=%q text=%q")
+                    :format(inst.Name, inst.Parent and inst.Parent.Name or "?", txt))
+            end
+        end
+    end
 end
 
 local function patchGui(root)
@@ -67,8 +83,6 @@ local function patchGui(root)
         elseif inst:IsA("ImageLabel") or inst:IsA("ImageButton") then
             local ok, imageId = pcall(function() return inst.Image end)
             if not ok or type(imageId) ~= "string" then return end
-
-            -- Already our logo? Leave it alone.
             if imageId:find(HUB_LOGO_ID, 1, true) then return end
 
             local name = normalizeText(inst.Name)
@@ -77,23 +91,14 @@ local function patchGui(root)
                 if inst.Parent then parentName = normalizeText(inst.Parent.Name) end
             end)
 
-            -- Only legacy Chilli/Venyx asset IDs, OR elements explicitly a logo/brand.
-            local knownOldLogo =
-                imageId:find("94434236999817", 1, true) ~= nil
-
+            local knownOldLogo = imageId:find("94434236999817", 1, true) ~= nil
             local isLogoNamed =
-                name == "logo"
-                or name == "brand"
-                or name:find("^logo") ~= nil
-                or name:find("logo$") ~= nil
-                or name:find("^brand") ~= nil
-                or name:find("brand$") ~= nil
-
+                name == "logo" or name == "brand"
+                or name:find("^logo") ~= nil or name:find("logo$") ~= nil
+                or name:find("^brand") ~= nil or name:find("brand$") ~= nil
             local parentIsLogo =
-                parentName == "logo"
-                or parentName == "brand"
-                or parentName:find("logo") ~= nil
-                or parentName:find("brand") ~= nil
+                parentName == "logo" or parentName == "brand"
+                or parentName:find("logo") ~= nil or parentName:find("brand") ~= nil
 
             if knownOldLogo or isLogoNamed or parentIsLogo then
                 pcall(function()
@@ -125,25 +130,20 @@ local function startBrandingWatcher()
 end
 
 local function main()
-    if not game:IsLoaded() then
-        game.Loaded:Wait()
-    end
+    if not game:IsLoaded() then game.Loaded:Wait() end
 
-    local ok, source = pcall(function()
-        return game:HttpGet(SOURCE_URL)
-    end)
+    local ok, source = pcall(function() return game:HttpGet(SOURCE_URL) end)
     if not ok or type(source) ~= "string" or source == "" then
-        warn("[NhoiiiX SAE] Could not download Chilli V7. Check the URL or connection.")
+        warn("[NhoiiiX SAE] Could not download Chilli V7.")
         return
     end
 
     local compileOk, chunk = pcall(loadstring, source)
     if not compileOk or type(chunk) ~= "function" then
-        warn("[NhoiiiX SAE] Chilli V7 could not be compiled by this executor.")
+        warn("[NhoiiiX SAE] Chilli V7 could not be compiled.")
         return
     end
 
-    -- Start watching before the UI is created so late-created elements are patched too.
     startBrandingWatcher()
 
     local runOk, runError = pcall(chunk)
@@ -151,9 +151,10 @@ local function main()
         warn("[NhoiiiX SAE] Chilli V7 startup error: " .. tostring(runError))
     end
 
-    task.delay(1, function()
+    task.delay(2, function()
         for _, root in ipairs(getRoots()) do
             patchGui(root)
+            debugDump(root)
         end
     end)
 end
