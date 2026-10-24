@@ -5,7 +5,7 @@
 
 local SOURCE_URL = "https://raw.githubusercontent.com/kairobloc/stealanegg/refs/heads/main/chillihubv7.lua"
 local HUB_NAME = "NhoiiiX Hub"
-local HUB_LOGO = "rbxassetid://70895505430795"
+local HUB_LOGO = "rbxassetid://75850663384500"
 
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
