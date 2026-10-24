@@ -71,8 +71,16 @@ local function patchGui(root)
                 if inst.Parent then parentName = normalizeText(inst.Parent.Name) end
             end)
 
-            -- V7 may use a different asset ID than the older V5 file.
-            -- Match legacy IDs or UI elements explicitly named as branding/logo.
+            -- Never modify controls that appear to be exit/close/leave buttons.
+            -- The earlier broad matching could mistake a close control for branding.
+            local controlName = name .. " " .. parentName
+            local isExitControl = controlName:find("exit", 1, true)
+                or controlName:find("close", 1, true)
+                or controlName:find("leave", 1, true)
+                or controlName:find("quit", 1, true)
+                or controlName:find("disconnect", 1, true)
+                or controlName:find("shutdown", 1, true)
+
             local knownOldLogo = ok and type(imageId) == "string" and (
                 imageId:find("75850663384500", 1, true)
                 or imageId:find("94434236999817", 1, true)
@@ -84,25 +92,8 @@ local function patchGui(root)
                 or parentName:find("logo", 1, true)
                 or parentName:find("brand", 1, true)
 
-            -- Hide decorative pictures/icons in the feature/function area.
-            -- Keep branding/logo images unchanged.
-            local featureImage = name:find("feature", 1, true)
-                or name:find("function", 1, true)
-                or name:find("use", 1, true)
-                or name:find("icon", 1, true)
-                or parentName:find("feature", 1, true)
-                or parentName:find("function", 1, true)
-                or parentName:find("use", 1, true)
-
-            -- Only target explicit watermark/studio image objects by name.
-            -- Avoid size/position heuristics because the UI layout changes dynamically.
-            local controlName = name .. " " .. parentName
-            local isExitControl = controlName:find("exit", 1, true)
-                or controlName:find("close", 1, true)
-                or controlName:find("leave", 1, true)
-                or controlName:find("quit", 1, true)
-                or controlName:find("disconnect", 1, true)
-
+            -- Only hide explicitly named watermark/studio objects.
+            -- Avoid broad "icon/use/function" matching, which can affect controls.
             local isLargeCenterWatermark = (
                 name:find("watermark", 1, true)
                 or name:find("studio", 1, true)
@@ -110,11 +101,11 @@ local function patchGui(root)
                 or parentName:find("studio", 1, true)
             ) and not isExitControl
 
-            if isLargeCenterWatermark then
+            if not isExitControl and isLargeCenterWatermark then
                 pcall(function()
                     inst.Visible = false
                 end)
-            elseif knownOldLogo or namedLogo then
+            elseif not isExitControl and (knownOldLogo or namedLogo) then
                 pcall(function()
                     inst.Image = HUB_LOGO
                     inst.ImageTransparency = 0
