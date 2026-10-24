@@ -1,5 +1,4 @@
--- NhoiiiX SAE - Chilli Hub V7 compatibility loader
--- NhoiiiX branding patch for Chilli Hub V7.
+-- NhoiiiX SAE - Chilli Hub V7 loader (debug build)
 
 local SOURCE_URL = "https://raw.githubusercontent.com/kairobloc/stealanegg/refs/heads/main/chillihubv7.lua"
 local HUB_NAME = "NhoiiiX Hub"
@@ -83,15 +82,11 @@ local function patchInstance(inst)
             local nameHit = isLogoName(name) or isLogoName(parentName)
 
             if isOurLogo or knownOldLogo or nameHit then
-                -- Ép hiện lại — kể cả khi V7 đã set transparency=1
                 if inst.Image ~= HUB_LOGO then
                     inst.Image = HUB_LOGO
                 end
                 if inst.ImageTransparency ~= 0 then
                     inst.ImageTransparency = 0
-                end
-                if inst.BackgroundTransparency ~= 1 and nameHit then
-                    -- không đụng background, chỉ ảnh
                 end
                 if not inst.Visible then
                     inst.Visible = true
@@ -112,7 +107,6 @@ local function patchGui(root)
     end
 end
 
--- Hook Instance.new để logo rebuild được patch ngay khi sinh
 local function startCreationHook()
     local oldNew = Instance.new
     Instance.new = function(className, parent)
@@ -158,36 +152,54 @@ local function startBrandingWatcher()
 end
 
 local function main()
+    print("[NhoiiiX] 1. Bắt đầu load")
+
     if not game:IsLoaded() then
+        print("[NhoiiiX] 2. Chờ game load...")
         game.Loaded:Wait()
     end
+    print("[NhoiiiX] 3. Game đã load")
 
     local ok, source = pcall(function()
         return game:HttpGet(SOURCE_URL)
     end)
-    if not ok or type(source) ~= "string" or source == "" then
-        warn("[NhoiiiX SAE] Could not download Chilli V7. Check the URL or connection.")
+    if not ok then
+        warn("[NhoiiiX] 4. HttpGet LỖI: " .. tostring(source))
         return
     end
+    if type(source) ~= "string" or source == "" then
+        warn("[NhoiiiX] 4. HttpGet trả về rỗng. URL chết?")
+        return
+    end
+    print("[NhoiiiX] 4. HttpGet OK, dài " .. #source .. " ký tự")
 
     local compileOk, chunk = pcall(loadstring, source)
-    if not compileOk or type(chunk) ~= "function" then
-        warn("[NhoiiiX SAE] Chilli V7 could not be compiled by this executor.")
+    if not compileOk then
+        warn("[NhoiiiX] 5. loadstring LỖI: " .. tostring(chunk))
         return
     end
+    if type(chunk) ~= "function" then
+        warn("[NhoiiiX] 5. loadstring không trả function. Executor chặn?")
+        return
+    end
+    print("[NhoiiiX] 5. Compile OK")
 
     startCreationHook()
     startBrandingWatcher()
+    print("[NhoiiiX] 6. Hook + watcher đã bật")
 
     local runOk, runError = pcall(chunk)
     if not runOk then
-        warn("[NhoiiiX SAE] Chilli V7 startup error: " .. tostring(runError))
+        warn("[NhoiiiX] 7. V7 chạy LỖI: " .. tostring(runError))
+        return
     end
+    print("[NhoiiiX] 7. V7 chạy OK")
 
     task.delay(1, function()
         for _, root in ipairs(getRoots()) do
             patchGui(root)
         end
+        print("[NhoiiiX] 8. Patch lần đầu xong")
     end)
 end
 
