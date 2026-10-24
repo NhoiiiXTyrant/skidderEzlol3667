@@ -81,8 +81,8 @@ local function showSelector(titleText, options)
 
         button.Activated:Connect(function()
             button.Active = false
-            button.Text = "Đang tải..."
-            status.Text = "Đang tải phiên bản đã chọn..."
+            button.Text = "Loading..."
+            status.Text = "Loading the selected version..."
             local ok, err = pcall(function()
                 local source = game:HttpGet(url)
                 local fn = assert(loadstring(source), "Không biên dịch được script")
@@ -94,7 +94,7 @@ local function showSelector(titleText, options)
                 if gui.Parent then
                     button.Active = true
                     button.Text = label
-                    status.Text = "Tải thất bại; hãy thử lại"
+                    status.Text = "Download failed; please try again"
                 end
             end
         end)
