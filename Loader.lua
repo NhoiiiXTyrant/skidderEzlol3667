@@ -34,18 +34,10 @@ end
 
 local function isBrandText(value)
     local lower = normalizeText(value)
-    return lower == "venyx"
-        or lower == "chilli"
-        or lower == "chilli hub"
-        or lower == "chilli hub v7"
-        or lower == "chilli sae"
-        or lower == "venyx sae"
-        or lower == "chilli hub v5"
-        or lower == "chilli hub v7 | sae"
-        or lower == "chilli hub v7 - sae"
-        or lower == "chilli hub | sae"
-        or lower:find("chilli hub", 1, true) ~= nil
+    return lower:find("chilli", 1, true) ~= nil
         or lower:find("venyx", 1, true) ~= nil
+        or lower:find("chilli hub", 1, true) ~= nil
+        or lower:find("chilli sae", 1, true) ~= nil
 end
 
 local function patchGui(root)
@@ -55,13 +47,9 @@ local function patchGui(root)
         if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
             local ok, current = pcall(function() return inst.Text end)
             if ok and type(current) == "string" and current ~= "" and isBrandText(current) then
-                local replacement = current
-                if normalizeText(current):find("chilli hub", 1, true) then
-                    replacement = current:gsub("[Cc][Hh][Ii][Ll][Ll][Ii] [Hh][Uu][Bb]", HUB_NAME)
-                else
-                    replacement = HUB_NAME
-                end
-                pcall(function() inst.Text = replacement end)
+                -- Branding labels may contain suffixes such as V7 or SAE;
+                -- replace the entire branded label so the requested name is visible.
+                pcall(function() inst.Text = HUB_NAME end)
             end
         elseif inst:IsA("ImageLabel") or inst:IsA("ImageButton") then
             local ok, imageId = pcall(function() return inst.Image end)
@@ -89,8 +77,12 @@ local function patchGui(root)
                 or name:find("brand", 1, true)
                 or name:find("chilli", 1, true)
                 or name:find("venyx", 1, true)
+                or name:find("hubicon", 1, true)
+                or name:find("hub_icon", 1, true)
                 or parentName:find("logo", 1, true)
                 or parentName:find("brand", 1, true)
+                or parentName:find("header", 1, true)
+                or parentName:find("topbar", 1, true)
 
             -- Only hide explicitly named watermark/studio objects.
             -- Avoid broad "icon/use/function" matching, which can affect controls.
