@@ -18,7 +18,6 @@ local function getRoots()
         end
     end)
     table.insert(roots, CoreGui)
-
     local player = Players.LocalPlayer
     if player then
         local pg = player:FindFirstChildOfClass("PlayerGui")
@@ -40,18 +39,9 @@ local function isBrandText(value)
         or lower == "chilli sae"
         or lower == "venyx sae"
         or lower == "chilli hub v5"
-        or lower == "chilli hub v7 | sae"
-        or lower == "chilli hub v7 - sae"
-        or lower == "chilli hub | sae"
         or lower:find("chilli hub", 1, true) ~= nil
         or lower:find("venyx", 1, true) ~= nil
 end
-
--- Logo IDs we know belong to Chilli/Venyx builds
-local KNOWN_LOGO_IDS = {
-    ["94434236999817"] = true,
-    ["75850663384500"] = true, -- ours
-}
 
 local function isLogoName(name)
     return name == "logo"
@@ -82,22 +72,30 @@ local function patchInstance(inst)
         elseif inst:IsA("ImageLabel") or inst:IsA("ImageButton") then
             local imageId = inst.Image
             if type(imageId) ~= "string" then return end
-            if imageId:find(HUB_LOGO_ID, 1, true) then return end
 
-            -- Extract numeric asset id from rbxassetid://NNN
+            local isOurLogo = imageId:find(HUB_LOGO_ID, 1, true) ~= nil
             local assetId = imageId:match("(%d+)")
-            local knownOldLogo = assetId and KNOWN_LOGO_IDS[assetId] ~= nil
+            local knownOldLogo = assetId == "94434236999817"
 
             local name = normalizeText(inst.Name)
             local parentName = ""
             if inst.Parent then parentName = normalizeText(inst.Parent.Name) end
-
             local nameHit = isLogoName(name) or isLogoName(parentName)
 
-            if knownOldLogo or nameHit then
-                inst.Image = HUB_LOGO
-                inst.ImageTransparency = 0
-                inst.Visible = true
+            if isOurLogo or knownOldLogo or nameHit then
+                -- Ép hiện lại — kể cả khi V7 đã set transparency=1
+                if inst.Image ~= HUB_LOGO then
+                    inst.Image = HUB_LOGO
+                end
+                if inst.ImageTransparency ~= 0 then
+                    inst.ImageTransparency = 0
+                end
+                if inst.BackgroundTransparency ~= 1 and nameHit then
+                    -- không đụng background, chỉ ảnh
+                end
+                if not inst.Visible then
+                    inst.Visible = true
+                end
             end
         end
     end)
@@ -114,7 +112,7 @@ local function patchGui(root)
     end
 end
 
--- Hook Instance.new so rebuilt UI (close/reopen) gets patched on birth
+-- Hook Instance.new để logo rebuild được patch ngay khi sinh
 local function startCreationHook()
     local oldNew = Instance.new
     Instance.new = function(className, parent)
