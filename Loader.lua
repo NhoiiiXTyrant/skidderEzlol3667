@@ -67,82 +67,29 @@ local function patchGui(root)
             local ok, imageId = pcall(function() return inst.Image end)
             local name = normalizeText(inst.Name)
             local parentName = ""
-            local ancestorNames = name
             pcall(function()
-                local parent = inst.Parent
-                if parent then
-                    parentName = normalizeText(parent.Name)
-                    ancestorNames = ancestorNames .. " " .. parentName
-                    local ancestor = parent.Parent
-                    local depth = 0
-                    while ancestor and depth < 5 do
-                        ancestorNames = ancestorNames .. " " .. normalizeText(ancestor.Name)
-                        ancestor = ancestor.Parent
-                        depth = depth + 1
-                    end
-                end
+                if inst.Parent then parentName = normalizeText(inst.Parent.Name) end
             end)
 
-            -- Keep exit/close controls untouched.
-            local controlName = ancestorNames
-            local isExitControl = controlName:find("exit", 1, true)
-                or controlName:find("close", 1, true)
-                or controlName:find("leave", 1, true)
-                or controlName:find("quit", 1, true)
-                or controlName:find("disconnect", 1, true)
-                or controlName:find("shutdown", 1, true)
+            -- V7 may use a different asset ID than the older V5 file.
+            -- Match legacy IDs or UI elements explicitly named as branding/logo.
+            local knownOldLogo = ok and type(imageId) == "string" and (
+                imageId:find("75850663384500", 1, true)
+                or imageId:find("94434236999817", 1, true)
+            )
+            local namedLogo = name:find("logo", 1, true)
+                or name:find("brand", 1, true)
+                or name:find("chilli", 1, true)
+                or name:find("venyx", 1, true)
+                or parentName:find("logo", 1, true)
+                or parentName:find("brand", 1, true)
 
-            -- Hide the large centered NhoiiiX Studio watermark, without
-            -- applying a broad size-only rule to ordinary feature images.
-            local isWatermark = controlName:find("watermark", 1, true)
-                or controlName:find("studio", 1, true)
-                or controlName:find("nhoiiix", 1, true)
-                or controlName:find("nhoiii", 1, true)
-
-            -- Some versions name the central brand image generically. Detect
-            -- only large, near-center images; avoid tiny icons and exit controls.
-            local isLargeCenteredImage = false
-            pcall(function()
-                local size = inst.AbsoluteSize
-                local pos = inst.AbsolutePosition
-                local camera = workspace.CurrentCamera
-                if camera and size and pos and camera.ViewportSize.X > 0 and camera.ViewportSize.Y > 0 then
-                    local viewport = camera.ViewportSize
-                    local centerX = pos.X + size.X / 2
-                    local centerY = pos.Y + size.Y / 2
-                    local centered = math.abs(centerX - viewport.X / 2) < viewport.X * 0.22
-                        and math.abs(centerY - viewport.Y / 2) < viewport.Y * 0.22
-                    local large = size.X > viewport.X * 0.18 and size.Y > viewport.Y * 0.12
-                    isLargeCenteredImage = centered and large
-                end
-            end)
-
-            if not isExitControl and (isWatermark or isLargeCenteredImage) then
+            if knownOldLogo or namedLogo then
                 pcall(function()
-                    inst.ImageTransparency = 1
-                    inst.Visible = false
+                    inst.Image = HUB_LOGO
+                    inst.ImageTransparency = 0
+                    inst.Visible = true
                 end)
-            else
-                -- Replace only known branding/logo elements; do not touch
-                -- unrelated images or exit controls.
-                local knownOldLogo = ok and type(imageId) == "string" and (
-                    imageId:find("75850663384500", 1, true)
-                    or imageId:find("94434236999817", 1, true)
-                )
-                local namedLogo = name:find("logo", 1, true)
-                    or name:find("brand", 1, true)
-                    or name:find("chilli", 1, true)
-                    or name:find("venyx", 1, true)
-                    or parentName:find("logo", 1, true)
-                    or parentName:find("brand", 1, true)
-
-                if not isExitControl and (knownOldLogo or namedLogo) then
-                    pcall(function()
-                        inst.Image = HUB_LOGO
-                        inst.ImageTransparency = 0
-                        inst.Visible = true
-                    end)
-                end
             end
         end
     end
