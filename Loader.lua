@@ -94,18 +94,33 @@ local function patchGui(root)
                 or parentName:find("function", 1, true)
                 or parentName:find("use", 1, true)
 
-            -- Hide the large centered NhoiiiX Studio watermark shown over the UI.
-            -- Do not hide the small header logo or the floating open/close logo.
-            local isLargeCenterWatermark = name:find("watermark", 1, true)
+            -- Hide only the large centered watermark, not Roblox/core UI controls.
+            -- Exclude CoreGui images/buttons and common exit/close controls.
+            local isCoreGuiControl = false
+            pcall(function()
+                isCoreGuiControl = inst:IsDescendantOf(CoreGui)
+            end)
+
+            local controlName = name .. " " .. parentName
+            local isExitControl = controlName:find("exit", 1, true)
+                or controlName:find("close", 1, true)
+                or controlName:find("leave", 1, true)
+                or controlName:find("quit", 1, true)
+                or controlName:find("disconnect", 1, true)
+
+            local isLargeCenterWatermark = (
+                name:find("watermark", 1, true)
                 or name:find("studio", 1, true)
                 or parentName:find("watermark", 1, true)
                 or parentName:find("studio", 1, true)
+            ) and not isCoreGuiControl and not isExitControl
 
             if isLargeCenterWatermark then
                 pcall(function()
                     inst.Visible = false
                 end)
-            elseif featureImage and not namedLogo and not knownOldLogo then
+            elseif featureImage and not namedLogo and not knownOldLogo
+                and not isCoreGuiControl and not isExitControl then
                 pcall(function()
                     inst.Visible = false
                 end)
