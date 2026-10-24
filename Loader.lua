@@ -1,4 +1,5 @@
--- NhoiiiX SAE - Chilli Hub V7 (Logo Patcher + Toggle)
+-- NhoiiiX SAE - Chilli Hub V7 (Fix triệt để logo)
+-- Note: GUI discovery is heuristic because the remote hub owns its internal UI.
 
 local SOURCE_URL = "https://raw.githubusercontent.com/kairobloc/stealanegg/refs/heads/main/chillihubv7.lua"
 local HUB_NAME = "NhoiiiX Hub"
@@ -42,61 +43,54 @@ local function normalizeText(value)
     return string.lower((tostring(value or ""):gsub("%s+", " "):match("^%s*(.-)%s*$") or ""))
 end
 
-local function isLogoName(name)
-    return name == "logo" or name == "brand" or name == "icon"
-        or name:find("logo", 1, true) ~= nil
-        or name:find("brand", 1, true) ~= nil
-        or name:find("chilli", 1, true) ~= nil
-        or name:find("venyx", 1, true) ~= nil
-end
-
--- Patch từng element: cả chữ lẫn ảnh
-local function patchInstance(inst)
-    if not inst then return end
-    pcall(function()
-        if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
-            local text = inst.Text
-            local lower = normalizeText(text)
-            if lower:find("chilli", 1, true) or lower:find("venyx", 1, true) then
-                if lower:find("chilli hub", 1, true) then
-                    inst.Text = text:gsub("[Cc][Hh][Ii][Ll][Ll][Ii] [Hh][Uu][Bb]", HUB_NAME)
-                else
-                    inst.Text = HUB_NAME
-                end
-            end
-        elseif inst:IsA("ImageLabel") or inst:IsA("ImageButton") then
-            -- Bỏ qua nút toggle của mình
-            if inst.Name == "NhoiiiXToggleBtn" then return end
-
-            local image = tostring(inst.Image or "")
-            local name = normalizeText(inst.Name)
-            local parentName = normalizeText(inst.Parent and inst.Parent.Name or "")
-            
-            local isOurLogo = image:find(HUB_LOGO_ID, 1, true) ~= nil
-            local isKnownOld = image:find("94434236999817", 1, true) ~= nil
-            local isNameHit = isLogoName(name) or isLogoName(parentName)
-
-            if isOurLogo or isKnownOld or isNameHit then
-                -- Ép hiện logo, chống bị V7 ẩn đi
-                if inst.Image ~= HUB_LOGO then inst.Image = HUB_LOGO end
-                if inst.ImageTransparency ~= 0 then inst.ImageTransparency = 0 end
-                if not inst.Visible then inst.Visible = true end
-            end
-        end
-    end)
-end
-
 local function patchBranding(root)
     if not root then return end
-    patchInstance(root)
     local descendants = {}
     pcall(function() descendants = root:GetDescendants() end)
+    
     for _, inst in ipairs(descendants) do
-        patchInstance(inst)
+        pcall(function()
+            if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
+                local text = inst.Text
+                local lower = normalizeText(text)
+                if lower:find("chilli", 1, true) or lower:find("venyx", 1, true) then
+                    if lower:find("chilli hub", 1, true) then
+                        inst.Text = text:gsub("[Cc][Hh][Ii][Ll][Ll][Ii] [Hh][Uu][Bb]", HUB_NAME)
+                    else
+                        inst.Text = HUB_NAME
+                    end
+                end
+                
+            elseif inst:IsA("ImageLabel") or inst:IsA("ImageButton") then
+                -- Bỏ qua nút toggle của chính mình
+                if inst.Name == "ToggleButton" then return end
+
+                local image = tostring(inst.Image or "")
+                local name = normalizeText(inst.Name)
+                local parentName = normalizeText(inst.Parent and inst.Parent.Name or "")
+                
+                local isOurLogo = image:find(HUB_LOGO_ID, 1, true) ~= nil
+                local isOldLogo = image:find("94434236999817", 1, true) ~= nil
+                local isNamed = name:find("logo", 1, true) or name:find("brand", 1, true) 
+                    or name:find("chilli", 1, true) or name:find("venyx", 1, true)
+                    or parentName:find("logo", 1, true) or parentName:find("brand", 1, true)
+
+                if isOldLogo or isNamed then
+                    -- Ép đổi sang logo mới
+                    inst.Image = HUB_LOGO
+                    inst.ImageTransparency = 0
+                    inst.Visible = true
+                elseif isOurLogo then
+                    -- Nếu là logo của mình thì đảm bảo nó không bị V7 ẩn
+                    inst.ImageTransparency = 0
+                    inst.Visible = true
+                end
+            end
+        end)
     end
 end
 
--- ==================== TOGGLE BUTTON ====================
+-- Capture existing ScreenGuis before the remote hub loads
 local baseline = {}
 local function recordExistingScreenGuis()
     for _, root in ipairs(getRoots()) do
@@ -115,6 +109,7 @@ local function discoverHubGuis()
             for _, inst in ipairs(root:GetDescendants()) do
                 if inst:IsA("ScreenGui") and not baseline[inst] then
                     local name = normalizeText(inst.Name)
+                    -- Loại trừ GUI của mình và hệ thống
                     if name ~= "nhoiiixhubtoggle" and name ~= "robloxgui" then
                         hubGuis[inst] = true
                     end
@@ -126,7 +121,7 @@ end
 
 local function createToggle()
     local root = getUiRoot()
-    if not root then warn("[NhoiiiX SAE] Cannot find UI root.") return end
+    if not root then warn("[NhoiiiX SAE] Cannot find a UI root for the toggle button.") return end
 
     local old = root:FindFirstChild("NhoiiiXHubToggle")
     if old then old:Destroy() end
@@ -142,7 +137,7 @@ local function createToggle()
     end
 
     local button = Instance.new("ImageButton")
-    button.Name = "NhoiiiXToggleBtn" -- Bỏ qua trong patchInstance
+    button.Name = "ToggleButton" -- Trùng tên với phần loại trừ ở trên
     button.Size = UDim2.fromOffset(54, 54)
     button.Position = UDim2.new(0, 18, 0.5, -27)
     button.BackgroundColor3 = Color3.fromRGB(28, 28, 35)
@@ -171,12 +166,11 @@ local function createToggle()
             dragStart = input.Position
             startPos = button.Position
             input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then 
-                    dragging = false 
-                end
+                if input.UserInputState == Enum.UserInputState.End then dragging = false end
             end)
         end
     end)
+    
     UserInputService.InputChanged:Connect(function(input)
         if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
             local delta = input.Position - dragStart
@@ -187,7 +181,7 @@ local function createToggle()
 
     local visible = true
     button.Activated:Connect(function()
-        if moved then return end -- Đang kéo thì không bấm
+        if moved then return end
         discoverHubGuis()
         local changed = false
         for gui in pairs(hubGuis) do
@@ -202,33 +196,35 @@ local function createToggle()
         end
         visible = not visible
         if not changed then
-            warn("[NhoiiiX SAE] No hub ScreenGui found yet.")
+            warn("[NhoiiiX SAE] No hub ScreenGui found yet; wait for the hub to finish loading and tap again.")
         end
     end)
 end
 
--- ==================== MAIN ====================
 local function main()
     if not game:IsLoaded() then game.Loaded:Wait() end
     recordExistingScreenGuis()
+
     createToggle()
 
     local ok, source = pcall(function() return game:HttpGet(SOURCE_URL) end)
     if not ok or type(source) ~= "string" or source == "" then
-        warn("[NhoiiiX SAE] Could not download Chilli V7.")
+        warn("[NhoiiiX SAE] Could not download Chilli V7. Check the URL or connection.")
         return
     end
     local compileOk, chunk = pcall(loadstring, source)
     if not compileOk or type(chunk) ~= "function" then
-        warn("[NhoiiiX SAE] Chilli V7 could not be compiled.")
+        warn("[NhoiiiX SAE] Chilli V7 could not be compiled by this executor.")
         return
     end
 
-    -- Quét liên tục để patch logo khi đóng/mở
+    -- Quét liên tục để bắt logo kịp thời
     task.spawn(function()
         while task.wait(0.5) do
             discoverHubGuis()
-            for _, root in ipairs(getRoots()) do patchBranding(root) end
+            for _, root in ipairs(getRoots()) do 
+                patchBranding(root) 
+            end
         end
     end)
 
