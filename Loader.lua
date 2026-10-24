@@ -1,150 +1,124 @@
--- NhoiiiX SAE - Chilli Hub V7 compatibility loader
--- NhoiiiX branding patch for Chilli Hub V7.
--- V5/Venyx-specific patching and teleport-queue hooks are not used because
--- they are tied to the old UI and may break Chilli V7.
-
-local SOURCE_URL = "https://raw.githubusercontent.com/kairobloc/stealanegg/refs/heads/main/chillihubv7.lua"
-local HUB_NAME = "NhoiiiX Hub"
-local HUB_LOGO = "rbxassetid://75850663384500"
-
 local Players = game:GetService("Players")
-local CoreGui = game:GetService("CoreGui")
+local lp = Players.LocalPlayer
+local pid = game.PlaceId
 
-local function getRoots()
-    local roots = {}
-    pcall(function()
-        if gethui then
-            local ui = gethui()
-            if ui then table.insert(roots, ui) end
-        end
+local GameList = {
+    [114326934417838] = "https://vxezestudio.online/api/scripts/script_7duMHGZTfKaWU/stream/init", -- Break and Steal an Egg
+    [113290951185459] = "https://vxezestudio.online/api/scripts/script_82HVMJlLn6Omw/stream/init", -- Anime Dice
+    [142823291] = "https://vxezestudio.online/api/scripts/script_r0VeAauEuUxPg/stream/init", -- Murder Mystery 2
+    [98502499119821] = "https://vxezestudio.online/api/scripts/script_58QYU7BTt9Dg/stream/init", -- Heavyweight Fishing
+    [107778070777162] = "STEAL_EGG_SELECTOR", -- Steal A Egg: choose version
+    [9872472334] = "https://api.xhider.xyz/files/v4/loaders/4955e760c9f9b495f25dcdb2ea54d7e5.lua", -- Evade
+    [119091355492870] = "https://api.xhider.xyz/files/v4/loaders/5e11f8e2650b675806aaa7ccd238f1f3.lua", -- RockFruit Sea 1
+    [132854526011923] = "https://api.xhider.xyz/files/v4/loaders/a0d3fb06848e377e3c760eee682ea5b8.lua", -- RockFruit Sea 2
+    [82878101790702] = "https://api.xhider.xyz/files/v4/loaders/5e11f8e2650b675806aaa7ccd238f1f3.lua", -- Raid Rockfruitsea1
+    [13772394625] = "https://api.xhider.xyz/files/v4/loaders/b264cc179514f7b3b7115beddfa456d9.lua", -- Blade Ball
+    [85211729168715] = "BLOX_FRUITS_SELECTOR",
+    [79091703265657] = "BLOX_FRUITS_SELECTOR",
+    [100117331123089] = "BLOX_FRUITS_SELECTOR",
+}
+
+local function loadUrl(url)
+    local ok, err = pcall(function()
+        local source = game:HttpGet(url)
+        local fn = assert(loadstring(source), "Không biên dịch được script")
+        fn()
     end)
-    table.insert(roots, CoreGui)
-
-    local player = Players.LocalPlayer
-    if player then
-        local pg = player:FindFirstChildOfClass("PlayerGui")
-        if pg then table.insert(roots, pg) end
-    end
-    return roots
+    if not ok then warn("NhoiiiX Hub load error:", err) end
 end
 
-local function normalizeText(value)
-    return string.lower((tostring(value or ""):gsub("%s+", " "):match("^%s*(.-)%s*$") or ""))
-end
+local function showSelector(titleText, options)
+    local playerGui = lp:WaitForChild("PlayerGui")
+    local oldGui = playerGui:FindFirstChild("NhoiiiXHubSelector")
+    if oldGui then oldGui:Destroy() end
 
-local function isBrandText(value)
-    local lower = normalizeText(value)
-    return lower == "venyx"
-        or lower == "chilli"
-        or lower == "chilli hub"
-        or lower == "chilli hub v7"
-        or lower == "chilli sae"
-        or lower == "venyx sae"
-        or lower == "chilli hub v5"
-        or lower == "chilli hub v7 | sae"
-        or lower == "chilli hub v7 - sae"
-        or lower == "chilli hub | sae"
-        or lower:find("chilli hub", 1, true) ~= nil
-        or lower:find("venyx", 1, true) ~= nil
-end
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "NhoiiiXHubSelector"
+    gui.ResetOnSpawn = false
+    gui.DisplayOrder = 999
+    gui.Parent = playerGui
 
-local function patchGui(root)
-    if not root then return end
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.fromOffset(280, 190)
+    frame.Position = UDim2.new(0.5, -140, 0.5, -95)
+    frame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+    frame.BorderSizePixel = 0
+    frame.Parent = gui
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
 
-    local function patch(inst)
-        if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
-            local ok, current = pcall(function() return inst.Text end)
-            if ok and type(current) == "string" and current ~= "" and isBrandText(current) then
-                local replacement = current
-                if normalizeText(current):find("chilli hub", 1, true) then
-                    replacement = current:gsub("[Cc][Hh][Ii][Ll][Ll][Ii] [Hh][Uu][Bb]", HUB_NAME)
-                else
-                    replacement = HUB_NAME
-                end
-                pcall(function() inst.Text = replacement end)
-            end
-        elseif inst:IsA("ImageLabel") or inst:IsA("ImageButton") then
-            local ok, imageId = pcall(function() return inst.Image end)
-            local name = normalizeText(inst.Name)
-            local parentName = ""
-            pcall(function()
-                if inst.Parent then parentName = normalizeText(inst.Parent.Name) end
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, -20, 0, 45)
+    title.Position = UDim2.fromOffset(10, 0)
+    title.BackgroundTransparency = 1
+    title.Text = titleText
+    title.TextColor3 = Color3.new(1, 1, 1)
+    title.TextSize = 18
+    title.Font = Enum.Font.GothamBold
+    title.Parent = frame
+
+    local status = Instance.new("TextLabel")
+    status.Size = UDim2.new(1, -20, 0, 20)
+    status.Position = UDim2.fromOffset(10, 160)
+    status.BackgroundTransparency = 1
+    status.Text = "Chọn một phiên bản"
+    status.TextColor3 = Color3.fromRGB(190, 190, 200)
+    status.TextSize = 12
+    status.Font = Enum.Font.Gotham
+    status.Parent = frame
+
+    local function makeButton(label, y, url)
+        local button = Instance.new("TextButton")
+        button.Size = UDim2.new(1, -30, 0, 42)
+        button.Position = UDim2.new(0, 15, 0, y)
+        button.BackgroundColor3 = Color3.fromRGB(75, 95, 220)
+        button.BorderSizePixel = 0
+        button.Text = label
+        button.TextColor3 = Color3.new(1, 1, 1)
+        button.TextSize = 15
+        button.Font = Enum.Font.GothamBold
+        button.Parent = frame
+        Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
+
+        button.Activated:Connect(function()
+            button.Active = false
+            button.Text = "Đang tải..."
+            status.Text = "Đang tải phiên bản đã chọn..."
+            local ok, err = pcall(function()
+                local source = game:HttpGet(url)
+                local fn = assert(loadstring(source), "Không biên dịch được script")
+                gui:Destroy()
+                fn()
             end)
-
-            -- V7 may use a different asset ID than the older V5 file.
-            -- Match legacy IDs or UI elements explicitly named as branding/logo.
-            local knownOldLogo = ok and type(imageId) == "string" and (
-                imageId:find("75850663384500", 1, true)
-                or imageId:find("94434236999817", 1, true)
-            )
-            local namedLogo = name:find("logo", 1, true)
-                or name:find("brand", 1, true)
-                or name:find("chilli", 1, true)
-                or name:find("venyx", 1, true)
-                or parentName:find("logo", 1, true)
-                or parentName:find("brand", 1, true)
-
-            if knownOldLogo or namedLogo then
-                pcall(function()
-                    inst.Image = HUB_LOGO
-                    inst.ImageTransparency = 0
-                    inst.Visible = true
-                end)
+            if not ok then
+                warn("NhoiiiX Hub load error:", err)
+                if gui.Parent then
+                    button.Active = true
+                    button.Text = label
+                    status.Text = "Tải thất bại; hãy thử lại"
+                end
             end
-        end
+        end)
     end
 
-    pcall(patch, root)
-    local ok, descendants = pcall(function() return root:GetDescendants() end)
-    if ok then
-        for _, inst in ipairs(descendants) do
-            pcall(patch, inst)
-        end
+    for index, option in ipairs(options) do
+        makeButton(option.label, 50 + (index - 1) * 50, option.url)
     end
 end
 
-local function startBrandingWatcher()
-    task.spawn(function()
-        while task.wait(0.75) do
-            for _, root in ipairs(getRoots()) do
-                patchGui(root)
-            end
-        end
-    end)
+local url = GameList[pid]
+
+if url == "BLOX_FRUITS_SELECTOR" then
+    showSelector("NhoiiiX - Chọn Hub Blox Fruits", {
+        { label = "Aimbot PVP", url = "https://vxezestudio.online/api/scripts/script_Pa7uy5Z0mpKdN/stream/init" },
+        { label = "Main Farm", url = "https://vxezestudio.online/api/scripts/script_KSNOqPAlOI2lc/stream/init" },
+    })
+elseif url == "STEAL_EGG_SELECTOR" then
+    showSelector("NhoiiiX - Chọn Steal A Egg", {
+        { label = "Steal A Egg - Bản 1", url = "https://vxezestudio.online/api/scripts/script_tj3Yg4VG0lxvp/stream/init" },
+        { label = "Steal A Egg - Bản 2", url = "https://vxezestudio.online/api/scripts/script_7duMHGZTfKaWU/stream/init" },
+    })
+elseif url then
+    loadUrl(url)
+else
+    warn("Game not supported. PlaceId:", pid)
 end
-
-local function main()
-    if not game:IsLoaded() then
-        game.Loaded:Wait()
-    end
-
-    local ok, source = pcall(function()
-        return game:HttpGet(SOURCE_URL)
-    end)
-    if not ok or type(source) ~= "string" or source == "" then
-        warn("[NhoiiiX SAE] Could not download Chilli V7. Check the URL or connection.")
-        return
-    end
-
-    local compileOk, chunk = pcall(loadstring, source)
-    if not compileOk or type(chunk) ~= "function" then
-        warn("[NhoiiiX SAE] Chilli V7 could not be compiled by this executor.")
-        return
-    end
-
-    -- Start watching before the UI is created so late-created elements are patched too.
-    startBrandingWatcher()
-
-    local runOk, runError = pcall(chunk)
-    if not runOk then
-        warn("[NhoiiiX SAE] Chilli V7 startup error: " .. tostring(runError))
-    end
-
-    task.delay(1, function()
-        for _, root in ipairs(getRoots()) do
-            patchGui(root)
-        end
-    end)
-end
-
-task.spawn(main)
