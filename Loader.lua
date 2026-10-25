@@ -1,20 +1,5 @@
-local ProtectionConfig = {
-    SecretKey = "2009",
-    
-    -- The name of your Hub (shown in the kick message if they try to bypass)
-    HubName = "NhoiiiX"
-}
 
--- Anti-Bypass Logic: Checks if the Key System successfully set the global variable
-if not _G[ProtectionConfig.SecretKey] then
-    local player = game:GetService("Players").LocalPlayer
-    if player then
-        player:Kick("\n🛡️ Unauthorized Execution 🛡️\n\nPlease use the official Key System to run " .. ProtectionConfig.HubName)
-    end
-    return -- Stops the rest of the script from loading!
-end
-
--------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 -- 👇 YOUR MAIN SCRIPT CODE STARTS HERE 👇
 -------------------------------------------------------------------------------
 
