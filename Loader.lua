@@ -2302,6 +2302,81 @@ local t15 = {
 
 lib.ToggleUI()
 
+-- NhoiiiX custom Hub toggle button (replaces the banana-cat look with the requested image)
+do
+    local Players = game:GetService("Players")
+    local UserInputService = game:GetService("UserInputService")
+    local localPlayer = Players.LocalPlayer
+    local playerGui = localPlayer:WaitForChild("PlayerGui")
+
+    local previous = playerGui:FindFirstChild("NhoiiiXToggleGui")
+    if previous then
+        previous:Destroy()
+    end
+
+    local toggleGui = Instance.new("ScreenGui")
+    toggleGui.Name = "NhoiiiXToggleGui"
+    toggleGui.ResetOnSpawn = false
+    toggleGui.IgnoreGuiInset = true
+    toggleGui.DisplayOrder = 10000
+    toggleGui.Parent = playerGui
+
+    local toggleButton = Instance.new("ImageButton")
+    toggleButton.Name = "HubToggle"
+    toggleButton.Size = UDim2.fromOffset(54, 54)
+    toggleButton.Position = UDim2.new(0, 18, 0.45, 0)
+    toggleButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    toggleButton.BackgroundTransparency = 0.12
+    toggleButton.BorderSizePixel = 0
+    toggleButton.Image = "rbxassetid://75850663384500"
+    toggleButton.ScaleType = Enum.ScaleType.Fit
+    toggleButton.Parent = toggleGui
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 12)
+    corner.Parent = toggleButton
+
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Color3.fromRGB(255, 255, 255)
+    stroke.Thickness = 1.5
+    stroke.Transparency = 0.15
+    stroke.Parent = toggleButton
+
+    local dragging = false
+    local dragStart
+    local startPosition
+    toggleButton.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPosition = toggleButton.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    UserInputService.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - dragStart
+            toggleButton.Position = UDim2.new(
+                startPosition.X.Scale, startPosition.X.Offset + delta.X,
+                startPosition.Y.Scale, startPosition.Y.Offset + delta.Y
+            )
+        end
+    end)
+
+    local pressPosition
+    toggleButton.Activated:Connect(function()
+        -- The library handles showing/hiding its main window.
+        pcall(function()
+            lib.ToggleUI()
+        end)
+    end)
+end
+
 do
 	local v239 = t15.Info:AddLeftGroupbox("Time Zone"):AddLabel("")
 
