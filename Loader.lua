@@ -2279,9 +2279,9 @@ end
 
 local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Banana/refs/heads/main/Banana/ui.luau"))()
 local v237 = lib:CreateWindow({
-	Title = "Banana Hub",
+	Title = "NhoiiiX Hub",
 	Subtitle = "Blox Fruit Script",
-	Image = "rbxassetid://5009915795"
+	Image = "rbxassetid://75850663384500"
 })
 local t15 = {
 	Info = v237:AddTab("Info And Status"),
@@ -31469,8 +31469,8 @@ do
 end
 
 lib:Notify({
-	Title = "Banana Hub",
-	Description = "Banana Hub comeback",
-	Icon = "rbxassetid://5009915795",
+	Title = "NhoiiiX Hub",
+	Description = "NhoiiiX Hub comeback",
+	Icon = "rbxassetid://75850663384500",
 	Duration = 5
 })
