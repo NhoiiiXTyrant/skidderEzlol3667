@@ -1,9 +1,10 @@
+local HUB_NAME = "Cybrion"
 
-------------------------------------------------------------------------------
--- 👇 YOUR MAIN SCRIPT CODE STARTS HERE 👇
+-------------------------------------------------------------------------------
+-- Main script starts here. Key anti-bypass check removed as requested.
 -------------------------------------------------------------------------------
 
-print(ProtectionConfig.HubName .. " Loaded Successfully!")
+print(HUB_NAME .. " Loaded Successfully!")
 
 local Library = (function()
 local TweenService = game:GetService("TweenService")
