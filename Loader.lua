@@ -2283,6 +2283,19 @@ local v237 = lib:CreateWindow({
 	Subtitle = "Blox Fruit Script",
 	Image = "rbxassetid://75850663384500"
 })
+-- Force the Banana library's original floating close/open button to use the NhoiiiX image too.
+-- The library creates this button before CreateWindow applies the custom logo, so update it explicitly.
+task.defer(function()
+    local coreGui = game:GetService("CoreGui")
+    local oldToggleGui = coreGui:FindFirstChild("Nousigi Hub Btn")
+    if oldToggleGui then
+        for _, object in ipairs(oldToggleGui:GetDescendants()) do
+            if object:IsA("ImageLabel") or object:IsA("ImageButton") then
+                object.Image = "rbxassetid://75850663384500"
+            end
+        end
+    end
+end)
 local t15 = {
 	Info = v237:AddTab("Info And Status"),
 	Main = v237:AddTab("Farming"),
