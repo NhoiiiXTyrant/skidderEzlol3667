@@ -1,4 +1,4 @@
-local HUB_NAME = "Cybrion"
+local HUB_NAME = "NhoiiiX"
 
 -------------------------------------------------------------------------------
 -- Main script starts here. Key anti-bypass check removed as requested.
@@ -219,7 +219,7 @@ Library.ThemeName = "Midnight"
 Library.Assets = {
     Shadow = "rbxassetid://6014261993",
     Glow = "rbxassetid://8992230677",
-    Logo = "rbxassetid://103859712365480",
+    Logo = "rbxassetid://75850663384500",
 }
 
 local LUCIDE_URL = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/lucide/dist/Icons.lua"
@@ -414,7 +414,7 @@ pcall(function()
     if type(writefile) ~= "function" or typeof(getcustomasset) ~= "function" then
         return
     end
-    local folder = "CybrionAssets"
+    local folder = "NhoiiiXAssets"
     if type(isfolder) == "function" and type(makefolder) == "function" and not isfolder(folder) then
         makefolder(folder)
     end
@@ -429,6 +429,8 @@ pcall(function()
         Assets.Logo = asset
     end
 end)
+-- Use the requested Roblox image for both the hub header and toggle button.
+Library.Assets.Logo = "rbxassetid://75850663384500"
 local Fonts = Library.Fonts
 
 local TOUCH = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
@@ -19919,7 +19921,7 @@ local Config = {
     AutoEquipBestBait = false
 }
 
-local SAVE_FOLDER = "Cybrion"
+local SAVE_FOLDER = "NhoiiiX"
 local SAVE_FILE = SAVE_FOLDER .. "/HeavyweighFishingConfig.json"
 
 local function SaveConfig()
@@ -23240,22 +23242,22 @@ ApplyLightingSettings()
 local DISCORD_INVITE = "https://discord.gg/pzVJV34AH8"
 
 local Window = Library:CreateWindow({
-    Name = "Cybrion",
+    Name = "NhoiiiX",
     Subtitle = "Heavyweigh Fishing",
     Icon = Library.Assets.Logo,
     Size = UDim2.fromOffset(640, 460),
     MinSize = Vector2.new(480, 360),
     SidebarWidth = 170,
-    DefaultTheme = "Cybrion",
+    DefaultTheme = "NhoiiiX",
     ToggleUIKeybind = Enum.KeyCode.LeftControl,
     ConfigurationSaving = { Enabled = false, FolderName = SAVE_FOLDER },
     SaveSize = false,
     Home = {
         Name = "Home",
-        Title = "Cybrion",
+        Title = "NhoiiiX",
         Desc = "Heavyweigh Fishing",
         Discord = DISCORD_INVITE,
-        DiscordTitle = "Cybrion Discord",
+        DiscordTitle = "NhoiiiX Discord",
         DiscordIcon = "message-circle",
         Features = false,
     },
@@ -23277,7 +23279,7 @@ local Window = Library:CreateWindow({
 -- go through the new library, including restoring a minimized window.
 do
     local LogoGui = Instance.new("ScreenGui")
-    LogoGui.Name = "CybrionLogoGui"
+    LogoGui.Name = "NhoiiiXLogoGui"
     LogoGui.ResetOnSpawn = false
     LogoGui.DisplayOrder = 10000
     pcall(function() LogoGui.Parent = game:GetService("CoreGui") end)
