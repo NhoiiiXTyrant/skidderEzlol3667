@@ -2,7 +2,7 @@ local ProtectionConfig = {
     SecretKey = "2009",
     
     -- The name of your Hub (shown in the kick message if they try to bypass)
-    HubName = "Cybrion"
+    HubName = "NhoiiiX"
 }
 
 -- Anti-Bypass Logic: Checks if the Key System successfully set the global variable
