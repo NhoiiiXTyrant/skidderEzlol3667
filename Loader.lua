@@ -2283,19 +2283,6 @@ local v237 = lib:CreateWindow({
 	Subtitle = "Blox Fruit Script",
 	Image = "rbxassetid://75850663384500"
 })
--- Force the Banana library's original floating close/open button to use the NhoiiiX image too.
--- The library creates this button before CreateWindow applies the custom logo, so update it explicitly.
-task.defer(function()
-    local coreGui = game:GetService("CoreGui")
-    local oldToggleGui = coreGui:FindFirstChild("Nousigi Hub Btn")
-    if oldToggleGui then
-        for _, object in ipairs(oldToggleGui:GetDescendants()) do
-            if object:IsA("ImageLabel") or object:IsA("ImageButton") then
-                object.Image = "rbxassetid://75850663384500"
-            end
-        end
-    end
-end)
 local t15 = {
 	Info = v237:AddTab("Info And Status"),
 	Main = v237:AddTab("Farming"),
@@ -2315,80 +2302,38 @@ local t15 = {
 
 lib.ToggleUI()
 
--- NhoiiiX custom Hub toggle button (replaces the banana-cat look with the requested image)
-do
-    local Players = game:GetService("Players")
-    local UserInputService = game:GetService("UserInputService")
-    local localPlayer = Players.LocalPlayer
-    local playerGui = localPlayer:WaitForChild("PlayerGui")
+-- Replace the ORIGINAL Banana floating toggle icon; do not create another button.
+task.spawn(function()
+    local targetImage = "rbxassetid://75850663384500"
+    local guiRoots = {}
+    local ok, coreGui = pcall(function() return game:GetService("CoreGui") end)
+    if ok and coreGui then table.insert(guiRoots, coreGui) end
+    local ok2, playerGui = pcall(function()
+        return game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui", 10)
+    end)
+    if ok2 and playerGui then table.insert(guiRoots, playerGui) end
 
-    local previous = playerGui:FindFirstChild("NhoiiiXToggleGui")
-    if previous then
-        previous:Destroy()
-    end
-
-    local toggleGui = Instance.new("ScreenGui")
-    toggleGui.Name = "NhoiiiXToggleGui"
-    toggleGui.ResetOnSpawn = false
-    toggleGui.IgnoreGuiInset = true
-    toggleGui.DisplayOrder = 10000
-    toggleGui.Parent = playerGui
-
-    local toggleButton = Instance.new("ImageButton")
-    toggleButton.Name = "HubToggle"
-    toggleButton.Size = UDim2.fromOffset(54, 54)
-    toggleButton.Position = UDim2.new(0, 18, 0.45, 0)
-    toggleButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-    toggleButton.BackgroundTransparency = 0.12
-    toggleButton.BorderSizePixel = 0
-    toggleButton.Image = "rbxassetid://75850663384500"
-    toggleButton.ScaleType = Enum.ScaleType.Fit
-    toggleButton.Parent = toggleGui
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 12)
-    corner.Parent = toggleButton
-
-    local stroke = Instance.new("UIStroke")
-    stroke.Color = Color3.fromRGB(255, 255, 255)
-    stroke.Thickness = 1.5
-    stroke.Transparency = 0.15
-    stroke.Parent = toggleButton
-
-    local dragging = false
-    local dragStart
-    local startPosition
-    toggleButton.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            dragStart = input.Position
-            startPosition = toggleButton.Position
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
+    -- Banana may create the floating toggle asynchronously after ToggleUI().
+    for attempt = 1, 40 do
+        local found = false
+        for _, root in ipairs(guiRoots) do
+            for _, gui in ipairs(root:GetDescendants()) do
+                local guiName = string.lower(gui.Name or "")
+                if gui:IsA("ScreenGui") and (string.find(guiName, "nousigi") or string.find(guiName, "banana") or string.find(guiName, "hub btn")) then
+                    for _, obj in ipairs(gui:GetDescendants()) do
+                        if obj:IsA("ImageLabel") or obj:IsA("ImageButton") then
+                            obj.Image = targetImage
+                            found = true
+                        end
+                    end
                 end
-            end)
+            end
         end
-    end)
+        if found then break end
+        task.wait(0.25)
+    end
+end)
 
-    UserInputService.InputChanged:Connect(function(input)
-        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-            local delta = input.Position - dragStart
-            toggleButton.Position = UDim2.new(
-                startPosition.X.Scale, startPosition.X.Offset + delta.X,
-                startPosition.Y.Scale, startPosition.Y.Offset + delta.Y
-            )
-        end
-    end)
-
-    local pressPosition
-    toggleButton.Activated:Connect(function()
-        -- The library handles showing/hiding its main window.
-        pcall(function()
-            lib.ToggleUI()
-        end)
-    end)
-end
 
 do
 	local v239 = t15.Info:AddLeftGroupbox("Time Zone"):AddLabel("")
