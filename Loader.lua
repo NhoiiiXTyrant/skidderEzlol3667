@@ -146,7 +146,7 @@ elseif url == "STEAL_EGG_SELECTOR" then
         },
         {
             label = "NhoiiiX - Finder",
-            url = "https://api.xhider.xyz/files/v4/loaders/b264cc179514f7b3b7115beddfa456d9.lua"
+            url = "https://api.xhider.xyz/files/v4/loaders/7ebd3c2a95f8f0c9ca7357905f9cbc64.lua"
         },
     })
 
