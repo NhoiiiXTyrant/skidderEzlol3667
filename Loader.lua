@@ -146,7 +146,7 @@ elseif url == "STEAL_EGG_SELECTOR" then
         },
         {
             label = "NhoiiiX - Finder",
-            url = "https://api.xhider.xyz/files/v4/loaders/a62772bfd9213cec8eb7b77c03da2a21.lua"
+            url = "https://raw.githubusercontent.com/NhoiiiXTyrant/NhoiiiX-Finder/refs/heads/main/finder.lua"
         },
     })
 
