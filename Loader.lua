@@ -1,2169 +1,1972 @@
--- deobf by catspooky
-getgenv().MV_OMIT = function(arg, arg2)
+local oA
+local StatePacket
+local oD
+local oe
+local WorldMap
+local oh
+local ol
+local nZ
+local Library
+local Options
+local oM
+local n1
+local ot
+local n4
+local n7
+local Toggles
+local oa
+local oz
+local nP
+local nS
+local oC
+local od
+local connection
+local nV
+local oF
+local nY
+local oI
+local LaunchZone2
+local oL
+local on
+local n3
+local oO
+local GameBalance
+local ov
+local nO
+local n9
+local oy
+local nR
+local oc
+local nU
+local of
+local oH
+local oi
+local n_
+local om
+local oK
+local oN
+local n5
+local oQ
+local ou
+local n8
+local ox
+local ob
+local function fn8(N)
+    return type(N) == "function"
 end
-getgenv().MV_OMIT_CFF = function(arg, arg2)
+local function fn14()
+    local Train = oc.Enabled.Train
+    for k in pairs(oc.Enabled) do
+        oc.Enabled[k] = false
+        local Gens = oc.Gens
+        local sF = oc.Gens[k] or 0
+        Gens[k] = sF + 1
+    end
+    if Train then
+        nS()
+    end
 end
-getgenv().MV_OMIT_VM = function(arg, arg2)
+local function fn53(fb)
+    local DiscordGroup = fb:AddLeftGroupbox("Discord", "message-circle")
+    DiscordGroup:AddDiscordBox(nil, {
+        Banner = 95892854151512,
+        Avatar = 132608042600488,
+        Title = "Ouroboros Hub",
+        Subtitle = "Dupes, keyless scripts and updates",
+        Status = "online",
+        Accent = Color3.fromRGB(88, 101, 242),
+        Link = n7,
+        Buttons = { { Text = "Copy Discord Invite", Icon = "copy", Copy = true } }
+    })
+    return DiscordGroup
 end
-getgenv().MV_CFF = function(arg, arg2)
+local function fn61()
+    local TrainZoneId = oc.TrainZoneId
+    if not n1(TrainZoneId) then
+        return
+    end
+    local rU = od(TrainZoneId)
+    if not rU then
+        return
+    end
+    local rT_1 = n9()
+    if not rT_1 then
+        return
+    end
+    local rV = rU.Position + Vector3.new(0, 3, 0)
+    if (rT_1.Position - rV).Magnitude > 6 then
+        oC(rU.CFrame + Vector3.new(0, 3, 0))
+    end
 end
-getgenv().MV_VM = function(arg, arg2)
+local function fn71()
+    local ru = nP()
+    if not ru then
+        return nil
+    end
+    local LaunchZone = ru:FindFirstChild("LaunchZone")
+    local ru_1 = LaunchZone and LaunchZone:IsA("BasePart")
+    if ru_1 then
+        return LaunchZone
+    end
+    return nil
 end
-getgenv().MV_COMPRESS = function(arg, arg2)
+local function fn186()
+    gethui = oI
 end
-getgenv().MV_ENC_FUNC = function(arg3, arg4)
+local function fn209()
+    oi(oa.Main)
+    local FarmGroup = oa.Main:AddLeftGroupbox("Farm", "dumbbell")
+    FarmGroup:AddToggle("AutoTrain", { Text = "Auto Train", Default = false })
+    local tj = oe[oc.TrainZoneId] or ov[1]
+    FarmGroup:AddDropdown("TrainZone", { Text = "Train Zone", Values = ov, Default = tj })
+    FarmGroup:AddToggle("AutoThrow", { Text = "Auto Throw", Default = false })
+    local ProgressGroup = oa.Main:AddRightGroupbox("Progress", "sparkles")
+    ProgressGroup:AddToggle("AutoBuyStones", { Text = "Auto Buy Affordable Stones", Default = false })
+    ProgressGroup:AddToggle("AutoHatchEgg", { Text = "Auto Hatch Selected Egg", Default = false })
+    ProgressGroup:AddDropdown("HatchEgg", { Text = "Egg", Values = oz, Default = oc.HatchEggId })
+    ProgressGroup:AddToggle("AutoRebirth", { Text = "Auto Rebirth", Default = false })
+    ProgressGroup:AddToggle("AutoEquipBestPet", { Text = "Auto Equip Best Pet", Default = false })
+    Toggles.AutoTrain:OnChanged(function(gv)
+        ol.SetTrain(gv)
+    end)
+    Options.TrainZone:OnChanged(function(gz)
+        ol.SetTrainZone(gz)
+    end)
+    Toggles.AutoThrow:OnChanged(function(gB)
+        ol.SetThrow(gB)
+    end)
+    Toggles.AutoBuyStones:OnChanged(function(gD)
+        ol.SetBuyStones(gD)
+    end)
+    Toggles.AutoHatchEgg:OnChanged(function(gF)
+        ol.SetHatchEgg(gF)
+    end)
+    Options.HatchEgg:OnChanged(function(gH)
+        ol.SetHatchEggId(gH)
+    end)
+    Toggles.AutoRebirth:OnChanged(function(gJ)
+        ol.SetRebirth(gJ)
+    end)
+    Toggles.AutoEquipBestPet:OnChanged(function(gL)
+        ol.SetEquipBestPet(gL)
+    end)
 end
-getgenv().MV_ENC_STR = function(arg5, arg6)
+local function fn214()
+    oi(oa.Player)
+    local MovementGroup = oa.Player:AddLeftGroupbox("Movement", "person-standing")
+    MovementGroup:AddToggle("WalkSpeedEnabled", { Text = "WalkSpeed", Default = false })
+    MovementGroup:AddSlider("WalkSpeed", { Text = "WalkSpeed Amount", Default = 32, Min = 16, Max = 250, Rounding = 0 })
+    MovementGroup:AddToggle("InfJump", { Text = "Infinite Jump", Default = false })
+    MovementGroup:AddToggle("NoClip", { Text = "NoClip", Default = false })
+    MovementGroup:AddToggle("InstantProximityPrompt", { Text = "Instant ProximityPrompt", Default = false })
+    local FlyGroup = oa.Player:AddRightGroupbox("Fly", "plane")
+    FlyGroup:AddToggle("Fly", { Text = "Fly", Default = false })
+    FlyGroup:AddSlider("FlySpeed", { Text = "Fly Speed", Default = 60, Min = 10, Max = 400, Rounding = 0 })
+    Toggles.WalkSpeedEnabled:OnChanged(function(iz)
+        ol.SetWalkSpeedEnabled(iz)
+    end)
+    Options.WalkSpeed:OnChanged(function(iD)
+        ol.SetWalkSpeedValue(iD)
+    end)
+    Toggles.InfJump:OnChanged(function(iF)
+        ol.SetInfJump(iF)
+    end)
+    Toggles.NoClip:OnChanged(function(iH)
+        ol.SetNoClip(iH)
+    end)
+    Toggles.InstantProximityPrompt:OnChanged(function(iJ)
+        ol.SetInstantProximityPrompt(iJ)
+    end)
+    Toggles.Fly:OnChanged(function(iL)
+        ol.SetFly(iL)
+    end)
+    Options.FlySpeed:OnChanged(function(iN)
+        ol.SetFlySpeed(iN)
+    end)
 end
-getgenv().MV_INLINE = function(arg, arg2)
+local function fn322(c6, c7, c8, c9)
+    local Enabled = oc.Enabled
+    local rO = c7 and true or false
+    Enabled[c6] = rO
+    if oc.Enabled[c6] then
+        oH(c6, c8, c9)
+    else
+        local Gens = oc.Gens
+        local rN_1 = oc.Gens[c6]
+        local rS = if rN_1 then 1 else 0
+        local rQ = 1971 * rS + 2534 * (1 - rS)
+        local rR = 501 * rS + 2484 * (1 - rS)
+        if not ((rQ * 720 + rR * 2602 + rQ * rR) % 16777213 == 3710193) then
+            rN_1 = 0
+        end
+        Gens[c6] = rN_1 + 1
+    end
 end
-getgenv().MV_INDEX_TO_NUM = function(arg, arg2)
+local function fn330()
+    if oc.Enabled.Train then
+        return
+    end
+    local rX = oc.ThrowBusy or of() == "Throw"
+    if rX then
+        nY(6)
+        return
+    end
+    if of() == "Practice" then
+        nS()
+        task.wait(0.45)
+        local rX_1 = not oQ() or not oc.Enabled.Throw
+        if rX_1 then
+            return
+        end
+    end
+    if of() ~= "Idle" then
+        return
+    end
+    if os.clock() - oc.LastThrowAt < oO then
+        return
+    end
+    local rX_2 = oy()
+    if not rX_2 then
+        return
+    end
+    local rY = n9()
+    if not rY then
+        return
+    end
+    if not LaunchZone2.Contains(oL.Character) then
+        oC(rX_2.CFrame + Vector3.new(0, 4, 0))
+        task.wait(0.3)
+        local rX_3 = not oQ() or not oc.Enabled.Throw
+        if rX_3 then
+            return
+        end
+        if not LaunchZone2.Contains(oL.Character) then
+            return
+        end
+    end
+    local rX_4 = of() ~= "Idle" or oc.ThrowBusy
+    if rX_4 then
+        return
+    end
+    oc.LastThrowAt = os.clock()
+    if not ou() then
+        oc.ThrowHandler = nil
+        return
+    end
+    local rX_5 = os.clock() + 1
+    while true do
+        local rY_1 = oQ() and oc.Enabled.Throw and os.clock() < rX_5
+        if rY_1 then
+            local rY_2 = oc.ThrowBusy or of() == "Throw"
+            if rY_2 then
+                break
+            end
+            task.wait(0.05)
+            continue
+        end
+        break
+    end
+    local rX_6 = not oc.ThrowBusy and of() ~= "Throw"
+    if rX_6 then
+        return
+    end
+    nY(8)
+    local rX_7 = oQ() and oc.Enabled.Throw
+    if rX_7 then
+        task.wait(oO)
+    end
 end
-getgenv().MV_CRASH = function(arg7, arg8)
+local function fn343(av, aw)
+    local p9 = type(av) ~= "string" or av == ""
+    local qe = if p9 then 1 else 0
+    local qc = 1396 * qe + 3028 * (1 - qe)
+    local qd = 1124 * qe + 3134 * (1 - qe)
+    if not ((qc * 2777 + qd * 1702 + qc * qd) % 16777213 == 7358844) then
+        p9 = oh[av]
+    end
+    if p9 then
+        return
+    end
+    oh[av] = true
+    local p9_1 = tonumber(aw) or ot[av]
+    local qa = p9_1 or 0
+    ot[av] = qa
+    table.insert(oz, av)
 end
-task.spawn(function(...)
-	local StarterGui = game:GetService("StarterGui")
-	getgenv().Fn_Running = true
-	getgenv().fn_running = true
-	StarterGui:SetCore("SendNotification", { Text = "Loading Script...", Title = "Foxname ss2", Duration = 6 })
-	local response = game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua")
-	local result = loadstring(response)()
-	local Players = game:GetService("Players")
-	local RunService = game:GetService("RunService")
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local Lighting = game:GetService("Lighting")
-	local UserInputService = game:GetService("UserInputService")
-	local HttpService = game:GetService("HttpService")
-	local ProximityPromptService = game:GetService("ProximityPromptService")
-	local ContentProvider = game:GetService("ContentProvider")
-	task.spawn(function(...)
-		makefolder("Assets")
-		makefolder("Assets/Data")
-		readfile("Assets/Data/afkar_icon.jpg")
-		http_request({
-	Method = "GET",
-	Url = "https://raw.githubusercontent.com/afkar-gg/bot-proxy/refs/heads/main/IMG-20250523-WA0002.jpg?v=1792891600"
-})
-		task.wait(0.25)
-		http_request({
-	Method = "GET",
-	Url = "https://raw.githubusercontent.com/afkar-gg/bot-proxy/refs/heads/main/IMG-20250523-WA0002.jpg?v=1792891600"
-})
-		task.wait(0.25)
-	end)
-	local result2 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#FFD194"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#FF5F6D"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#FF7E5F"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result3 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#FFF3E0"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#FFD194"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#FFE0B2"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result4 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#FF8C42"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#FF6A88"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#FF7E5F"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result5 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#6B4226"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#A0522D"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#8B4513"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result6 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#D9B08C"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#B5651D"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#C68642"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result7 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#FFE5B4"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#FFAA5C"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#FFC87C"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result8 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#FFAA5C"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#FF5F6D"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#FF7E5F"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result9 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#FF7F50"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#FF5F6D"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#FF6A88"), Transparency = 0 }
-}, { Rotation = 45 })
-	result:AddTheme({
-	Name = "Mid Summer",
-	Text = result5,
-	Accent = result2,
-	Background = result7,
-	Button = result8,
-	Dialog = result3,
-	Icon = result9,
-	Outline = result4,
-	Placeholder = result6
-})
-	local result10 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#232526"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#E0E0E0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#636363"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result11 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#1C1C1C"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#636363"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#3A3A3A"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result12 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#B0B0B0"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#E0E0E0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#C0C0C0"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result13 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#FFFFFF"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#BFBFBF"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#D9D9D9"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result14 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#A0A0A0"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#C0C0C0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#B0B0B0"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result15 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#101010"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#636363"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#3A3A3A"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result16 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#3A3A3A"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#A2A2A2"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#636363"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result17 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#C0C0C0"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#FFFFFF"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#E0E0E0"), Transparency = 0 }
-}, { Rotation = 90 })
-	result:AddTheme({
-	Name = "Lunar Moon",
-	Text = result13,
-	Accent = result10,
-	Background = result15,
-	Button = result16,
-	Dialog = result11,
-	Icon = result17,
-	Outline = result12,
-	Placeholder = result14
-})
-	local result18 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#D0E8F2"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#70C0F2"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#A0D4F2"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result19 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#E0F7FF"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#80E7FF"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#B0EFFF"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result20 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#70C0F2"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#30A0D0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#50B0E0"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result21 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#0D3B66"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#1E81B0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#145DA0"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result22 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#7FB3D5"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#3F91B5"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#5FA2C5"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result23 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#E6F0FA"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#B4D1F0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#CDE0F5"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result24 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#50B0E0"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#108FC0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#30A0D0"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result25 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#30A0D0"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#0D81B0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#108FC0"), Transparency = 0 }
-}, { Rotation = 45 })
-	result:AddTheme({
-	Name = "Winter Frost",
-	Text = result21,
-	Accent = result18,
-	Background = result23,
-	Button = result24,
-	Dialog = result19,
-	Icon = result25,
-	Outline = result20,
-	Placeholder = result22
-})
-	local result26 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#3B0D5C"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#9C27B0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#6A1B9A"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result27 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#1A001A"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#6A006A"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#3D003D"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result28 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#9C27B0"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#6A1B9A"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#7B1FA2"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result29 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#FFFFFF"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#C0C0C0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#E0E0E0"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result30 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#B0A0B5"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#7B6F8C"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#9C8FA0"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result31 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#10001A"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#30004D"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#1A0033"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result32 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#6A1B9A"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#B55BC5"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#9C27B0"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result33 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#9C27B0"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#D084E0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#B55BC5"), Transparency = 0 }
-}, { Rotation = 45 })
-	result:AddTheme({
-	Name = "Elegant Night",
-	Text = result29,
-	Accent = result26,
-	Background = result31,
-	Button = result32,
-	Dialog = result27,
-	Icon = result33,
-	Outline = result28,
-	Placeholder = result30
-})
-	local result34 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#0D0D1A"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#2E2E5C"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#1A1A33"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result35 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#101026"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#333366"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#1A1A3D"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result36 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#2E2E5C"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#5050A0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#404080"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result37 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#A0A0FF"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#E0E0FF"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#C0C0FF"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result38 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#6060A0"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#A0A0E0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#8080C0"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result39 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#0A0A1A"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#2E2E5C"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#1A1A33"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result40 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#404080"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#6060C0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#5050A0"), Transparency = 0 }
-}, { Rotation = 90 })
-	local result41 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#6060C0"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#A0A0FF"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#8080E0"), Transparency = 0 }
-}, { Rotation = 90 })
-	result:AddTheme({
-	Name = "Lunar Abyss",
-	Text = result37,
-	Accent = result34,
-	Background = result39,
-	Button = result40,
-	Dialog = result35,
-	Icon = result41,
-	Outline = result36,
-	Placeholder = result38
-})
-	local result42 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#33001A"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#99004D"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#660033"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result43 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#1A0014"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#66003F"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#330028"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result44 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#99004D"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#FF6699"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#CC3366"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result45 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#FFE6F0"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#FF80A0"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#FFB3CC"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result46 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#CC6699"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#FFB3D9"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#FF99CC"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result47 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#1A0014"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#66003F"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#330028"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result48 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#66003F"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#CC3366"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#99004D"), Transparency = 0 }
-}, { Rotation = 45 })
-	local result49 = result:Gradient({
-	["0"] = { Color = Color3.fromHex("#99004D"), Transparency = 0 },
-	["100"] = { Color = Color3.fromHex("#FF6699"), Transparency = 0 },
-	["50"] = { Color = Color3.fromHex("#CC3366"), Transparency = 0 }
-}, { Rotation = 45 })
-	result:AddTheme({
-	Name = "Lunar Eclipse",
-	Text = result45,
-	Accent = result42,
-	Background = result47,
-	Button = result48,
-	Dialog = result43,
-	Icon = result49,
-	Outline = result44,
-	Placeholder = result46
-})
-	makefolder("WindUI")
-	makefolder("WindUI/99NightsInTheForest")
-	makefolder("Foxname_99Nights")
-	result:GetThemes()
-	result:SetTheme("Elegant Night")
-	local Window = result:CreateWindow({
-	Title = "<font color=\"rgb(0,128,255)\">F</font><font color=\"rgb(15,128,239)\">o</font><font color=\"rgb(31,129,223)\">x</font><font color=\"rgb(47,130,207)\">n</font><font color=\"rgb(63,131,191)\">a</font><font color=\"rgb(79,131,175)\">m</font><font color=\"rgb(95,132,159)\">e</font><font color=\"rgb(111,133,143)\"> </font><font color=\"rgb(127,134,127)\">-</font><font color=\"rgb(143,134,111)\"> </font><font color=\"rgb(159,135,95)\">9</font><font color=\"rgb(175,136,79)\">9</font><font color=\"rgb(191,137,63)\"> </font><font color=\"rgb(207,137,47)\">N</font><font color=\"rgb(223,138,31)\">I</font><font color=\"rgb(239,139,15)\">T</font><font color=\"rgb(255,140,0)\">F</font>",
-	Author = "foxname.top",
-	Background = "rbxassetid://133610205520685",
-	BackgroundImageTransparency = 0.6,
-	Folder = "99NightsInTheForest",
-	Icon = "rbxassetid://82225829203828",
-	ScrollBarEnabled = true,
-	SideBarWidth = 180,
-	Size = UDim2.fromOffset(580, 350),
-	Theme = "Elegant Night"
-})
-	Window:Tag({ Title = "Keyless", Color = Color3.fromHex("#176BE8"), Radius = 8 })
-	Window.IsPC = false
-	Window:SetUIScale(0.9)
-	Window:SetToggleKey(Enum.KeyCode.RightShift)
-	Window:EditOpenButton({
-	Title = "Open skibidi",
-	Color = ColorSequence.new(Color3.fromRGB(0, 191, 255), Color3.fromRGB(255, 105, 180)),
-	CornerRadius = UDim.new(0, 16),
-	Draggable = true,
-	Enabled = true,
-	Icon = "rbxassetid://86146615808159",
-	StrokeThickness = 2
-})
-	local Section = Window:Section({ Title = "Home", Icon = "star", Opened = true })
-	task.wait(0.02)
-	Section:Tab({ Title = "Discord", Icon = "messages-square" })
-	task.wait(0.02)
-	Section:Tab({ Title = "New Update", Icon = "zap" })
-	task.wait(0.02)
-	Section:Tab({ Title = "Donate", Icon = "money" })
-	task.wait(0.02)
-	Window:Divider()
-	local Section2 = Window:Section({ Title = "Features", Icon = "box", Opened = true })
-	task.wait(0.02)
-	local Tab = Section2:Tab({ Title = "Main", Icon = "terminal" })
-	task.wait(0.02)
-	local Tab2 = Section2:Tab({ Title = "Bring", Icon = "package-open" })
-	task.wait(0.02)
-	local Tab3 = Section2:Tab({ Title = "Teleport", Icon = "map-pin" })
-	task.wait(0.02)
-	Section2:Tab({ Title = "Local Player", Icon = "user" })
-	task.wait(0.02)
-	Section2:Tab({ Title = "Misc", Icon = "sparkles" })
-	task.wait(0.02)
-	local Tab4 = Section2:Tab({ Title = "Tree", Icon = "tree-pine" })
-	task.wait(0.02)
-	Window:Divider()
-	Window:Tab({ Title = "Settings", Icon = "settings" })
-	task.wait(0.02)
-	Window.PendingFlags = Window.PendingFlags
-	Window.ConfigManager:CreateConfig("__autosave")
-	workspace:WaitForChild("Items", 5)
-	local themes = result:GetThemes()
-	for k, v in pairs(themes) do
-	end
-	game.ReplicatedStorage:WaitForChild("RemoteEvents", 5)
-	local Inventory = game.Players.LocalPlayer:WaitForChild("Inventory", 5)
-	local Characters = workspace:WaitForChild("Characters", 5)
-	_G.KillAura = false
-	_G.KillAuraRange = 100
-	_G.GunAura = false
-	_G.GunAuraRange = 150
-	_G.ChopAura = false
-	_G.ChopAuraRange = 100
-	_G.ChopTreeType = {}
-	Tab:Space()
-	local Section3 = Tab:Section({
-	Title = "Combat Aura",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Kill Aura",
-	Icon = "swords",
-	Opened = true
-})
-	OverlapParams.new().FilterType = Enum.RaycastFilterType.Include
-	OverlapParams.new().FilterDescendantsInstances = { Characters }
-	OverlapParams.new().MaxParts = 0
-	local Client = game.Players.LocalPlayer.PlayerScripts:WaitForChild("Client")
-	require(Client)
-	_G.KillAura = false
-	getgenv().__FN99KillAuraRunId = 2
-	Section3:Toggle({
-	Title = "Kill Aura",
-	Default = false,
-	Callback = function(state, arg10)
-			if state then
-				_G.KillAura = state
-				getgenv().__FN99KillAuraRunId = 1
-				task.spawn(function(...)
-					game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-					local children = game.Players.LocalPlayer.Character:GetChildren()
-					for i, v2 in ipairs(children) do
-						v2:GetAttribute("WeaponDamage")
-						v2:GetAttribute("WeaponDamage")
-						local children2 = Inventory:GetChildren()
-						for i2, v3 in ipairs(children2) do
-							v3:GetAttribute("WeaponDamage")
-						end
-						task.wait(0.12)
-						game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-						local children3 = game.Players.LocalPlayer.Character:GetChildren()
-						for i3, v4 in ipairs(children3) do
-							v4:GetAttribute("WeaponDamage")
-							v4:GetAttribute("WeaponDamage")
-							local children4 = Inventory:GetChildren()
-							for i4, v5 in ipairs(children4) do
-								v5:GetAttribute("WeaponDamage")
-							end
-						end
-						task.wait(0.12)
-					end
-				end)
-			end
-		end
-})
-	_G.KillAuraRange = nil
-	Section3:Slider({
-	Title = "Kill Aura Range",
-	Step = 1,
-	Value = { Default = 100, Max = 150, Min = 0 },
-	Callback = function(state, arg12)
-		end
-})
-	getgenv().__FN99LiveGunAuraVersion = 1
-	getgenv().__FN99GunReloadFixVersion = 1
-	local Client2 = game.Players.LocalPlayer.PlayerScripts:WaitForChild("Client")
-	require(Client2)
-	OverlapParams.new().FilterType = Enum.RaycastFilterType.Include
-	OverlapParams.new().FilterDescendantsInstances = { Characters }
-	OverlapParams.new().MaxParts = 0
-	_G.__FN99GunAuraLoopVersion = 2
-	_G.GunAura = false
-	Section3:Toggle({
-	Title = "Gun Aura",
-	Default = false,
-	Callback = function(state, arg14)
-			if state then
-				_G.GunAura = state
-				_G.__FN99GunAuraLoopVersion = 1
-				task.spawn(function(...)
-					game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-					task.wait(0.1)
-					game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-					task.wait(0.1)
-				end)
-			end
-		end
-})
-	Section3:Slider({
-	Title = "Gun Aura Range",
-	Step = 1,
-	Value = { Default = 150, Max = 500, Min = 10 },
-	Callback = function(state, arg16)
-		end
-})
-	RunService.Heartbeat:Wait()
-	local Section4 = Tab:Section({ Title = "Tree Aura", Box = true, BoxBorder = true, Icon = "axe", Opened = true })
-	_G.ChopAuraRange = nil
-	Section4:Slider({
-	Title = "Chop Aura Range",
-	Step = 1,
-	Value = { Default = 100, Max = 150, Min = 50 },
-	Callback = function(state, arg18)
-		end
-})
-	local Map = workspace:FindFirstChild("Map")
-	local Foliage = Map:FindFirstChild("Foliage")
-	Foliage:GetAttribute("Resource")
-	local descendants = Foliage:GetDescendants()
-	for i7, v8 in ipairs(descendants) do
-		v8:GetAttribute("Resource")
-	end
-	local Landmarks = Map:FindFirstChild("Landmarks")
-	Landmarks:GetAttribute("Resource")
-	local descendants2 = Landmarks:GetDescendants()
-	for i8, v9 in ipairs(descendants2) do
-		v9:GetAttribute("Resource")
-	end
-	_G.ChopTreeType = false
-	Section4:Dropdown({
-	Title = "Tree Type",
-	Flag = "Main_TreeAura_Dropdown_Tree_Type_v2",
-	Multi = true,
-	Value = { "Select All" },
-	Values = {},
-	Callback = function(state, arg20)
-		end
-})
-	getgenv().__FN99TreeCatalogConnections = {}
-	local Foliage2 = Map:FindFirstChild("Foliage")
-	Foliage2.DescendantAdded:Connect(function(descendant)
-		task.defer(function(...)
-		end)
-	end)
-	local Landmarks2 = Map:FindFirstChild("Landmarks")
-	Landmarks2.DescendantAdded:Connect(function(descendant2)
-		task.defer(function(...)
-		end)
-	end)
-	OverlapParams.new().FilterType = Enum.RaycastFilterType.Include
-	OverlapParams.new().MaxParts = 0
-	_G.ChopAura = false
-	getgenv().__FN99ChopAuraRunId = 2
-	Section4:Toggle({
-	Title = "Tree Aura",
-	Default = false,
-	Callback = function(state, arg22)
-			if state then
-				_G.ChopAura = state
-				getgenv().__FN99ChopAuraRunId = 1
-				task.spawn(function(...)
-					game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-					local Inventory2 = game.Players.LocalPlayer:FindFirstChild("Inventory")
-					local Map2 = workspace:FindFirstChild("Map")
-					Map2:FindFirstChild("Foliage")
-					Map2:FindFirstChild("Landmarks")
-					local children5 = game.Players.LocalPlayer.Character:GetChildren()
-					for i9, v10 in ipairs(children5) do
-						v10:GetAttribute("WeaponResourceDamage")
-						v10:GetAttribute("WeaponResourceDamage")
-						local children6 = Inventory2:GetChildren()
-						for i10, v11 in ipairs(children6) do
-							v11:GetAttribute("WeaponResourceDamage")
-						end
-						task.wait(0.3)
-						game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-						local Inventory3 = game.Players.LocalPlayer:FindFirstChild("Inventory")
-						local Map3 = workspace:FindFirstChild("Map")
-						Map3:FindFirstChild("Foliage")
-						Map3:FindFirstChild("Landmarks")
-						local children7 = game.Players.LocalPlayer.Character:GetChildren()
-						for i11, v12 in ipairs(children7) do
-							v12:GetAttribute("WeaponResourceDamage")
-							v12:GetAttribute("WeaponResourceDamage")
-							local children8 = Inventory3:GetChildren()
-							for i12, v13 in ipairs(children8) do
-								v13:GetAttribute("WeaponResourceDamage")
-							end
-						end
-						task.wait(0.3)
-					end
-				end)
-			end
-		end
-})
-	Tab:Space()
-	local Section5 = Tab:Section({
-	Title = "Creature Control",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Stun",
-	Icon = "zap",
-	Opened = true
-})
-	_G.AutoStunDeer = false
-	Section5:Toggle({
-	Title = "Auto Stun Deer",
-	Default = false,
-	Callback = function(state, arg24)
-			if state then
-				_G.AutoStunDeer = state
-				task.spawn(function(...)
-					local MonsterHitByTorch = ReplicatedStorage.RemoteEvents:WaitForChild("MonsterHitByTorch")
-					local Characters2 = workspace:WaitForChild("Characters")
-					task.wait(0.1)
-					local Deer = Characters2:FindFirstChild("Deer")
-					MonsterHitByTorch:InvokeServer(Deer)
-					task.wait(0.1)
-					local Deer2 = Characters2:FindFirstChild("Deer")
-					MonsterHitByTorch:InvokeServer(Deer2)
-					task.wait(0.1)
-				end)
-			end
-		end
-})
-	_G.AutoStunOwl = false
-	Section5:Toggle({
-	Title = "Auto Stun Owl",
-	Default = false,
-	Callback = function(state, arg26)
-			if state then
-				_G.AutoStunOwl = state
-				task.spawn(function(...)
-					local MonsterHitByTorch2 = ReplicatedStorage.RemoteEvents:WaitForChild("MonsterHitByTorch")
-					local Characters3 = workspace:WaitForChild("Characters")
-					task.wait(0.1)
-					local Owl = Characters3:FindFirstChild("Owl")
-					MonsterHitByTorch2:InvokeServer(Owl)
-					task.wait(0.1)
-					local Owl2 = Characters3:FindFirstChild("Owl")
-					MonsterHitByTorch2:InvokeServer(Owl2)
-					task.wait(0.1)
-				end)
-			end
-		end
-})
-	_G.AutoStunRam = false
-	Section5:Toggle({
-	Title = "Auto Stun Ram",
-	Default = false,
-	Callback = function(state, arg28)
-			if state then
-				_G.AutoStunRam = state
-				task.spawn(function(...)
-					local RemoteEvents = ReplicatedStorage:WaitForChild("RemoteEvents")
-					RemoteEvents:WaitForChild("MonsterHitByTorch")
-					local Characters4 = workspace:WaitForChild("Characters")
-					task.wait(0.1)
-					local children9 = Characters4:GetChildren()
-					for i15, v16 in ipairs(children9) do
-					end
-					task.wait(0.1)
-					local children10 = Characters4:GetChildren()
-					for i16, v17 in ipairs(children10) do
-					end
-					task.wait(0.1)
-				end)
-			end
-		end
-})
-	_G.AutoStunCat = false
-	Section5:Toggle({
-	Title = "Auto Stun Cat",
-	Default = false,
-	Callback = function(state, arg30)
-			if state then
-				_G.AutoStunCat = state
-				task.spawn(function(...)
-					local MonsterHitByTorch3 = ReplicatedStorage.RemoteEvents:WaitForChild("MonsterHitByTorch")
-					local Characters5 = workspace:WaitForChild("Characters")
-					task.wait(0.1)
-					local Cat = Characters5:FindFirstChild("Cat")
-					MonsterHitByTorch3:InvokeServer(Cat)
-					task.wait(0.1)
-					local Cat2 = Characters5:FindFirstChild("Cat")
-					MonsterHitByTorch3:InvokeServer(Cat2)
-					task.wait(0.1)
-				end)
-			end
-		end
-})
-	RunService.Heartbeat:Wait()
-	Tab:Space()
-	local Section6 = Tab:Section({
-	Title = "Survival",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Godmode",
-	Icon = "shield",
-	Opened = true
-})
-	Section6:Button({
-	Title = "Godmode",
-	Callback = function(state, arg32)
-			if state then
-				Window:Dialog({
-		Title = "Survival",
-		Content = "Godmode was patched, please use anti hit (you can still get damaged by hunger)",
-		Buttons = {
-			{
-				Title = "OK",
-				Icon = "check",
-				Variant = "Primary",
-				Callback = function(state, arg34)
-							end
-			}
-		},
-		Icon = "shield-alert"
-	})
-			else
-				Window:Dialog({
-		Title = "Survival",
-		Content = "Godmode was patched, please use anti hit (you can still get damaged by hunger)",
-		Buttons = {
-			{
-				Title = "OK",
-				Icon = "check",
-				Variant = "Primary",
-				Callback = function(state, arg36)
-							end
-			}
-		},
-		Icon = "shield-alert"
-	})
-			end
-		end
-})
-	Section6:Toggle({
-	Title = "Anti Hit",
-	Default = false,
-	Callback = function(state, arg38)
-			if state then
-				local RemoteEvent = Instance.new("RemoteEvent")
-				hookfunction(RemoteEvent.FireServer, function(arg39, arg40)
-					string.lower(tostring(arg39.Name)):find("lightningdamage", 1, true)
-				end)
-				Instance.new("RemoteFunction")
-				hookfunction(MonsterHitByTorch.InvokeServer, function(arg41, arg42)
-					string.lower(tostring(arg41.Name)):find("lightningdamage", 1, true)
-				end)
-				hookmetamethod(game, "__namecall", function(arg43, arg44)
-					string.lower(tostring(arg43.Name)):find("lightningdamage", 1, true)
-				end)
-			end
-		end
-})
-	RunService.Heartbeat:Wait()
-	Tab:Space()
-	local Section7 = Tab:Section({
-	Title = "General Automation",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Auto",
-	Icon = "bot",
-	Opened = true
-})
-	_G.TypeAuto = false
-	Section7:Dropdown({
-	Title = "Select Auto",
-	Multi = true,
-	Value = { "" },
-	Values = {
-		"Collect Coins",
-		"Collect Flowers",
-		"Plants Seed Box",
-		"Collect Ammo",
-		"Collect Diamond",
-		"Plants Tree",
-		"Auto Day"
-	},
-	Callback = function(state, arg46)
-			if state then
-				_G.TypeAuto = state
-			end
-		end
-})
-	workspace:FindFirstChild("Items")
-	ReplicatedStorage:FindFirstChild("RemoteEvents")
-	ReplicatedStorage.RemoteEvents:FindFirstChild("RequestConsumeItem")
-	local CollectionService = game:GetService("CollectionService")
-	ReplicatedStorage:FindFirstChild("RemoteEvents")
-	ReplicatedStorage.RemoteEvents:FindFirstChild("RequestPickFlower")
-	local VirtualInputManager = game:GetService("VirtualInputManager")
-	local GuiService = game:GetService("GuiService")
-	Players.LocalPlayer:WaitForChild("PlayerGui")
-	local RemoteEvents2 = ReplicatedStorage:WaitForChild("RemoteEvents")
-	RemoteEvents2:FindFirstChild("CraftItem")
-	RemoteEvents2:FindFirstChild("RequestStartDraggingItem")
-	RemoteEvents2:FindFirstChild("StopDraggingItem")
-	RemoteEvents2:FindFirstChild("RequestBagStoreItem")
-	RemoteEvents2:FindFirstChild("EquipItemHandle")
-	_G.AutoDayMoveItem = function(arg47, arg48)
-	end
-	RemoteEvents2:FindFirstChild("RequestHotbarItem")
-	_G.AutoDayRun = function(arg49, arg50)
-		Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart", 5)
-		_G.AutoDayStatus = "Starting Auto Day..."
-	end
-	_G.AutoFlowerWorkerSerial = 2
-	_G.AutoStart = false
-	local Toggle = Section7:Toggle({
-	Title = "Auto",
-	Default = false,
-	Callback = function(state, arg52)
-			if state then
-				_G.AutoStart = state
-				_G.AutoDayStatus = ""
-				_G.AutoFlowerWorkerSerial = 1
-				task.spawn(function(...)
-					task.wait(0.5)
-					task.wait(0.5)
-				end)
-				task.spawn(function(...)
-					task.wait(1.5)
-					task.wait(1.5)
-				end)
-			end
-		end
-})
-	_G.AutoToggleRef = Toggle
-	getgenv().AutoRevive = false
-	Section7:Toggle({
-	Title = "Auto Revive Team(bandage)",
-	Default = false,
-	Callback = function(state, arg54)
-			if state then
-				getgenv().AutoRevive = state
-				local Characters6 = workspace:WaitForChild("Characters", 9000000000)
-				task.spawn(function(...)
-					task.wait(1)
-					local Inventory4 = Players.LocalPlayer:FindFirstChild("Inventory")
-					Inventory4:FindFirstChild("Bandage")
-					local children11 = Characters6:GetChildren()
-					for k2, v19 in pairs(children11) do
-						v19:FindFirstChild("HumanoidRootPart")
-						local ProximityAttachment = v19.HumanoidRootPart:FindFirstChild("ProximityAttachment")
-						ProximityAttachment:FindFirstChild("ProximityInteraction")
-						fireproximityprompt(ProximityAttachment.ProximityInteraction)
-						task.wait(0.5)
-					end
-					task.wait(1)
-					local Inventory5 = Players.LocalPlayer:FindFirstChild("Inventory")
-					Inventory5:FindFirstChild("Bandage")
-					local children12 = Characters6:GetChildren()
-					for k3, v20 in pairs(children12) do
-						v20:FindFirstChild("HumanoidRootPart")
-						local ProximityAttachment2 = v20.HumanoidRootPart:FindFirstChild("ProximityAttachment")
-						ProximityAttachment2:FindFirstChild("ProximityInteraction")
-						fireproximityprompt(ProximityAttachment2.ProximityInteraction)
-						task.wait(0.5)
-					end
-					task.wait(1)
-				end)
-			end
-		end
-})
-	Section7:Space()
-	_G.AutoGrabChildren = false
-	getgenv().__FN99GrabChildrenRunId = 2
-	Section7:Toggle({
-	Title = "Auto Grab Children",
-	Default = false,
-	Callback = function(state, arg56)
-			if state then
-				_G.AutoGrabChildren = state
-				getgenv().__FN99GrabChildrenRunId = 1
-				task.spawn(function(...)
-					ReplicatedStorage:WaitForChild("TempStorage")
-					local RemoteEvents3 = ReplicatedStorage:WaitForChild("RemoteEvents")
-					RemoteEvents3:WaitForChild("RequestBagStoreItem")
-					Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-					workspace:FindFirstChild("Characters")
-					local Inventory6 = Players.LocalPlayer:FindFirstChild("Inventory")
-					local children13 = Inventory6:GetChildren()
-					for i18, v22 in ipairs(children13) do
-						v22:HasTag("ItemBag")
-						v22:GetAttribute("Capacity")
-						local ItemBag = Players.LocalPlayer:FindFirstChild("ItemBag")
-						ItemBag:GetChildren()
-						v22:GetAttribute("NumberItems")
-					end
-				end)
-			end
-		end
-})
-	Section7:Space()
-	Tab:Space()
-	local Section8 = Tab:Section({
-	Title = "Resource Processing",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Auto",
-	Icon = "factory",
-	Opened = true
-})
-	local RemoteEvents4 = ReplicatedStorage:WaitForChild("RemoteEvents")
-	local Items = workspace:WaitForChild("Items")
-	_G.AutoFuelB = { "Log", "Coal", "Oil Barrel", "Fuel Canister", "Biofuel" }
-	_G.AutoFuel = false
-	_G.AutoFuelB = false
-	Section8:Dropdown({
-	Title = "Choose Fuel",
-	AllowNone = true,
-	Multi = true,
-	Value = { "Log", "Coal", "Oil Barrel", "Fuel Canister", "Biofuel" },
-	Values = { "Log", "Coal", "Oil Barrel", "Fuel Canister", "Biofuel" },
-	Callback = function(state, arg58)
-		end
-})
-	_G.AutoFuel = false
-	Section8:Toggle({
-	Title = "Auto Fuel",
-	Default = false,
-	Callback = function(state, arg60)
-			if state then
-				_G.AutoFuel = state
-				task.spawn(function(...)
-				end)
-			end
-		end
-})
-	Section8:Space()
-	_G.AutoFood = false
-	_G.AutoFood = false
-	Section8:Toggle({
-	Title = "Auto Cook",
-	Default = false,
-	Callback = function(state, arg62)
-			if state then
-				task.spawn(function(...)
-					_G.AutoFood = state
-					RemoteEvents4:FindFirstChild("RequestStartDraggingItem")
-					local children14 = Items:GetChildren()
-					for i19, v23 in ipairs(children14) do
-					end
-					task.wait(0.5)
-					RemoteEvents4:FindFirstChild("RequestStartDraggingItem")
-					local children15 = Items:GetChildren()
-					for i20, v24 in ipairs(children15) do
-					end
-					task.wait(0.5)
-				end)
-			end
-		end
-})
-	Section8:Space()
-	_G.AutoScrapperH = false
-	_G.AutoScrapper = {
-	"Chair",
-	"Broken Fan",
-	"Sheet Metal",
-	"Bolt",
-	"Metal Chair",
-	"Broken Microwave",
-	"Old Car Engine",
-	"Old Radio",
-	"Washing Machine",
-	"Cultist Gem",
-	"Tyre",
-	"UFO Junk",
-	"UFO Component"
+local function fn374(a0)
+    local qv = n9()
+    if not qv then
+        return false
+    end
+    qv.AssemblyLinearVelocity = Vector3.zero
+    qv.AssemblyAngularVelocity = Vector3.zero
+    qv.CFrame = a0
+    return true
+end
+local function fn397()
+    local sk = ox()
+    if not sk then
+        return
+    end
+    local sl = of()
+    if sl ~= "Idle" and sl ~= "Practice" then
+        return
+    end
+    local HatchEggId = oc.HatchEggId
+    local sm_1 = HatchEggId == ""
+    local sn_1 = type(HatchEggId) ~= "string" or sm_1
+    if sn_1 then
+        return
+    end
+    local sm_2 = n5(HatchEggId)
+    local sn_2 = tonumber(sk.Wins) or 0
+    if sm_2 > 0 and sn_2 < sm_2 then
+        return
+    end
+    oc.HatchRequestId = oc.HatchRequestId + 1
+    ob("HatchEgg", { EggId = HatchEggId, Count = 1, RequestId = oc.HatchRequestId })
+end
+local function fn405(eK)
+    local sA = eK ~= ""
+    local sB = type(eK) == "string" and sA
+    if sB then
+        oc.HatchEggId = eK
+    end
+end
+local function fn406()
+    local rh = ox()
+    local ri = rh and type(rh.Activity) == "string"
+    if ri then
+        return rh.Activity
+    end
+    local attr = oL:GetAttribute("SkippingActivity")
+    if type(attr) == "string" then
+        return attr
+    end
+    return "Idle"
+end
+local function fn459()
+    local qZ_1
+    local qY_1
+    if type(oc.ThrowHandler) == "function" then
+        return oc.ThrowHandler
+    elseif type(getconnections) ~= "function" then
+        return nil
+    else
+        local qX = n8()
+        if not qX then
+            return nil
+        end
+        qY_1, qZ_1 = pcall(getconnections, qX.InputBegan)
+        local qX_1 = not qY_1 or type(qZ_1) ~= "table"
+        if qX_1 then
+            return nil
+        end
+        for i, v in ipairs(qZ_1) do
+            if type(v.Function) == "function" then
+                oc.ThrowHandler = v.Function
+                return oc.ThrowHandler
+            end
+        end
+        return nil
+    end
+end
+local function fn478()
+    if of() == "Throw" then
+        return
+    end
+    ob("PetEquipment", { Kind = "Best" })
+end
+local function fn481()
+    local sp = ox()
+    if not sp then
+        return
+    end
+    local sq = tonumber(sp.Rebirths) or 0
+    if sq >= oF then
+        return
+    end
+    local sq_1 = tonumber(sp.Level) or 0
+    local sq_2 = tonumber(sp.NextRebirthLevel) or 0
+    if sq_2 <= 0 or sq_1 < sq_2 then
+        return
+    end
+    local sp_2 = of()
+    if sp_2 ~= "Idle" and sp_2 ~= "Practice" then
+        return
+    end
+    ob("Rebirth", sq)
+end
+local function fn483()
+    connection:Disconnect()
+end
+local function fn486()
+    local q9 = n4()
+    if not q9 then
+        return false
+    end
+    local ra = pcall(q9, oc.FakeThrowInput)
+    return ra
+end
+local function fn491()
+    return nO.CoreGui
+end
+local function fn514(eA)
+    om("Rebirth", eA, 2, oM)
+end
+local function fn521(aP, aQ)
+    local qi_1
+    local qh_1
+    local qf = ot[aP]
+    local qm = if qf then 1 else 0
+    local qk = 1094 * qm + 997 * (1 - qm)
+    local ql = 270 * qm + 3679 * (1 - qm)
+    if not ((qk * 3813 + ql * 2455 + qk * ql) % 16777213 == 5129652) then
+        qf = 0
+    end
+    local qg = ot[aQ]
+    local qp = if qg then 1 else 0
+    local qn = 3616 * qp + 2102 * (1 - qp)
+    local qo = 1512 * qp + 1970 * (1 - qp)
+    if not ((qn * 1235 + qo * 1045 + qn * qo) % 16777213 == 11513192) then
+        qg = 0
+    end
+    qi_1, qh_1 = qf, qg
+    if qi_1 == qh_1 then
+        return aP < aQ
+    end
+    return qi_1 < qh_1
+end
+local function fn531(bd)
+    local qA_1
+    local qz_1
+    if type(bd) ~= "table" then
+        return
+    end
+    qz_1, qA_1 = pcall(StatePacket.Merge, oc.Player, bd)
+    if not qz_1 or qA_1 == false then
+        ob("Sync", nil)
+        return
+    end
+    oc.Player = bd
+    local qz_2 = oc.PendingBuyId and type(oc.Player.OwnedStones) == "table"
+    if qz_2 then
+        if oc.Player.OwnedStones[oc.PendingBuyId] == true then
+            oc.PendingBuyId = nil
+        end
+    end
+end
+local function fn545(eD)
+    om("EquipBestPet", eD, 3, nR)
+end
+local function fn585(bV)
+    local rc = os.clock()
+    local re = rc + (bV or 6)
+    while true do
+        local rc_1 = oQ() and oc.Enabled.Throw and os.clock() < re
+        if not rc_1 then
+            oc.ThrowBusy = false
+            return false
+        end
+        local rc_2 = activity()
+        if not oc.ThrowBusy and rc_2 ~= "Throw" then
+            break
+        end
+        task.wait(0.1)
+    end
+    return true
+end
+local function fn592(e3, e4)
+    local sO
+    if nU(setclipboard) then
+        sO = setclipboard
+    elseif nU(toclipboard) then
+        sO = toclipboard
+    end
+    if not sO then
+        Library:Notify("Clipboard unavailable", 3)
+        return
+    end
+    local sP = pcall(sO, e3)
+    if sP then
+        local sO_1 = e4 or "Copied"
+        Library:Notify(sO_1, 3)
+    else
+        Library:Notify("Copy failed", 3)
+    end
+end
+local function fn612()
+    n3(n7, "Copied Discord invite")
+end
+local function onOnClientEvent(bk, bl)
+    if bk == "State" then
+        oA(bl)
+    elseif bk == "ThrowStarted" then
+        local qK_1 = type(bl) == "table" and bl.UserId == oL.UserId
+        if qK_1 then
+            oc.ThrowBusy = true
+        end
+    else
+        local qK_2 = bk == "ThrowCancelled"
+        local qL = bk == "ThrowFinished"
+        local qQ = if qL then 1 else 0
+        local qO = 2879 * qQ + 3301 * (1 - qQ)
+        local qP = 959 * qQ + 2511 * (1 - qQ)
+        if not ((qO * 2229 + qP * 1985 + qO * qP) % 16777213 == 11081867) then
+            qL = qK_2
+        end
+        if qL or bk == "ThrowRejected" then
+            if type(bl) == "table" then
+                if bl.UserId == nil or bl.UserId == oL.UserId then
+                    oc.ThrowBusy = false
+                end
+            else
+                oc.ThrowBusy = false
+            end
+        end
+    end
+end
+local function fn634(ep)
+    om("Throw", ep, 0.2, nV)
+    if not ep then
+        oc.ThrowBusy = false
+        oc.ThrowHandler = nil
+    end
+end
+local function fn645()
+    local r_ = ox()
+    if not r_ then
+        return
+    end
+    if oc.PendingBuyId then
+        if os.clock() - oc.LastBuyAt < 2 then
+            return
+        end
+        oc.PendingBuyId = nil
+    end
+    local r0 = (tonumber(r_.Wins))
+    local r7 = if r0 then 1 else 0
+    local r5 = 1618 * r7 + 1680 * (1 - r7)
+    local r6 = 271 * r7 + 3361 * (1 - r7)
+    if not ((r5 * 2081 + r6 * 2965 + r5 * r6) % 16777213 == 4609051) then
+        r0 = 0
+    end
+    local r1 = r0
+    local r0_1 = type(r_.OwnedStones) == "table" and r_.OwnedStones
+    local r3 = r0_1 or {}
+    local r0_2 = nil
+    for i, v in ipairs(n_) do
+        if r3[v.Id] ~= true and v.Price > 0 and r1 >= v.Price then
+            r0_2 = v
+        end
+    end
+    if r0_2 then
+        oc.PendingBuyId = r0_2.Id
+        oc.LastBuyAt = os.clock()
+        ob("Buy", r0_2.Id)
+        return
+    end
+    local r0_3 = nil
+    for i, v in ipairs(n_) do
+        if r3[v.Id] == true then
+            r0_3 = v
+        end
+    end
+    if r0_3 and r_.EquippedStone ~= r0_3.Id then
+        ob("Equip", r0_3.Id)
+    end
+end
+local function fn650(ex)
+    om("HatchEgg", ex, 1.25, oK)
+end
+local function fn651(el)
+    om("Train", el, 0.75, oN)
+    if not el then
+        nS()
+    end
+end
+local function fn682(ap, aq)
+    if ap.Multiplier == aq.Multiplier then
+        return ap.Price < aq.Price
+    end
+    return ap.Multiplier < aq.Multiplier
+end
+local function fn690(et)
+    om("BuyStones", et, 1.5, nZ)
+    if not et then
+        oc.PendingBuyId = nil
+    end
+end
+local function fn698()
+    local Character = oL.Character
+    if not Character then
+        return nil
+    end
+    return Character:FindFirstChildOfClass("Humanoid")
+end
+local function fn721()
+    return oc.Player
+end
+local function fn773(K)
+    local p3 = typeof(cloneref) == "function" and typeof(K) == "Instance"
+    if p3 then
+        return cloneref(K)
+    end
+    return K
+end
+local function fn788()
+    local PlayerGui = oL:FindFirstChild("PlayerGui")
+    local qS = PlayerGui and PlayerGui:FindFirstChild("SkippingHUD")
+    local qR_1 = qS
+    if qS then
+        qS = qR_1:FindFirstChild("HUD")
+    end
+    local qR_2 = qS
+    if qS then
+        qS = qR_2:FindFirstChild("Bottom")
+    end
+    local qR_3 = qS
+    if qS then
+        qS = qR_3:FindFirstChild("Progression")
+    end
+    local qR_4 = qS
+    if qS then
+        qS = qR_4:FindFirstChild("Throw")
+    end
+    local qR_5 = qS
+    if qS then
+        qS = qR_5:IsA("GuiButton")
+    end
+    if qS then
+        return qR_5
+    end
+    return nil
+end
+local function fn829(cy)
+    local rx = ox()
+    if not rx then
+        return false
+    end
+    local ry = GameBalance.Practice and GameBalance.Practice.ZoneRequiredRebirths
+    local ry_1 = type(ry) == "table" and tonumber(ry[cy])
+    local rz_1 = ry_1 or 0
+    local rz_2 = tonumber(rx.Rebirths) or 0
+    if rz_2 < rz_1 then
+        return false
+    end
+    if cy == "TrainingZone_Golden" or cy == "TrainingZone_Hacker" then
+        local OwnedTrainingZones = rx.OwnedTrainingZones
+        local rx_1 = type(OwnedTrainingZones) == "table" and OwnedTrainingZones[cy] == true
+        return rx_1
+    end
+    return true
+end
+local function fn878()
+    local rl_1
+    local rk_1
+    rk_1, rl_1 = pcall(WorldMap.GetModel, oL)
+    if rk_1 and rl_1 then
+        return rl_1
+    end
+    local SkippingWorlds = oD:FindFirstChild("SkippingWorlds")
+    if SkippingWorlds then
+        return SkippingWorlds:FindFirstChild("World1")
+    end
+    return nil
+end
+local function fn890()
+    local Character = oL.Character
+    if not Character then
+        return nil
+    end
+    local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+    local qq_1 = HumanoidRootPart and HumanoidRootPart:IsA("BasePart")
+    if qq_1 then
+        return HumanoidRootPart
+    end
+    return nil
+end
+local function fn899(eG)
+    local sy = on[eG]
+    if type(sy) == "string" then
+        oc.TrainZoneId = sy
+    end
+end
+local function fn916(cj)
+    local ro = nP()
+    if not ro then
+        return nil
+    end
+    local TrainingZones = ro:FindFirstChild("TrainingZones")
+    local ro_1 = TrainingZones and TrainingZones:FindFirstChild(cj)
+    local rp_1 = ro_1
+    if ro_1 then
+        ro_1 = rp_1:IsA("Model")
+    end
+    if not ro_1 then
+        return nil
+    end
+    local TrainingStand = rp_1:FindFirstChild("TrainingStand")
+    local rp_2 = TrainingStand and TrainingStand:IsA("BasePart")
+    if rp_2 then
+        return TrainingStand
+    end
+    return nil
+end
+local function fn951()
+    if of() == "Practice" then
+        ob("StopPractice", nil)
+    end
+end
+local function fn954(cK)
+    local rC = tonumber(ot[cK]) or 0
+    return rC
+end
+local function fn971()
+    return not ol.Unloaded
+end
+nO = nil
+nP = nil
+nR = nil
+nS = nil
+StatePacket = nil
+nU = nil
+nV = nil
+WorldMap = nil
+nY = nil
+nZ = nil
+n_ = nil
+LaunchZone2 = nil
+n1 = nil
+n3 = nil
+n4 = nil
+n5 = nil
+GameBalance = nil
+n7 = nil
+n8 = nil
+n9 = nil
+oa = nil
+ob = nil
+oc = nil
+od = nil
+oe = nil
+of = nil
+connection = nil
+oh = nil
+oi = nil
+ol = nil
+om = nil
+on = nil
+Options = nil
+ot = nil
+ou = nil
+ov = nil
+Toggles = nil
+ox = nil
+oy = nil
+oz = nil
+oA = nil
+oC = nil
+oD = nil
+local nQ, nX, n2, oj, op, Request, oB
+oF = nil
+oH = nil
+oI = nil
+Library = nil
+oK = nil
+oL = nil
+oM = nil
+oN = nil
+oO = nil
+oQ = nil
+local oE, oG, oP, oU, o0
+local oX_1
+local oW_1
+local oT_6
+local SkippingWorlds
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+nO, oL, oI = nil, nil, nil
+local oR = 7
+repeat
+    local oS_1 = { "djujrodp", "fjrjww", "ejhcwa", "cftne", "kluscgguo", "qqfhcvg", "cghnpedwmeu" }
+    local xj = oR
+    local oT_1 = oS_1[xj % 7 + 1]
+    if oT_1:len() <= oT_1:gsub("(.)", "%1%1", xj % 3 % 2 + 1):len() then
+        nO = {}
+        nO.Players = game:GetService("Players")
+        nO.ReplicatedStorage = game:GetService("ReplicatedStorage")
+        nO.RunService = game:GetService("RunService")
+        nO.UserInputService = game:GetService("UserInputService")
+        nO.VirtualUser = game:GetService("VirtualUser")
+        nO.HttpService = game:GetService("HttpService")
+        nO.TeleportService = game:GetService("TeleportService")
+        nO.Workspace = game:GetService("Workspace")
+        nO.Lighting = game:GetService("Lighting")
+        nO.Stats = game:GetService("Stats")
+        nO.CoreGui = game:GetService("CoreGui")
+        oL = nO.Players.LocalPlayer
+        oI = fn491
+    else
+        oL = {}
+        oL.Players = game:GetService("Players")
+        oL.ReplicatedStorage = game:GetService("ReplicatedStorage")
+        oL.RunService = game:GetService("RunService")
+        oL.UserInputService = game:GetService("UserInputService")
+        oL.VirtualUser = game:GetService("VirtualUser")
+        oL.HttpService = game:GetService("HttpService")
+        oL.TeleportService = game:GetService("TeleportService")
+        oL.Workspace = game:GetService("Workspace")
+        oL.Lighting = game:GetService("Lighting")
+        oL.Stats = game:GetService("Stats")
+        oL.CoreGui = game:GetService("CoreGui")
+        oI = oL.Players.LocalPlayer
+        nO = fn491
+    end
+    oR = (oR + 4) % 8
+until (oR * 3 + 2) % 8 == 3
+if getgenv then
+    getgenv().gethui = oI
+end
+ol, oc, oD, oU, Request, oW_1, nU, oQ = nil, nil, nil, nil, nil, nil, nil, nil
+if (oW_1 and not nU or oD and not oU) and (oD and oD or (nU or oW_1)) and not ((oW_1 and not nU or oD and not oU) and (oD and oD or (nU or oW_1))) then
+    pcall(fn186)
+    oX_1 = function(i)
+        local pU
+        local pS
+        local pT
+        pS = nil
+        pT = nil
+        pU = nil
+        local pV = i ~= ""
+        local pW = type(i) == "string" and pV
+        assert(pW, "Namespace is required")
+        assert(type(getgenv) == "function", "getgenv is unavailable")
+        pS = getgenv()
+        assert(type(pS) == "table", "getgenv did not return a table")
+        local pV_2 = pS[i]
+        if pV_2 ~= nil then
+            local pW_2 = type(pV_2) == "table" and type(pV_2.Unload) == "function"
+            assert(pW_2, "Namespace is occupied")
+            pV_2.Unload()
+            assert(pS[i] == nil, "Previous instance did not release its namespace")
+        end
+        pT = {}
+        pU = { State = {}, Unloaded = false }
+        pU.Track = function(o)
+            assert(type(o) == "function", "Cleanup must be callable")
+            if pU.Unloaded then
+                o()
+            else
+                table.insert(pT, o)
+            end
+            return o
+        end
+        pU.Unload = function()
+            local pL_2
+            local pK_2
+            if pU.Unloaded then
+                return
+            end
+            pU.Unloaded = true
+            local pI = {}
+            local pP = #pT
+            local pO = -1
+            while false and pP <= 1 or true and pP >= 1 do
+                local pQ = pP
+                local pJ_2 = table.remove(pT, pQ)
+                pK_2, pL_2 = pcall(pJ_2)
+                if not pK_2 then
+                    table.insert(pI, tostring(pL_2))
+                end
+                pP += pO
+            end
+            table.clear(pU.State)
+            if #pI > 0 then
+                error("Cleanup incomplete: " .. table.concat(pI, "; "), 0)
+            end
+            if pS[i] == pU then
+                pS[i] = nil
+            end
+        end
+        pS[i] = pU
+        return pU
+    end
+    oc = oX_1("OuroborosPlus1StoneSkipping")
+    ol = oc.State
+else
+    pcall(fn186)
+    local function oT_2(i)
+        local pU
+        local pS
+        local pT
+        pS = nil
+        pT = nil
+        pU = nil
+        local pV = i ~= ""
+        local pW = type(i) == "string" and pV
+        assert(pW, "Namespace is required")
+        assert(type(getgenv) == "function", "getgenv is unavailable")
+        pS = getgenv()
+        assert(type(pS) == "table", "getgenv did not return a table")
+        local pV_1 = pS[i]
+        if pV_1 ~= nil then
+            local pW_1 = type(pV_1) == "table" and type(pV_1.Unload) == "function"
+            assert(pW_1, "Namespace is occupied")
+            pV_1.Unload()
+            assert(pS[i] == nil, "Previous instance did not release its namespace")
+        end
+        pT = {}
+        pU = { State = {}, Unloaded = false }
+        pU.Track = function(o)
+            assert(type(o) == "function", "Cleanup must be callable")
+            if pU.Unloaded then
+                o()
+            else
+                table.insert(pT, o)
+            end
+            return o
+        end
+        pU.Unload = function()
+            local pL_1
+            local pK_1
+            if pU.Unloaded then
+                return
+            end
+            pU.Unloaded = true
+            local pI = {}
+            local pP = #pT
+            local pO = -1
+            while false and pP <= 1 or true and pP >= 1 do
+                local pQ = pP
+                local pJ_1 = table.remove(pT, pQ)
+                pK_1, pL_1 = pcall(pJ_1)
+                if not pK_1 then
+                    table.insert(pI, tostring(pL_1))
+                end
+                pP += pO
+            end
+            table.clear(pU.State)
+            if #pI > 0 then
+                error("Cleanup incomplete: " .. table.concat(pI, "; "), 0)
+            end
+            if pS[i] == pU then
+                pS[i] = nil
+            end
+        end
+        pS[i] = pU
+        return pU
+    end
+    oX_1 = function(B, C)
+        local p1 = type(B) == "table" and type(B.Track) == "function"
+        assert(p1, "FeatureAPI required")
+        local p1_1 = type(C) == "table" and type(C.OnUnload) == "function"
+        assert(p1_1, "UI library required")
+        assert(type(C.Unload) == "function", "UI unload required")
+        B.Track(function()
+            if not C.Unloaded then
+                C:Unload()
+            end
+        end)
+        C:OnUnload(function()
+            B.Unload()
+        end)
+    end
+    ol = oT_2("OuroborosPlus1StoneSkipping")
+    oc = ol.State
+end
+nU = fn8
+oQ = fn971
+local oV = fn773(nO.ReplicatedStorage)
+oD = fn773(nO.Workspace)
+oU = oV:WaitForChild("SkippingNetwork", 30)
+assert(oU, "SkippingNetwork missing")
+Request = oU:WaitForChild("Request", 10)
+local Event = oU:WaitForChild("Event", 10)
+local oR_1 = Request and Event
+GameBalance, LaunchZone2, WorldMap, StatePacket = nil, nil, nil, nil
+assert(oR_1, "Skipping remotes missing")
+local Shared = oV:WaitForChild("Shared", 30)
+assert(Shared, "Shared folder missing")
+GameBalance = require(Shared:WaitForChild("Config"):WaitForChild("GameBalance"))
+LaunchZone2 = require(Shared:WaitForChild("Util"):WaitForChild("LaunchZone"))
+WorldMap = require(Shared:WaitForChild("Util"):WaitForChild("WorldMap"))
+StatePacket = require(Shared:WaitForChild("Util"):WaitForChild("StatePacket"))
+local oR_2 = GameBalance.Throw and GameBalance.Throw.Cooldown
+local oS_3 = tonumber(oR_2) or 0.8
+oO = oS_3
+local oR_3 = GameBalance.Rebirth and GameBalance.Rebirth.MaxRebirths
+local oS_4 = tonumber(oR_3) or 1000000000
+oF, ov, on, oe = nil, nil, nil, nil
+oF = oS_4
+local oT_4 = {
+    { Id = "TrainingZone", Label = "Basic (1x)" },
+    { Id = "TrainingZone_RareJade", Label = "Rare Jade (4x)" },
+    { Id = "TrainingZone_EpicCrystal", Label = "Epic Crystal (10x)" },
+    { Id = "TrainingZone_LegendaryCelestial", Label = "Legendary Celestial (20x)" },
+    { Id = "TrainingZone_Golden", Label = "Golden (15x)" },
+    { Id = "TrainingZone_Hacker", Label = "Hacker (50x)" }
 }
-	_G.AutoScrapper = false
-	Section8:Dropdown({
-	Title = "Choose Scrapper",
-	AllowNone = true,
-	Multi = true,
-	Value = {
-		"Chair",
-		"Broken Fan",
-		"Sheet Metal",
-		"Bolt",
-		"Metal Chair",
-		"Broken Microwave",
-		"Old Car Engine",
-		"Old Radio",
-		"Washing Machine",
-		"Cultist Gem",
-		"Tyre",
-		"UFO Junk",
-		"UFO Component"
-	},
-	Values = {
-		"Log",
-		"Chair",
-		"Broken Fan",
-		"Sheet Metal",
-		"Bolt",
-		"Metal Chair",
-		"Broken Microwave",
-		"Old Car Engine",
-		"Old Radio",
-		"Washing Machine",
-		"Cultist Gem",
-		"Tyre",
-		"UFO Junk",
-		"UFO Component"
-	},
-	Callback = function(state, arg64)
-		end
-})
-	_G.AutoScrapperH = false
-	Section8:Toggle({
-	Title = "Auto Scrapper",
-	Default = false,
-	Callback = function(state, arg66)
-			if state then
-				task.spawn(function(...)
-					_G.AutoScrapperH = state
-					local Scrapper = workspace.Map.Campground:FindFirstChild("Scrapper")
-					Scrapper:FindFirstChildWhichIsA("BasePart")
-				end)
-			end
-		end
-})
-	Section8:Space()
-	_G.AutoSacrifice = false
-	Section8:Toggle({
-	Title = "Auto Sacrifice",
-	Default = false,
-	Callback = function(state, arg68)
-			if state then
-				_G.AutoSacrifice = state
-				task.spawn(function(...)
-					local Map4 = workspace:WaitForChild("Map")
-					local Landmarks3 = Map4:WaitForChild("Landmarks")
-					local Volcano = Landmarks3:WaitForChild("Volcano")
-					local Functional = Volcano:WaitForChild("Functional")
-					Functional:WaitForChild("Ground")
-					RemoteEvents4:FindFirstChild("RequestStartDraggingItem")
-					local children16 = Items:GetChildren()
-					for i22, v26 in ipairs(children16) do
-					end
-					task.wait(0.8)
-					RemoteEvents4:FindFirstChild("RequestStartDraggingItem")
-					local children17 = Items:GetChildren()
-					for i23, v27 in ipairs(children17) do
-					end
-					task.wait(0.8)
-				end)
-			end
-		end
-})
-	Tab:Space()
-	local Section9 = Tab:Section({
-	Title = "Hunger",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Auto",
-	Icon = "utensils",
-	Opened = true
-})
-	_G.TypeFoodToFill = "Carrot"
-	_G.TypeFoodToFill = false
-	Section9:Dropdown({
-	Title = "Select Food to Fill Hunger",
-	Value = "Carrot",
-	Values = { "Carrot", "Berry", "Cooked Morsel", "Cooked Steak" },
-	Callback = function(state, arg70)
-		end
-})
-	Section9:Slider({
-	Title = "Hunger Threshold",
-	Step = 1,
-	Value = { Default = 100, Max = 200, Min = 1 },
-	Callback = function(state, arg72)
-		end
-})
-	_G.AutoEat = false
-	_G.AutoEat = false
-	Section9:Toggle({
-	Title = "Auto Eat",
-	Default = false,
-	Callback = function(state, arg74)
-			if state then
-				task.spawn(function(...)
-					_G.AutoEat = state
-					Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-					local attribute = Players.LocalPlayer:GetAttribute("Hunger")
-					task.wait(0.3)
-					local attribute2 = Players.LocalPlayer:GetAttribute("Hunger")
-					task.wait(0.3)
-				end)
-			end
-		end
-})
-	Section9:Space()
-	local Section10 = Tab:Section({
-	Title = "Minigames",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Other",
-	Icon = "ellipsis",
-	Opened = true
-})
-	Section10:Space()
-	getgenv().__FN99InstantFishingConnection = nil
-	Section10:Toggle({
-	Title = "Instant Catch Fish",
-	Default = false,
-	Flag = "Main_Other_Toggle_100_Catch_fish",
-	Callback = function(state, arg76)
-			if state then
-				_G.AutoCatchFishing = state
-				local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
-				local Interface = PlayerGui:WaitForChild("Interface")
-				local FishingCatchFrame = Interface:WaitForChild("FishingCatchFrame")
-				getgenv().__FN99InstantFishingRunId = 1
-				local changedSignal = FishingCatchFrame:GetPropertyChangedSignal("Visible")
-				local connection = changedSignal:Connect(function(arg77)
-				end)
-				getgenv().__FN99InstantFishingConnection = connection
-				task.spawn(function(...)
-					local TimingBar = FishingCatchFrame:FindFirstChild("TimingBar")
-					local SuccessArea = TimingBar:FindFirstChild("SuccessArea")
-					SuccessArea.Size = UDim2.new(1, 0, 1, 0)
-					SuccessArea.Position = UDim2.new(0, 0, 0, 0)
-					RunService.RenderStepped:Wait()
-					task.wait()
-				end)
-			else
-				_G.AutoCatchFishing = false
-				connection:Disconnect()
-			end
-		end
-})
-	getgenv().TamingConnection = nil
-	Section10:Toggle({
-	Title = "Instant Taming Minigame",
-	Default = false,
-	Flag = "Main_Other_Toggle_100_Successful_Taming_Flute",
-	Callback = function(state, arg79)
-			if state then
-				_G.AutoTamingFlute = state
-				local PlayerGui2 = Players.LocalPlayer:WaitForChild("PlayerGui")
-				local Interface2 = PlayerGui2:WaitForChild("Interface")
-				local TamingFluteFrame = Interface2:WaitForChild("TamingFluteFrame")
-				getgenv().__FN99InstantTamingRunId = 1
-				local changedSignal2 = TamingFluteFrame:GetPropertyChangedSignal("Visible")
-				local connection2 = changedSignal2:Connect(function(arg80)
-				end)
-				getgenv().TamingConnection = connection2
-				task.spawn(function(...)
-					task.wait()
-					task.wait()
-				end)
-			else
-				_G.AutoTamingFlute = false
-				connection2:Disconnect()
-			end
-		end
-})
-	Section10:Button({
-	Title = "Instant Complete 3 Minigame Maze",
-	Locked = false,
-	Callback = function(state, arg82)
-			ReplicatedStorage:FindFirstChild("RemoteEvents")
-			if state then
-				local CarnivalCompleteBasketballGallery = ReplicatedStorage.RemoteEvents:FindFirstChild("CarnivalCompleteBasketballGallery")
-				workspace:FindFirstChild("Map")
-				local Landmarks4 = workspace.Map:FindFirstChild("Landmarks")
-				local HalloweenCarnival = Landmarks4:FindFirstChild("Halloween Carnival")
-				local Games = HalloweenCarnival:FindFirstChild("Games")
-				local BasketballHoop = Games:FindFirstChild("Basketball Hoop")
-				CarnivalCompleteBasketballGallery:FireServer(BasketballHoop)
-				task.wait(0.2)
-				local RingToss = Games:FindFirstChild("Ring Toss")
-				CarnivalCompleteBasketballGallery:FireServer(RingToss)
-				task.wait(0.2)
-				local ShootingGallery = Games:FindFirstChild("Shooting Gallery")
-				CarnivalCompleteBasketballGallery:FireServer(ShootingGallery)
-				task.wait(0.2)
-				local MazeEntrance = Games:FindFirstChild("Maze Entrance")
-				CarnivalCompleteBasketballGallery:FireServer(MazeEntrance)
-			else
-				local CarnivalCompleteBasketballGallery2 = ReplicatedStorage.RemoteEvents:FindFirstChild("CarnivalCompleteBasketballGallery")
-				workspace:FindFirstChild("Map")
-				local Landmarks5 = workspace.Map:FindFirstChild("Landmarks")
-				local HalloweenCarnival2 = Landmarks5:FindFirstChild("Halloween Carnival")
-				local Games2 = HalloweenCarnival2:FindFirstChild("Games")
-				local BasketballHoop2 = Games2:FindFirstChild("Basketball Hoop")
-				CarnivalCompleteBasketballGallery2:FireServer(BasketballHoop2)
-				task.wait(0.2)
-				local RingToss2 = Games2:FindFirstChild("Ring Toss")
-				CarnivalCompleteBasketballGallery2:FireServer(RingToss2)
-				task.wait(0.2)
-				local ShootingGallery2 = Games2:FindFirstChild("Shooting Gallery")
-				CarnivalCompleteBasketballGallery2:FireServer(ShootingGallery2)
-				task.wait(0.2)
-				local MazeEntrance2 = Games2:FindFirstChild("Maze Entrance")
-				CarnivalCompleteBasketballGallery2:FireServer(MazeEntrance2)
-			end
-			task.wait(0.2)
-		end
-})
-	RunService.Heartbeat:Wait()
-	Tab:Space()
-	local Section11 = Tab:Section({
-	Title = "Chest Tools",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Chest",
-	Icon = "lock",
-	Opened = true
-})
-	_G.AutoOpenAllChests = false
-	task.spawn(function(...)
-	end)
-	_G.ChestV = false
-	local Dropdown = Section11:Dropdown({
-	Title = "Choose Chest To Teleport",
-	AllowNone = true,
-	Multi = false,
-	Value = "None",
-	Values = {},
-	Callback = function(state, arg84)
-			if state then
-				_G.ChestV = state
-			end
-		end
-})
-	Section11:Button({
-	Title = "Reset Chest List",
-	Callback = function(state, arg86)
-			if state then
-				local Items2 = workspace:FindFirstChild("Items")
-				local children18 = Items2:GetChildren()
-				for i25, v29 in ipairs(children18) do
-					v29.Name:find("Chest")
-					local descendants3 = v29:GetDescendants()
-					for k5, v30 in pairs(descendants3) do
-					end
-					Dropdown:Refresh({ v29.Name .. " (1)" })
-					Dropdown:Select(v29.Name .. " (1)")
-				end
-			else
-				local Items3 = workspace:FindFirstChild("Items")
-				local children19 = Items3:GetChildren()
-				for i26, v31 in ipairs(children19) do
-					v31.Name:find("Chest")
-					local descendants4 = v31:GetDescendants()
-					for k6, v32 in pairs(descendants4) do
-					end
-					Dropdown:Refresh({ v31.Name .. " (1)" })
-					Dropdown:Select(v31.Name .. " (1)")
-				end
-			end
-		end
-})
-	Section11:Button({
-	Title = "Teleport To Chest",
-	Callback = function(state, arg88)
-		end
-})
-	Section11:Button({
-	Title = "Open All Chests",
-	Callback = function(state, arg90)
-			if state then
-				local children20 = workspace.Items:GetChildren()
-				for k7, v33 in pairs(children20) do
-					local descendants5 = v33:GetDescendants()
-					for k8, v34 in pairs(descendants5) do
-					end
-				end
-				v34.HoldDuration = 0
-				fireproximityprompt(v34, 1)
-			else
-				local children21 = workspace.Items:GetChildren()
-				for k9, v35 in pairs(children21) do
-					local descendants6 = v35:GetDescendants()
-					for k10, v36 in pairs(descendants6) do
-					end
-				end
-				v36.HoldDuration = 0
-				fireproximityprompt(v36, 1)
-			end
-			chestLooted()
-			task.wait(0.05)
-		end
-})
-	Section11:Toggle({
-	Title = "Auto Open All Chests",
-	Default = false,
-	Callback = function(arg91, arg92)
-			_G.AutoOpenAllChests = arg91
-			local children22 = workspace.Items:GetChildren()
-			for k11, v37 in pairs(children22) do
-				local descendants7 = v37:GetDescendants()
-				for k12, v38 in pairs(descendants7) do
-					v38.HoldDuration = 0
-					fireproximityprompt(v38, 1)
-					chestLooted()
-					task.wait(0.05)
-				end
-			end
-			task.wait(3)
-			local children23 = workspace.Items:GetChildren()
-			for k13, v39 in pairs(children23) do
-				local descendants8 = v39:GetDescendants()
-				for k14, v40 in pairs(descendants8) do
-					v40.HoldDuration = 0
-					fireproximityprompt(v40, 1)
-					chestLooted()
-					task.wait(0.05)
-				end
-			end
-			task.wait(3)
-		end
-})
-	Tab:Space()
-	getgenv().TypeSelect = {
-	Food = {
-		"Morsel",
-		"Cooked Morsel",
-		"Steak",
-		"Cooked Steak",
-		"Berry",
-		"Carrot",
-		"Cake",
-		"Chilli",
-		"Stew",
-		"Meat? Sandwich",
-		"Corn",
-		"Pumpkin"
-	},
-	Fuel = { "Coal", "Oil Barrel", "Fuel Canister", "Biofuel" },
-	Gun = {
-		"Revolver",
-		"Revolver Ammo",
-		"Rifle",
-		"Rifle Ammo",
-		"Tactical Shotgun",
-		"Raygun",
-		"Laser Canon",
-		"Crossbow",
-		"Infernal Crossbow",
-		"Leather Body",
-		"Iron Body",
-		"Alien Amour"
-	},
-	Metal = {
-		"Broken Fan",
-		"Sheet Metal",
-		"Bolt",
-		"Metal Chair",
-		"Broken Microwave",
-		"Old Car Engine",
-		"Old Radio",
-		"WashingMachine",
-		"Cultist Gem",
-		"Tyre",
-		"Gem of the Forest Fragment",
-		"UFO Junk",
-		"UFO Component"
-	},
-	Other = {
-		"Halloween Candle",
-		"Meteor Shard",
-		"Gold Shard",
-		"Raw Obsidiron Ore",
-		"Scalding Obsidiron Ingot",
-		"Obsidiron Ingot",
-		"Anvil Front",
-		"Anvil Base",
-		"Anvil Back",
-		"Sacrifice Totem",
-		"Bunny Foot",
-		"Wolf Pelt",
-		"Alpha Wolf Pelt",
-		"Bear Pelt",
-		"Wolf Corpse",
-		"Alpha Wolf Corpse",
-		"Bear Corpse",
-		"Polar Bear Pelt",
-		"Coin Stack",
-		"Arctic Wolf Pelt",
-		"Mammoth Tusk",
-		"Cultist King Antler",
-		"Scorpion Shell"
-	},
-	Resources = { "Log", "Chair", "Sapling", "Diamond", "Cultist", "Crossbow Cultist", "Alien", "Hologram Emitter" },
-	Tool = {
-		"Old Flashlight",
-		"Strong Flashlight",
-		"Good Axe",
-		"Strong Axe",
-		"Chainsaw",
-		"Good Sack",
-		"Giant Sack",
-		"Kunai",
-		"Morningstar",
-		"Wildfire",
-		"Infernal Sack",
-		"Defense Blueprint",
-		"Bear Trap Blueprint",
-		"Lava Mine Blueprint",
-		"MedKit",
-		"Bandage",
-		"Spear",
-		"Poison Spear",
-		"Thorn Body",
-		"Obsidiron Body",
-		"Obsidiron Hammer",
-		"Obsidiron Boots",
-		"Cultist King Mace"
-	}
+ov = {}
+on = {}
+oe = {}
+for i, v in ipairs(oT_4) do
+    table.insert(ov, v.Label)
+    on[v.Label] = v.Id
+    oe[v.Id] = v.Label
+end
+n_ = {}
+local oS_5 = GameBalance.Stones or {}
+for i, v in ipairs(oS_5) do
+    local oR_5 = type(v) == "table" and type(v.Id) == "string"
+    if oR_5 then
+        local insert = table.insert
+        local Id = v.Id
+        local oT_5 = v.Name or v.Id
+        oU = tonumber(v.Price) or 0
+        local oV_1 = tonumber(v.Multiplier) or 1
+        insert(n_, { Id = Id, Name = oT_5, Price = oU, Multiplier = oV_1 })
+    end
+end
+table.sort(n_, fn682)
+ot = {}
+oz = {}
+oh, SkippingWorlds, oT_6 = nil, nil, nil
+local oR_7 = 4
+repeat
+    oU = (oR_7 * 1 + 0) % 2 + 1
+    if oU <= 1 then
+        if oR_7 * 15958197 + 2 + 2 >= oR_7 * 15958197 + 2 + 2 + 3 then
+            oT_6 = {}
+            oh = fn343
+        else
+            oh = {}
+            oT_6 = fn343
+        end
+        oR_7 = (oR_7 + 5) % 8
+    else
+        if oR_7 * 41505429 + 5 + 4 <= oR_7 * 41505429 + 5 + 4 + 1 then
+            SkippingWorlds = oD:FindFirstChild("SkippingWorlds")
+        else
+            oD = SkippingWorlds:FindFirstChild("SkippingWorlds")
+        end
+        oR_7 = (oR_7 + 1) % 8
+    end
+until (oR_7 * 5 + 2) % 8 == 4
+if SkippingWorlds then
+    for i, child in ipairs(SkippingWorlds:GetChildren()) do
+        local EggShop = child:FindFirstChild("EggShop")
+        local oS_8 = EggShop and EggShop:FindFirstChild("Displays")
+        if oS_8 then
+            for i, child in ipairs(oS_8:GetChildren()) do
+                local attr2 = child:GetAttribute("Wins")
+                local attr = child:GetAttribute("Currency")
+                oU = attr ~= "Robux"
+                if attr2 ~= nil and oU then
+                    oT_6(child.Name, attr2)
+                end
+            end
+        end
+    end
+end
+if type(GameBalance.EggInventory) == "table" then
+    for i, v in ipairs(GameBalance.EggInventory) do
+        local oR_11 = type(v) == "table" and type(v.Id) == "string"
+        if oR_11 then
+            if ot[v.Id] ~= nil then
+                oT_6(v.Id, ot[v.Id])
+            end
+        end
+    end
+end
+local oR_12 = 2
+repeat
+    local oS_10 = (vector.create((oR_12 * 3 + 9) % 11 + 1, (oR_12 * 11 + 8) % 13 + 1, (oR_12 * 10 + 1) % 17 + 1))
+    local oT_7 = (vector.create((oR_12 * 7 + 9) % 11 + 1, (oR_12 * 9 + 11) % 13 + 1, (oR_12 * 8 + 17) % 17 + 1))
+    local wE = vector.dot(oS_10, oT_7)
+    if wE * wE <= vector.dot(oS_10, oS_10) * vector.dot(oT_7, oT_7) then
+        table.sort(oz, fn521)
+    else
+        table.sort(oz, fn521)
+    end
+    oR_12 = (oR_12 + 1) % 4
+until (oR_12 * 3 + 3) % 4 == 0
+if #oz == 0 then
+    local oR_13 = 15
+    repeat
+        if (oR_13 * 1 + 0) % 2 + 1 <= 1 then
+            local w2 = bit32.rrotate(bit32.bxor(bit32.lrotate(oR_13, 4), string.byte(tostring(oR_13))), 14)
+            if bit32.bxor(bit32.bxor(bit32.bxor(bit32.bxor(bit32.band(w2, 967233611), 1922589186), (bit32.bxor(bit32.band(w2, 3327733684), 2843230843))), 1922589186), 2843230843) ~= w2 then
+                ot.Common = 50
+            else
+                ot.Common = 50
+            end
+            oR_13 = (oR_13 + 7) % 16
+        else
+            local oS_12 = (vector.create((oR_13 * 4 + 3) % 11 + 1, (oR_13 * 4 + 10) % 13 + 1, (oR_13 * 10 + 16) % 17 + 1))
+            local oT_8 = (vector.create((oR_13 * 4 + 2) % 11 + 1, (oR_13 * 4 + 12) % 13 + 1, (oR_13 * 11 + 12) % 17 + 1))
+            oU = (vector.create((oR_13 * 7 + 7) % 11 + 1, (oR_13 * 11 + 7) % 13 + 1, (oR_13 * 1 + 4) % 17 + 1))
+            local oV_3 = (vector.create((oR_13 * 3 + 2) % 5 + 1, (oR_13 * 5 + 2) % 7 + 1, (oR_13 * 1 + 3) % 9 + 1))
+            if vector.dot(vector.cross(oS_12, (vector.cross(oT_8, oU))), oV_3) == vector.dot(oT_8 * vector.dot(oS_12, oU) - oU * vector.dot(oS_12, oT_8), oV_3) then
+                oz = { "Common" }
+            else
+                oz = { "Common" }
+            end
+            oR_13 = (oR_13 + 7) % 16
+        end
+    until (oR_13 * 9 + 10) % 16 == 15
+end
+n9, oP, oC, ob, oA = nil, nil, nil, nil, nil
+oc.Enabled = {
+    Train = false,
+    Throw = false,
+    BuyStones = false,
+    HatchEgg = false,
+    Rebirth = false,
+    EquipBestPet = false
 }
-	RunService.Heartbeat:Wait()
-	Tab2:Space()
-	_G.ItemToPos = "Player"
-	local Section12 = Tab2:Section({
-	Title = "Bring Settings",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Settings",
-	Icon = "settings",
-	Opened = true
-})
-	_G.ItemToPos = false
-	Section12:Dropdown({
-	Title = "Drop Item To",
-	Value = "Player",
-	Values = { "Player", "Campfire", "Scrapper" },
-	Callback = function(state, arg94)
-		end
-})
-	_G.BringWithoutTPMode = "Normal"
-	_G.BringWithoutTPMode = false
-	Section12:Dropdown({
-	Title = "Bring Mode",
-	Value = "Normal",
-	Values = { "Normal", "Fast" },
-	Callback = function(state, arg96)
-		end
-})
-	Section12:Toggle({
-	Title = "Admin Only Items",
-	Desc = "Include items from admin folder in database",
-	Type = "Checkbox",
-	Value = false,
-	Callback = function(state, arg98)
-			if state then
-				task.spawn(function(...)
-					local children24 = Items:GetChildren()
-					for i27, v43 in ipairs(children24) do
-					end
-					local ForyxeAdmin_V3 = ReplicatedStorage:FindFirstChild("ForyxeAdmin_V3")
-					local EnumHandler = ForyxeAdmin_V3:FindFirstChild("EnumHandler")
-					local Enums = EnumHandler:FindFirstChild("Enums")
-					local itemnames = Enums:FindFirstChild("itemnames")
-					itemnames:GetAttribute("EnumValues")
-				end)
-			else
-				task.spawn(function(...)
-					local children25 = Items:GetChildren()
-					for i28, v44 in ipairs(children25) do
-					end
-				end)
-			end
-		end
-})
-	Section12:Button({
-	Title = "Refresh Item Database",
-	Icon = "refresh-cw",
-	Callback = function(state, arg100)
-			if state then
-				task.spawn(function(...)
-					local children26 = Items:GetChildren()
-					for i29, v45 in ipairs(children26) do
-					end
-				end)
-			else
-				task.spawn(function(...)
-					local children27 = Items:GetChildren()
-					for i30, v46 in ipairs(children27) do
-					end
-				end)
-			end
-			result:Notify({
-	Title = "Bring database refreshed",
-	Content = "Loaded the complete replicated item catalog.",
-	Duration = 3
-})
-		end
-})
-	Tab2:Space()
-	Tab2:Space()
-	local Section13 = Tab2:Section({
-	Title = "Fuel",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Fuel Section",
-	Icon = "flame",
-	Opened = true
-})
-	Section13:Dropdown({
-	Title = "Select Fuel",
-	AllowNone = true,
-	Multi = true,
-	Value = {},
-	Values = { "Biofuel", "Coal", "Fuel Canister", "Oil Barrel" },
-	Callback = function(state, arg102)
-		end
-})
-	Section13:Button({
-	Title = "Bring Fuel",
-	Desc = "Bring selected Fuel items",
-	Callback = function(arg103, arg104)
-		end
-})
-	Tab2:Space()
-	local Section14 = Tab2:Section({
-	Title = "Resources",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Resources Section",
-	Icon = "logs",
-	Opened = true
-})
-	Section14:Dropdown({
-	Title = "Select Resources",
-	AllowNone = true,
-	Multi = true,
-	Value = {},
-	Values = { "Alien", "Chair", "Crossbow Cultist", "Cultist", "Diamond", "Hologram Emitter", "Log", "Sapling" },
-	Callback = function(state, arg106)
-		end
-})
-	Section14:Button({
-	Title = "Bring Resources",
-	Desc = "Bring selected Resources items",
-	Callback = function(arg107, arg108)
-		end
-})
-	RunService.Heartbeat:Wait()
-	Tab2:Space()
-	local Section15 = Tab2:Section({
-	Title = "Metal",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Metal Section",
-	Icon = "wrench",
-	Opened = true
-})
-	Section15:Dropdown({
-	Title = "Select Metal",
-	AllowNone = true,
-	Multi = true,
-	Value = {},
-	Values = {
-		"Bolt",
-		"Broken Fan",
-		"Broken Microwave",
-		"Cultist Gem",
-		"Gem of the Forest Fragment",
-		"Metal Chair",
-		"Old Car Engine",
-		"Old Radio",
-		"Sheet Metal",
-		"Tyre",
-		"UFO Component",
-		"UFO Junk",
-		"WashingMachine"
-	},
-	Callback = function(state, arg110)
-		end
-})
-	Section15:Button({
-	Title = "Bring Metal",
-	Desc = "Bring selected Metal items",
-	Callback = function(arg111, arg112)
-		end
-})
-	Tab2:Space()
-	local Section16 = Tab2:Section({
-	Title = "Food",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Food Section",
-	Icon = "beef",
-	Opened = true
-})
-	Section16:Dropdown({
-	Title = "Select Food",
-	AllowNone = true,
-	Multi = true,
-	Value = {},
-	Values = {
-		"Berry",
-		"Cake",
-		"Carrot",
-		"Chilli",
-		"Cooked Morsel",
-		"Cooked Steak",
-		"Corn",
-		"Meat? Sandwich",
-		"Morsel",
-		"Pumpkin",
-		"Steak",
-		"Stew"
-	},
-	Callback = function(state, arg114)
-		end
-})
-	Section16:Button({
-	Title = "Bring Food",
-	Desc = "Bring selected Food items",
-	Callback = function(arg115, arg116)
-		end
-})
-	RunService.Heartbeat:Wait()
-	Tab2:Space()
-	local Section17 = Tab2:Section({
-	Title = "Tool",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Tool Section",
-	Icon = "hammer",
-	Opened = true
-})
-	Section17:Dropdown({
-	Title = "Select Tool",
-	AllowNone = true,
-	Multi = true,
-	Value = {},
-	Values = {
-		"Bandage",
-		"Bear Trap Blueprint",
-		"Chainsaw",
-		"Cultist King Mace",
-		"Defense Blueprint",
-		"Giant Sack",
-		"Good Axe",
-		"Good Sack",
-		"Infernal Sack",
-		"Kunai",
-		"Lava Mine Blueprint",
-		"MedKit",
-		"Morningstar",
-		"Obsidiron Body",
-		"Obsidiron Boots",
-		"Obsidiron Hammer",
-		"Old Flashlight",
-		"Poison Spear",
-		"Spear",
-		"Strong Axe",
-		"Strong Flashlight",
-		"Thorn Body",
-		"Wildfire"
-	},
-	Callback = function(state, arg118)
-		end
-})
-	Section17:Button({
-	Title = "Bring Tool",
-	Desc = "Bring selected Tool items",
-	Callback = function(arg119, arg120)
-		end
-})
-	Tab2:Space()
-	local Section18 = Tab2:Section({
-	Title = "Gun",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Gun Section",
-	Icon = "crosshair",
-	Opened = true
-})
-	Section18:Dropdown({
-	Title = "Select Gun",
-	AllowNone = true,
-	Multi = true,
-	Value = {},
-	Values = {
-		"Alien Amour",
-		"Crossbow",
-		"Infernal Crossbow",
-		"Iron Body",
-		"Laser Canon",
-		"Leather Body",
-		"Raygun",
-		"Revolver",
-		"Revolver Ammo",
-		"Rifle",
-		"Rifle Ammo",
-		"Tactical Shotgun"
-	},
-	Callback = function(state, arg122)
-		end
-})
-	Section18:Button({
-	Title = "Bring Gun",
-	Desc = "Bring selected Gun items",
-	Callback = function(arg123, arg124)
-		end
-})
-	RunService.Heartbeat:Wait()
-	Tab2:Space()
-	local Section19 = Tab2:Section({
-	Title = "Other",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Other Section",
-	Icon = "package",
-	Opened = true
-})
-	Section19:Dropdown({
-	Title = "Select Other",
-	AllowNone = true,
-	Multi = true,
-	Value = {},
-	Values = {
-		"Alpha Wolf Corpse",
-		"Alpha Wolf Pelt",
-		"Anvil Back",
-		"Anvil Base",
-		"Anvil Front",
-		"Arctic Wolf Pelt",
-		"Bear Corpse",
-		"Bear Pelt",
-		"Bunny Foot",
-		"Coin Stack",
-		"Cultist King Antler",
-		"Gold Shard",
-		"Halloween Candle",
-		"Mammoth Tusk",
-		"Meteor Shard",
-		"Obsidiron Ingot",
-		"Polar Bear Pelt",
-		"Raw Obsidiron Ore",
-		"Sacrifice Totem",
-		"Scalding Obsidiron Ingot",
-		"Scorpion Shell",
-		"Wolf Corpse",
-		"Wolf Pelt"
-	},
-	Callback = function(state, arg126)
-		end
-})
-	Section19:Button({
-	Title = "Bring Other",
-	Desc = "Bring selected Other items",
-	Callback = function(arg127, arg128)
-		end
-})
-	task.spawn(function(...)
-		result:Notify({
-	Title = "Getting Item Data..",
-	Content = "Script is getting item data in background...",
-	Duration = 3,
-	Icon = "database"
-})
-		task.wait(1.5)
-		result:Notify({
-	Title = "Item Data Loaded",
-	Content = "Bring item database is ready to use.",
-	Duration = 3,
-	Icon = "check-circle"
-})
-	end)
-	local connection3 = Items.ChildAdded:Connect(function(child)
-	end)
-	getgenv().__FN99BringItemConnection = connection3
-	RunService.Heartbeat:Wait()
-	local Section20 = Tab3:Section({
-	Title = "Locations",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Teleport",
-	Icon = "map-pin",
-	Opened = true
-})
-	Section20:Button({
-	Title = "Tp to Campfire",
-	Locked = false,
-	Callback = function(state, arg130)
-			Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-			Players.LocalPlayer.Character:PivotTo(CFrame.new(0, 9, 0))
-		end
-})
-	Section20:Button({
-	Title = "Tp to Fish",
-	Locked = false,
-	Callback = function(state, arg132)
-			if state then
-				local HumanoidRootPart = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				workspace:FindFirstChild("Map")
-				workspace.Map:FindFirstChild("Landmarks")
-				local FishingHut = workspace.Map.Landmarks:FindFirstChild("Fishing Hut")
-				FishingHut:GetPivot()
-				local pivot = FishingHut:GetPivot()
-				HumanoidRootPart.CFrame = CFrame.new(pivot.Position)
-			else
-				local HumanoidRootPart2 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				workspace:FindFirstChild("Map")
-				workspace.Map:FindFirstChild("Landmarks")
-				local FishingHut2 = workspace.Map.Landmarks:FindFirstChild("Fishing Hut")
-				FishingHut2:GetPivot()
-				local pivot2 = FishingHut2:GetPivot()
-				HumanoidRootPart2.CFrame = CFrame.new(pivot2.Position)
-			end
-		end
-})
-	Section20:Button({
-	Title = "Tp to Skills Building",
-	Locked = false,
-	Callback = function(state, arg134)
-			if state then
-				local HumanoidRootPart3 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map5 = workspace:FindFirstChild("Map")
-				Map5:FindFirstChild("Landmarks")
-				local SkillsBuilding = Map5.Landmarks:FindFirstChild("Skills Building")
-				HumanoidRootPart3.CFrame = SkillsBuilding.PrimaryPart.CFrame
-			else
-				local HumanoidRootPart4 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map6 = workspace:FindFirstChild("Map")
-				Map6:FindFirstChild("Landmarks")
-				local SkillsBuilding2 = Map6.Landmarks:FindFirstChild("Skills Building")
-				HumanoidRootPart4.CFrame = SkillsBuilding2.PrimaryPart.CFrame
-			end
-		end
-})
-	Section20:Button({
-	Title = "Tp to Stronghold",
-	Locked = false,
-	Callback = function(state, arg136)
-			if state then
-				local HumanoidRootPart5 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map7 = workspace:FindFirstChild("Map")
-				Map7:FindFirstChild("Landmarks")
-				local Stronghold = Map7.Landmarks:FindFirstChild("Stronghold")
-				HumanoidRootPart5.CFrame = Stronghold.PrimaryPart.CFrame
-			else
-				local HumanoidRootPart6 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map8 = workspace:FindFirstChild("Map")
-				Map8:FindFirstChild("Landmarks")
-				local Stronghold2 = Map8.Landmarks:FindFirstChild("Stronghold")
-				HumanoidRootPart6.CFrame = Stronghold2.PrimaryPart.CFrame
-			end
-		end
-})
-	Section20:Button({
-	Title = "Tp to ToolWorkshop",
-	Locked = false,
-	Callback = function(state, arg138)
-			if state then
-				local HumanoidRootPart7 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map9 = workspace:FindFirstChild("Map")
-				Map9:FindFirstChild("Landmarks")
-				local ToolWorkshop = Map9.Landmarks:FindFirstChild("ToolWorkshop")
-				HumanoidRootPart7.CFrame = ToolWorkshop.PrimaryPart.CFrame
-			else
-				local HumanoidRootPart8 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map10 = workspace:FindFirstChild("Map")
-				Map10:FindFirstChild("Landmarks")
-				local ToolWorkshop2 = Map10.Landmarks:FindFirstChild("ToolWorkshop")
-				HumanoidRootPart8.CFrame = ToolWorkshop2.PrimaryPart.CFrame
-			end
-		end
-})
-	Section20:Button({
-	Title = "Tp to Sacrifice area",
-	Locked = false,
-	Callback = function(state, arg140)
-			if state then
-				local HumanoidRootPart9 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map11 = workspace:FindFirstChild("Map")
-				local Landmarks6 = Map11:FindFirstChild("Landmarks")
-				local Volcano2 = Landmarks6:FindFirstChild("Volcano")
-				local Functional2 = Volcano2:FindFirstChild("Functional")
-				local Sacrifice = Functional2:FindFirstChild("Sacrifice")
-				HumanoidRootPart9.CFrame = (Sacrifice.CFrame + Vector3.new(0, 5, 0))
-			else
-				local HumanoidRootPart10 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map12 = workspace:FindFirstChild("Map")
-				local Landmarks7 = Map12:FindFirstChild("Landmarks")
-				local Volcano3 = Landmarks7:FindFirstChild("Volcano")
-				local Functional3 = Volcano3:FindFirstChild("Functional")
-				local Sacrifice2 = Functional3:FindFirstChild("Sacrifice")
-				HumanoidRootPart10.CFrame = (Sacrifice2.CFrame + Vector3.new(0, 5, 0))
-			end
-		end
-})
-	Section20:Button({
-	Title = "Tp to Ice Temple",
-	Locked = false,
-	Callback = function(state, arg142)
-			if state then
-				local HumanoidRootPart11 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map13 = workspace:FindFirstChild("Map")
-				Map13:FindFirstChild("Landmarks")
-				local IceTemple = Map13.Landmarks:FindFirstChild("Ice Temple")
-				HumanoidRootPart11.CFrame = IceTemple.PrimaryPart.CFrame
-			else
-				local HumanoidRootPart12 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map14 = workspace:FindFirstChild("Map")
-				Map14:FindFirstChild("Landmarks")
-				local IceTemple2 = Map14.Landmarks:FindFirstChild("Ice Temple")
-				HumanoidRootPart12.CFrame = IceTemple2.PrimaryPart.CFrame
-			end
-		end
-})
-	Section20:Button({
-	Title = "Tp to Snow Clothing Shop",
-	Locked = false,
-	Callback = function(state, arg144)
-			if state then
-				local HumanoidRootPart13 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map15 = workspace:FindFirstChild("Map")
-				Map15:FindFirstChild("Landmarks")
-				local SnowClothingShop = Map15.Landmarks:FindFirstChild("Snow Clothing Shop")
-				HumanoidRootPart13.CFrame = SnowClothingShop.PrimaryPart.CFrame
-			else
-				local HumanoidRootPart14 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map16 = workspace:FindFirstChild("Map")
-				Map16:FindFirstChild("Landmarks")
-				local SnowClothingShop2 = Map16.Landmarks:FindFirstChild("Snow Clothing Shop")
-				HumanoidRootPart14.CFrame = SnowClothingShop2.PrimaryPart.CFrame
-			end
-		end
-})
-	Section20:Button({
-	Title = "Tp to Research Facility",
-	Locked = false,
-	Callback = function(state, arg146)
-			if state then
-				local HumanoidRootPart15 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map17 = workspace:FindFirstChild("Map")
-				Map17:FindFirstChild("Landmarks")
-				local ResearchFacility = Map17.Landmarks:FindFirstChild("Research Facility")
-				HumanoidRootPart15.CFrame = ResearchFacility.PrimaryPart.CFrame
-			else
-				local HumanoidRootPart16 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map18 = workspace:FindFirstChild("Map")
-				Map18:FindFirstChild("Landmarks")
-				local ResearchFacility2 = Map18.Landmarks:FindFirstChild("Research Facility")
-				HumanoidRootPart16.CFrame = ResearchFacility2.PrimaryPart.CFrame
-			end
-		end
-})
-	Section20:Button({
-	Title = "Tp to Research Outpost",
-	Locked = false,
-	Callback = function(state, arg148)
-			if state then
-				local HumanoidRootPart17 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map19 = workspace:FindFirstChild("Map")
-				Map19:FindFirstChild("Landmarks")
-				local ResearchOutpost = Map19.Landmarks:FindFirstChild("Research Outpost")
-				HumanoidRootPart17.CFrame = ResearchOutpost.PrimaryPart.CFrame
-			else
-				local HumanoidRootPart18 = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local Map20 = workspace:FindFirstChild("Map")
-				Map20:FindFirstChild("Landmarks")
-				local ResearchOutpost2 = Map20.Landmarks:FindFirstChild("Research Outpost")
-				HumanoidRootPart18.CFrame = ResearchOutpost2.PrimaryPart.CFrame
-			end
-		end
-})
-	Tab3:Space()
-	local Section21 = Tab3:Section({
-	Title = "Player Teleport",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Player",
-	Icon = "users",
-	Opened = true
-})
-	local players = Players:GetPlayers()
-	for i31, v47 in ipairs(players) do
-	end
-	Players.PlayerAdded:Connect(function(player)
-		local players2 = Players:GetPlayers()
-		for i37, v53 in ipairs(players2) do
-		end
-		Dropdown2:Refresh({ v53.Name })
-	end)
-	Players.PlayerRemoving:Connect(function(player2)
-		local players3 = Players:GetPlayers()
-		for i38, v54 in ipairs(players3) do
-		end
-		Dropdown2:Refresh({ v54.Name })
-	end)
-	_G.SelectedTpPlayer = false
-	local Dropdown2 = Section21:Dropdown({
-	Title = "Select Player",
-	Value = "None",
-	Values = { v47.Name },
-	Callback = function(state, arg150)
-			if state then
-				_G.SelectedTpPlayer = state
-			end
-		end
-})
-	Section21:Button({
-	Title = "Tp to Selected Player",
-	Callback = function(state, arg152)
-			Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-			result:Notify({
-	Title = "Teleport",
-	Content = "Invalid player or no character",
-	Background = "rbxassetid://78131090774816",
-	Duration = 2,
-	Icon = "warning"
-})
-		end
-})
-	local Section22 = Tab3:Section({
-	Title = "NPC Teleport",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "NPC",
-	Icon = "bot",
-	Opened = true
-})
-	local Characters7 = workspace:FindFirstChild("Characters")
-	local children28 = Characters7:GetChildren()
-	for i32, v48 in ipairs(children28) do
-	end
-	_G.SelectedTpNpc = false
-	local Dropdown3 = Section22:Dropdown({
-	Title = "Select NPC",
-	Value = "None",
-	Values = { v48.Name },
-	Callback = function(state, arg154)
-			if state then
-				_G.SelectedTpNpc = state
-			end
-		end
-})
-	Section22:Button({
-	Title = "Tp to NPC",
-	Callback = function(state, arg156)
-			result:Notify({
-	Title = "Tp to NPC",
-	Content = "No NPC selected",
-	Background = "rbxassetid://78131090774816",
-	Duration = 2,
-	Icon = "warning"
-})
-		end
-})
-	Section22:Button({
-	Title = "Refresh NPC List",
-	Callback = function(state, arg158)
-			if state then
-				local Characters8 = workspace:FindFirstChild("Characters")
-				local children29 = Characters8:GetChildren()
-				for i33, v49 in ipairs(children29) do
-				end
-				Dropdown3:Refresh({ v49.Name })
-			else
-				local Characters9 = workspace:FindFirstChild("Characters")
-				local children30 = Characters9:GetChildren()
-				for i34, v50 in ipairs(children30) do
-				end
-				Dropdown3:Refresh({ v50.Name })
-			end
-			result:Notify({
-	Title = "Tp to NPC",
-	Content = "NPC list refreshed",
-	Background = "rbxassetid://78131090774816",
-	Duration = 1.5,
-	Icon = "info"
-})
-		end
-})
-	getgenv().TreeShapes = {
-	Circle = function(arg159, arg160)
-		end,
-	Cross = function(arg161, arg162)
-		end,
-	Diamond = function(arg163, arg164)
-		end,
-	Heart = function(arg165, arg166)
-		end,
-	Pentagon = function(arg167, arg168)
-		end,
-	Spiral = function(arg169, arg170)
-		end,
-	Square = function(arg171, arg172)
-		end,
-	Star = function(arg173, arg174)
-		end,
-	Triangle = function(arg175, arg176)
-		end
+oc.Gens = {}
+oc.TrainZoneId = "TrainingZone"
+oc.HatchEggId = oz[1]
+oc.Player = nil
+oc.HatchRequestId = 0
+oc.LastThrowAt = 0
+oc.LastBuyAt = 0
+oc.PendingBuyId = nil
+oc.ThrowBusy = false
+oc.ThrowHandler = nil
+oc.FakeThrowInput = {
+    UserInputType = Enum.UserInputType.MouseButton1,
+    UserInputState = Enum.UserInputState.Begin,
+    KeyCode = Enum.KeyCode.Unknown
 }
-	Tab4:Space()
-	local Section23 = Tab4:Section({
-	Title = "Tree Visuals",
-	Box = true,
-	BoxBorder = true,
-	ConfigFlagKey = "Visuals",
-	Icon = "eye",
-	Opened = true
+n9 = fn890
+oP = fn698
+oC = fn374
+ob = function(a4, a5)
+    if not oQ() then
+        return false
+    end
+    local qx = pcall(function()
+        Request:FireServer(a4, a5)
+    end)
+    return qx
+end
+oA = fn531
+connection = nil
+connection = Event.OnClientEvent:Connect(onOnClientEvent)
+ol.Track(fn483)
+ob("Sync", nil)
+n7, n2, nX, nQ, Library, oG, oB, Toggles, Options, oa, oj, op, n8, n4, ou, nY, ox, of, nP, od, oy, n1, n5, nS, oH, om, oN, nV, nZ, oK, oM, nR, n3, oE, oi, o0, oU = nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+n8 = fn788
+n4 = fn459
+ou = fn486
+nY = fn585
+ox = fn721
+of = fn406
+nP = fn878
+od = fn916
+oy = fn71
+n1 = fn829
+n5 = fn954
+if ((not n4 and oj and (not n4 or nV) or (not nV or not oj or not oj and not nS)) and ((nV or nS or oj and not n4) and (nS and not n4 or n4 and nV)) or (not nS and nS or (nV or oU)) and ((n4 or nS) and (not oj or oU)) and ((oU or nS) and (n4 and n4) or (not nV or not nV) and (nS or not nV))) and not ((not n4 and oj and (not n4 or nV) or (not nV or not oj or not oj and not nS)) and ((nV or nS or oj and not n4) and (nS and not n4 or n4 and nV)) or (not nS and nS or (nV or oU)) and ((n4 or nS) and (not oj or oU)) and ((oU or nS) and (n4 and n4) or (not nV or not nV) and (nS or not nV))) then
+    oH = fn951
+    nS = function(cQ, cR, cS)
+        local rI
+        local Gens = oc.Gens
+        local rK = oc.Gens[cQ] or 0
+        Gens[cQ] = rK + 1
+        rI = oc.Gens[cQ]
+        task.spawn(function()
+            local rG_2
+            while true do
+                local rF = oQ() and oc.Enabled[cQ] and oc.Gens[cQ] == rI
+                local rF_3
+                if rF then
+                    rF_3, rG_2 = pcall(cS)
+                    if not rF_3 then
+                        warn("[Ouroboros] " .. cQ .. ": " .. tostring(rG_2))
+                    end
+                    local rF_4 = not oQ() or not oc.Enabled[cQ] or oc.Gens[cQ] ~= rI
+                    if rF_4 then
+                        break
+                    end
+                    task.wait(cR)
+                    continue
+                end
+                break
+            end
+        end)
+    end
+else
+    nS = fn951
+    oH = function(cQ, cR, cS)
+        local rI
+        local Gens = oc.Gens
+        local rK = oc.Gens[cQ] or 0
+        Gens[cQ] = rK + 1
+        rI = oc.Gens[cQ]
+        task.spawn(function()
+            local rG_1
+            while true do
+                local rF = oQ() and oc.Enabled[cQ] and oc.Gens[cQ] == rI
+                local rF_1
+                if rF then
+                    rF_1, rG_1 = pcall(cS)
+                    if not rF_1 then
+                        warn("[Ouroboros] " .. cQ .. ": " .. tostring(rG_1))
+                    end
+                    local rF_2 = not oQ() or not oc.Enabled[cQ] or oc.Gens[cQ] ~= rI
+                    if rF_2 then
+                        break
+                    end
+                    task.wait(cR)
+                    continue
+                end
+                break
+            end
+        end)
+    end
+end
+om = fn322
+oN = fn61
+nV = fn330
+nZ = fn645
+oK = fn397
+oM = fn481
+nR = fn478
+ol.SetTrain = fn651
+ol.SetThrow = fn634
+ol.SetBuyStones = fn690
+ol.SetHatchEgg = fn650
+ol.SetRebirth = fn514
+ol.SetEquipBestPet = fn545
+ol.SetTrainZone = fn899
+ol.SetHatchEggId = fn405
+ol.Track(fn14)
+n7 = "https://discord.gg/synapsex"
+n2 = "https://rscripts.net/@Ouroboros"
+nX = "https://ouroboros-hub-rbx.web.app/"
+local o2 = "v0.2"
+nQ = "+1 Stone Skipping"
+local o1 = "https://raw.githubusercontent.com/joustingmatch/ObsidianUltra/main/"
+if (not Options or not oE) and (not oE or Options) and ((o0 or o0) and "https://rscripts.net/@Ouroboros") or not ((not Options or not oE) and (not oE or Options) and ((o0 or o0) and "https://rscripts.net/@Ouroboros")) then
+    Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/joustingmatch/ObsidianUltra/main/Library.lua"))()
+else
+    o1 = loadstring(game:HttpGet(Library .. "Library.lua"))()
+end
+if (not n4 and oH or (oH or not n4)) and ((oH or oH) and (n4 or not oH)) or not ((not n4 and oH or (oH or not n4)) and ((oH or oH) and (n4 or not oH))) then
+    oG = loadstring(game:HttpGet(o1 .. "addons/ThemeManager.lua"))()
+    oB = loadstring(game:HttpGet(o1 .. "addons/SaveManager.lua"))()
+else
+    loadstring(game:HttpGet(oB .. "addons/ThemeManager.lua"))()
+    oG = loadstring(game:HttpGet(oB .. "addons/SaveManager.lua"))()
+end
+Toggles, Options = Library.Toggles, Library.Options
+oX_1(ol, Library)
+local Window = Library:CreateWindow({
+    Title = "Ouroboros",
+    Font = Enum.Font.BuilderSans,
+    Footer = { { Text = n7, Copyable = true }, "|", nQ, "|", o2 },
+    Icon = 132608042600488,
+    NotifySide = "Right",
+    ShowCustomCursor = false,
+    CornerRadius = 0,
+    SidebarCompacted = true,
+    TabSwipeFrom = "bottom",
+    Animations = { TabSwitch = true }
 })
-	Section23:Toggle({
-	Title = "Tree Health Bar",
-	Default = true,
-	Value = true,
-	Callback = function(arg177, arg178)
-			local Map21 = workspace:FindFirstChild("Map")
-			local Foliage3 = Map21:FindFirstChild("Foliage")
-			local children31 = Foliage3:GetChildren()
-			for i35, v51 in ipairs(children31) do
-				v51:GetAttribute("Resource")
-				local Trunk = v51:FindFirstChild("Trunk")
-				local Assets = ReplicatedStorage:FindFirstChild("Assets")
-				local Interface3 = Assets:FindFirstChild("Interface")
-				local HealthBars = Interface3:FindFirstChild("HealthBars")
-				local HealthBar = HealthBars:FindFirstChild("HealthBar")
-				local clone = HealthBar:Clone()
-				clone.Name = "TreeCustomHealthBar"
-				clone.Adornee = Trunk
-				clone.StudsOffset = Vector3.new(0, ((Trunk.Size.Y / 2) + 1), 0)
-				clone.Enabled = false
-				clone.Parent = Trunk
-				v51:GetAttribute("Health")
-				v51:GetAttribute("MaxHealth")
-			end
-		end
-})
-	clone:Destroy()
-	local Map22 = workspace:FindFirstChild("Map")
-	local Foliage4 = Map22:FindFirstChild("Foliage")
-	local children32 = Foliage4:GetChildren()
-	for i36, v52 in ipairs(children32) do
-		v52:GetAttribute("Resource")
-		local Trunk2 = v52:FindFirstChild("Trunk")
-		local Assets2 = ReplicatedStorage:FindFirstChild("Assets")
-		local Interface4 = Assets2:FindFirstChild("Interface")
-		local HealthBars2 = Interface4:FindFirstChild("HealthBars")
-		local HealthBar2 = HealthBars2:FindFirstChild("HealthBar")
-		local clone2 = HealthBar2:Clone()
-		clone2.Name = "TreeCustomHealthBar"
-		clone2.Adornee = Trunk2
-		clone2.StudsOffset = Vector3.new(0, ((Trunk2.Size.Y / 2) + 1), 0)
-		clone2.Enabled = false
-		clone2.Parent = Trunk2
-		v52:GetAttribute("Health")
-		v52:GetAttribute("MaxHealth")
-	end
-end)
+oa = {}
+oa.Info = Window:AddTab("Info", "info")
+oa.Main = Window:AddTab("Main", "gamepad-2")
+oa.Player = Window:AddTab("Player", "person-standing")
+oa.Settings = Window:AddTab("Settings", "settings")
+n3 = fn592
+oE = fn612
+oi = fn53
+local function oS_13()
+    local s4
+    local s9
+    local tb
+    local s3
+    s3 = nil
+    s4 = nil
+    s9 = nil
+    tb = nil
+    local s1, s2, Label2, s6, s7, Label3, Label
+    tb = function(fg)
+        return (tostring(fg):gsub("&", "&amp;"):gsub("<", "&lt;"):gsub(">", "&gt;"):gsub('"', "&quot;"):gsub("'", "&apos;"))
+    end
+    s9 = function(fi, fj)
+        return string.format('<font color="%s">%s</font>', fj, tb(fi))
+    end
+    s2 = function(fm, fo, fp)
+        return string.format("<b>%s</b> %s %s", fm, s9("-", "#5a6070"), s9(fo, fp))
+    end
+    local tc = "#8b93a3"
+    s1 = "#7fd47f"
+    s7 = "#e8a34d"
+    s4 = "Unknown"
+    pcall(function()
+        local sS_1
+        local sR_1
+        if type(identifyexecutor) == "function" then
+            sS_1, sR_1 = identifyexecutor()
+            local sT = sS_1 ~= ""
+            local sU = type(sS_1) == "string" and sT
+            if sU then
+                local sT_1 = type(sR_1) == "string" and sR_1 ~= "" and sS_1 .. " " .. sR_1
+                s4 = sT_1 or sS_1
+            end
+        end
+    end)
+    s3 = os.clock()
+    s6 = function()
+        local sW = math.floor(os.clock() - s3)
+        if sW < 60 then
+            return sW .. "s"
+        elseif sW < 3600 then
+            return string.format("%dm %ds", sW // 60, sW % 60)
+        else
+            return string.format("%dh %dm", sW // 3600, sW % 3600 // 60)
+        end
+    end
+    local UserGroup = oa.Info:AddLeftGroupbox("User", "circle-user")
+    UserGroup:AddPlayerInfo("InfoUserCard", { Player = oL, Title = "User", HeaderIcon = "user", Collapsible = false })
+    UserGroup:AddLabel(s2("User", oL.DisplayName .. " @" .. oL.Name, s1), true)
+    UserGroup:AddLabel(s2("UserId", tostring(oL.UserId), "#6ec1ff"), true)
+    UserGroup:AddLabel(s2("Executor", s4, s1), true)
+    UserGroup:AddDivider()
+    Label3 = UserGroup:AddLabel(s2("Session", s6(), s7), true)
+    UserGroup:AddDivider()
+    UserGroup:AddButton({
+        Text = "Copy Username",
+        Func = function()
+            n3(oL.Name, "Copied username")
+        end
+    })
+    UserGroup:AddButton({
+        Text = "Copy Profile Link",
+        Func = function()
+            n3("https://www.roblox.com/users/" .. tostring(oL.UserId) .. "/profile", "Copied profile link")
+        end
+    })
+    local DiscordGroup = oa.Info:AddRightGroupbox("Discord", "message-circle")
+    DiscordGroup:AddDiscordBox(nil, {
+        Banner = 95892854151512,
+        Avatar = 132608042600488,
+        Title = "Ouroboros Hub",
+        Subtitle = "Dupes, keyless scripts and updates",
+        Status = "online",
+        Accent = Color3.fromRGB(88, 101, 242),
+        Link = n7,
+        Buttons = { { Text = "Copy Discord Invite", Icon = "copy", Copy = true } }
+    })
+    local SessionGroup = oa.Info:AddRightGroupbox("Session", "signal")
+    SessionGroup:AddLabel(s2("Game", nQ, "#6ec1ff"), true)
+    Label2 = SessionGroup:AddLabel(s2("Players", "0/0", s1), true)
+    local td = tostring(game.JobId)
+    local tf = #td > 18 and string.sub(td, 1, 18) .. "..."
+    local td_1 = tf or td
+    SessionGroup:AddLabel(s2("Job", td_1, tc), true)
+    Label = SessionGroup:AddLabel(s2("Ping", "0 ms", s7), true)
+    SessionGroup:AddDivider()
+    SessionGroup:AddButton({
+        Text = "Rejoin Place",
+        Func = function()
+            nO.TeleportService:Teleport(game.PlaceId, oL)
+        end
+    })
+    SessionGroup:AddButton({
+        Text = "Copy Job ID",
+        Func = function()
+            n3(tostring(game.JobId), "Copied Job ID")
+        end
+    })
+    local SocialsGroup = oa.Info:AddRightGroupbox("Socials", "link")
+    SocialsGroup:AddButton({ Text = "Copy Discord Invite", Func = oE })
+    SocialsGroup:AddButton({
+        Text = "Copy Rscripts Link",
+        Func = function()
+            n3(n2, "Copied Rscripts link")
+        end
+    })
+    SocialsGroup:AddButton({
+        Text = "Copy Website Link",
+        Func = function()
+            n3(nX, "Copied website link")
+        end
+    })
+    task.spawn(function()
+        local s0 = false
+        repeat
+            local sY
+            if oQ() then
+                Label3:SetText(s2("Session", s6(), s7))
+                Label2:SetText(s2("Players", tostring(#nO.Players:GetPlayers()) .. "/" .. tostring(nO.Players.MaxPlayers), s1))
+                sY = 0
+                pcall(function()
+                    sY = math.floor(nO.Stats.Network.ServerStatsItem["Data Ping"]:GetValue())
+                end)
+                Label:SetText(s2("Ping", tostring(sY) .. " ms", s7))
+                task.wait(1)
+            else
+                s0 = true
+            end
+        until s0
+    end)
+end
+o0 = fn209
+oj = {
+    WalkSpeedEnabled = false,
+    WalkSpeed = 32,
+    WalkSnapshots = {},
+    InfJump = false,
+    InfJumpConn = nil,
+    NoClip = false,
+    NoClipSnapshots = {},
+    NoClipConn = nil,
+    Fly = false,
+    FlySpeed = 60,
+    FlyConn = nil,
+    FlySnap = nil,
+    InstantPP = false,
+    InstantSnapshots = {},
+    InstantConn = nil
+}
+local function oV_4()
+    local connection, uM
+    uM = function(gQ)
+        if not gQ then
+            return
+        end
+        if oj.WalkSnapshots[gQ] == nil then
+            oj.WalkSnapshots[gQ] = gQ.WalkSpeed
+        end
+        gQ.WalkSpeed = oj.WalkSpeed
+    end
+    ol.SetWalkSpeedEnabled = function(gT)
+        local tq = gT and true
+        local tu = if tq then 1 else 0
+        local ts = 8 * tu + 265 * (1 - tu)
+        local tt = 3189 * tu + 1917 * (1 - tu)
+        if not ((ts * 3685 + tt * 2633 + ts * tt) % 16777213 == 8451629) then
+            tq = false
+        end
+        oj.WalkSpeedEnabled = tq
+        local tp_1 = oP()
+        if not tp_1 then
+            return
+        end
+        if oj.WalkSpeedEnabled then
+            uM(tp_1)
+        elseif oj.WalkSnapshots[tp_1] ~= nil then
+            tp_1.WalkSpeed = oj.WalkSnapshots[tp_1]
+        end
+    end
+    ol.SetWalkSpeedValue = function(g_)
+        oj.WalkSpeed = g_
+        if oj.WalkSpeedEnabled then
+            local tv = oP()
+            if tv then
+                tv.WalkSpeed = oj.WalkSpeed
+            end
+        end
+    end
+    ol.SetInfJump = function(g3)
+        local tD = g3 and true or false
+        oj.InfJump = tD
+        if oj.InfJumpConn then
+            oj.InfJumpConn:Disconnect()
+            oj.InfJumpConn = nil
+        end
+        if not oj.InfJump then
+            return
+        end
+        oj.InfJumpConn = nO.UserInputService.JumpRequest:Connect(function()
+            local tA = not oQ() or not oj.InfJump
+            if tA then
+                return
+            end
+            local tA_1 = oP()
+            if tA_1 then
+                tA_1:ChangeState(Enum.HumanoidStateType.Jumping)
+            end
+        end)
+    end
+    ol.SetNoClip = function(hf)
+        local tZ
+        local t0 = hf and true
+        local t4 = if t0 then 1 else 0
+        local t2 = 1286 * t4 + 3354 * (1 - t4)
+        local t3 = 1743 * t4 + 3183 * (1 - t4)
+        if not ((t2 * 3252 + t3 * 231 + t2 * t3) % 16777213 == 6826203) then
+            t0 = false
+        end
+        oj.NoClip = t0
+        if oj.NoClipConn then
+            oj.NoClipConn:Disconnect()
+            oj.NoClipConn = nil
+        end
+        local function t__1()
+            for k, v in pairs(oj.NoClipSnapshots) do
+                if k and k.Parent then
+                    k.CanCollide = v
+                end
+            end
+            table.clear(oj.NoClipSnapshots)
+        end
+        if not oj.NoClip then
+            t__1()
+            return
+        end
+        tZ = function(hn)
+            if not hn then
+                return
+            end
+            for i, descendant in ipairs(hn:GetDescendants()) do
+                if descendant:IsA("BasePart") then
+                    if oj.NoClipSnapshots[descendant] == nil then
+                        oj.NoClipSnapshots[descendant] = descendant.CanCollide
+                    end
+                    descendant.CanCollide = false
+                end
+            end
+        end
+        tZ(oL.Character)
+        oj.NoClipConn = nO.RunService.Stepped:Connect(function()
+            local tX = not oQ() or not oj.NoClip
+            if tX then
+                return
+            end
+            tZ(oL.Character)
+        end)
+    end
+    ol.SetFly = function(hA)
+        local ua = hA and true
+        local uf = if ua then 1 else 0
+        local ud = 3057 * uf + 325 * (1 - uf)
+        local ue = 3261 * uf + 1678 * (1 - uf)
+        if not ((ud * 98 + ue * 225 + ud * ue) % 16777213 == 11002188) then
+            ua = false
+        end
+        oj.Fly = ua
+        if oj.FlyConn then
+            oj.FlyConn:Disconnect()
+            oj.FlyConn = nil
+        end
+        local t9_1 = oP()
+        local ua_1 = n9()
+        if not oj.Fly then
+            if oj.FlySnap and t9_1 then
+                t9_1.PlatformStand = oj.FlySnap.PlatformStand
+            end
+            oj.FlySnap = nil
+            if ua_1 then
+                ua_1.AssemblyLinearVelocity = Vector3.zero
+            end
+            return
+        end
+        if t9_1 then
+            oj.FlySnap = { PlatformStand = t9_1.PlatformStand }
+            t9_1.PlatformStand = true
+        end
+        oj.FlyConn = nO.RunService.RenderStepped:Connect(function()
+            local t5 = not oQ() or not oj.Fly
+            if t5 then
+                return
+            end
+            if nO.UserInputService:GetFocusedTextBox() then
+                return
+            end
+            local t5_1 = n9()
+            local CurrentCamera = oD.CurrentCamera
+            if not (t5_1 and CurrentCamera) then
+                return
+            end
+            local t7_1 = Vector3.zero
+            if nO.UserInputService:IsKeyDown(Enum.KeyCode.W) then
+                t7_1 += CurrentCamera.CFrame.LookVector
+            end
+            if nO.UserInputService:IsKeyDown(Enum.KeyCode.S) then
+                t7_1 -= CurrentCamera.CFrame.LookVector
+            end
+            if nO.UserInputService:IsKeyDown(Enum.KeyCode.A) then
+                t7_1 -= CurrentCamera.CFrame.RightVector
+            end
+            if nO.UserInputService:IsKeyDown(Enum.KeyCode.D) then
+                t7_1 += CurrentCamera.CFrame.RightVector
+            end
+            if nO.UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+                t7_1 += Vector3.yAxis
+            end
+            if nO.UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
+                t7_1 -= Vector3.yAxis
+            end
+            if t7_1.Magnitude > 0 then
+                t5_1.AssemblyLinearVelocity = t7_1.Unit * oj.FlySpeed
+            else
+                t5_1.AssemblyLinearVelocity = Vector3.zero
+            end
+            t5_1.CFrame = CFrame.new(t5_1.Position, t5_1.Position + CurrentCamera.CFrame.LookVector)
+        end)
+    end
+    ol.SetFlySpeed = function(hU)
+        oj.FlySpeed = hU
+    end
+    ol.SetInstantProximityPrompt = function(hW)
+        local uw
+        local uy = hW and true or false
+        oj.InstantPP = uy
+        if oj.InstantConn then
+            oj.InstantConn:Disconnect()
+            oj.InstantConn = nil
+        end
+        local function ux_1()
+            for k, v in pairs(oj.InstantSnapshots) do
+                if k and k.Parent then
+                    k.HoldDuration = v.HoldDuration
+                    k.MaxActivationDistance = v.MaxActivationDistance
+                    k.RequiresLineOfSight = v.RequiresLineOfSight
+                end
+            end
+            table.clear(oj.InstantSnapshots)
+        end
+        if not oj.InstantPP then
+            ux_1()
+            return
+        end
+        uw = function(h3)
+            if not h3:IsA("ProximityPrompt") then
+                return
+            end
+            if oj.InstantSnapshots[h3] == nil then
+                oj.InstantSnapshots[h3] = {
+                    HoldDuration = h3.HoldDuration,
+                    MaxActivationDistance = h3.MaxActivationDistance,
+                    RequiresLineOfSight = h3.RequiresLineOfSight
+                }
+            end
+            h3.HoldDuration = 0
+            h3.MaxActivationDistance = 50
+            h3.RequiresLineOfSight = false
+        end
+        for i, descendant in ipairs(oD:GetDescendants()) do
+            uw(descendant)
+        end
+        oj.InstantConn = oD.DescendantAdded:Connect(function(h8)
+            if oj.InstantPP then
+                uw(h8)
+            end
+        end)
+    end
+    local function onCharacterAdded(ic)
+        task.defer(function()
+            local uK = if not oQ() then 1 else 0
+            if uK == 1 then
+                return
+            end
+            local Humanoid = ic:WaitForChild("Humanoid", 10)
+            if not Humanoid then
+                return
+            end
+            if oj.WalkSpeedEnabled then
+                uM(Humanoid)
+            end
+            if oj.NoClip then
+                ol.SetNoClip(true)
+            end
+            if oj.Fly then
+                ol.SetFly(true)
+            end
+        end)
+    end
+    if oL.Character then
+        onCharacterAdded(oL.Character)
+    end
+    connection = oL.CharacterAdded:Connect(onCharacterAdded)
+    ol.Track(function()
+        connection:Disconnect()
+        ol.SetInfJump(false)
+        ol.SetNoClip(false)
+        ol.SetFly(false)
+        ol.SetInstantProximityPrompt(false)
+        ol.SetWalkSpeedEnabled(false)
+    end)
+end
+oU = fn214
+op = {
+    AntiAfk = true,
+    NoGameplayPaused = true,
+    AutoReconnect = false,
+    Disable3D = false,
+    FpsBoost = false,
+    AfkConn = nil,
+    AfkTask = nil,
+    AfkCount = 0,
+    ReconnectConns = {},
+    FpsSnapshots = {},
+    FpsConn = nil
+}
+local function oZ()
+    local function iR()
+        if not oD.CurrentCamera then
+            return false
+        end
+        local uS_1 = not nU(nO.VirtualUser.CaptureController) or not nU(nO.VirtualUser.ClickButton2)
+        if uS_1 then
+            return false
+        end
+        local uS_2 = pcall(function()
+            nO.VirtualUser:CaptureController()
+            nO.VirtualUser:ClickButton2(Vector2.new())
+        end)
+        if uS_2 then
+            op.AfkCount = op.AfkCount + 1
+        end
+        return uS_2
+    end
+    ol.SetAntiAfk = function(i3)
+        local u2 = i3 and true or false
+        op.AntiAfk = u2
+        if op.AfkConn then
+            op.AfkConn:Disconnect()
+            op.AfkConn = nil
+        end
+        if op.AfkTask then
+            pcall(task.cancel, op.AfkTask)
+            op.AfkTask = nil
+        end
+        if not op.AntiAfk then
+            return
+        end
+        op.AfkConn = oL.Idled:Connect(function()
+            local uU = oQ() and op.AntiAfk
+            if uU then
+                iR()
+            end
+        end)
+        op.AfkTask = task.spawn(function()
+            local uW = os.clock()
+            while true do
+                local uX = oQ() and op.AntiAfk
+                if uX then
+                    task.wait(1)
+                    local uX_1 = not oQ() or not op.AntiAfk
+                    if uX_1 then
+                        break
+                    end
+                    if os.clock() - uW >= 60 then
+                        uW = os.clock()
+                        iR()
+                    end
+                    continue
+                end
+                break
+            end
+        end)
+    end
+    ol.SetNoGameplayPaused = function(jl)
+        local u5 = jl and true or false
+        op.NoGameplayPaused = u5
+    end
+    ol.SetAutoReconnect = function(jn)
+        local va = jn and true or false
+        op.AutoReconnect = va
+        for i, v in ipairs(op.ReconnectConns) do
+            v:Disconnect()
+        end
+        table.clear(op.ReconnectConns)
+        if not op.AutoReconnect then
+            return
+        end
+        table.insert(op.ReconnectConns, nO.TeleportService.TeleportInitFailed:Connect(function()
+            local u7 = not oQ() or not op.AutoReconnect
+            if u7 then
+                return
+            end
+            task.wait(1)
+            local u7_1 = oQ() and op.AutoReconnect
+            if u7_1 then
+                pcall(function()
+                    nO.TeleportService:Teleport(game.PlaceId, oL)
+                end)
+            end
+        end))
+    end
+    ol.SetDisable3D = function(jC)
+        local vj = jC and true or false
+        op.Disable3D = vj
+        pcall(function()
+            nO.RunService:Set3dRenderingEnabled(not op.Disable3D)
+        end)
+    end
+    ol.SetFpsBoost = function(jH)
+        local vC
+        local vE = jH and true or false
+        op.FpsBoost = vE
+        if op.FpsConn then
+            op.FpsConn:Disconnect()
+            op.FpsConn = nil
+        end
+        local function vD_1()
+            for k, v in pairs(op.FpsSnapshots) do
+                local vq = k
+                if vq and vq.Parent then
+                    for k, v in pairs(v) do
+                        local vw = k
+                        local vy = v
+                        pcall(function()
+                            vq[vw] = vy
+                        end)
+                    end
+                end
+            end
+            table.clear(op.FpsSnapshots)
+        end
+        if not op.FpsBoost then
+            vD_1()
+            return
+        end
+        vC = function(jU)
+            if op.FpsSnapshots[jU] then
+                return
+            end
+            local vz = jU:IsA("ParticleEmitter") or jU:IsA("Trail") or jU:IsA("Beam") or jU:IsA("Fire") or jU:IsA("Smoke") or jU:IsA("Sparkles")
+            if vz then
+                op.FpsSnapshots[jU] = { Enabled = jU.Enabled }
+                jU.Enabled = false
+            end
+        end
+        for i, descendant in ipairs(oD:GetDescendants()) do
+            vC(descendant)
+        end
+        if op.FpsSnapshots[nO.Lighting] == nil then
+            op.FpsSnapshots[nO.Lighting] = { GlobalShadows = nO.Lighting.GlobalShadows, FogEnd = nO.Lighting.FogEnd }
+            nO.Lighting.GlobalShadows = false
+        end
+        op.FpsConn = oD.DescendantAdded:Connect(function(j0)
+            if op.FpsBoost then
+                vC(j0)
+            end
+        end)
+    end
+    ol.Track(function()
+        ol.SetAntiAfk(false)
+        ol.SetAutoReconnect(false)
+        ol.SetDisable3D(false)
+        ol.SetFpsBoost(false)
+    end)
+end
+local function oT_9()
+    oi(oa.Settings)
+    local MenuGroup = oa.Settings:AddLeftGroupbox("Menu", "settings")
+    MenuGroup:AddToggle("AntiAfk", { Text = "Anti-AFK", Default = true })
+    MenuGroup:AddToggle("NoGameplayPaused", { Text = "No Gameplay Paused", Default = true })
+    MenuGroup:AddToggle("AutoReconnect", { Text = "Auto Reconnect on Kick", Default = false })
+    MenuGroup:AddToggle("Disable3DRendering", { Text = "Disable 3D Rendering", Default = false })
+    MenuGroup:AddToggle("FPSBoost", { Text = "FPS Boost", Default = false })
+    MenuGroup:AddToggle("HideUIOnStart", { Text = "Hide UI On Start", Default = false })
+    MenuGroup:AddLabel("Menu bind"):AddKeyPicker("MenuKeybind", { Default = "RightShift", NoUI = true, Text = "Menu keybind" })
+    Library.ToggleKeybind = Options.MenuKeybind
+    local ScriptGroup = oa.Settings:AddLeftGroupbox("Script", "scroll-text")
+    ScriptGroup:AddButton({
+        Text = "Unload Script",
+        Func = function()
+            Library:Unload()
+        end
+    })
+    Toggles.AntiAfk:OnChanged(function(kd)
+        ol.SetAntiAfk(kd)
+    end)
+    Toggles.NoGameplayPaused:OnChanged(function(kg)
+        ol.SetNoGameplayPaused(kg)
+    end)
+    Toggles.AutoReconnect:OnChanged(function(ki)
+        ol.SetAutoReconnect(ki)
+    end)
+    Toggles.Disable3DRendering:OnChanged(function(kk)
+        ol.SetDisable3D(kk)
+    end)
+    Toggles.FPSBoost:OnChanged(function(km)
+        ol.SetFpsBoost(km)
+    end)
+    oG:SetLibrary(Library)
+    oG:SetFolder("MyScriptHub")
+    oG:SaveDefault("Evil Hello Kitty")
+    oG:ApplyToTab(oa.Settings)
+    oB:SetLibrary(Library)
+    oB:IgnoreThemeSettings()
+    oB:SetIgnoreIndexes({ "MenuKeybind", "SaveManager_ImportSource" })
+    oB:SetFolder("OuroborosHub/Plus1StoneSkipping")
+    local v4_2 = oB:BuildConfigSection(oa.Settings)
+    if v4_2 then
+        v4_2:AddInput("SaveManager_ImportSource", { Text = "Paste exported config here", Default = "", Finished = true, AllowEmpty = true })
+        v4_2:AddButton({
+            Text = "Export Config to Clipboard",
+            Func = function()
+                local vR_1
+                local vQ_1
+                vQ_1, vR_1 = pcall(function()
+                    if nU(oB.ExportConfig) then
+                        return oB:ExportConfig()
+                    end
+                    error("ExportConfig unavailable")
+                end)
+                local vS = vQ_1 and type(vR_1) == "string"
+                if vS then
+                    n3(vR_1, "Copied config")
+                else
+                    Library:Notify("Export unavailable", 3)
+                end
+            end
+        })
+        v4_2:AddButton({
+            Text = "Import Config from Clipboard Text",
+            Func = function()
+                local vY
+                vY = Options.SaveManager_ImportSource and Options.SaveManager_ImportSource.Value or ""
+                if vY == "" then
+                    Library:Notify("Paste a config first", 3)
+                    return
+                end
+                local vZ_1 = pcall(function()
+                    if nU(oB.ImportConfig) then
+                        oB:ImportConfig(vY)
+                    elseif nU(oB.LoadConfigFromJSON) then
+                        oB:LoadConfigFromJSON(vY)
+                    else
+                        error("Import unavailable")
+                    end
+                end)
+                if vZ_1 then
+                    Options.SaveManager_ImportSource:SetValue("")
+                    Library:Notify("Imported config", 3)
+                else
+                    Library:Notify("Import failed", 3)
+                end
+            end
+        })
+    end
+    pcall(function()
+        oG:LoadDefault()
+    end)
+    pcall(function()
+        oB:LoadAutoloadConfig()
+    end)
+end
+oV_4()
+oZ()
+oS_13()
+o0()
+oU()
+oT_9()
+ol.SetAntiAfk(Toggles.AntiAfk.Value)
+ol.SetNoGameplayPaused(Toggles.NoGameplayPaused.Value)
+if Toggles.HideUIOnStart.Value then
+    pcall(function()
+        Library:Toggle(false)
+    end)
+end
+Library:Notify("+1 Stone Skipping v0.2 loaded", 4)
