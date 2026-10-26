@@ -16,9 +16,9 @@ local GameList = {
     [82878101790702] = "https://api.xhider.xyz/files/v4/loaders/5e11f8e2650b675806aaa7ccd238f1f3.lua", -- Raid Rockfruitsea1
     [13772394625] = "https://api.xhider.xyz/files/v4/loaders/b264cc179514f7b3b7115beddfa456d9.lua", -- Blade Ball
     [107778070777162] = "STEAL_EGG_SELECTOR", -- Steal A Egg
-    [85211729168715] = "BLOX_FRUITS_SELECTOR",
-    [79091703265657] = "BLOX_FRUITS_SELECTOR",
-    [100117331123089] = "BLOX_FRUITS_SELECTOR",
+    [85211729168715] = "BLOX_FRUITS_SELECTOR", -- Blox Fruit
+    [79091703265657] = "BLOX_FRUITS_SELECTOR", -- Blox Fruit
+    [100117331123089] = "BLOX_FRUITS_SELECTOR", -- Blox Fruit
 }
 
 local function loadUrl(url)
