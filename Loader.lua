@@ -1,23 +1,23 @@
 local globalEnv = (getgenv and getgenv()) or _G
-_G.NNVN_IsPremium = true
+_G.NhoiiiX_IsPremium = true
 _G.SCRIPT_IsPremium = true
-globalEnv.NNVN_IsPremium = true
+globalEnv.NhoiiiX_IsPremium = true
 globalEnv.SCRIPT_IsPremium = true
-globalEnv.NNVN_IsPremiumAccess = true
-globalEnv.NNVN_AccessTier = "PREMIUM"
+globalEnv.NhoiiiX_IsPremiumAccess = true
+globalEnv.NhoiiiX_AccessTier = "PREMIUM"
 
-print("[NNVN Hub by n0namevnek] Key verified. Loading main script...")
+print("[NhoiiiX Hub by n0namevnek] Key verified. Loading main script...")
 local hubVersion = "4.6.7"
-if _G.SCRIPT_LOADED and getgenv().NNVN_Loaded == true then
-    warn("[NNVN Hub] Already loaded — skip re-exec")
+if _G.SCRIPT_LOADED and getgenv().NhoiiiX_Loaded == true then
+    warn("[NhoiiiX Hub] Already loaded — skip re-exec")
     return
 end
 _G.SCRIPT_LOADED = true
-getgenv().NNVN_Loaded = false
+getgenv().NhoiiiX_Loaded = false
 local targetPlaceId = 98502499119821
 local targetPlaceId2 = 98502499119821
 if game.PlaceId ~= targetPlaceId then
-    warn("[NNVN Hub] Wrong game PlaceId=" .. tostring(game.PlaceId) .. " — expected " .. tostring(targetPlaceId))
+    warn("[NhoiiiX Hub] Wrong game PlaceId=" .. tostring(game.PlaceId) .. " — expected " .. tostring(targetPlaceId))
     return
 end
 local isAllowed = not (function()
@@ -45,15 +45,15 @@ if not isAllowed then
         loadstring(game:HttpGet("https://raw.soteria.rip/972faf0b538cea2defc1f63af3d7eaca"))()
     end)
     if not ok then
-        warn("[NNVN Hub] Failed to load external PVP script: " .. tostring(result))
+        warn("[NhoiiiX Hub] Failed to load external PVP script: " .. tostring(result))
     else
-        print("[NNVN Hub] External PVP script loaded · PlaceId=" .. tostring(game.PlaceId) .. " · PVP=true")
+        print("[NhoiiiX Hub] External PVP script loaded · PlaceId=" .. tostring(game.PlaceId) .. " · PVP=true")
     end
     return
 end
-getgenv().NNVN_SkillsESP = getgenv().NNVN_SkillsESP or false
-getgenv().NNVN_SkillsESPGuis = getgenv().NNVN_SkillsESPGuis or {}
-getgenv().NNVN_SkillsESPLoop = getgenv().NNVN_SkillsESPLoop or 0
+getgenv().NhoiiiX_SkillsESP = getgenv().NhoiiiX_SkillsESP or false
+getgenv().NhoiiiX_SkillsESPGuis = getgenv().NhoiiiX_SkillsESPGuis or {}
+getgenv().NhoiiiX_SkillsESPLoop = getgenv().NhoiiiX_SkillsESPLoop or 0
 local function getCoreServices()
     return game:GetService("Players"), game:GetService("ReplicatedStorage")
 end
@@ -122,12 +122,12 @@ local function updateSkillEspBillboard(player)
     end
     local character = player.Character
     if not character then
-        local skillsEspGui = getgenv().NNVN_SkillsESPGuis[player]
+        local skillsEspGui = getgenv().NhoiiiX_SkillsESPGuis[player]
         if skillsEspGui then
             pcall(function()
                 skillsEspGui:Destroy()
             end)
-            getgenv().NNVN_SkillsESPGuis[player] = nil
+            getgenv().NhoiiiX_SkillsESPGuis[player] = nil
         end
         return
     end
@@ -137,16 +137,16 @@ local function updateSkillEspBillboard(player)
     end
     local skillSummary = formatSkillSummary(getPlayerRodSkills(player.UserId))
     if skillSummary == "" then
-        local skillsEspGui2 = getgenv().NNVN_SkillsESPGuis[player]
+        local skillsEspGui2 = getgenv().NhoiiiX_SkillsESPGuis[player]
         if skillsEspGui2 then
             skillsEspGui2.Enabled = false
         end
         return
     end
-    local skillsEspGui3 = getgenv().NNVN_SkillsESPGuis[player]
+    local skillsEspGui3 = getgenv().NhoiiiX_SkillsESPGuis[player]
     if not skillsEspGui3 or not skillsEspGui3.Parent then
         skillsEspGui3 = Instance.new("BillboardGui")
-        skillsEspGui3.Name = "NNVN_SkillsESP_" .. player.Name
+        skillsEspGui3.Name = "NhoiiiX_SkillsESP_" .. player.Name
         skillsEspGui3.Size = UDim2.new(0, 420, 0, 60)
         skillsEspGui3.StudsOffset = Vector3.new(0, 3.5, 0)
         skillsEspGui3.AlwaysOnTop = true
@@ -164,7 +164,7 @@ local function updateSkillEspBillboard(player)
         textLabel.TextWrapped = true
         textLabel.Text = skillSummary
         textLabel.Parent = skillsEspGui3
-        getgenv().NNVN_SkillsESPGuis[player] = skillsEspGui3
+        getgenv().NhoiiiX_SkillsESPGuis[player] = skillsEspGui3
     else
         if skillsEspGui3.Parent ~= head then
             skillsEspGui3.Parent = head
@@ -178,45 +178,45 @@ local function updateSkillEspBillboard(player)
 end
 
 local function resolveSkillsEspGuis(inputValue)
-    local skillsEspGui = getgenv().NNVN_SkillsESPGuis[inputValue]
+    local skillsEspGui = getgenv().NhoiiiX_SkillsESPGuis[inputValue]
     if skillsEspGui then
         pcall(function()
             skillsEspGui:Destroy()
         end)
-        getgenv().NNVN_SkillsESPGuis[inputValue] = nil
+        getgenv().NhoiiiX_SkillsESPGuis[inputValue] = nil
     end
 end
 
 local function resolveSkillsEspGuis2()
-    for _, entry in pairs(getgenv().NNVN_SkillsESPGuis) do
+    for _, entry in pairs(getgenv().NhoiiiX_SkillsESPGuis) do
         if entry then
             pcall(function()
                 entry:Destroy()
             end)
         end
     end
-    getgenv().NNVN_SkillsESPGuis = {}
-    getgenv().NNVN_SkillsESPLoop = (getgenv().NNVN_SkillsESPLoop or 0) + 1
+    getgenv().NhoiiiX_SkillsESPGuis = {}
+    getgenv().NhoiiiX_SkillsESPLoop = (getgenv().NhoiiiX_SkillsESPLoop or 0) + 1
 end
 
-function NNVN_SetSkillsESP(inputValue)
+function NhoiiiX_SetSkillsESP(inputValue)
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
-    getgenv().NNVN_SkillsESP = inputValue and true or false
+    getgenv().NhoiiiX_SkillsESP = inputValue and true or false
     resolveSkillsEspGuis2()
-    if not getgenv().NNVN_SkillsESP then
+    if not getgenv().NhoiiiX_SkillsESP then
         return
     end
-    local skillsEspLoop = getgenv().NNVN_SkillsESPLoop
+    local skillsEspLoop = getgenv().NhoiiiX_SkillsESPLoop
     task.spawn(function()
-        while getgenv().NNVN_SkillsESP and skillsEspLoop == getgenv().NNVN_SkillsESPLoop do
+        while getgenv().NhoiiiX_SkillsESP and skillsEspLoop == getgenv().NhoiiiX_SkillsESPLoop do
             pcall(function()
                 for _, item in ipairs(Players:GetPlayers()) do
                     if item ~= LocalPlayer then
                         updateSkillEspBillboard(item)
                     end
                 end
-                for key, entry in pairs(getgenv().NNVN_SkillsESPGuis) do
+                for key, entry in pairs(getgenv().NhoiiiX_SkillsESPGuis) do
                     if not key.Parent then
                         resolveSkillsEspGuis(key)
                     end
@@ -226,8 +226,8 @@ function NNVN_SetSkillsESP(inputValue)
         end
         resolveSkillsEspGuis2()
     end)
-    if not getgenv()._NNVN_SkillsESPLeaveConn then
-        getgenv()._NNVN_SkillsESPLeaveConn = Players.PlayerRemoving:Connect(function(player)
+    if not getgenv()._NhoiiiX_SkillsESPLeaveConn then
+        getgenv()._NhoiiiX_SkillsESPLeaveConn = Players.PlayerRemoving:Connect(function(player)
             resolveSkillsEspGuis(player)
         end)
     end
@@ -243,15 +243,15 @@ local function resolveGetService(inputValue)
     if not LocalPlayer then
         return
     end
-    getgenv().NNVN_Anchor = getgenv().NNVN_Anchor or false
-    getgenv().NNVN_AutoSkill = getgenv().NNVN_AutoSkill or false
-    getgenv().NNVN_AutoSkillMethod = getgenv().NNVN_AutoSkillMethod or "Skill Event"
-    getgenv().NNVN_Skills = getgenv().NNVN_Skills or { Z = true, X = true, C = true, V = true }
-    getgenv().NNVN_SkillOrder = getgenv().NNVN_SkillOrder or { "Z", "X", "C", "V" }
-    getgenv().NNVN_SupportSkill = getgenv().NNVN_SupportSkill or "R"
-    getgenv().NNVN_TriggerSkill = getgenv().NNVN_TriggerSkill or "Z"
-    getgenv().NNVN_AutoUseSupport = getgenv().NNVN_AutoUseSupport or false
-    getgenv().NNVN_Notify = getgenv().NNVN_Notify ~= false
+    getgenv().NhoiiiX_Anchor = getgenv().NhoiiiX_Anchor or false
+    getgenv().NhoiiiX_AutoSkill = getgenv().NhoiiiX_AutoSkill or false
+    getgenv().NhoiiiX_AutoSkillMethod = getgenv().NhoiiiX_AutoSkillMethod or "Skill Event"
+    getgenv().NhoiiiX_Skills = getgenv().NhoiiiX_Skills or { Z = true, X = true, C = true, V = true }
+    getgenv().NhoiiiX_SkillOrder = getgenv().NhoiiiX_SkillOrder or { "Z", "X", "C", "V" }
+    getgenv().NhoiiiX_SupportSkill = getgenv().NhoiiiX_SupportSkill or "R"
+    getgenv().NhoiiiX_TriggerSkill = getgenv().NhoiiiX_TriggerSkill or "Z"
+    getgenv().NhoiiiX_AutoUseSupport = getgenv().NhoiiiX_AutoUseSupport or false
+    getgenv().NhoiiiX_Notify = getgenv().NhoiiiX_Notify ~= false
     local mainGui = LocalPlayer:FindFirstChild("PlayerGui") and LocalPlayer.PlayerGui:FindFirstChild("MainGui")
     pcall(function()
         mainGui = LocalPlayer.PlayerGui:WaitForChild("MainGui", 5)
@@ -270,18 +270,18 @@ local function resolveGetService(inputValue)
         end)
         return ok and result == true
     end
-    if not getgenv()._NNVN_PvpSkillLoop then
-        getgenv()._NNVN_PvpSkillLoop = true
+    if not getgenv()._NhoiiiX_PvpSkillLoop then
+        getgenv()._NhoiiiX_PvpSkillLoop = true
         task.spawn(function()
             local counter = 0
             while task.wait(1) do
-                if not getgenv().NNVN_AutoSkill then
+                if not getgenv().NhoiiiX_AutoSkill then
                     counter = 0
                 else
                     local events = ReplicatedStorage:FindFirstChild("Events")
                     local useSkill = events and events:FindFirstChild("UseSkill")
-                    local skillOrder = getgenv().NNVN_SkillOrder or { "Z", "X", "C", "V" }
-                    local skills = getgenv().NNVN_Skills or { Z = true, X = true, C = true, V = true }
+                    local skillOrder = getgenv().NhoiiiX_SkillOrder or { "Z", "X", "C", "V" }
+                    local skills = getgenv().NhoiiiX_Skills or { Z = true, X = true, C = true, V = true }
                     local counter2 = 0
                     while counter2 < 4 do
                         counter = counter + 1
@@ -291,7 +291,7 @@ local function resolveGetService(inputValue)
                         counter2 = counter2 + 1
                         local skillKey = skillOrder[counter]
                         if skillKey and skills[skillKey] and not executeAction(skillKey) then
-                            if getgenv().NNVN_AutoSkillMethod == "Skill Event" then
+                            if getgenv().NhoiiiX_AutoSkillMethod == "Skill Event" then
                                 if useSkill then
                                     pcall(function()
                                         useSkill:FireServer(skillKey)
@@ -317,8 +317,8 @@ local function resolveGetService(inputValue)
             end
         end)
     end
-    if not getgenv()._NNVN_PvpSupportHook then
-        getgenv()._NNVN_PvpSupportHook = true
+    if not getgenv()._NhoiiiX_PvpSupportHook then
+        getgenv()._NhoiiiX_PvpSupportHook = true
         task.spawn(function()
             local events = ReplicatedStorage:WaitForChild("Events", 10)
             if not events then
@@ -335,9 +335,9 @@ local function resolveGetService(inputValue)
             local item
             item = hookmetamethod(game, "__namecall", function(selfTarget, ...)
                 local namecallmethod = getnamecallmethod()
-                if selfTarget == useSkill and namecallmethod == "FireServer" and getgenv().NNVN_AutoUseSupport and ({ ... })[1] == getgenv().NNVN_TriggerSkill then
+                if selfTarget == useSkill and namecallmethod == "FireServer" and getgenv().NhoiiiX_AutoUseSupport and ({ ... })[1] == getgenv().NhoiiiX_TriggerSkill then
                     pcall(function()
-                        useSupportSkill:FireServer(getgenv().NNVN_SupportSkill)
+                        useSupportSkill:FireServer(getgenv().NhoiiiX_SupportSkill)
                     end)
                     task.wait(0.05)
                     return item(selfTarget, ...)
@@ -346,11 +346,11 @@ local function resolveGetService(inputValue)
             end)
         end)
     end
-    if not getgenv()._NNVN_PvpAnchorConn then
-        getgenv()._NNVN_PvpAnchorConn = true
+    if not getgenv()._NhoiiiX_PvpAnchorConn then
+        getgenv()._NhoiiiX_PvpAnchorConn = true
         local counter = 0
         RunService.RenderStepped:Connect(function()
-            if not getgenv().NNVN_Anchor then
+            if not getgenv().NhoiiiX_Anchor then
                 return
             end
             pcall(function()
@@ -379,22 +379,22 @@ local function resolveGetService(inputValue)
     end
     local item
     pcall(function()
-        local ultraObsidianSource = getgenv()._NNVN_UltraObsidianSource
+        local ultraObsidianSource = getgenv()._NhoiiiX_UltraObsidianSource
         if type(ultraObsidianSource) ~= "string" or #ultraObsidianSource < 100 then
             ultraObsidianSource = game:HttpGet("https://raw.githubusercontent.com/n0namevnnek-web/UltraObsidian/refs/heads/main/Library.lua")
-            getgenv()._NNVN_UltraObsidianSource = ultraObsidianSource
+            getgenv()._NhoiiiX_UltraObsidianSource = ultraObsidianSource
         end
         item = loadstring(ultraObsidianSource)()
     end)
     if not item then
-        warn("[NNVN Hub] PVP Lite: WindUI failed")
+        warn("[NhoiiiX Hub] PVP Lite: WindUI failed")
         return
     end
     local Window = item:CreateWindow({
-        Title = "NNVN Hub",
+        Title = "NhoiiiX Hub",
         Author = "By N0NAMEVN · PVP Lite",
-        Icon = "rbxassetid://138952058031836",
-        Folder = "NNVN_Hub_PVP_Lite",
+        Icon = "rbxassetid://75850663384500",
+        Folder = "NhoiiiX_Hub_PVP_Lite",
         Size = UDim2.fromOffset(420, 380),
         MinSize = Vector2.new(350, 300),
         MaxSize = Vector2.new(560, 480),
@@ -411,7 +411,7 @@ local function resolveGetService(inputValue)
     pcall(function()
         Window:EditOpenButton({
             Title = "Open Menu",
-            Icon = "rbxassetid://138952058031836",
+            Icon = "rbxassetid://75850663384500",
             CornerRadius = UDim.new(0, 10),
             StrokeThickness = 1.5,
             Color = ColorSequence.new(Color3.fromHex("0A1128"), Color3.fromHex("1E90FF")),
@@ -423,33 +423,33 @@ local function resolveGetService(inputValue)
     local pvpCombatSection = Window:Tab({ Title = "PVP", Icon = "swords" }):Section({ Title = "PVP Combat", Icon = "swords" })
     pvpCombatSection:Toggle({
         Title = "Anchor Bar",
-        Default = getgenv().NNVN_Anchor == true,
+        Default = getgenv().NhoiiiX_Anchor == true,
         Callback = function(enabled)
-            getgenv().NNVN_Anchor = enabled
+            getgenv().NhoiiiX_Anchor = enabled
         end
     })
     pvpCombatSection:Toggle({
         Title = "Auto Use Skills",
-        Default = getgenv().NNVN_AutoSkill == true,
+        Default = getgenv().NhoiiiX_AutoSkill == true,
         Callback = function(selected)
-            getgenv().NNVN_AutoSkill = selected
+            getgenv().NhoiiiX_AutoSkill = selected
         end
     })
     pvpCombatSection:Dropdown({
         Title = "Auto Skills Method",
         Values = { "Keyboard", "Skill Event" },
-        Default = getgenv().NNVN_AutoSkillMethod or "Skill Event",
+        Default = getgenv().NhoiiiX_AutoSkillMethod or "Skill Event",
         Callback = function(selectedValue)
-            getgenv().NNVN_AutoSkillMethod = selectedValue
+            getgenv().NhoiiiX_AutoSkillMethod = selectedValue
         end
     })
     for i = 1, 4 do
         pvpCombatSection:Dropdown({
             Title = "Skill Order " .. i,
             Values = { "Z", "X", "C", "V" },
-            Default = (getgenv().NNVN_SkillOrder or { "Z", "X", "C", "V" })[i] or "Z",
+            Default = (getgenv().NhoiiiX_SkillOrder or { "Z", "X", "C", "V" })[i] or "Z",
             Callback = function(selected)
-                local skillOrder = getgenv().NNVN_SkillOrder or { "Z", "X", "C", "V" }
+                local skillOrder = getgenv().NhoiiiX_SkillOrder or { "Z", "X", "C", "V" }
                 for i2 = 1, 4 do
                     if i2 ~= i and skillOrder[i2] == selected then
                         skillOrder[i2] = skillOrder[i]
@@ -479,41 +479,41 @@ local function resolveGetService(inputValue)
                     end
                 end
             end
-            getgenv().NNVN_Skills = skillFlags
+            getgenv().NhoiiiX_Skills = skillFlags
         end
     })
     pvpCombatSection:Dropdown({
         Title = "Select Support Skill",
         Values = { "R", "T" },
-        Default = getgenv().NNVN_SupportSkill or "R",
+        Default = getgenv().NhoiiiX_SupportSkill or "R",
         Callback = function(selected)
-            getgenv().NNVN_SupportSkill = selected
+            getgenv().NhoiiiX_SupportSkill = selected
         end
     })
     pvpCombatSection:Dropdown({
         Title = "Use Support Skill when use skill",
         Values = { "Z", "X", "C", "V" },
-        Default = getgenv().NNVN_TriggerSkill or "Z",
+        Default = getgenv().NhoiiiX_TriggerSkill or "Z",
         Callback = function(enabled)
-            getgenv().NNVN_TriggerSkill = enabled
+            getgenv().NhoiiiX_TriggerSkill = enabled
         end
     })
     pvpCombatSection:Toggle({
         Title = "Auto Use SK when use selected skill",
-        Default = getgenv().NNVN_AutoUseSupport == true,
+        Default = getgenv().NhoiiiX_AutoUseSupport == true,
         Callback = function(enabled)
-            getgenv().NNVN_AutoUseSupport = enabled
+            getgenv().NhoiiiX_AutoUseSupport = enabled
         end
     })
     pvpCombatSection:Toggle({
         Title = "Skills ESP",
         Description = "Show equipped rod skills above all other players' heads.",
-        Default = getgenv().NNVN_SkillsESP == true,
+        Default = getgenv().NhoiiiX_SkillsESP == true,
         Callback = function(selectedValue)
-            if type(NNVN_SetSkillsESP) == "function" then
-                NNVN_SetSkillsESP(selectedValue == true)
+            if type(NhoiiiX_SetSkillsESP) == "function" then
+                NhoiiiX_SetSkillsESP(selectedValue == true)
             else
-                getgenv().NNVN_SkillsESP = selectedValue == true
+                getgenv().NhoiiiX_SkillsESP = selectedValue == true
             end
         end
     })
@@ -522,58 +522,58 @@ local function resolveGetService(inputValue)
     end)
     pcall(function()
         item:Notify({
-            Title = "NNVN Hub · PVP Lite",
+            Title = "NhoiiiX Hub · PVP Lite",
             Description = "PVP server detected — only PVP tools loaded",
             Time = 4
         })
     end)
-    print("[NNVN Hub] PVP Lite loaded · PlaceId=" .. tostring(game.PlaceId))
+    print("[NhoiiiX Hub] PVP Lite loaded · PlaceId=" .. tostring(game.PlaceId))
 end
 
-getgenv().NNVN_Loaded = false
-getgenv().NNVN_AutoTicket = false
-getgenv().NNVN_TicketDifficulty = "Easy"
-getgenv().NNVN_TicketFarmMode = getgenv().NNVN_TicketFarmMode or "Tween [Safe]"
-getgenv().NNVN_TicketHardLocation = getgenv().NNVN_TicketHardLocation or "Sky"
-getgenv().NNVN_TicketRandomSkyHeight = getgenv().NNVN_TicketRandomSkyHeight ~= false
-getgenv().NNVN_TicketSkyChosenHeight = tonumber(getgenv().NNVN_TicketSkyChosenHeight)
-getgenv().NNVN_SkyFarm = false
-getgenv().NNVN_SkyFarmHeight = math.clamp(tonumber(getgenv().NNVN_SkyFarmHeight) or 609, 100, 1000)
-getgenv().NNVN_TicketAcceptDelay = math.max(1, tonumber(getgenv().NNVN_TicketAcceptDelay) or 2)
-getgenv().NNVN_TicketFishWhileWaiting = getgenv().NNVN_TicketFishWhileWaiting ~= false
-getgenv().NNVN_TicketWaitNearNpcSeconds = math.clamp(tonumber(getgenv().NNVN_TicketWaitNearNpcSeconds) or 120, 60, 120)
-getgenv().NNVN_TicketDailyLimitReached = false
-getgenv().NNVN_AutoBuyBait = false
-getgenv().NNVN_BaitQuantity = math.max(1, tonumber(getgenv().NNVN_BaitQuantity) or 1)
-getgenv().NNVN_SelectedBait = "Basic Bait"
-getgenv().NNVN_AutoBuyBaitDelay = math.max(1, tonumber(getgenv().NNVN_AutoBuyBaitDelay) or 3)
-getgenv().NNVN_AutoPhase2 = false
-getgenv().NNVN_AutoTurnIn = false
-getgenv().NNVN_AutoGodSpirit = false
+getgenv().NhoiiiX_Loaded = false
+getgenv().NhoiiiX_AutoTicket = false
+getgenv().NhoiiiX_TicketDifficulty = "Easy"
+getgenv().NhoiiiX_TicketFarmMode = getgenv().NhoiiiX_TicketFarmMode or "Tween [Safe]"
+getgenv().NhoiiiX_TicketHardLocation = getgenv().NhoiiiX_TicketHardLocation or "Sky"
+getgenv().NhoiiiX_TicketRandomSkyHeight = getgenv().NhoiiiX_TicketRandomSkyHeight ~= false
+getgenv().NhoiiiX_TicketSkyChosenHeight = tonumber(getgenv().NhoiiiX_TicketSkyChosenHeight)
+getgenv().NhoiiiX_SkyFarm = false
+getgenv().NhoiiiX_SkyFarmHeight = math.clamp(tonumber(getgenv().NhoiiiX_SkyFarmHeight) or 609, 100, 1000)
+getgenv().NhoiiiX_TicketAcceptDelay = math.max(1, tonumber(getgenv().NhoiiiX_TicketAcceptDelay) or 2)
+getgenv().NhoiiiX_TicketFishWhileWaiting = getgenv().NhoiiiX_TicketFishWhileWaiting ~= false
+getgenv().NhoiiiX_TicketWaitNearNpcSeconds = math.clamp(tonumber(getgenv().NhoiiiX_TicketWaitNearNpcSeconds) or 120, 60, 120)
+getgenv().NhoiiiX_TicketDailyLimitReached = false
+getgenv().NhoiiiX_AutoBuyBait = false
+getgenv().NhoiiiX_BaitQuantity = math.max(1, tonumber(getgenv().NhoiiiX_BaitQuantity) or 1)
+getgenv().NhoiiiX_SelectedBait = "Basic Bait"
+getgenv().NhoiiiX_AutoBuyBaitDelay = math.max(1, tonumber(getgenv().NhoiiiX_AutoBuyBaitDelay) or 3)
+getgenv().NhoiiiX_AutoPhase2 = false
+getgenv().NhoiiiX_AutoTurnIn = false
+getgenv().NhoiiiX_AutoGodSpirit = false
 getgenv()._uiHideCount = getgenv()._uiHideCount or 0
-getgenv().NNVN_AutoHopGod = false
-getgenv().NNVN_AutoHopMaoshan = false
-getgenv().NNVN_AutoHopTaoist = false
-getgenv().NNVN_NoClip = false
-getgenv().NNVN_NoFog = false
-getgenv().NNVN_AutoExecuteScript = true
+getgenv().NhoiiiX_AutoHopGod = false
+getgenv().NhoiiiX_AutoHopMaoshan = false
+getgenv().NhoiiiX_AutoHopTaoist = false
+getgenv().NhoiiiX_NoClip = false
+getgenv().NhoiiiX_NoFog = false
+getgenv().NhoiiiX_AutoExecuteScript = true
 getgenv()._keyLoaded = false
-getgenv().NNVN_AutoClaimDaily = false
-getgenv().NNVN_ClaimDailyDelay = 1
-getgenv().NNVN_AutoUseBait = false
-getgenv().NNVN_AutoAcceptQuest = false
-getgenv().NNVN_AutoFavoriteFish = false
-getgenv().NNVN_SelectedFavoriteFish = nil
-getgenv().NNVN_FavoriteFishLoopId = 0
-getgenv().NNVN_SkipFishList = getgenv().NNVN_SkipFishList or {}
-getgenv().NNVN_AutoSkipFish = false
-getgenv().NNVN_SkipFishConnection = nil
-getgenv().NNVN_SkipFishRequestId = getgenv().NNVN_SkipFishRequestId or 0
-getgenv().NNVN_HidePlayerName = getgenv().NNVN_HidePlayerName ~= false
-getgenv().NNVN_HidePlayerNameText = getgenv().NNVN_HidePlayerNameText
-getgenv().NNVN_AutoBossFishing = false
-getgenv().NNVN_BossFishingSkipAt = 0
-getgenv().NNVN_BossFarmState = getgenv().NNVN_BossFarmState or {
+getgenv().NhoiiiX_AutoClaimDaily = false
+getgenv().NhoiiiX_ClaimDailyDelay = 1
+getgenv().NhoiiiX_AutoUseBait = false
+getgenv().NhoiiiX_AutoAcceptQuest = false
+getgenv().NhoiiiX_AutoFavoriteFish = false
+getgenv().NhoiiiX_SelectedFavoriteFish = nil
+getgenv().NhoiiiX_FavoriteFishLoopId = 0
+getgenv().NhoiiiX_SkipFishList = getgenv().NhoiiiX_SkipFishList or {}
+getgenv().NhoiiiX_AutoSkipFish = false
+getgenv().NhoiiiX_SkipFishConnection = nil
+getgenv().NhoiiiX_SkipFishRequestId = getgenv().NhoiiiX_SkipFishRequestId or 0
+getgenv().NhoiiiX_HidePlayerName = getgenv().NhoiiiX_HidePlayerName ~= false
+getgenv().NhoiiiX_HidePlayerNameText = getgenv().NhoiiiX_HidePlayerNameText
+getgenv().NhoiiiX_AutoBossFishing = false
+getgenv().NhoiiiX_BossFishingSkipAt = 0
+getgenv().NhoiiiX_BossFarmState = getgenv().NhoiiiX_BossFarmState or {
     CurrentTarget = nil,
     CurrentType = nil,
     CurrentToken = nil,
@@ -586,218 +586,218 @@ getgenv().NNVN_BossFarmState = getgenv().NNVN_BossFarmState or {
     LastProgress = 0,
     LastNotify = ""
 }
-getgenv().NNVN_WhiteScreen = false
-getgenv().NNVN_DarkScreen = false
-getgenv().NNVN_Anchor = false
-getgenv().NNVN_AutoCast = false
-getgenv().NNVN_AutoCastDelay = math.max(0.5, tonumber(getgenv().NNVN_AutoCastDelay) or 3)
-getgenv().NNVN_SafetyMode = getgenv().NNVN_SafetyMode ~= false
-getgenv().NNVN_RemoteSafetyTimes = getgenv().NNVN_RemoteSafetyTimes or {}
-getgenv().NNVN_RemoteMinInterval = math.max(0.5, tonumber(getgenv().NNVN_RemoteMinInterval) or 0.75)
-getgenv().NNVN_TweenStartDelay = math.max(0, tonumber(getgenv().NNVN_TweenStartDelay) or 0.2)
-getgenv().NNVN_BlockDuplicateTween = getgenv().NNVN_BlockDuplicateTween ~= false
-getgenv().NNVN_LastSafetyTweenAt = tonumber(getgenv().NNVN_LastSafetyTweenAt) or 0
-getgenv().NNVN_LastSafetyTweenTarget = getgenv().NNVN_LastSafetyTweenTarget
-getgenv().NNVN_AutoSell = false
-getgenv().NNVN_AutoSellNormalFish = false
-getgenv().NNVN_AutoSellOnlyBoss = false
-getgenv().NNVN_AutoSellOnlySecretBoss = false
-getgenv().NNVN_AutoSellWhenFull = false
-getgenv().NNVN_SellDelay = 5
-getgenv().NNVN_SellDelayMinutes = getgenv().NNVN_SellDelayMinutes or 0
-getgenv().NNVN_SellDelaySeconds = getgenv().NNVN_SellDelaySeconds or tonumber(getgenv().NNVN_SellDelay) or 5
-getgenv().NNVN_SellActionMethod = getgenv().NNVN_SellActionMethod or "Tween [Safe]"
-getgenv().NNVN_DisableUltraFPSPrompt = true
-getgenv().NNVN_LowFPSPromptShown = getgenv().NNVN_LowFPSPromptShown == true
-getgenv().NNVN_AutoSkill = false
-getgenv().NNVN_Skills = { Z = true, X = true, C = true, V = true }
-getgenv().NNVN_AutoSkillMethod = getgenv().NNVN_AutoSkillMethod or "Skill Event"
-getgenv().NNVN_SkillOrder = getgenv().NNVN_SkillOrder or { "Z", "X", "C", "V" }
-getgenv().NNVN_SupportSkill = getgenv().NNVN_SupportSkill or "R"
-getgenv().NNVN_TriggerSkill = getgenv().NNVN_TriggerSkill or "Z"
-getgenv().NNVN_AutoUseSupport = getgenv().NNVN_AutoUseSupport or false
-getgenv().NNVN_SkillsESP = getgenv().NNVN_SkillsESP or false
-getgenv().NNVN_SkillsESPGuis = getgenv().NNVN_SkillsESPGuis or {}
-getgenv().NNVN_SkillsESPLoop = getgenv().NNVN_SkillsESPLoop or 0
-getgenv().NNVN_Invisible = false
-if getgenv()._NNVN_InvisibleConn then
+getgenv().NhoiiiX_WhiteScreen = false
+getgenv().NhoiiiX_DarkScreen = false
+getgenv().NhoiiiX_Anchor = false
+getgenv().NhoiiiX_AutoCast = false
+getgenv().NhoiiiX_AutoCastDelay = math.max(0.5, tonumber(getgenv().NhoiiiX_AutoCastDelay) or 3)
+getgenv().NhoiiiX_SafetyMode = getgenv().NhoiiiX_SafetyMode ~= false
+getgenv().NhoiiiX_RemoteSafetyTimes = getgenv().NhoiiiX_RemoteSafetyTimes or {}
+getgenv().NhoiiiX_RemoteMinInterval = math.max(0.5, tonumber(getgenv().NhoiiiX_RemoteMinInterval) or 0.75)
+getgenv().NhoiiiX_TweenStartDelay = math.max(0, tonumber(getgenv().NhoiiiX_TweenStartDelay) or 0.2)
+getgenv().NhoiiiX_BlockDuplicateTween = getgenv().NhoiiiX_BlockDuplicateTween ~= false
+getgenv().NhoiiiX_LastSafetyTweenAt = tonumber(getgenv().NhoiiiX_LastSafetyTweenAt) or 0
+getgenv().NhoiiiX_LastSafetyTweenTarget = getgenv().NhoiiiX_LastSafetyTweenTarget
+getgenv().NhoiiiX_AutoSell = false
+getgenv().NhoiiiX_AutoSellNormalFish = false
+getgenv().NhoiiiX_AutoSellOnlyBoss = false
+getgenv().NhoiiiX_AutoSellOnlySecretBoss = false
+getgenv().NhoiiiX_AutoSellWhenFull = false
+getgenv().NhoiiiX_SellDelay = 5
+getgenv().NhoiiiX_SellDelayMinutes = getgenv().NhoiiiX_SellDelayMinutes or 0
+getgenv().NhoiiiX_SellDelaySeconds = getgenv().NhoiiiX_SellDelaySeconds or tonumber(getgenv().NhoiiiX_SellDelay) or 5
+getgenv().NhoiiiX_SellActionMethod = getgenv().NhoiiiX_SellActionMethod or "Tween [Safe]"
+getgenv().NhoiiiX_DisableUltraFPSPrompt = true
+getgenv().NhoiiiX_LowFPSPromptShown = getgenv().NhoiiiX_LowFPSPromptShown == true
+getgenv().NhoiiiX_AutoSkill = false
+getgenv().NhoiiiX_Skills = { Z = true, X = true, C = true, V = true }
+getgenv().NhoiiiX_AutoSkillMethod = getgenv().NhoiiiX_AutoSkillMethod or "Skill Event"
+getgenv().NhoiiiX_SkillOrder = getgenv().NhoiiiX_SkillOrder or { "Z", "X", "C", "V" }
+getgenv().NhoiiiX_SupportSkill = getgenv().NhoiiiX_SupportSkill or "R"
+getgenv().NhoiiiX_TriggerSkill = getgenv().NhoiiiX_TriggerSkill or "Z"
+getgenv().NhoiiiX_AutoUseSupport = getgenv().NhoiiiX_AutoUseSupport or false
+getgenv().NhoiiiX_SkillsESP = getgenv().NhoiiiX_SkillsESP or false
+getgenv().NhoiiiX_SkillsESPGuis = getgenv().NhoiiiX_SkillsESPGuis or {}
+getgenv().NhoiiiX_SkillsESPLoop = getgenv().NhoiiiX_SkillsESPLoop or 0
+getgenv().NhoiiiX_Invisible = false
+if getgenv()._NhoiiiX_InvisibleConn then
     pcall(function()
-        getgenv()._NNVN_InvisibleConn:Disconnect()
+        getgenv()._NhoiiiX_InvisibleConn:Disconnect()
     end)
-    getgenv()._NNVN_InvisibleConn = nil
+    getgenv()._NhoiiiX_InvisibleConn = nil
 end
-getgenv()._NNVN_InvisibleConn = getgenv()._NNVN_InvisibleConn or nil
-getgenv().NNVN_AutoGiveFish = false
-getgenv().NNVN_DumpGuyHotbarSlot = getgenv().NNVN_DumpGuyHotbarSlot or 4
-getgenv().NNVN_AutoFarm2MFish = false
-getgenv().NNVN_2MFishThreshold = 2000000
-getgenv().NNVN_2MFishPrevFlags = nil
-getgenv().NNVN_2MFishFarmCFrame = CFrame.new(1655.73901, 8.66194057, -155.14827, 0.782916069, 1.7383087e-08, -0.622127354, 1.4318406e-08, 1, 4.59603626e-08, 0.622127354, -4.4890978e-08, 0.782916069)
-getgenv().NNVN_AntiAFK = true
-getgenv().NNVN_AllowAutomaticServerHop = false
-getgenv().NNVN_ServerHopArmed = false
-getgenv().NNVN_IsApplyingConfig = false
-getgenv().NNVN_ScriptBootTime = os.clock()
-getgenv().NNVN_HopGraceSeconds = 25
-getgenv().NNVN_HopBootLocked = true
-getgenv().NNVN_AntiStaff = false
-getgenv().NNVN_ServerHopArmed = false
-getgenv().NNVN_AntiStaff = false
-getgenv().NNVN_AntiStaffAction = "Notify"
-getgenv().NNVN_AntiStaffUserIds = {
+getgenv()._NhoiiiX_InvisibleConn = getgenv()._NhoiiiX_InvisibleConn or nil
+getgenv().NhoiiiX_AutoGiveFish = false
+getgenv().NhoiiiX_DumpGuyHotbarSlot = getgenv().NhoiiiX_DumpGuyHotbarSlot or 4
+getgenv().NhoiiiX_AutoFarm2MFish = false
+getgenv().NhoiiiX_2MFishThreshold = 2000000
+getgenv().NhoiiiX_2MFishPrevFlags = nil
+getgenv().NhoiiiX_2MFishFarmCFrame = CFrame.new(1655.73901, 8.66194057, -155.14827, 0.782916069, 1.7383087e-08, -0.622127354, 1.4318406e-08, 1, 4.59603626e-08, 0.622127354, -4.4890978e-08, 0.782916069)
+getgenv().NhoiiiX_AntiAFK = true
+getgenv().NhoiiiX_AllowAutomaticServerHop = false
+getgenv().NhoiiiX_ServerHopArmed = false
+getgenv().NhoiiiX_IsApplyingConfig = false
+getgenv().NhoiiiX_ScriptBootTime = os.clock()
+getgenv().NhoiiiX_HopGraceSeconds = 25
+getgenv().NhoiiiX_HopBootLocked = true
+getgenv().NhoiiiX_AntiStaff = false
+getgenv().NhoiiiX_ServerHopArmed = false
+getgenv().NhoiiiX_AntiStaff = false
+getgenv().NhoiiiX_AntiStaffAction = "Notify"
+getgenv().NhoiiiX_AntiStaffUserIds = {
     3207980523,
     680393079,
     710850460,
     3382466488,
     2455864347
 }
-getgenv().NNVN_AntiStaffCooldown = 0
-getgenv().NNVN_AutoRejoin = false
-getgenv().NNVN_Notify = true
-getgenv().NNVN_Watermark = getgenv().NNVN_Watermark ~= false
-getgenv().NNVN_WalkSpeed = 16
-getgenv().NNVN_AutoBoss = false
-getgenv().NNVN_BossDifficulty = "Normal"
-getgenv().NNVN_AutoFarmSecretBoss = false
-getgenv().NNVN_AutoSecretBossMode = getgenv().NNVN_AutoSecretBossMode or "Always Active"
-getgenv().NNVN_AutoEquipBestBait = false
-getgenv().NNVN_AutoEquipRod = false
-getgenv().NNVN_AutoEquipBestOrb = false
-getgenv().NNVN_AutoBuyBaitThreshold = 5
-getgenv().NNVN_AutoCraftBait = false
-getgenv().NNVN_CraftBaitName = "Rainbow Bait"
-getgenv().NNVN_CraftBaitQuantity = 1
-getgenv().NNVN_AutoCraftRod = false
-getgenv().NNVN_CraftRodName = "Heavenpiercer Rod"
-getgenv().NNVN_CraftRodQuantity = 1
-getgenv().NNVN_GachaAmount = 1
-getgenv().NNVN_AutoRebirth = false
-getgenv().NNVN_RebirthOptions = { "Cash", "Level" }
-getgenv().NNVN_MaterialFarming = false
-getgenv().NNVN_MaterialBait = "Rainbow Bait"
-getgenv().NNVN_MaterialRodFarming = false
-getgenv().NNVN_MaterialRod = "Heavenpiercer Rod"
-getgenv().NNVN_ReturnAfterQuestTP = true
-getgenv().NNVN_SelectedAutoQuest = getgenv().NNVN_SelectedAutoQuest or "Zeng Tianguo Quest - Perch Isle"
-getgenv().NNVN_AutoSelectedQuest = getgenv().NNVN_AutoSelectedQuest == true
-getgenv().NNVN_ActionMethod = getgenv().NNVN_ActionMethod or "Tween [Safe]"
-getgenv().NNVN_TweenSpeed = getgenv().NNVN_TweenSpeed or 300
-getgenv().NNVN_FlyMode = false
-getgenv().NNVN_FlySpeed = 50
-getgenv().NNVN_InfiniteJump = false
-getgenv().NNVN_WalkOnWater = false
-getgenv().NNVN_FullBright = false
-getgenv().NNVN_PerformanceMod = false
-getgenv().NNVN_TraitReroll = false
-getgenv().NNVN_RerollSkill = nil
-getgenv().NNVN_RerollTargetTrait = nil
-getgenv().NNVN_RerollIgnoreLocked = false
-getgenv().NNVN_JobIdInput = ""
-getgenv().NNVN_LastWeatherReportKey = getgenv().NNVN_LastWeatherReportKey or nil
-getgenv().NNVN_AutoNamelessMinigame = false
-getgenv().NNVN_AutoBlackTortoiseMinigame = false
-getgenv().NNVN_BlackTortoiseBand = getgenv().NNVN_BlackTortoiseBand or 0.12
-getgenv().NNVN_NamelessMinigameMode = "Safe"
-getgenv().NNVN_NamelessBand = 0.17
-getgenv().NNVN_NamelessLag = 0.03
-getgenv().NNVN_CustomPositions = getgenv().NNVN_CustomPositions or {}
-getgenv().NNVN_PositionNameInput = getgenv().NNVN_PositionNameInput or "Position 1"
-getgenv().NNVN_SelectedPosition = getgenv().NNVN_SelectedPosition or "No Position"
-getgenv().NNVN_PositionTeleportMode = getgenv().NNVN_PositionTeleportMode or "No Teleport"
-getgenv().NNVN_PositionLock = false
-getgenv().NNVN_PositionLockLoopId = getgenv().NNVN_PositionLockLoopId or 0
-getgenv().NNVN_PositionLockDistance = 3
-getgenv().NNVN_Language = "English"
-getgenv().NNVN_HidePlayerId = getgenv().NNVN_HidePlayerId == true
-getgenv().NNVN_BlankPlayerId = getgenv().NNVN_BlankPlayerId == true
-getgenv().NNVN_CustomPlayerId = tostring(getgenv().NNVN_CustomPlayerId or "")
-getgenv().NNVN_FakeVisualsEnabled = getgenv().NNVN_FakeVisualsEnabled or false
-getgenv().NNVN_FakeLevelText = getgenv().NNVN_FakeLevelText or "100"
-getgenv().NNVN_FakeMoneyText = getgenv().NNVN_FakeMoneyText or "999999999"
-getgenv().NNVN_FakeGemText = getgenv().NNVN_FakeGemText or "9999"
-getgenv().NNVN_FakeTicketText = getgenv().NNVN_FakeTicketText or "999"
-getgenv().NNVN_FakeOrbText = getgenv().NNVN_FakeOrbText or "999"
-getgenv().NNVN_FakeNameEnabled = getgenv().NNVN_FakeNameEnabled or false
-getgenv().NNVN_FakeNameText = getgenv().NNVN_FakeNameText or "NNVN Premium"
-getgenv().NNVN_FakeHeadless = getgenv().NNVN_FakeHeadless or false
-getgenv().NNVN_FakeKorblox = getgenv().NNVN_FakeKorblox or false
-getgenv().NNVN_FakeSkinEnabled = getgenv().NNVN_FakeSkinEnabled or false
-getgenv().NNVN_FakeSkinPlayerName = getgenv().NNVN_FakeSkinPlayerName or ""
-getgenv().NNVN_FakeSkinTone = getgenv().NNVN_FakeSkinTone or "Pastel brown"
-getgenv().NNVN_PremiumWeatherEnabled = false
-getgenv().NNVN_PremiumSpiritEnabled = false
-getgenv().NNVN_PremiumTaoistEnabled = false
-getgenv().NNVN_PremiumMaoshanEnabled = false
-getgenv().NNVN_PremiumSelectedWeather = getgenv().NNVN_PremiumSelectedWeather or "Blazing Sun"
-getgenv().NNVN_ShowPremiumRelayMenu = getgenv().NNVN_ShowPremiumRelayMenu or false
-getgenv().NNVN_HideUI = getgenv().NNVN_HideUI or false
-getgenv().NNVN_IsPremiumAccess = getgenv().NNVN_IsPremium == true
-getgenv().NNVN_WebhookEnabled = getgenv().NNVN_WebhookEnabled == true
-getgenv().NNVN_WebhookUrl = getgenv().NNVN_WebhookUrl or ""
-getgenv().NNVN_WebhookWeather = getgenv().NNVN_WebhookWeather == true
-getgenv().NNVN_WebhookSpirit = getgenv().NNVN_WebhookSpirit == true
-getgenv().NNVN_WebhookMaoshan = getgenv().NNVN_WebhookMaoshan == true
-getgenv().NNVN_WebhookTaoist = getgenv().NNVN_WebhookTaoist == true
-getgenv().NNVN_WebhookCatchFish = getgenv().NNVN_WebhookCatchFish == true
-getgenv().NNVN_WebhookCatchBoss = getgenv().NNVN_WebhookCatchBoss == true
-getgenv().NNVN_WebhookCatchSecretBoss = getgenv().NNVN_WebhookCatchSecretBoss == true
-getgenv().NNVN_WebhookSell = getgenv().NNVN_WebhookSell == true
-getgenv().NNVN_LegacyNetworkTracker = true
-getgenv().NNVN_WebhookCooldown = getgenv().NNVN_WebhookCooldown or 20
-getgenv().NNVN_WebhookScanInterval = getgenv().NNVN_WebhookScanInterval or 45
-NNVN_SYSTEM_WEBHOOK_URLS = {
+getgenv().NhoiiiX_AntiStaffCooldown = 0
+getgenv().NhoiiiX_AutoRejoin = false
+getgenv().NhoiiiX_Notify = true
+getgenv().NhoiiiX_Watermark = getgenv().NhoiiiX_Watermark ~= false
+getgenv().NhoiiiX_WalkSpeed = 16
+getgenv().NhoiiiX_AutoBoss = false
+getgenv().NhoiiiX_BossDifficulty = "Normal"
+getgenv().NhoiiiX_AutoFarmSecretBoss = false
+getgenv().NhoiiiX_AutoSecretBossMode = getgenv().NhoiiiX_AutoSecretBossMode or "Always Active"
+getgenv().NhoiiiX_AutoEquipBestBait = false
+getgenv().NhoiiiX_AutoEquipRod = false
+getgenv().NhoiiiX_AutoEquipBestOrb = false
+getgenv().NhoiiiX_AutoBuyBaitThreshold = 5
+getgenv().NhoiiiX_AutoCraftBait = false
+getgenv().NhoiiiX_CraftBaitName = "Rainbow Bait"
+getgenv().NhoiiiX_CraftBaitQuantity = 1
+getgenv().NhoiiiX_AutoCraftRod = false
+getgenv().NhoiiiX_CraftRodName = "Heavenpiercer Rod"
+getgenv().NhoiiiX_CraftRodQuantity = 1
+getgenv().NhoiiiX_GachaAmount = 1
+getgenv().NhoiiiX_AutoRebirth = false
+getgenv().NhoiiiX_RebirthOptions = { "Cash", "Level" }
+getgenv().NhoiiiX_MaterialFarming = false
+getgenv().NhoiiiX_MaterialBait = "Rainbow Bait"
+getgenv().NhoiiiX_MaterialRodFarming = false
+getgenv().NhoiiiX_MaterialRod = "Heavenpiercer Rod"
+getgenv().NhoiiiX_ReturnAfterQuestTP = true
+getgenv().NhoiiiX_SelectedAutoQuest = getgenv().NhoiiiX_SelectedAutoQuest or "Zeng Tianguo Quest - Perch Isle"
+getgenv().NhoiiiX_AutoSelectedQuest = getgenv().NhoiiiX_AutoSelectedQuest == true
+getgenv().NhoiiiX_ActionMethod = getgenv().NhoiiiX_ActionMethod or "Tween [Safe]"
+getgenv().NhoiiiX_TweenSpeed = getgenv().NhoiiiX_TweenSpeed or 300
+getgenv().NhoiiiX_FlyMode = false
+getgenv().NhoiiiX_FlySpeed = 50
+getgenv().NhoiiiX_InfiniteJump = false
+getgenv().NhoiiiX_WalkOnWater = false
+getgenv().NhoiiiX_FullBright = false
+getgenv().NhoiiiX_PerformanceMod = false
+getgenv().NhoiiiX_TraitReroll = false
+getgenv().NhoiiiX_RerollSkill = nil
+getgenv().NhoiiiX_RerollTargetTrait = nil
+getgenv().NhoiiiX_RerollIgnoreLocked = false
+getgenv().NhoiiiX_JobIdInput = ""
+getgenv().NhoiiiX_LastWeatherReportKey = getgenv().NhoiiiX_LastWeatherReportKey or nil
+getgenv().NhoiiiX_AutoNamelessMinigame = false
+getgenv().NhoiiiX_AutoBlackTortoiseMinigame = false
+getgenv().NhoiiiX_BlackTortoiseBand = getgenv().NhoiiiX_BlackTortoiseBand or 0.12
+getgenv().NhoiiiX_NamelessMinigameMode = "Safe"
+getgenv().NhoiiiX_NamelessBand = 0.17
+getgenv().NhoiiiX_NamelessLag = 0.03
+getgenv().NhoiiiX_CustomPositions = getgenv().NhoiiiX_CustomPositions or {}
+getgenv().NhoiiiX_PositionNameInput = getgenv().NhoiiiX_PositionNameInput or "Position 1"
+getgenv().NhoiiiX_SelectedPosition = getgenv().NhoiiiX_SelectedPosition or "No Position"
+getgenv().NhoiiiX_PositionTeleportMode = getgenv().NhoiiiX_PositionTeleportMode or "No Teleport"
+getgenv().NhoiiiX_PositionLock = false
+getgenv().NhoiiiX_PositionLockLoopId = getgenv().NhoiiiX_PositionLockLoopId or 0
+getgenv().NhoiiiX_PositionLockDistance = 3
+getgenv().NhoiiiX_Language = "English"
+getgenv().NhoiiiX_HidePlayerId = getgenv().NhoiiiX_HidePlayerId == true
+getgenv().NhoiiiX_BlankPlayerId = getgenv().NhoiiiX_BlankPlayerId == true
+getgenv().NhoiiiX_CustomPlayerId = tostring(getgenv().NhoiiiX_CustomPlayerId or "")
+getgenv().NhoiiiX_FakeVisualsEnabled = getgenv().NhoiiiX_FakeVisualsEnabled or false
+getgenv().NhoiiiX_FakeLevelText = getgenv().NhoiiiX_FakeLevelText or "100"
+getgenv().NhoiiiX_FakeMoneyText = getgenv().NhoiiiX_FakeMoneyText or "999999999"
+getgenv().NhoiiiX_FakeGemText = getgenv().NhoiiiX_FakeGemText or "9999"
+getgenv().NhoiiiX_FakeTicketText = getgenv().NhoiiiX_FakeTicketText or "999"
+getgenv().NhoiiiX_FakeOrbText = getgenv().NhoiiiX_FakeOrbText or "999"
+getgenv().NhoiiiX_FakeNameEnabled = getgenv().NhoiiiX_FakeNameEnabled or false
+getgenv().NhoiiiX_FakeNameText = getgenv().NhoiiiX_FakeNameText or "NhoiiiX Premium"
+getgenv().NhoiiiX_FakeHeadless = getgenv().NhoiiiX_FakeHeadless or false
+getgenv().NhoiiiX_FakeKorblox = getgenv().NhoiiiX_FakeKorblox or false
+getgenv().NhoiiiX_FakeSkinEnabled = getgenv().NhoiiiX_FakeSkinEnabled or false
+getgenv().NhoiiiX_FakeSkinPlayerName = getgenv().NhoiiiX_FakeSkinPlayerName or ""
+getgenv().NhoiiiX_FakeSkinTone = getgenv().NhoiiiX_FakeSkinTone or "Pastel brown"
+getgenv().NhoiiiX_PremiumWeatherEnabled = false
+getgenv().NhoiiiX_PremiumSpiritEnabled = false
+getgenv().NhoiiiX_PremiumTaoistEnabled = false
+getgenv().NhoiiiX_PremiumMaoshanEnabled = false
+getgenv().NhoiiiX_PremiumSelectedWeather = getgenv().NhoiiiX_PremiumSelectedWeather or "Blazing Sun"
+getgenv().NhoiiiX_ShowPremiumRelayMenu = getgenv().NhoiiiX_ShowPremiumRelayMenu or false
+getgenv().NhoiiiX_HideUI = getgenv().NhoiiiX_HideUI or false
+getgenv().NhoiiiX_IsPremiumAccess = getgenv().NhoiiiX_IsPremium == true
+getgenv().NhoiiiX_WebhookEnabled = getgenv().NhoiiiX_WebhookEnabled == true
+getgenv().NhoiiiX_WebhookUrl = getgenv().NhoiiiX_WebhookUrl or ""
+getgenv().NhoiiiX_WebhookWeather = getgenv().NhoiiiX_WebhookWeather == true
+getgenv().NhoiiiX_WebhookSpirit = getgenv().NhoiiiX_WebhookSpirit == true
+getgenv().NhoiiiX_WebhookMaoshan = getgenv().NhoiiiX_WebhookMaoshan == true
+getgenv().NhoiiiX_WebhookTaoist = getgenv().NhoiiiX_WebhookTaoist == true
+getgenv().NhoiiiX_WebhookCatchFish = getgenv().NhoiiiX_WebhookCatchFish == true
+getgenv().NhoiiiX_WebhookCatchBoss = getgenv().NhoiiiX_WebhookCatchBoss == true
+getgenv().NhoiiiX_WebhookCatchSecretBoss = getgenv().NhoiiiX_WebhookCatchSecretBoss == true
+getgenv().NhoiiiX_WebhookSell = getgenv().NhoiiiX_WebhookSell == true
+getgenv().NhoiiiX_LegacyNetworkTracker = true
+getgenv().NhoiiiX_WebhookCooldown = getgenv().NhoiiiX_WebhookCooldown or 20
+getgenv().NhoiiiX_WebhookScanInterval = getgenv().NhoiiiX_WebhookScanInterval or 45
+NhoiiiX_SYSTEM_WEBHOOK_URLS = {
     weather = "https://discord.com/api/webhooks/1543925558193168414/ihmpPwJfvlhgDXeX8s4MiAo8og0F7Z8HG-HiXs2DwLb0g3SIIs6QJWbjzy4FJbH3Vf64",
     spirit = "https://discord.com/api/webhooks/1543926566244057159/vMvkh_TtVpjueWNAy0PRsyPBC-ZMbCLhl2xNZ-xiKqR63PuI8DrYwDL-TPBlpxnfHbVZ",
     maoshan = "https://discord.com/api/webhooks/1543926717025095731/tVYehqWWI6DmewDIeCB1h2344_39H9hxBJf_7l0CkTlHOms6nrBMQmerBsmny94Vuv9j",
     taoist = "https://discord.com/api/webhooks/1543927038879080602/IWS4gOABiqLomGGoB_Nt5LTqIzUgCtPjpJi_UmrirmbBRNfOvlI_1m-RdbQlmByVBZjG"
 }
-NNVN_SYSTEM_WEBHOOK_URLS.vermilion = "https://discord.com/api/webhooks/1559193471972151368/9pthg8Uzj6k49KWon-IuK6jINXm2E3U2wv7nIBZgo9O_VEdNgC4lfrb-S5rw1Efg1oXl"
-NNVN_SYSTEM_WEBHOOK_URLS.blacktortoise = "https://discord.com/api/webhooks/1561002385655201935/-qhIA6eO5oAs_SWmBDy5111g3mH9ANr84iJcq1NdEA1wj1Z8GVsHV47pn5k3jSP2CCyn"
-NNVN_BACKUP_WEBHOOK_URLS = {}
-getgenv().NNVN_WebhookWeatherUrl = ""
-getgenv().NNVN_WebhookMaoshanUrl = ""
-getgenv().NNVN_WebhookSpiritUrl = ""
-getgenv().NNVN_WebhookTaoistUrl = ""
-getgenv().NNVN_WebhookVermilionUrl = ""
-getgenv().NNVN_WebhookBlacktortoiseUrl = ""
-getgenv().NNVN_WebhookWeatherUrlBackup = NNVN_BACKUP_WEBHOOK_URLS.weather
-getgenv().NNVN_WebhookMaoshanUrlBackup = NNVN_BACKUP_WEBHOOK_URLS.maoshan
-getgenv().NNVN_WebhookSpiritUrlBackup = NNVN_BACKUP_WEBHOOK_URLS.spirit
-getgenv().NNVN_WebhookTaoistUrlBackup = NNVN_BACKUP_WEBHOOK_URLS.taoist
-getgenv().NNVN_WebhookVermilionUrlBackup = NNVN_BACKUP_WEBHOOK_URLS.vermilion
-getgenv().NNVN_WebhookBlacktortoiseUrlBackup = NNVN_BACKUP_WEBHOOK_URLS.blacktortoise
-getgenv().NNVN_UserWebhookEnabled = getgenv().NNVN_UserWebhookEnabled == true
-getgenv().NNVN_UserWebhookBoss = getgenv().NNVN_UserWebhookBoss == true
-getgenv().NNVN_UserWebhookBossUrl = getgenv().NNVN_UserWebhookBossUrl or ""
-getgenv().NNVN_UserWebhookCustom = getgenv().NNVN_UserWebhookCustom == true
-getgenv().NNVN_UserWebhookCustomUrl = getgenv().NNVN_UserWebhookCustomUrl or ""
-getgenv().NNVN_UserWebhookCustomName = getgenv().NNVN_UserWebhookCustomName or "Custom Alert"
-getgenv().NNVN_Backflip = getgenv().NNVN_Backflip or false
-getgenv().NNVN_BackflipDistance = getgenv().NNVN_BackflipDistance or 8
-getgenv().NNVN_BackflipLoopId = getgenv().NNVN_BackflipLoopId or 0
-getgenv().NNVN_AutoFarmWeatherEvent = getgenv().NNVN_AutoFarmWeatherEvent or false
-getgenv().NNVN_WeatherFarmLoopId = getgenv().NNVN_WeatherFarmLoopId or 0
-getgenv().NNVN_WeatherFarmIsland = getgenv().NNVN_WeatherFarmIsland or "Auto"
-getgenv().NNVN_WeatherFarmPrevPos = getgenv().NNVN_WeatherFarmPrevPos or nil
-getgenv().NNVN_WeatherFarmActive = getgenv().NNVN_WeatherFarmActive or false
-getgenv().NNVN_WeatherFarmPrevFlags = getgenv().NNVN_WeatherFarmPrevFlags or nil
-getgenv().NNVN_AutoLongDiaohai = getgenv().NNVN_AutoLongDiaohai or false
-getgenv().NNVN_LongDiaohaiDifficulty = getgenv().NNVN_LongDiaohaiDifficulty or "Normal"
-getgenv().NNVN_AutoLongDiaohaiPhase2 = getgenv().NNVN_AutoLongDiaohaiPhase2 or false
-getgenv().NNVN_AutoLongDiaohaiMinigame = false
-getgenv().NNVN_AutoHopFightLongDiaohai = getgenv().NNVN_AutoHopFightLongDiaohai or false
-getgenv().NNVN_AutoHopLongDiaohaiPrevFlags = nil
+NhoiiiX_SYSTEM_WEBHOOK_URLS.vermilion = "https://discord.com/api/webhooks/1559193471972151368/9pthg8Uzj6k49KWon-IuK6jINXm2E3U2wv7nIBZgo9O_VEdNgC4lfrb-S5rw1Efg1oXl"
+NhoiiiX_SYSTEM_WEBHOOK_URLS.blacktortoise = "https://discord.com/api/webhooks/1561002385655201935/-qhIA6eO5oAs_SWmBDy5111g3mH9ANr84iJcq1NdEA1wj1Z8GVsHV47pn5k3jSP2CCyn"
+NhoiiiX_BACKUP_WEBHOOK_URLS = {}
+getgenv().NhoiiiX_WebhookWeatherUrl = ""
+getgenv().NhoiiiX_WebhookMaoshanUrl = ""
+getgenv().NhoiiiX_WebhookSpiritUrl = ""
+getgenv().NhoiiiX_WebhookTaoistUrl = ""
+getgenv().NhoiiiX_WebhookVermilionUrl = ""
+getgenv().NhoiiiX_WebhookBlacktortoiseUrl = ""
+getgenv().NhoiiiX_WebhookWeatherUrlBackup = NhoiiiX_BACKUP_WEBHOOK_URLS.weather
+getgenv().NhoiiiX_WebhookMaoshanUrlBackup = NhoiiiX_BACKUP_WEBHOOK_URLS.maoshan
+getgenv().NhoiiiX_WebhookSpiritUrlBackup = NhoiiiX_BACKUP_WEBHOOK_URLS.spirit
+getgenv().NhoiiiX_WebhookTaoistUrlBackup = NhoiiiX_BACKUP_WEBHOOK_URLS.taoist
+getgenv().NhoiiiX_WebhookVermilionUrlBackup = NhoiiiX_BACKUP_WEBHOOK_URLS.vermilion
+getgenv().NhoiiiX_WebhookBlacktortoiseUrlBackup = NhoiiiX_BACKUP_WEBHOOK_URLS.blacktortoise
+getgenv().NhoiiiX_UserWebhookEnabled = getgenv().NhoiiiX_UserWebhookEnabled == true
+getgenv().NhoiiiX_UserWebhookBoss = getgenv().NhoiiiX_UserWebhookBoss == true
+getgenv().NhoiiiX_UserWebhookBossUrl = getgenv().NhoiiiX_UserWebhookBossUrl or ""
+getgenv().NhoiiiX_UserWebhookCustom = getgenv().NhoiiiX_UserWebhookCustom == true
+getgenv().NhoiiiX_UserWebhookCustomUrl = getgenv().NhoiiiX_UserWebhookCustomUrl or ""
+getgenv().NhoiiiX_UserWebhookCustomName = getgenv().NhoiiiX_UserWebhookCustomName or "Custom Alert"
+getgenv().NhoiiiX_Backflip = getgenv().NhoiiiX_Backflip or false
+getgenv().NhoiiiX_BackflipDistance = getgenv().NhoiiiX_BackflipDistance or 8
+getgenv().NhoiiiX_BackflipLoopId = getgenv().NhoiiiX_BackflipLoopId or 0
+getgenv().NhoiiiX_AutoFarmWeatherEvent = getgenv().NhoiiiX_AutoFarmWeatherEvent or false
+getgenv().NhoiiiX_WeatherFarmLoopId = getgenv().NhoiiiX_WeatherFarmLoopId or 0
+getgenv().NhoiiiX_WeatherFarmIsland = getgenv().NhoiiiX_WeatherFarmIsland or "Auto"
+getgenv().NhoiiiX_WeatherFarmPrevPos = getgenv().NhoiiiX_WeatherFarmPrevPos or nil
+getgenv().NhoiiiX_WeatherFarmActive = getgenv().NhoiiiX_WeatherFarmActive or false
+getgenv().NhoiiiX_WeatherFarmPrevFlags = getgenv().NhoiiiX_WeatherFarmPrevFlags or nil
+getgenv().NhoiiiX_AutoLongDiaohai = getgenv().NhoiiiX_AutoLongDiaohai or false
+getgenv().NhoiiiX_LongDiaohaiDifficulty = getgenv().NhoiiiX_LongDiaohaiDifficulty or "Normal"
+getgenv().NhoiiiX_AutoLongDiaohaiPhase2 = getgenv().NhoiiiX_AutoLongDiaohaiPhase2 or false
+getgenv().NhoiiiX_AutoLongDiaohaiMinigame = false
+getgenv().NhoiiiX_AutoHopFightLongDiaohai = getgenv().NhoiiiX_AutoHopFightLongDiaohai or false
+getgenv().NhoiiiX_AutoHopLongDiaohaiPrevFlags = nil
 local item
 pcall(function()
-    local ultraObsidianSource = getgenv()._NNVN_UltraObsidianSource
+    local ultraObsidianSource = getgenv()._NhoiiiX_UltraObsidianSource
     if type(ultraObsidianSource) ~= "string" or #ultraObsidianSource < 100 then
         ultraObsidianSource = game:HttpGet("https://raw.githubusercontent.com/n0namevnnek-web/UltraObsidian/refs/heads/main/Library.lua")
-        getgenv()._NNVN_UltraObsidianSource = ultraObsidianSource
+        getgenv()._NhoiiiX_UltraObsidianSource = ultraObsidianSource
     end
     item = loadstring(ultraObsidianSource)()
 end)
 if not item then
-    warn("[NNVN Hub] Failed to load WindUI")
+    warn("[NhoiiiX Hub] Failed to load WindUI")
     return
 end
 local item2 = item
@@ -805,10 +805,10 @@ pcall(function()
     if type(item2.SetIconModule) ~= "function" then
         return
     end
-    local lucideIconModule = getgenv()._NNVN_LucideIconModule
+    local lucideIconModule = getgenv()._NhoiiiX_LucideIconModule
     if type(lucideIconModule) ~= "table" or type(lucideIconModule.GetAsset) ~= "function" then
         lucideIconModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/deividcomsono/lucide-roblox-direct/refs/heads/main/source.lua"))()
-        getgenv()._NNVN_LucideIconModule = lucideIconModule
+        getgenv()._NhoiiiX_LucideIconModule = lucideIconModule
     end
     item2:SetIconModule(lucideIconModule)
 end)
@@ -816,7 +816,7 @@ pcall(function()
     item2:SetTheme("Midnight")
 end)
 item2.ShowCustomCursor = false
-function NNVN_ColorFromHex(inputValue, secondValue)
+function NhoiiiX_ColorFromHex(inputValue, secondValue)
     local formattedText = tostring(inputValue or ""):gsub("#", ""):gsub("0x", "")
     if #formattedText ~= 6 or not formattedText:match("^[%da-fA-F]+$") then
         return secondValue
@@ -826,7 +826,7 @@ end
 
 local function applyWindowScheme()
     if type(item2.Scheme) == "table" then
-        local colorFromHexResult = NNVN_ColorFromHex(getgenv().NNVN_AccentColorHex, Color3.fromRGB(86, 140, 255))
+        local colorFromHexResult = NhoiiiX_ColorFromHex(getgenv().NhoiiiX_AccentColorHex, Color3.fromRGB(86, 140, 255))
         item2.Scheme.BackgroundColor = Color3.fromRGB(16, 17, 20)
         item2.Scheme.MainColor = Color3.fromRGB(27, 29, 34)
         item2.Scheme.AccentColor = colorFromHexResult
@@ -834,7 +834,7 @@ local function applyWindowScheme()
         item2.Scheme.FontColor = Color3.fromRGB(245, 247, 250)
         item2.Scheme.DarkColor = Color3.fromRGB(9, 10, 12)
         item2.Scheme.WhiteColor = Color3.fromRGB(255, 255, 255)
-        item2.Scheme.BackgroundImage = getgenv().NNVN_BackgroundImage or ""
+        item2.Scheme.BackgroundImage = getgenv().NhoiiiX_BackgroundImage or ""
     end
     if type(item2.UpdateColors) == "function" then
         item2:UpdateColors()
@@ -921,10 +921,10 @@ function toFluentMultiMap(inputValue)
 end
 
 function patchContainer(control)
-    if not control or control.__NNVN_WindCompat then
+    if not control or control.__NhoiiiX_WindCompat then
         return control
     end
-    control.__NNVN_WindCompat = true
+    control.__NhoiiiX_WindCompat = true
     local addSection = control.AddSection
     if addSection then
         control.AddSection = function(selfContainer, ...)
@@ -937,8 +937,8 @@ function patchContainer(control)
             return patchContainer(section(selfContainer, ...))
         end
     end
-    if not control.__NNVN_TooltipCompat then
-        control.__NNVN_TooltipCompat = true
+    if not control.__NhoiiiX_TooltipCompat then
+        control.__NhoiiiX_TooltipCompat = true
         local addToggle = control.AddToggle
         local addDropdown = control.AddDropdown
         local addSlider = control.AddSlider
@@ -1145,7 +1145,7 @@ if playerGui then
     item3 = playerGui:FindFirstChild("MainGui") or playerGui:WaitForChild("MainGui", 15)
 end
 if not item3 then
-    warn("[NNVN Hub] MainGui not found within 15s — waiting for it in background")
+    warn("[NhoiiiX Hub] MainGui not found within 15s — waiting for it in background")
     task.spawn(function()
         local playerGui = LocalPlayer:WaitForChild("PlayerGui", 60)
         if not playerGui then
@@ -1158,12 +1158,12 @@ if not item3 then
     item3.Parent = playerGui or LocalPlayer
 end
 pcall(function()
-    getgenv().NNVN_FlyMode = false
-    getgenv().NNVN_PositionLock = false
-    getgenv().NNVN_PositionLockLoopId = (getgenv().NNVN_PositionLockLoopId or 0) + 1
-    getgenv().NNVN_Anchor = false
-    getgenv().NNVN_NoClip = false
-    getgenv().NNVN_Invisible = false
+    getgenv().NhoiiiX_FlyMode = false
+    getgenv().NhoiiiX_PositionLock = false
+    getgenv().NhoiiiX_PositionLockLoopId = (getgenv().NhoiiiX_PositionLockLoopId or 0) + 1
+    getgenv().NhoiiiX_Anchor = false
+    getgenv().NhoiiiX_NoClip = false
+    getgenv().NhoiiiX_Invisible = false
     if flyState then
         flyState.flying = false
         if flyState.bg then
@@ -1192,7 +1192,7 @@ pcall(function()
             end
         end
         local currentCamera = workspace.CurrentCamera
-        if currentCamera and currentCamera.CameraSubject and currentCamera.CameraSubject.Name == "NNVN_InvisibleFocus" then
+        if currentCamera and currentCamera.CameraSubject and currentCamera.CameraSubject.Name == "NhoiiiX_InvisibleFocus" then
             local humanoid = character:FindFirstChildOfClass("Humanoid")
             if humanoid then
                 currentCamera.CameraSubject = humanoid
@@ -1202,8 +1202,8 @@ pcall(function()
     end
 end)
 local placeId = game.PlaceId
-getgenv().NNVN_TrackerBaseUrl = getgenv().NNVN_TrackerBaseUrl or rawget(_G, "NNVN_TrackerBaseUrl") or getgenv().reporter_url or rawget(_G, "reporter_url") or getgenv().bot_base_url or rawget(_G, "bot_base_url") or "https://nnvn-tracker-relay.nnvn-hub.workers.dev/api"
-local formattedText = tostring(getgenv().NNVN_TrackerBaseUrl):gsub("/+$", "")
+getgenv().NhoiiiX_TrackerBaseUrl = getgenv().NhoiiiX_TrackerBaseUrl or rawget(_G, "NhoiiiX_TrackerBaseUrl") or getgenv().reporter_url or rawget(_G, "reporter_url") or getgenv().bot_base_url or rawget(_G, "bot_base_url") or "https://nnvn-tracker-relay.nnvn-hub.workers.dev/api"
+local formattedText = tostring(getgenv().NhoiiiX_TrackerBaseUrl):gsub("/+$", "")
 local relayKey = "f6fb1020de488d3f070e2cd84b8675bd94ddcfb793429bbb595853d5bcf95657"
 local weatherLookup = {
     foggy = true,
@@ -1213,9 +1213,9 @@ local weatherLookup = {
     rainy = true,
     thunderstorm = true
 }
-getgenv().NNVN_LastTrackerReportKeys = getgenv().NNVN_LastTrackerReportKeys or {}
+getgenv().NhoiiiX_LastTrackerReportKeys = getgenv().NhoiiiX_LastTrackerReportKeys or {}
 local uiStrings = {
-    win_title = "NNVN Hub",
+    win_title = "NhoiiiX Hub",
     win_sub = "By N0NAMEVN | Heavyweight Fishing v" .. hubVersion,
     tab_fishing = "Main",
     tab_boss = "Boss",
@@ -1513,7 +1513,7 @@ local languageDict = {
         ["Native config unavailable; legacy config storage is active (manual save only)."] = "Config native không khả dụng; đang dùng lưu legacy (chỉ lưu thủ công).",
         ["WindUI-V2 ConfigManager"] = "WindUI-V2 ConfigManager",
         ["Match place detected — only PVP tools loaded"] = "Phát hiện map trận — chỉ tải công cụ PVP",
-        ["NNVN Hub · PVP Lite"] = "NNVN Hub · PVP Lite",
+        ["NhoiiiX Hub · PVP Lite"] = "NhoiiiX Hub · PVP Lite",
         Tween = "Tween",
         Instant = "Tức thì",
         ["Tween Speed"] = "Tốc độ Tween",
@@ -1771,7 +1771,7 @@ function TranslateText(inputValue)
     if ShouldSkipUITranslation(inputValue) then
         return inputValue
     end
-    local language = getgenv().NNVN_Language or "English"
+    local language = getgenv().NhoiiiX_Language or "English"
     if language == "English" then
         return inputValue
     end
@@ -1798,7 +1798,7 @@ function NormalizeTranslatedChoice(inputValue, secondValue)
 end
 
 function ApplyUILanguage()
-    if (getgenv().NNVN_Language or "English") == "English" then
+    if (getgenv().NhoiiiX_Language or "English") == "English" then
         return
     end
     local lookupMap = {}
@@ -1824,14 +1824,14 @@ function ApplyUILanguage()
         local formattedText = instance.Parent and string.lower(tostring(instance.Parent.Name or "")) or ""
         if formattedText:find("option", 1, true) or formattedText:find("dropdownitem", 1, true) then
             local text = instance.Text or ""
-            if (ShouldSkipUITranslation(text) or #text <= 24 and not languageDict[getgenv().NNVN_Language or "English"]) and ShouldSkipUITranslation(text) then
+            if (ShouldSkipUITranslation(text) or #text <= 24 and not languageDict[getgenv().NhoiiiX_Language or "English"]) and ShouldSkipUITranslation(text) then
                 return
             end
         end
-        local englishTextAttr = instance:GetAttribute("NNVN_EnglishText")
+        local englishTextAttr = instance:GetAttribute("NhoiiiX_EnglishText")
         if not englishTextAttr then
             englishTextAttr = lookupMap[instance.Text] or instance.Text
-            instance:SetAttribute("NNVN_EnglishText", englishTextAttr)
+            instance:SetAttribute("NhoiiiX_EnglishText", englishTextAttr)
         end
         if ShouldSkipUITranslation(englishTextAttr) then
             return
@@ -1841,10 +1841,10 @@ function ApplyUILanguage()
             instance.Text = translateTextResult
         end
         if instance:IsA("TextBox") then
-            local englishPlaceholderAttr = instance:GetAttribute("NNVN_EnglishPlaceholder")
+            local englishPlaceholderAttr = instance:GetAttribute("NhoiiiX_EnglishPlaceholder")
             if not englishPlaceholderAttr then
                 englishPlaceholderAttr = instance.PlaceholderText or ""
-                instance:SetAttribute("NNVN_EnglishPlaceholder", englishPlaceholderAttr)
+                instance:SetAttribute("NhoiiiX_EnglishPlaceholder", englishPlaceholderAttr)
             end
             if not ShouldSkipUITranslation(englishPlaceholderAttr) then
                 local translateTextResult2 = TranslateText(englishPlaceholderAttr)
@@ -1870,9 +1870,9 @@ function ApplyUILanguage()
     end
 end
 
-if item and type(item.Notify) == "function" and not item.__NNVN_NotifyPatched then
+if item and type(item.Notify) == "function" and not item.__NhoiiiX_NotifyPatched then
     local notify2 = item.Notify
-    item.__NNVN_NotifyPatched = true
+    item.__NhoiiiX_NotifyPatched = true
     item.Notify = function(inputValue, options)
         options = type(options) == "table" and options or {}
         local function resolveLower(inputValue)
@@ -2051,10 +2051,10 @@ end
 
 function TPNear(inputValue, secondValue)
     secondValue = secondValue or delaySeconds2
-    if type(NNVN_MoveNear) ~= "function" then
+    if type(NhoiiiX_MoveNear) ~= "function" then
         return false
     end
-    return NNVN_MoveNear(inputValue, secondValue, GetActionMethod())
+    return NhoiiiX_MoveNear(inputValue, secondValue, GetActionMethod())
 end
 
 function WithSavedPosition(inputValue)
@@ -2065,16 +2065,16 @@ function WithSavedPosition(inputValue)
     if rootPart and cFrame then
         task.wait(0.2)
         pcall(function()
-            NNVN_TweenTo(cFrame)
+            NhoiiiX_TweenTo(cFrame)
         end)
     end
     return ok, result
 end
 
-local tweenAnchor = workspace:FindFirstChild("NNVN_TweenAnchor")
+local tweenAnchor = workspace:FindFirstChild("NhoiiiX_TweenAnchor")
 if not tweenAnchor then
     tweenAnchor = Instance.new("Part")
-    tweenAnchor.Name = "NNVN_TweenAnchor"
+    tweenAnchor.Name = "NhoiiiX_TweenAnchor"
     tweenAnchor.Size = Vector3.new(1, 1, 1)
     tweenAnchor.Anchored = true
     tweenAnchor.CanCollide = false
@@ -2085,7 +2085,7 @@ end
 local hasTriggered = false
 local item5
 local item6
-function NNVN_StopTween()
+function NhoiiiX_StopTween()
     hasTriggered = false
     if item5 then
         pcall(function()
@@ -2101,14 +2101,14 @@ function NNVN_StopTween()
     end
     local character = LocalPlayer.Character
     if character and character:FindFirstChild("HumanoidRootPart") then
-        local bodyClip = character.HumanoidRootPart:FindFirstChild("NNVN_BodyClip")
+        local bodyClip = character.HumanoidRootPart:FindFirstChild("NhoiiiX_BodyClip")
         if bodyClip then
             bodyClip:Destroy()
         end
     end
 end
 
-function NNVN_ResolveMoveCF(inputValue, secondValue)
+function NhoiiiX_ResolveMoveCF(inputValue, secondValue)
     secondValue = secondValue or delaySeconds2
     if typeof(inputValue) == "CFrame" then
         return inputValue
@@ -2138,8 +2138,8 @@ function NNVN_ResolveMoveCF(inputValue, secondValue)
     return CFrame.new(item4Result.Position - item4Result.CFrame.LookVector * secondValue + Vector3.new(0, 2, 0), item4Result.Position)
 end
 
-function NNVN_TweenToRaw(target, secondValue)
-    secondValue = tonumber(secondValue) or getgenv().NNVN_TweenSpeed or 300
+function NhoiiiX_TweenToRaw(target, secondValue)
+    secondValue = tonumber(secondValue) or getgenv().NhoiiiX_TweenSpeed or 300
     local character = LocalPlayer.Character
     if not character then
         return false
@@ -2154,30 +2154,30 @@ function NNVN_TweenToRaw(target, secondValue)
     elseif typeof(target) ~= "CFrame" then
         return false
     end
-    if getgenv().NNVN_SafetyMode then
-        local computedValue = math.max(0, tonumber(getgenv().NNVN_TweenStartDelay) or 0.2) - (os.clock() - (tonumber(getgenv().NNVN_LastSafetyTweenAt) or 0))
+    if getgenv().NhoiiiX_SafetyMode then
+        local computedValue = math.max(0, tonumber(getgenv().NhoiiiX_TweenStartDelay) or 0.2) - (os.clock() - (tonumber(getgenv().NhoiiiX_LastSafetyTweenAt) or 0))
         if computedValue > 0 then
             task.wait(computedValue)
         end
         local nowTime = os.clock()
-        local lastSafetyTweenTarget = getgenv().NNVN_LastSafetyTweenTarget
-        if getgenv().NNVN_BlockDuplicateTween and typeof(lastSafetyTweenTarget) == "CFrame" and (lastSafetyTweenTarget.Position - target.Position).Magnitude <= 1 and nowTime - (tonumber(getgenv().NNVN_LastSafetyTweenAt) or 0) < 1 and (rootPart.Position - target.Position).Magnitude <= 9 then
+        local lastSafetyTweenTarget = getgenv().NhoiiiX_LastSafetyTweenTarget
+        if getgenv().NhoiiiX_BlockDuplicateTween and typeof(lastSafetyTweenTarget) == "CFrame" and (lastSafetyTweenTarget.Position - target.Position).Magnitude <= 1 and nowTime - (tonumber(getgenv().NhoiiiX_LastSafetyTweenAt) or 0) < 1 and (rootPart.Position - target.Position).Magnitude <= 9 then
             return true
         end
-        getgenv().NNVN_LastSafetyTweenAt = nowTime
-        getgenv().NNVN_LastSafetyTweenTarget = target
+        getgenv().NhoiiiX_LastSafetyTweenAt = nowTime
+        getgenv().NhoiiiX_LastSafetyTweenTarget = target
     end
     local magnitude = (rootPart.Position - target.Position).Magnitude
     if magnitude <= 0.5 then
         rootPart.CFrame = target
         return true
     end
-    NNVN_StopTween()
+    NhoiiiX_StopTween()
     hasTriggered = true
     tweenAnchor.CFrame = rootPart.CFrame
-    if not rootPart:FindFirstChild("NNVN_BodyClip") then
+    if not rootPart:FindFirstChild("NhoiiiX_BodyClip") then
         local bodyVelocity = Instance.new("BodyVelocity")
-        bodyVelocity.Name = "NNVN_BodyClip"
+        bodyVelocity.Name = "NhoiiiX_BodyClip"
         bodyVelocity.MaxForce = Vector3.new(1000000000, 1000000000, 1000000000)
         bodyVelocity.Velocity = Vector3.zero
         bodyVelocity.Parent = rootPart
@@ -2216,7 +2216,7 @@ function NNVN_TweenToRaw(target, secondValue)
         rootPart.AssemblyLinearVelocity = Vector3.zero
         rootPart.AssemblyAngularVelocity = Vector3.zero
     end
-    NNVN_StopTween()
+    NhoiiiX_StopTween()
     return hasTriggered2 or rootPart and (rootPart.Position - target.Position).Magnitude <= 9
 end
 
@@ -2231,7 +2231,7 @@ function NormalizeActionMethodName(text)
     return "Tween"
 end
 
-function NNVN_SetRootCFrame(target)
+function NhoiiiX_SetRootCFrame(target)
     if typeof(target) == "Vector3" then
         target = CFrame.new(target)
     end
@@ -2243,7 +2243,7 @@ function NNVN_SetRootCFrame(target)
     if not rootPart then
         return false
     end
-    NNVN_StopTween()
+    NhoiiiX_StopTween()
     rootPart.CFrame = target
     rootPart.AssemblyLinearVelocity = Vector3.zero
     rootPart.AssemblyAngularVelocity = Vector3.zero
@@ -2251,24 +2251,24 @@ function NNVN_SetRootCFrame(target)
     return rootPart.Parent ~= nil and (rootPart.Position - target.Position).Magnitude <= 10
 end
 
-function NNVN_MoveToCFrame(inputValue, secondValue, thirdValue)
-    local actionMethodName = NormalizeActionMethodName(secondValue or getgenv().NNVN_ActionMethod)
+function NhoiiiX_MoveToCFrame(inputValue, secondValue, thirdValue)
+    local actionMethodName = NormalizeActionMethodName(secondValue or getgenv().NhoiiiX_ActionMethod)
     if actionMethodName == "Teleport" or actionMethodName == "Instant" then
-        return NNVN_SetRootCFrame(inputValue)
+        return NhoiiiX_SetRootCFrame(inputValue)
     end
-    return NNVN_TweenToRaw(inputValue, thirdValue)
+    return NhoiiiX_TweenToRaw(inputValue, thirdValue)
 end
 
-function NNVN_TweenTo(inputValue, secondValue)
-    return NNVN_MoveToCFrame(inputValue, getgenv().NNVN_ActionMethod, secondValue)
+function NhoiiiX_TweenTo(inputValue, secondValue)
+    return NhoiiiX_MoveToCFrame(inputValue, getgenv().NhoiiiX_ActionMethod, secondValue)
 end
 
-function NNVN_MoveNear(inputValue, secondValue, thirdValue)
-    local actionMethodName = NormalizeActionMethodName(thirdValue or getgenv().NNVN_ActionMethod)
+function NhoiiiX_MoveNear(inputValue, secondValue, thirdValue)
+    local actionMethodName = NormalizeActionMethodName(thirdValue or getgenv().NhoiiiX_ActionMethod)
     if actionMethodName == "Instant" then
         return true
     end
-    local moveCf = NNVN_ResolveMoveCF(inputValue, secondValue)
+    local moveCf = NhoiiiX_ResolveMoveCF(inputValue, secondValue)
     if not moveCf then
         if type(inputValue) == "function" then
             return inputValue() ~= false
@@ -2287,29 +2287,29 @@ function NNVN_MoveNear(inputValue, secondValue, thirdValue)
             hasTriggered = (rootPart.Position - moveCf.Position).Magnitude <= 10
         end
     else
-        hasTriggered = NNVN_MoveToCFrame(moveCf, actionMethodName) == true
+        hasTriggered = NhoiiiX_MoveToCFrame(moveCf, actionMethodName) == true
     end
     task.wait(0.12)
     return hasTriggered
 end
 
-getgenv().NNVN_TweenTo = NNVN_TweenTo
-getgenv().NNVN_TweenToRaw = NNVN_TweenToRaw
-getgenv().NNVN_MoveToCFrame = NNVN_MoveToCFrame
-getgenv().NNVN_StopTween = NNVN_StopTween
-getgenv().NNVN_MoveNear = NNVN_MoveNear
+getgenv().NhoiiiX_TweenTo = NhoiiiX_TweenTo
+getgenv().NhoiiiX_TweenToRaw = NhoiiiX_TweenToRaw
+getgenv().NhoiiiX_MoveToCFrame = NhoiiiX_MoveToCFrame
+getgenv().NhoiiiX_StopTween = NhoiiiX_StopTween
+getgenv().NhoiiiX_MoveNear = NhoiiiX_MoveNear
 function GetActionMethod()
-    return NormalizeActionMethodName(getgenv().NNVN_ActionMethod)
+    return NormalizeActionMethodName(getgenv().NhoiiiX_ActionMethod)
 end
 
-function NNVN_RemoteAllowed(inputValue, secondValue)
-    if not getgenv().NNVN_SafetyMode then
+function NhoiiiX_RemoteAllowed(inputValue, secondValue)
+    if not getgenv().NhoiiiX_SafetyMode then
         return true
     end
-    local remoteSafetyTimes = getgenv().NNVN_RemoteSafetyTimes or {}
-    getgenv().NNVN_RemoteSafetyTimes = remoteSafetyTimes
+    local remoteSafetyTimes = getgenv().NhoiiiX_RemoteSafetyTimes or {}
+    getgenv().NhoiiiX_RemoteSafetyTimes = remoteSafetyTimes
     local nowTime = os.clock()
-    if nowTime - (tonumber(remoteSafetyTimes[inputValue]) or 0) < math.max(tonumber(getgenv().NNVN_RemoteMinInterval) or 0.75, tonumber(secondValue) or 0) then
+    if nowTime - (tonumber(remoteSafetyTimes[inputValue]) or 0) < math.max(tonumber(getgenv().NhoiiiX_RemoteMinInterval) or 0.75, tonumber(secondValue) or 0) then
         return false
     end
     remoteSafetyTimes[inputValue] = nowTime
@@ -2329,7 +2329,7 @@ function RunActionWithMethod(inputValue, secondValue)
         if actionMethodName ~= "Instant" then
             local isEnabled = true
             if inputValue.target then
-                isEnabled = NNVN_MoveNear(inputValue.target, inputValue.offsetDist, actionMethodName)
+                isEnabled = NhoiiiX_MoveNear(inputValue.target, inputValue.offsetDist, actionMethodName)
             elseif type(inputValue.teleport) == "function" then
                 isEnabled = inputValue.teleport()
             end
@@ -2342,7 +2342,7 @@ function RunActionWithMethod(inputValue, secondValue)
     if inputValue.returnAfter and item then
         local character2 = LocalPlayer.Character
         if character2 and character2:FindFirstChild("HumanoidRootPart") then
-            NNVN_MoveToCFrame(item, actionMethodName)
+            NhoiiiX_MoveToCFrame(item, actionMethodName)
         end
     end
     return ok, result
@@ -2350,7 +2350,7 @@ end
 
 function ProxFire(inputValue, secondValue, ...)
     local itemList = { ... }
-    RunActionWithMethod({ target = secondValue, returnAfter = getgenv().NNVN_ReturnAfterQuestTP }, function()
+    RunActionWithMethod({ target = secondValue, returnAfter = getgenv().NhoiiiX_ReturnAfterQuestTP }, function()
         inputValue:FireServer(table.unpack(itemList))
     end)
 end
@@ -2358,7 +2358,7 @@ end
 function ProxInvoke(inputValue, secondValue, ...)
     local itemList = { ... }
     local item
-    RunActionWithMethod({ target = secondValue, returnAfter = getgenv().NNVN_ReturnAfterQuestTP }, function()
+    RunActionWithMethod({ target = secondValue, returnAfter = getgenv().NhoiiiX_ReturnAfterQuestTP }, function()
         item = inputValue:InvokeServer(table.unpack(itemList))
     end)
     return item
@@ -2406,7 +2406,7 @@ function TPNearRebirthNPC()
         local character = LocalPlayer.Character
         if character and character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
-                NNVN_TweenTo(zengTianguo + Vector3.new(0, 2, 0))
+                NhoiiiX_TweenTo(zengTianguo + Vector3.new(0, 2, 0))
             end)
             task.wait(delaySeconds)
             return true
@@ -2436,10 +2436,10 @@ function ProxEquipOrb(inputValue)
     return ProxInvoke(ReplicatedStorage.Events.EquipOrb, nil, inputValue)
 end
 
-getgenv().NNVN_TPNear = TPNear
-getgenv().NNVN_FindNPCByName = FindNPCByName
-getgenv().NNVN_ProxFire = ProxFire
-getgenv().NNVN_ProxInvoke = ProxInvoke
+getgenv().NhoiiiX_TPNear = TPNear
+getgenv().NhoiiiX_FindNPCByName = FindNPCByName
+getgenv().NhoiiiX_ProxFire = ProxFire
+getgenv().NhoiiiX_ProxInvoke = ProxInvoke
 function GetPlayerData()
     return ReplicatedStorage.Data:FindFirstChild(tostring(LocalPlayer.UserId))
 end
@@ -2501,7 +2501,7 @@ function getHotbarSlotFishName(inputValue)
 end
 
 function getSelectedFishHotbarSlot()
-    local clampResult = math.clamp(math.floor(tonumber(getgenv().NNVN_DumpGuyHotbarSlot) or 4), 1, 10)
+    local clampResult = math.clamp(math.floor(tonumber(getgenv().NhoiiiX_DumpGuyHotbarSlot) or 4), 1, 10)
     if not getDumpGuySlotState(clampResult) then
         return nil, "Hotbar data was not found."
     end
@@ -2531,11 +2531,11 @@ end
 
 function notifyDumpGuySlotIssue(inputValue)
     local nowTime = tick()
-    if nowTime - (getgenv().NNVN_DumpGuyLastSlotWarning or 0) < 3 then
+    if nowTime - (getgenv().NhoiiiX_DumpGuyLastSlotWarning or 0) < 3 then
         return
     end
-    getgenv().NNVN_DumpGuyLastSlotWarning = nowTime
-    if getgenv().NNVN_Notify and item then
+    getgenv().NhoiiiX_DumpGuyLastSlotWarning = nowTime
+    if getgenv().NhoiiiX_Notify and item then
         item:Notify({
             Title = "Dump Guy",
             Content = inputValue,
@@ -2612,7 +2612,7 @@ function TeleportToDumpGuyExact()
         return false
     end
     local callOk = pcall(function()
-        NNVN_TweenTo(rootPart.CFrame)
+        NhoiiiX_TweenTo(rootPart.CFrame)
     end)
     if callOk then
         task.wait(delaySeconds)
@@ -2623,7 +2623,7 @@ end
 function interactWithDumpGuy()
     local chooseDialogueOption = ReplicatedStorage.Events:FindFirstChild("ChooseDialogueOption")
     if not chooseDialogueOption then
-        if getgenv().NNVN_Notify and item then
+        if getgenv().NhoiiiX_Notify and item then
             item:Notify({
                 Title = "Dump Guy",
                 Content = "Remote ChooseDialogueOption not found!",
@@ -2640,7 +2640,7 @@ function interactWithDumpGuy()
         dumbGuy = FindNPCByName(dumbGuyLabel)
     end
     if not dumbGuy then
-        if getgenv().NNVN_Notify and item then
+        if getgenv().NhoiiiX_Notify and item then
             item:Notify({
                 Title = "Dump Guy",
                 Content = "Dumb guy function not found in workspace!",
@@ -2666,7 +2666,7 @@ function interactWithDumpGuy()
 end
 
 function giveFishToDumpGuy()
-    local clampResult = math.clamp(math.floor(tonumber(getgenv().NNVN_DumpGuyHotbarSlot) or 4), 1, 10)
+    local clampResult = math.clamp(math.floor(tonumber(getgenv().NhoiiiX_DumpGuyHotbarSlot) or 4), 1, 10)
     local clampResultText = tostring(clampResult)
     local hotbarSlotWeight = getHotbarSlotWeight(clampResult)
     if hotbarSlotWeight and maxLimit <= hotbarSlotWeight then
@@ -2716,9 +2716,9 @@ function giveFishToDumpGuy()
 end
 
 function dumpGuyLoop()
-    while getgenv().NNVN_AutoGiveFish do
+    while getgenv().NhoiiiX_AutoGiveFish do
         pcall(function()
-            local clampResult = math.clamp(math.floor(tonumber(getgenv().NNVN_DumpGuyHotbarSlot) or 4), 1, 10)
+            local clampResult = math.clamp(math.floor(tonumber(getgenv().NhoiiiX_DumpGuyHotbarSlot) or 4), 1, 10)
             local clampResultText = tostring(clampResult)
             local hotbarSlotWeight = getHotbarSlotWeight(clampResult)
             if hotbarSlotWeight and maxLimit <= hotbarSlotWeight then
@@ -2770,13 +2770,13 @@ function dumpGuyLoop()
 end
 
 function startAutoGiveFishLoop()
-    if getgenv().NNVN_AutoGiveFishLoop then
+    if getgenv().NhoiiiX_AutoGiveFishLoop then
         return
     end
-    getgenv().NNVN_AutoGiveFishLoop = true
+    getgenv().NhoiiiX_AutoGiveFishLoop = true
     task.spawn(function()
-        while getgenv().NNVN_AutoGiveFishLoop do
-            if getgenv().NNVN_AutoGiveFish then
+        while getgenv().NhoiiiX_AutoGiveFishLoop do
+            if getgenv().NhoiiiX_AutoGiveFish then
                 dumpGuyLoop()
             end
             task.wait(1)
@@ -2785,7 +2785,7 @@ function startAutoGiveFishLoop()
 end
 
 function setAutoGiveFishEnabled(inputValue)
-    getgenv().NNVN_AutoGiveFish = inputValue == true
+    getgenv().NhoiiiX_AutoGiveFish = inputValue == true
     if inputValue then
         startAutoGiveFishLoop()
     end
@@ -2793,66 +2793,66 @@ end
 
 function setAutoFarm2MFish(inputValue)
     if inputValue then
-        if not getgenv().NNVN_2MFishPrevFlags then
-            getgenv().NNVN_2MFishPrevFlags = {
-                Anchor = getgenv().NNVN_Anchor,
-                AutoCast = getgenv().NNVN_AutoCast,
-                AutoSkill = getgenv().NNVN_AutoSkill
+        if not getgenv().NhoiiiX_2MFishPrevFlags then
+            getgenv().NhoiiiX_2MFishPrevFlags = {
+                Anchor = getgenv().NhoiiiX_Anchor,
+                AutoCast = getgenv().NhoiiiX_AutoCast,
+                AutoSkill = getgenv().NhoiiiX_AutoSkill
             }
         end
-        if not getgenv().NNVN_2MFishPrevPos then
+        if not getgenv().NhoiiiX_2MFishPrevPos then
             local rootPart = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
             if rootPart then
-                getgenv().NNVN_2MFishPrevPos = rootPart.CFrame
+                getgenv().NhoiiiX_2MFishPrevPos = rootPart.CFrame
             end
         end
         if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
             pcall(function()
-                NNVN_TweenTo(getgenv().NNVN_2MFishFarmCFrame)
+                NhoiiiX_TweenTo(getgenv().NhoiiiX_2MFishFarmCFrame)
             end)
         end
-        getgenv().NNVN_Anchor = true
-        getgenv().NNVN_AutoCast = true
-        getgenv().NNVN_AutoSkill = true
+        getgenv().NhoiiiX_Anchor = true
+        getgenv().NhoiiiX_AutoCast = true
+        getgenv().NhoiiiX_AutoSkill = true
         if not HasFishingRod() then
             pcall(EquipSlot1)
         end
     else
         local rootPart2 = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-        local fieldValue = getgenv().NNVN_2MFishPrevPos
+        local fieldValue = getgenv().NhoiiiX_2MFishPrevPos
         if rootPart2 and typeof(fieldValue) == "CFrame" then
             pcall(function()
-                NNVN_TweenTo(fieldValue)
+                NhoiiiX_TweenTo(fieldValue)
             end)
         end
-        getgenv().NNVN_2MFishPrevPos = nil
-        local fieldValue2 = getgenv().NNVN_2MFishPrevFlags
+        getgenv().NhoiiiX_2MFishPrevPos = nil
+        local fieldValue2 = getgenv().NhoiiiX_2MFishPrevFlags
         if fieldValue2 then
-            getgenv().NNVN_Anchor = fieldValue2.Anchor and true or false
-            getgenv().NNVN_AutoCast = fieldValue2.AutoCast and true or false
-            getgenv().NNVN_AutoSkill = fieldValue2.AutoSkill and true or false
+            getgenv().NhoiiiX_Anchor = fieldValue2.Anchor and true or false
+            getgenv().NhoiiiX_AutoCast = fieldValue2.AutoCast and true or false
+            getgenv().NhoiiiX_AutoSkill = fieldValue2.AutoSkill and true or false
         else
-            getgenv().NNVN_Anchor = false
-            getgenv().NNVN_AutoCast = false
-            getgenv().NNVN_AutoSkill = false
+            getgenv().NhoiiiX_Anchor = false
+            getgenv().NhoiiiX_AutoCast = false
+            getgenv().NhoiiiX_AutoSkill = false
         end
-        getgenv().NNVN_2MFishPrevFlags = nil
+        getgenv().NhoiiiX_2MFishPrevFlags = nil
     end
 end
 
 startAutoGiveFishLoop()
 task.spawn(function()
     while task.wait(2) do
-        if getgenv().NNVN_AutoFarm2MFish then
+        if getgenv().NhoiiiX_AutoFarm2MFish then
             pcall(function()
                 local rootPart = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                local fieldValue = getgenv().NNVN_2MFishFarmCFrame
+                local fieldValue = getgenv().NhoiiiX_2MFishFarmCFrame
                 if rootPart and fieldValue and (rootPart.Position - fieldValue.Position).Magnitude > 8 then
-                    NNVN_TweenTo(fieldValue)
+                    NhoiiiX_TweenTo(fieldValue)
                 end
-                getgenv().NNVN_Anchor = true
-                getgenv().NNVN_AutoCast = true
-                getgenv().NNVN_AutoSkill = true
+                getgenv().NhoiiiX_Anchor = true
+                getgenv().NhoiiiX_AutoCast = true
+                getgenv().NhoiiiX_AutoSkill = true
             end)
         end
     end
@@ -3059,7 +3059,7 @@ function TeleportToCFrame(inputValue)
         return
     end
     pcall(function()
-        NNVN_TweenTo(inputValue + Vector3.new(0, 5, 0))
+        NhoiiiX_TweenTo(inputValue + Vector3.new(0, 5, 0))
     end)
 end
 
@@ -3082,14 +3082,14 @@ function numericOnlyText(inputValue, secondValue)
     return formattedText
 end
 
-getgenv().NNVN_FakeLevelText = numericOnlyText(getgenv().NNVN_FakeLevelText, 100)
-getgenv().NNVN_FakeMoneyText = numericOnlyText(getgenv().NNVN_FakeMoneyText, 999999999)
-getgenv().NNVN_FakeGemText = numericOnlyText(getgenv().NNVN_FakeGemText, 9999)
-getgenv().NNVN_FakeTicketText = numericOnlyText(getgenv().NNVN_FakeTicketText, 999)
-getgenv().NNVN_FakeOrbText = numericOnlyText(getgenv().NNVN_FakeOrbText, 999)
+getgenv().NhoiiiX_FakeLevelText = numericOnlyText(getgenv().NhoiiiX_FakeLevelText, 100)
+getgenv().NhoiiiX_FakeMoneyText = numericOnlyText(getgenv().NhoiiiX_FakeMoneyText, 999999999)
+getgenv().NhoiiiX_FakeGemText = numericOnlyText(getgenv().NhoiiiX_FakeGemText, 9999)
+getgenv().NhoiiiX_FakeTicketText = numericOnlyText(getgenv().NhoiiiX_FakeTicketText, 999)
+getgenv().NhoiiiX_FakeOrbText = numericOnlyText(getgenv().NhoiiiX_FakeOrbText, 999)
 function buildCustomPositionNames()
     local stateMap = {}
-    for entryKey in pairs(getgenv().NNVN_CustomPositions or {}) do
+    for entryKey in pairs(getgenv().NhoiiiX_CustomPositions or {}) do
         table.insert(stateMap, entryKey)
     end
     table.sort(stateMap)
@@ -3100,15 +3100,15 @@ function buildCustomPositionNames()
 end
 
 function hasCustomPosition(inputValue)
-    return type(getgenv().NNVN_CustomPositions) == "table" and getgenv().NNVN_CustomPositions[inputValue] ~= nil
+    return type(getgenv().NhoiiiX_CustomPositions) == "table" and getgenv().NhoiiiX_CustomPositions[inputValue] ~= nil
 end
 
 function refreshPositionDropdown()
     local customPositionNames = buildCustomPositionNames()
-    local selectedPosition = getgenv().NNVN_SelectedPosition
+    local selectedPosition = getgenv().NhoiiiX_SelectedPosition
     if not hasCustomPosition(selectedPosition) then
         selectedPosition = customPositionNames[1] or "No Position"
-        getgenv().NNVN_SelectedPosition = selectedPosition
+        getgenv().NhoiiiX_SelectedPosition = selectedPosition
     end
     if PositionDropdown and PositionDropdown.SetValues then
         pcall(function()
@@ -3128,7 +3128,7 @@ function refreshPositionDropdown()
 end
 
 function notifyPosition(inputValue)
-    if getgenv().NNVN_Notify then
+    if getgenv().NhoiiiX_Notify then
         item:Notify({
             Title = TranslateText("Configuration"),
             Content = inputValue,
@@ -3144,7 +3144,7 @@ function createSavedPosition()
         notifyPosition("Character not found.")
         return
     end
-    local trimTextResult = trimText(getgenv().NNVN_PositionNameInput)
+    local trimTextResult = trimText(getgenv().NhoiiiX_PositionNameInput)
     if trimTextResult == "" then
         trimTextResult = "Position"
     end
@@ -3154,39 +3154,39 @@ function createSavedPosition()
         trimTextResult2 = trimTextResult .. " " .. tostring(stepIndex)
         stepIndex = stepIndex + 1
     end
-    getgenv().NNVN_CustomPositions[trimTextResult2] = characterRoot.CFrame
-    getgenv().NNVN_SelectedPosition = trimTextResult2
+    getgenv().NhoiiiX_CustomPositions[trimTextResult2] = characterRoot.CFrame
+    getgenv().NhoiiiX_SelectedPosition = trimTextResult2
     refreshPositionDropdown()
     notifyPosition("Created position: " .. trimTextResult2)
 end
 
 function teleportToSelectedSavedPosition()
-    local selectedPosition = getgenv().NNVN_SelectedPosition
-    local customPosition = getgenv().NNVN_CustomPositions and getgenv().NNVN_CustomPositions[selectedPosition]
+    local selectedPosition = getgenv().NhoiiiX_SelectedPosition
+    local customPosition = getgenv().NhoiiiX_CustomPositions and getgenv().NhoiiiX_CustomPositions[selectedPosition]
     if not getCharacterRoot() or typeof(customPosition) ~= "CFrame" then
         return false
     end
     pcall(function()
-        NNVN_TweenTo(customPosition)
+        NhoiiiX_TweenTo(customPosition)
     end)
     return true
 end
 
 function startPositionLock()
-    getgenv().NNVN_PositionLockLoopId = (getgenv().NNVN_PositionLockLoopId or 0) + 1
-    local positionLockLoopId = getgenv().NNVN_PositionLockLoopId
-    if not getgenv().NNVN_PositionLock then
+    getgenv().NhoiiiX_PositionLockLoopId = (getgenv().NhoiiiX_PositionLockLoopId or 0) + 1
+    local positionLockLoopId = getgenv().NhoiiiX_PositionLockLoopId
+    if not getgenv().NhoiiiX_PositionLock then
         return
     end
     task.spawn(function()
-        while getgenv().NNVN_PositionLock and positionLockLoopId == getgenv().NNVN_PositionLockLoopId do
-            if NormalizeTranslatedChoice(getgenv().NNVN_PositionTeleportMode, "No Teleport") == "Save Position" then
-                local selectedPosition = getgenv().NNVN_SelectedPosition
-                local customPosition = getgenv().NNVN_CustomPositions and getgenv().NNVN_CustomPositions[selectedPosition]
+        while getgenv().NhoiiiX_PositionLock and positionLockLoopId == getgenv().NhoiiiX_PositionLockLoopId do
+            if NormalizeTranslatedChoice(getgenv().NhoiiiX_PositionTeleportMode, "No Teleport") == "Save Position" then
+                local selectedPosition = getgenv().NhoiiiX_SelectedPosition
+                local customPosition = getgenv().NhoiiiX_CustomPositions and getgenv().NhoiiiX_CustomPositions[selectedPosition]
                 local characterRoot = getCharacterRoot()
-                if characterRoot and typeof(customPosition) == "CFrame" and (getgenv().NNVN_PositionLockDistance or 3) < (characterRoot.Position - customPosition.Position).Magnitude then
+                if characterRoot and typeof(customPosition) == "CFrame" and (getgenv().NhoiiiX_PositionLockDistance or 3) < (characterRoot.Position - customPosition.Position).Magnitude then
                     pcall(function()
-                        NNVN_TweenTo(customPosition)
+                        NhoiiiX_TweenTo(customPosition)
                     end)
                 end
             end
@@ -3197,7 +3197,7 @@ end
 
 function serializeCustomPositions()
     local lookupMap = {}
-    for key, entry in pairs(getgenv().NNVN_CustomPositions or {}) do
+    for key, entry in pairs(getgenv().NhoiiiX_CustomPositions or {}) do
         if typeof(entry) == "CFrame" then
             lookupMap[key] = { entry:GetComponents() }
         end
@@ -3221,7 +3221,7 @@ function applyCustomPositions(inputValue)
             end
         end
     end
-    getgenv().NNVN_CustomPositions = stateMap
+    getgenv().NhoiiiX_CustomPositions = stateMap
     refreshPositionDropdown()
 end
 
@@ -3240,7 +3240,7 @@ function TeleportToNPC(inputValue)
     end
     local computedValue = item4Result.Position - item4Result.CFrame.LookVector * (delaySeconds2 or 3.5) + Vector3.new(0, 2, 0)
     pcall(function()
-        NNVN_TweenTo(CFrame.new(computedValue, item4Result.Position))
+        NhoiiiX_TweenTo(CFrame.new(computedValue, item4Result.Position))
     end)
     task.wait(delaySeconds or 0.35)
     return true
@@ -3321,7 +3321,7 @@ function ObjectExists(inputValue)
     return true
 end
 
-getgenv().NNVN_ObjectExists = ObjectExists
+getgenv().NhoiiiX_ObjectExists = ObjectExists
 function getQuestDisplayName(inputValue)
     return inputValue == "Easy" and "Easy Ticket Quest" or "Hard Ticket Quest"
 end
@@ -3411,8 +3411,8 @@ function updateTicketDailyLimitFromDialogue()
     local formattedText = string.lower(getTicketDialogueText())
     local isMatched = formattedText:find("limit", 1, true) ~= nil and formattedText:find("20", 1, true) ~= nil
     if isMatched then
-        getgenv().NNVN_TicketDailyLimitReached = true
-        getgenv().NNVN_TicketDailyLimitDay = math.floor(Workspace:GetServerTimeNow() / 86400)
+        getgenv().NhoiiiX_TicketDailyLimitReached = true
+        getgenv().NhoiiiX_TicketDailyLimitDay = math.floor(Workspace:GetServerTimeNow() / 86400)
     end
     return isMatched, formattedText
 end
@@ -3463,8 +3463,8 @@ function isQuestCompleted(inputValue)
 end
 
 function notify(inputValue, secondValue, thirdValue)
-    local windUiRef = getgenv().NNVN_WindUIRef or getgenv().NNVN_FluentRef
-    if not getgenv().NNVN_Notify or not windUiRef or type(windUiRef.Notify) ~= "function" then
+    local windUiRef = getgenv().NhoiiiX_WindUIRef or getgenv().NhoiiiX_FluentRef
+    if not getgenv().NhoiiiX_Notify or not windUiRef or type(windUiRef.Notify) ~= "function" then
         return
     end
     pcall(function()
@@ -3495,15 +3495,15 @@ local easyMap = {
 local cFrame = CFrame.new(1678.84241, 12.0619411, -106.830734, 0.374605805, -8.96978314e-09, -0.927184165, -2.73463936e-08, 1, -2.07228528e-08, 0.927184165, 3.31180452e-08, 0.374605805)
 local stepIndex = 595
 local stepIndex2 = 625
-local ticketSkyPlatform = "NNVN_TicketSkyPlatform"
-local ticketSkyLockConnection = getgenv()._NNVN_TicketSkyLockConnection
+local ticketSkyPlatform = "NhoiiiX_TicketSkyPlatform"
+local ticketSkyLockConnection = getgenv()._NhoiiiX_TicketSkyLockConnection
 if ticketSkyLockConnection then
     pcall(function()
         ticketSkyLockConnection:Disconnect()
     end)
 end
-getgenv()._NNVN_TicketSkyLockConnection = nil
-local ticketSkyHumanoidState = getgenv()._NNVN_TicketSkyHumanoidState
+getgenv()._NhoiiiX_TicketSkyLockConnection = nil
+local ticketSkyHumanoidState = getgenv()._NhoiiiX_TicketSkyHumanoidState
 if ticketSkyHumanoidState and ticketSkyHumanoidState.Humanoid and ticketSkyHumanoidState.Humanoid.Parent then
     pcall(function()
         ticketSkyHumanoidState.Humanoid.AutoRotate = ticketSkyHumanoidState.AutoRotate
@@ -3512,7 +3512,7 @@ if ticketSkyHumanoidState and ticketSkyHumanoidState.Humanoid and ticketSkyHuman
         ticketSkyHumanoidState.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, true)
     end)
 end
-getgenv()._NNVN_TicketSkyHumanoidState = nil
+getgenv()._NhoiiiX_TicketSkyHumanoidState = nil
 local platformPart = Workspace:FindFirstChild(ticketSkyPlatform)
 if platformPart then
     platformPart:Destroy()
@@ -3522,23 +3522,23 @@ local item8
 local item9
 local item10
 local function resolveRandom(inputValue)
-    if getgenv().NNVN_TicketRandomSkyHeight == true then
-        local parsedNum = tonumber(getgenv().NNVN_TicketSkyChosenHeight)
+    if getgenv().NhoiiiX_TicketRandomSkyHeight == true then
+        local parsedNum = tonumber(getgenv().NhoiiiX_TicketSkyChosenHeight)
         if inputValue or not parsedNum or parsedNum < stepIndex or stepIndex2 < parsedNum then
-            getgenv().NNVN_TicketSkyChosenHeight = math.random(stepIndex * 10, stepIndex2 * 10) / 10
+            getgenv().NhoiiiX_TicketSkyChosenHeight = math.random(stepIndex * 10, stepIndex2 * 10) / 10
         end
     else
-        getgenv().NNVN_TicketSkyChosenHeight = easyMap.Hard.Position.Y
+        getgenv().NhoiiiX_TicketSkyChosenHeight = easyMap.Hard.Position.Y
     end
-    return tonumber(getgenv().NNVN_TicketSkyChosenHeight) or easyMap.Hard.Position.Y
+    return tonumber(getgenv().NhoiiiX_TicketSkyChosenHeight) or easyMap.Hard.Position.Y
 end
 
 function isTicketSkyMode(inputValue)
-    if getgenv().NNVN_TicketHardLocation == "Ground" then
+    if getgenv().NhoiiiX_TicketHardLocation == "Ground" then
         return false
     end
     if inputValue == "Easy" then
-        local questCustomIsland = getgenv().NNVN_QuestCustomIsland
+        local questCustomIsland = getgenv().NhoiiiX_QuestCustomIsland
         if questCustomIsland and questCustomIsland ~= "" and questCustomIsland ~= "No Selection" then
             return false
         end
@@ -3547,7 +3547,7 @@ function isTicketSkyMode(inputValue)
 end
 
 local function resolveTicketHardLocation(inputValue)
-    if getgenv().NNVN_TicketHardLocation == "Ground" then
+    if getgenv().NhoiiiX_TicketHardLocation == "Ground" then
         return inputValue == "Hard" and cFrame or easyMap.Easy
     end
     local easyEntry = easyMap[inputValue] or easyMap.Easy
@@ -3565,7 +3565,7 @@ local function resolveParent()
     end
     item9 = nil
     item10 = nil
-    getgenv()._NNVN_TicketSkyHumanoidState = nil
+    getgenv()._NhoiiiX_TicketSkyHumanoidState = nil
 end
 
 local function cleanupResource(inputValue, target)
@@ -3573,7 +3573,7 @@ local function cleanupResource(inputValue, target)
         if item8 then
             item8:Disconnect()
             item8 = nil
-            getgenv()._NNVN_TicketSkyLockConnection = nil
+            getgenv()._NhoiiiX_TicketSkyLockConnection = nil
         end
         if item7 then
             item7:Destroy()
@@ -3586,7 +3586,7 @@ local function cleanupResource(inputValue, target)
         resolveParent()
         return
     end
-    target = target or resolveTicketHardLocation(getgenv().NNVN_TicketDifficulty)
+    target = target or resolveTicketHardLocation(getgenv().NhoiiiX_TicketDifficulty)
     if not item7 or not item7.Parent then
         local platformPart2 = Workspace:FindFirstChild(ticketSkyPlatform)
         if platformPart2 then
@@ -3614,7 +3614,7 @@ local function cleanupResource(inputValue, target)
             JumpPower = humanoid.JumpPower,
             JumpHeight = humanoid.JumpHeight
         }
-        getgenv()._NNVN_TicketSkyHumanoidState = {
+        getgenv()._NhoiiiX_TicketSkyHumanoidState = {
             Humanoid = humanoid,
             AutoRotate = item10.AutoRotate,
             JumpPower = item10.JumpPower,
@@ -3635,13 +3635,13 @@ local function cleanupResource(inputValue, target)
                 return
             end
             counter = 0
-            if getgenv().NNVN_AutoTicket ~= true or not isTicketSkyMode(getgenv().NNVN_TicketDifficulty) then
+            if getgenv().NhoiiiX_AutoTicket ~= true or not isTicketSkyMode(getgenv().NhoiiiX_TicketDifficulty) then
                 task.defer(function()
                     cleanupResource(false)
                 end)
                 return
             end
-            local ticketHardLocation = resolveTicketHardLocation(getgenv().NNVN_TicketDifficulty)
+            local ticketHardLocation = resolveTicketHardLocation(getgenv().NhoiiiX_TicketDifficulty)
             local character = LocalPlayer.Character
             local rootPart = character and character:FindFirstChild("HumanoidRootPart")
             local humanoid = character and character:FindFirstChildOfClass("Humanoid")
@@ -3653,11 +3653,11 @@ local function cleanupResource(inputValue, target)
                 rootPart.AssemblyAngularVelocity = Vector3.zero
             end
         end)
-        getgenv()._NNVN_TicketSkyLockConnection = item8
+        getgenv()._NhoiiiX_TicketSkyLockConnection = item8
     end
 end
 
-local mainSkyFarmPlatform = "NNVN_MainSkyFarmPlatform"
+local mainSkyFarmPlatform = "NhoiiiX_MainSkyFarmPlatform"
 local item11
 local item12
 local item13
@@ -3714,8 +3714,8 @@ local function resolveSpawn(inputValue)
             return
         end
         inputValue = math.clamp(tonumber(inputValue) or 609, 100, 1000)
-        NNVN_MoveToCFrame(CFrame.new(rootPart.Position.X, inputValue, rootPart.Position.Z) * rootPart.CFrame.Rotation, "Tween [Safe]")
-        if counter2 ~= counter or getgenv().NNVN_SkyFarm ~= true then
+        NhoiiiX_MoveToCFrame(CFrame.new(rootPart.Position.X, inputValue, rootPart.Position.Z) * rootPart.CFrame.Rotation, "Tween [Safe]")
+        if counter2 ~= counter or getgenv().NhoiiiX_SkyFarm ~= true then
             return
         end
         local rootPart2 = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
@@ -3725,9 +3725,9 @@ local function resolveSpawn(inputValue)
     end)
 end
 
-function NNVN_SetSkyFarm(inputValue)
+function NhoiiiX_SetSkyFarm(inputValue)
     inputValue = inputValue == true
-    getgenv().NNVN_SkyFarm = inputValue
+    getgenv().NhoiiiX_SkyFarm = inputValue
     counter = counter + 1
     if not inputValue then
         resolveFindFirstChild()
@@ -3739,36 +3739,36 @@ function NNVN_SetSkyFarm(inputValue)
                 if not rootPart then
                     return
                 end
-                NNVN_MoveToCFrame(CFrame.new(rootPart.Position.X, item132, rootPart.Position.Z) * rootPart.CFrame.Rotation, "Tween [Safe]")
+                NhoiiiX_MoveToCFrame(CFrame.new(rootPart.Position.X, item132, rootPart.Position.Z) * rootPart.CFrame.Rotation, "Tween [Safe]")
             end)
         end
         return
     end
     local rootPart = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
     if not rootPart then
-        getgenv().NNVN_SkyFarm = false
+        getgenv().NhoiiiX_SkyFarm = false
         return
     end
     item13 = rootPart.Position.Y
-    resolveSpawn(getgenv().NNVN_SkyFarmHeight)
+    resolveSpawn(getgenv().NhoiiiX_SkyFarmHeight)
     if not item12 then
         item12 = RunService.Heartbeat:Connect(function()
-            if getgenv().NNVN_SkyFarm ~= true then
+            if getgenv().NhoiiiX_SkyFarm ~= true then
                 task.defer(resolveFindFirstChild)
                 return
             end
             local rootPart = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
             if rootPart and item11 and item11.Parent then
-                item11.CFrame = CFrame.new(rootPart.Position.X, (tonumber(getgenv().NNVN_SkyFarmHeight) or 609) - 3.5, rootPart.Position.Z)
+                item11.CFrame = CFrame.new(rootPart.Position.X, (tonumber(getgenv().NhoiiiX_SkyFarmHeight) or 609) - 3.5, rootPart.Position.Z)
             end
         end)
     end
 end
 
-function NNVN_SetSkyFarmHeight(inputValue)
-    getgenv().NNVN_SkyFarmHeight = math.clamp(tonumber(inputValue) or 609, 100, 1000)
-    if getgenv().NNVN_SkyFarm == true then
-        resolveSpawn(getgenv().NNVN_SkyFarmHeight)
+function NhoiiiX_SetSkyFarmHeight(inputValue)
+    getgenv().NhoiiiX_SkyFarmHeight = math.clamp(tonumber(inputValue) or 609, 100, 1000)
+    if getgenv().NhoiiiX_SkyFarm == true then
+        resolveSpawn(getgenv().NhoiiiX_SkyFarmHeight)
     end
 end
 
@@ -3798,8 +3798,8 @@ local beginningIsleMap = {
     ["Weather Isle"] = CFrame.new(-3037.28516, 13.5158062, 1093.56641, 0.515039563, -1.36549962e-08, 0.857166409, -4.1359467e-08, 1, 4.07817637e-08, -0.857166409, -5.64561695e-08, 0.515039563),
     ["Mystic Reef Isle"] = CFrame.new(-2576.95435, 11.4712849, -1382.04016, 0.0436187349, 3.68163491e-08, -0.999048233, -5.86042326e-08, 1, 3.42927429e-08, 0.999048233, 5.70526488e-08, 0.0436187349)
 }
-getgenv().NNVN_QuestCustomIsland = getgenv().NNVN_QuestCustomIsland or "No Selection"
-getgenv().NNVN_QuestIslandCFrames = beginningIsleMap
+getgenv().NhoiiiX_QuestCustomIsland = getgenv().NhoiiiX_QuestCustomIsland or "No Selection"
+getgenv().NhoiiiX_QuestIslandCFrames = beginningIsleMap
 local beginningIsleMap2 = {
     ["Beginning Isle"] = CFrame.new(-258.208893, 9.11978817, -19.8347473, -0.246991977, -3.27293002e-08, 0.969017506, 3.21653388e-08, 1, 4.19743493e-08, -0.969017506, 4.15361043e-08, -0.246991977),
     ["Bamboo Isle"] = CFrame.new(-1311.76624, 9.27561855, 27.1021328, -0.500000834, 1.25569045e-07, 0.866024911, 6.772337e-08, 1, -1.05894529e-07, -0.866024911, 5.70277159e-09, -0.500000834),
@@ -3824,9 +3824,9 @@ function teleportToFishingSpot(inputValue)
     if inputValue == "Hard" then
         item = resolveTicketHardLocation("Hard")
     else
-        local questCustomIsland = getgenv().NNVN_QuestCustomIsland
+        local questCustomIsland = getgenv().NhoiiiX_QuestCustomIsland
         if questCustomIsland and questCustomIsland ~= "" and questCustomIsland ~= "No Selection" then
-            item = beginningIsleMap[questCustomIsland] or getgenv().NNVN_QuestIslandCFrames and getgenv().NNVN_QuestIslandCFrames[questCustomIsland] or beginningIsleMap2[questCustomIsland]
+            item = beginningIsleMap[questCustomIsland] or getgenv().NhoiiiX_QuestIslandCFrames and getgenv().NhoiiiX_QuestIslandCFrames[questCustomIsland] or beginningIsleMap2[questCustomIsland]
         else
             item = resolveTicketHardLocation("Easy")
         end
@@ -3837,10 +3837,10 @@ function teleportToFishingSpot(inputValue)
     if not item then
         return false
     end
-    local isTicketSkyMode2 = getgenv().NNVN_AutoTicket == true and isTicketSkyMode(inputValue)
+    local isTicketSkyMode2 = getgenv().NhoiiiX_AutoTicket == true and isTicketSkyMode(inputValue)
     cleanupResource(false)
     if (rootPart.Position - item.Position).Magnitude <= 8 then
-        if isTicketSkyMode2 and getgenv().NNVN_AutoTicket == true then
+        if isTicketSkyMode2 and getgenv().NhoiiiX_AutoTicket == true then
             cleanupResource(true, item)
         end
         return true
@@ -3848,11 +3848,11 @@ function teleportToFishingSpot(inputValue)
     local ticketMovementMethod = getTicketMovementMethod()
     local hasTriggered = false
     if ticketMovementMethod == "Tween" then
-        hasTriggered = NNVN_MoveToCFrame(item, "Tween") == true and rootPart.Parent ~= nil and (rootPart.Position - item.Position).Magnitude <= 9
+        hasTriggered = NhoiiiX_MoveToCFrame(item, "Tween") == true and rootPart.Parent ~= nil and (rootPart.Position - item.Position).Magnitude <= 9
     else
-        hasTriggered = NNVN_MoveToCFrame(item, "Teleport") == true
+        hasTriggered = NhoiiiX_MoveToCFrame(item, "Teleport") == true
     end
-    if hasTriggered and isTicketSkyMode2 and getgenv().NNVN_AutoTicket == true then
+    if hasTriggered and isTicketSkyMode2 and getgenv().NhoiiiX_AutoTicket == true then
         cleanupResource(true, item)
     else
         cleanupResource(false)
@@ -3861,45 +3861,45 @@ function teleportToFishingSpot(inputValue)
 end
 
 function shouldReturnToFishingAfterAccept()
-    return getgenv().NNVN_AutoCast == true
+    return getgenv().NhoiiiX_AutoCast == true
 end
 
 function saveTicketFlags()
-    if getgenv().NNVN_TicketPrevFlags then
+    if getgenv().NhoiiiX_TicketPrevFlags then
         return
     end
-    getgenv().NNVN_TicketPrevFlags = {
-        AutoCast = getgenv().NNVN_AutoCast,
-        Anchor = getgenv().NNVN_Anchor,
-        AutoSkill = getgenv().NNVN_AutoSkill
+    getgenv().NhoiiiX_TicketPrevFlags = {
+        AutoCast = getgenv().NhoiiiX_AutoCast,
+        Anchor = getgenv().NhoiiiX_Anchor,
+        AutoSkill = getgenv().NhoiiiX_AutoSkill
     }
 end
 
 function restoreTicketFlags()
-    local ticketPrevFlags = getgenv().NNVN_TicketPrevFlags
+    local ticketPrevFlags = getgenv().NhoiiiX_TicketPrevFlags
     if ticketPrevFlags then
-        getgenv().NNVN_AutoCast = ticketPrevFlags.AutoCast and true or false
-        getgenv().NNVN_Anchor = ticketPrevFlags.Anchor and true or false
-        getgenv().NNVN_AutoSkill = ticketPrevFlags.AutoSkill and true or false
+        getgenv().NhoiiiX_AutoCast = ticketPrevFlags.AutoCast and true or false
+        getgenv().NhoiiiX_Anchor = ticketPrevFlags.Anchor and true or false
+        getgenv().NhoiiiX_AutoSkill = ticketPrevFlags.AutoSkill and true or false
     else
-        getgenv().NNVN_AutoCast = false
-        getgenv().NNVN_Anchor = false
-        getgenv().NNVN_AutoSkill = false
+        getgenv().NhoiiiX_AutoCast = false
+        getgenv().NhoiiiX_Anchor = false
+        getgenv().NhoiiiX_AutoSkill = false
     end
-    getgenv().NNVN_TicketPrevFlags = nil
+    getgenv().NhoiiiX_TicketPrevFlags = nil
 end
 
 function enableTicketFarmAfterArrival(inputValue)
     if not teleportToFishingSpot(inputValue) then
         return false
     end
-    if getgenv().NNVN_AutoTicket ~= true then
+    if getgenv().NhoiiiX_AutoTicket ~= true then
         cleanupResource(false)
         return false
     end
-    getgenv().NNVN_Anchor = true
-    getgenv().NNVN_AutoCast = true
-    getgenv().NNVN_AutoSkill = true
+    getgenv().NhoiiiX_Anchor = true
+    getgenv().NhoiiiX_AutoCast = true
+    getgenv().NhoiiiX_AutoSkill = true
     if not HasFishingRod() then
         pcall(EquipSlot1)
     end
@@ -3907,21 +3907,21 @@ function enableTicketFarmAfterArrival(inputValue)
 end
 
 function setTicketFishingEnabled(inputValue)
-    getgenv().NNVN_Anchor = inputValue == true
-    getgenv().NNVN_AutoCast = inputValue == true
-    getgenv().NNVN_AutoSkill = inputValue == true
+    getgenv().NhoiiiX_Anchor = inputValue == true
+    getgenv().NhoiiiX_AutoCast = inputValue == true
+    getgenv().NhoiiiX_AutoSkill = inputValue == true
     if inputValue and not HasFishingRod() then
         pcall(EquipSlot1)
     end
 end
 
 function moveToTicketOriginalAndFish()
-    local ticketOriginalCFrame = getgenv().NNVN_TicketOriginalCFrame
+    local ticketOriginalCFrame = getgenv().NhoiiiX_TicketOriginalCFrame
     if typeof(ticketOriginalCFrame) ~= "CFrame" then
         return false
     end
     cleanupResource(false)
-    if NNVN_MoveToCFrame(ticketOriginalCFrame, getTicketMovementMethod()) == true and getgenv().NNVN_AutoTicket then
+    if NhoiiiX_MoveToCFrame(ticketOriginalCFrame, getTicketMovementMethod()) == true and getgenv().NhoiiiX_AutoTicket then
         setTicketFishingEnabled(true)
         return true
     end
@@ -3936,25 +3936,25 @@ function moveToTicketNpcOnly()
     end
     cleanupResource(false)
     setTicketFishingEnabled(false)
-    return NNVN_MoveToCFrame(CFrame.new(anchor.Position - anchor.CFrame.LookVector * (rawget(getgenv(), "PROX_OFFSET") or delaySeconds2 or 3.5) + Vector3.new(0, 2, 0), anchor.Position), getTicketMovementMethod()) == true
+    return NhoiiiX_MoveToCFrame(CFrame.new(anchor.Position - anchor.CFrame.LookVector * (rawget(getgenv(), "PROX_OFFSET") or delaySeconds2 or 3.5) + Vector3.new(0, 2, 0), anchor.Position), getTicketMovementMethod()) == true
 end
 
 function handleTicketWaitingState()
     local ticketCooldownSeconds = getTicketCooldownSeconds()
     local floorResult = math.floor(Workspace:GetServerTimeNow() / 86400)
-    if getgenv().NNVN_TicketDailyLimitReached and tonumber(getgenv().NNVN_TicketDailyLimitDay) and tonumber(getgenv().NNVN_TicketDailyLimitDay) ~= floorResult then
-        getgenv().NNVN_TicketDailyLimitReached = false
-        getgenv().NNVN_TicketDailyLimitDay = nil
+    if getgenv().NhoiiiX_TicketDailyLimitReached and tonumber(getgenv().NhoiiiX_TicketDailyLimitDay) and tonumber(getgenv().NhoiiiX_TicketDailyLimitDay) ~= floorResult then
+        getgenv().NhoiiiX_TicketDailyLimitReached = false
+        getgenv().NhoiiiX_TicketDailyLimitDay = nil
     end
-    local isMatched = getgenv().NNVN_TicketDailyLimitReached == true
+    local isMatched = getgenv().NhoiiiX_TicketDailyLimitReached == true
     if not isMatched and ticketCooldownSeconds <= 0 then
-        getgenv()._NNVN_TicketWaitState = nil
+        getgenv()._NhoiiiX_TicketWaitState = nil
         return false
     end
-    local clampResult = math.clamp(tonumber(getgenv().NNVN_TicketWaitNearNpcSeconds) or 120, 60, 120)
+    local clampResult = math.clamp(tonumber(getgenv().NhoiiiX_TicketWaitNearNpcSeconds) or 120, 60, 120)
     local dailyLabel = isMatched and "daily" or ticketCooldownSeconds <= clampResult and "near" or "farm"
-    if dailyLabel ~= getgenv()._NNVN_TicketWaitState then
-        getgenv()._NNVN_TicketWaitState = dailyLabel
+    if dailyLabel ~= getgenv()._NhoiiiX_TicketWaitState then
+        getgenv()._NhoiiiX_TicketWaitState = dailyLabel
         if dailyLabel == "daily" then
             notify("Ticket Quest", "Daily limit 20/20 reached.", 4)
         elseif dailyLabel == "near" then
@@ -3963,7 +3963,7 @@ function handleTicketWaitingState()
             notify("Ticket Quest", "Cooldown active. Fishing at the saved position.", 4)
         end
     end
-    if getgenv().NNVN_TicketFishWhileWaiting and (isMatched or clampResult < ticketCooldownSeconds) then
+    if getgenv().NhoiiiX_TicketFishWhileWaiting and (isMatched or clampResult < ticketCooldownSeconds) then
         moveToTicketOriginalAndFish()
         task.wait(1)
         return true
@@ -3978,15 +3978,15 @@ function returnToFishingSpot(inputValue, secondValue)
     if not character or not character:FindFirstChild("HumanoidRootPart") then
         return
     end
-    if typeof(getgenv().NNVN_TeleportToFishSpot) == "function" then
+    if typeof(getgenv().NhoiiiX_TeleportToFishSpot) == "function" then
         pcall(function()
-            getgenv().NNVN_TeleportToFishSpot(inputValue)
+            getgenv().NhoiiiX_TeleportToFishSpot(inputValue)
         end)
         return
     end
     if secondValue then
         pcall(function()
-            NNVN_TweenTo(secondValue)
+            NhoiiiX_TweenTo(secondValue)
         end)
     end
 end
@@ -3997,17 +3997,17 @@ function withQuestTravel(inputValue, secondValue)
     local cFrame = rootPart and rootPart.CFrame
     local ok, result = pcall(secondValue)
     local ticketCooldownSeconds = getTicketCooldownSeconds()
-    local isMatched = getgenv().NNVN_TicketDailyLimitReached == true
-    local clampResult = math.clamp(tonumber(getgenv().NNVN_TicketWaitNearNpcSeconds) or 120, 60, 120)
+    local isMatched = getgenv().NhoiiiX_TicketDailyLimitReached == true
+    local clampResult = math.clamp(tonumber(getgenv().NhoiiiX_TicketWaitNearNpcSeconds) or 120, 60, 120)
     if isMatched or ticketCooldownSeconds > 0 then
-        if getgenv().NNVN_TicketFishWhileWaiting and (isMatched or clampResult < ticketCooldownSeconds) then
+        if getgenv().NhoiiiX_TicketFishWhileWaiting and (isMatched or clampResult < ticketCooldownSeconds) then
             moveToTicketOriginalAndFish()
         else
             setTicketFishingEnabled(false)
         end
         return ok, result
     end
-    if getgenv().NNVN_ReturnAfterQuestTP ~= false then
+    if getgenv().NhoiiiX_ReturnAfterQuestTP ~= false then
         task.wait(0.2)
         returnToFishingSpot(inputValue, cFrame)
     end
@@ -4031,7 +4031,7 @@ function openQuestDialogue(inputValue)
     if not rootPart then
         return false
     end
-    local isMatched = NNVN_MoveToCFrame(cFrame, getTicketMovementMethod()) == true
+    local isMatched = NhoiiiX_MoveToCFrame(cFrame, getTicketMovementMethod()) == true
     task.wait(rawget(getgenv(), "PROX_WAIT") or delaySeconds or 0.38)
     if not isMatched or not rootPart.Parent or (rootPart.Position - cFrame.Position).Magnitude > 10 then
         return false
@@ -4059,7 +4059,7 @@ function acceptTicketQuest(inputValue)
     if isQuestActive(inputValue) then
         return true
     end
-    if getgenv().NNVN_TicketDailyLimitReached or getTicketCooldownSeconds() > 0 then
+    if getgenv().NhoiiiX_TicketDailyLimitReached or getTicketCooldownSeconds() > 0 then
         return false
     end
     local hasTriggered = false
@@ -4073,7 +4073,7 @@ function acceptTicketQuest(inputValue)
         local easyAcceptQuestLabel = inputValue == "Easy" and "EasyAcceptQuest" or "HardAcceptQuest"
         local itemList = { questNpc, "Ticket Quest" }
         for i = 1, 4 do
-            if getgenv().NNVN_TicketDailyLimitReached then
+            if getgenv().NhoiiiX_TicketDailyLimitReached then
                 break
             end
             if getTicketCooldownSeconds() > 0 then
@@ -4109,9 +4109,9 @@ function acceptTicketQuest(inputValue)
     end)
     if hasTriggered or isQuestActive(inputValue) then
         task.wait(0.35)
-        if shouldReturnToFishingAfterAccept() and typeof(getgenv().NNVN_TeleportToFishSpot) == "function" then
+        if shouldReturnToFishingAfterAccept() and typeof(getgenv().NhoiiiX_TeleportToFishSpot) == "function" then
             pcall(function()
-                getgenv().NNVN_TeleportToFishSpot(inputValue)
+                getgenv().NhoiiiX_TeleportToFishSpot(inputValue)
             end)
         end
         return true
@@ -4152,9 +4152,9 @@ function turnInTicketQuest(inputValue)
             end
         end
     end)
-    if hasTriggered and getgenv().NNVN_AutoTicket then
+    if hasTriggered and getgenv().NhoiiiX_AutoTicket then
         task.wait(0.3)
-        getgenv()._NNVN_TicketWaitState = nil
+        getgenv()._NhoiiiX_TicketWaitState = nil
     end
     return hasTriggered or not isQuestActive(inputValue)
 end
@@ -4176,20 +4176,20 @@ function completeTurnIn(inputValue)
 end
 
 function startTicketLoop()
-    local ticketCoroutine = getgenv().NNVN_TicketCoroutine
+    local ticketCoroutine = getgenv().NhoiiiX_TicketCoroutine
     if ticketCoroutine then
         pcall(coroutine.close, ticketCoroutine)
-        getgenv().NNVN_TicketCoroutine = nil
+        getgenv().NhoiiiX_TicketCoroutine = nil
     end
-    getgenv().NNVN_TicketCoroutine = coroutine.create(function()
+    getgenv().NhoiiiX_TicketCoroutine = coroutine.create(function()
         local counter = 0
-        while getgenv().NNVN_AutoTicket do
-            local hardLabel = getgenv().NNVN_TicketDifficulty == "Hard" and "Hard" or "Easy"
+        while getgenv().NhoiiiX_AutoTicket do
+            local hardLabel = getgenv().NhoiiiX_TicketDifficulty == "Hard" and "Hard" or "Easy"
             local activeTicketDifficulty = getActiveTicketDifficulty(hardLabel)
             local hardLabel2 = hardLabel
             if activeTicketDifficulty ~= nil then
-                getgenv().NNVN_TicketDailyLimitReached = false
-                getgenv()._NNVN_TicketWaitState = nil
+                getgenv().NhoiiiX_TicketDailyLimitReached = false
+                getgenv()._NhoiiiX_TicketWaitState = nil
                 pcall(function()
                     enableTicketFarmAfterArrival(hardLabel2)
                 end)
@@ -4202,7 +4202,7 @@ function startTicketLoop()
                 end
             elseif handleTicketWaitingState() then
             else
-                local maxResult = math.max(0.5, tonumber(getgenv().NNVN_TicketAcceptDelay) or 2)
+                local maxResult = math.max(0.5, tonumber(getgenv().NhoiiiX_TicketAcceptDelay) or 2)
                 local nowTime = os.clock()
                 if maxResult <= nowTime - counter then
                     counter = nowTime
@@ -4219,25 +4219,25 @@ function startTicketLoop()
         end
         restoreTicketFlags()
     end)
-    coroutine.resume(getgenv().NNVN_TicketCoroutine)
+    coroutine.resume(getgenv().NhoiiiX_TicketCoroutine)
 end
 
-getgenv().NNVN_IsQuestActive = isQuestActive
-getgenv().NNVN_GetQuestProgress = getQuestProgress
-getgenv().NNVN_IsQuestCompleted = isQuestCompleted
-getgenv().NNVN_TeleportToFishSpot = teleportToFishingSpot
-getgenv().NNVN_SaveTicketFlags = saveTicketFlags
-getgenv().NNVN_RestoreTicketFlags = restoreTicketFlags
-getgenv().NNVN_CanAcceptTicketQuest = function(inputValue)
+getgenv().NhoiiiX_IsQuestActive = isQuestActive
+getgenv().NhoiiiX_GetQuestProgress = getQuestProgress
+getgenv().NhoiiiX_IsQuestCompleted = isQuestCompleted
+getgenv().NhoiiiX_TeleportToFishSpot = teleportToFishingSpot
+getgenv().NhoiiiX_SaveTicketFlags = saveTicketFlags
+getgenv().NhoiiiX_RestoreTicketFlags = restoreTicketFlags
+getgenv().NhoiiiX_CanAcceptTicketQuest = function(inputValue)
     return not isQuestActive(inputValue)
 end
 
-getgenv().NNVN_ClickLeaveButton = clickLeaveButton
-getgenv().NNVN_AcceptTicketQuest = acceptTicketQuest
-getgenv().NNVN_TurnInTicketQuest = turnInTicketQuest
-getgenv().NNVN_CompleteTicketQuestTurnIn = completeTurnIn
-getgenv().NNVN_StartTicketLoop = startTicketLoop
-if getgenv().NNVN_AutoTicket then
+getgenv().NhoiiiX_ClickLeaveButton = clickLeaveButton
+getgenv().NhoiiiX_AcceptTicketQuest = acceptTicketQuest
+getgenv().NhoiiiX_TurnInTicketQuest = turnInTicketQuest
+getgenv().NhoiiiX_CompleteTicketQuestTurnIn = completeTurnIn
+getgenv().NhoiiiX_StartTicketLoop = startTicketLoop
+if getgenv().NhoiiiX_AutoTicket then
     task.wait(0.2)
     startTicketLoop()
 end
@@ -4251,7 +4251,7 @@ function GodExists()
     return false
 end
 
-getgenv().NNVN_GodExists = GodExists
+getgenv().NhoiiiX_GodExists = GodExists
 function InteractWithGodNPC(inputValue)
     local character = LocalPlayer.Character
     local rootPart = character and character:FindFirstChild("HumanoidRootPart")
@@ -4306,7 +4306,7 @@ function InteractWithGodNPC(inputValue)
         end)
         task.wait(0.5)
         pcall(function()
-            getgenv().NNVN_ClickLeaveButton()
+            getgenv().NhoiiiX_ClickLeaveButton()
         end)
         hasTriggered = true
     end)
@@ -4318,7 +4318,7 @@ local viewportSize = Workspace.CurrentCamera and Workspace.CurrentCamera.Viewpor
 local maxResult = math.max(420, math.floor(viewportSize.X - 72))
 local maxResult2 = math.max(320, math.floor(viewportSize.Y - 88))
 local isMatched = viewportSize.X < 650
-local discordUrl = "https://discord.gg/5JJAuHRUgJ"
+local discordUrl = "https://https://discord.gg/aXWW8hytgX"
 local function resolveUnknown()
     local defaultStatus = "Unknown"
     pcall(function()
@@ -4343,8 +4343,8 @@ end)
 local Window = item2:CreateWindow({
     Title = uiStrings.win_title,
     Author = uiStrings.win_sub,
-    Icon = "rbxassetid://138952058031836",
-    Folder = "NNVN_Hub",
+    Icon = "rbxassetid://75850663384500",
+    Folder = "NhoiiiX_Hub",
     Footer = resolveUnknown(),
     CopyableFooter = true,
     Size = isAllowed2 and UDim2.fromOffset(maxResult, maxResult2) or UDim2.fromOffset(760, 520),
@@ -4353,13 +4353,13 @@ local Window = item2:CreateWindow({
     SideBarWidth = isAllowed2 and (isMatched and 56 or 156) or 220,
     SidebarWidth = isAllowed2 and (isMatched and 56 or 156) or 220,
     MinSidebarWidth = isAllowed2 and 132 or 220,
-    Accent = NNVN_ColorFromHex(getgenv().NNVN_AccentColorHex, Color3.fromRGB(86, 140, 255)),
+    Accent = NhoiiiX_ColorFromHex(getgenv().NhoiiiX_AccentColorHex, Color3.fromRGB(86, 140, 255)),
     BackgroundColor = Color3.fromRGB(16, 17, 20),
     Acrylic = false,
     Transparent = true,
     Theme = "Dark",
-    BackgroundImage = getgenv().NNVN_BackgroundImage or "",
-    BackgroundImageTransparency = tonumber(getgenv().NNVN_BackgroundTransparency) or 0.72,
+    BackgroundImage = getgenv().NhoiiiX_BackgroundImage or "",
+    BackgroundImageTransparency = tonumber(getgenv().NhoiiiX_BackgroundTransparency) or 0.72,
     BackgroundImageScaleType = Enum.ScaleType.Crop,
     HideSearchBar = false,
     ScrollBarEnabled = true,
@@ -4382,7 +4382,7 @@ local Window = item2:CreateWindow({
     User = { Enabled = true, Anonymous = false }
 })
 if not Window then
-    warn("[NNVN Hub] UltraObsidian window failed to initialize")
+    warn("[NhoiiiX Hub] UltraObsidian window failed to initialize")
     return
 end
 local mainMap
@@ -4395,7 +4395,7 @@ do
     end)
     Window:EditOpenButton({
         Title = "NhoiiiX Hub",
-        Icon = "rbxassetid://138952058031836",
+        Icon = "rbxassetid://75850663384500",
         CornerRadius = UDim.new(0, 16),
         StrokeThickness = 2,
         Color = ColorSequence.new(Color3.fromHex("0A1128"), Color3.fromHex("4B0082")),
@@ -4403,7 +4403,7 @@ do
         Enabled = true,
         Draggable = true
     })
-    getgenv().NNVN_StatusFPS = tonumber(getgenv().NNVN_StatusFPS) or 0
+    getgenv().NhoiiiX_StatusFPS = tonumber(getgenv().NhoiiiX_StatusFPS) or 0
     local item14
     local function resolveParent2()
         if item14 and item14.Parent then
@@ -4420,15 +4420,15 @@ do
         end
         return nil
     end
-    NNVN_GetServerNow = function()
+    NhoiiiX_GetServerNow = function()
         local item
         pcall(function()
             item = Workspace:GetServerTimeNow()
         end)
         return tonumber(item)
     end
-    NNVN_GetServerUptimeSeconds = function()
-        local serverNow = NNVN_GetServerNow()
+    NhoiiiX_GetServerUptimeSeconds = function()
+        local serverNow = NhoiiiX_GetServerNow()
         if not serverNow then
             return nil
         end
@@ -4447,12 +4447,12 @@ do
         end
         return nil
     end
-    NNVN_FormatServerTime = function(inputValue)
+    NhoiiiX_FormatServerTime = function(inputValue)
         inputValue = math.max(0, math.floor(tonumber(inputValue) or 0))
         return string.format("%02d:%02d:%02d", math.floor(inputValue / 3600), math.floor(inputValue % 3600 / 60), inputValue % 60)
     end
-    NNVN_FormatServerClock = function()
-        local serverNow = NNVN_GetServerNow()
+    NhoiiiX_FormatServerClock = function()
+        local serverNow = NhoiiiX_GetServerNow()
         if not serverNow then
             return "--:--:--"
         end
@@ -4467,13 +4467,13 @@ do
             return defaultStatus:gsub("%s+Island$", "")
         end
         local function resolveIsPremium()
-            return (rawget(_G, "NNVN_IsPremium") == true or getgenv().NNVN_IsPremium == true or rawget(_G, "SCRIPT_IsPremium") == true or getgenv().SCRIPT_IsPremium == true) and "PREMIUM" or "FREE"
+            return (rawget(_G, "NhoiiiX_IsPremium") == true or getgenv().NhoiiiX_IsPremium == true or rawget(_G, "SCRIPT_IsPremium") == true or getgenv().SCRIPT_IsPremium == true) and "PREMIUM" or "FREE"
         end
         local itemList = {
             {
                 Icon = "fish",
                 Text = function()
-                    return "NNVN Hub · Heavyweight Fishing " .. tostring(hubVersion)
+                    return "NhoiiiX Hub · Heavyweight Fishing " .. tostring(hubVersion)
                 end,
                 Accent = true
             },
@@ -4492,7 +4492,7 @@ do
             itemList[#itemList + 1] = {
                 Icon = "gauge",
                 Text = function()
-                    return tostring(getgenv().NNVN_StatusFPS or 0) .. " FPS"
+                    return tostring(getgenv().NhoiiiX_StatusFPS or 0) .. " FPS"
                 end
             }
             itemList[#itemList + 1] = {
@@ -4520,8 +4520,8 @@ do
             end
         end)
     end
-    NNVN_SetWatermarkVisible = function(inputValue)
-        getgenv().NNVN_Watermark = inputValue == true
+    NhoiiiX_SetWatermarkVisible = function(inputValue)
+        getgenv().NhoiiiX_Watermark = inputValue == true
         pcall(function()
             if item15 and item15.SetVisible then
                 item15:SetVisible(inputValue == true)
@@ -4530,7 +4530,7 @@ do
             end
         end)
     end
-    NNVN_SetWatermarkVisible(getgenv().NNVN_Watermark)
+    NhoiiiX_SetWatermarkVisible(getgenv().NhoiiiX_Watermark)
     task.spawn(function()
         while task.wait(1) do
             if Window and Window.SetFooter then
@@ -4541,10 +4541,10 @@ do
         end
     end)
     applyWindUIGlassStyle = function()
-        if getgenv()._NNVN_GlassApplied then
+        if getgenv()._NhoiiiX_GlassApplied then
             return
         end
-        getgenv()._NNVN_GlassApplied = true
+        getgenv()._NhoiiiX_GlassApplied = true
         local delaySeconds = 0.72
         local delaySeconds2 = 0.64
         local delaySeconds3 = 0.76
@@ -4594,7 +4594,7 @@ do
             end
         end
     end
-    getgenv().NNVN_WindUIGlassLoop = true
+    getgenv().NhoiiiX_WindUIGlassLoop = true
     patchContainer(Window)
     if not Window.AddTab and Window.Tab then
         Window.AddTab = function(inputValue, secondValue)
@@ -4659,50 +4659,50 @@ do
         Title = "Safety Mode",
         Content = "Limits repeated remotes and rapid movement. It reduces spam but cannot guarantee protection from game moderation."
     })
-    safetyControlsSection:AddToggle("NNVN_SafetyMode", {
+    safetyControlsSection:AddToggle("NhoiiiX_SafetyMode", {
         Title = "Enable Safety Mode",
-        Default = getgenv().NNVN_SafetyMode ~= false,
+        Default = getgenv().NhoiiiX_SafetyMode ~= false,
         Callback = function(amount)
-            getgenv().NNVN_SafetyMode = amount == true
-            getgenv().NNVN_RemoteSafetyTimes = {}
+            getgenv().NhoiiiX_SafetyMode = amount == true
+            getgenv().NhoiiiX_RemoteSafetyTimes = {}
             resolveSetDisabled(amount == true)
         end
     })
-    item16 = safetyControlsSection:AddSlider("NNVN_RemoteMinInterval", {
+    item16 = safetyControlsSection:AddSlider("NhoiiiX_RemoteMinInterval", {
         Title = "Remote Minimum Interval",
         Description = "Minimum seconds between repeated protected remotes. Recommended: 0.75 or higher.",
-        Default = tonumber(getgenv().NNVN_RemoteMinInterval) or 0.75,
+        Default = tonumber(getgenv().NhoiiiX_RemoteMinInterval) or 0.75,
         Min = 0.5,
         Max = 3,
         Rounding = 2,
-        Disabled = getgenv().NNVN_SafetyMode == false,
+        Disabled = getgenv().NhoiiiX_SafetyMode == false,
         Callback = function(amount)
-            getgenv().NNVN_RemoteMinInterval = math.max(0.5, tonumber(amount) or 0.75)
-            getgenv().NNVN_RemoteSafetyTimes = {}
+            getgenv().NhoiiiX_RemoteMinInterval = math.max(0.5, tonumber(amount) or 0.75)
+            getgenv().NhoiiiX_RemoteSafetyTimes = {}
         end
     })
-    item17 = safetyControlsSection:AddSlider("NNVN_TweenStartDelay", {
+    item17 = safetyControlsSection:AddSlider("NhoiiiX_TweenStartDelay", {
         Title = "Tween Start Delay",
         Description = "Small pause between automatic Tween trips. Recommended: 0.20 seconds or higher.",
-        Default = tonumber(getgenv().NNVN_TweenStartDelay) or 0.2,
+        Default = tonumber(getgenv().NhoiiiX_TweenStartDelay) or 0.2,
         Min = 0,
         Max = 2,
         Rounding = 2,
-        Disabled = getgenv().NNVN_SafetyMode == false,
+        Disabled = getgenv().NhoiiiX_SafetyMode == false,
         Callback = function(enabled)
-            getgenv().NNVN_TweenStartDelay = math.max(0, tonumber(enabled) or 0.2)
+            getgenv().NhoiiiX_TweenStartDelay = math.max(0, tonumber(enabled) or 0.2)
         end
     })
-    item18 = safetyControlsSection:AddToggle("NNVN_BlockDuplicateTween", {
+    item18 = safetyControlsSection:AddToggle("NhoiiiX_BlockDuplicateTween", {
         Title = "Block Duplicate Tween",
         Description = "Skips repeated movement to the same destination when already there.",
-        Default = getgenv().NNVN_BlockDuplicateTween ~= false,
-        Disabled = getgenv().NNVN_SafetyMode == false,
+        Default = getgenv().NhoiiiX_BlockDuplicateTween ~= false,
+        Disabled = getgenv().NhoiiiX_SafetyMode == false,
         Callback = function(selectedValue)
-            getgenv().NNVN_BlockDuplicateTween = selectedValue == true
+            getgenv().NhoiiiX_BlockDuplicateTween = selectedValue == true
         end
     })
-    resolveSetDisabled(getgenv().NNVN_SafetyMode ~= false)
+    resolveSetDisabled(getgenv().NhoiiiX_SafetyMode ~= false)
     for _, entry in pairs(mainMap) do
         local function resolveOpened(inputValue)
             if type(inputValue) == "table" then
@@ -4712,15 +4712,15 @@ do
             return inputValue
         end
         local section = entry.Section
-        if section and not entry.__NNVN_SectionCompat then
-            entry.__NNVN_SectionCompat = true
+        if section and not entry.__NhoiiiX_SectionCompat then
+            entry.__NhoiiiX_SectionCompat = true
             entry.Section = function(selfContainer, configArg)
                 return section(selfContainer, resolveOpened(configArg))
             end
         end
         local addSection = entry.AddSection
-        if addSection and not entry.__NNVN_AddSectionCompat then
-            entry.__NNVN_AddSectionCompat = true
+        if addSection and not entry.__NhoiiiX_AddSectionCompat then
+            entry.__NhoiiiX_AddSectionCompat = true
             entry.AddSection = function(selfContainer, configArg)
                 return addSection(selfContainer, resolveOpened(configArg))
             end
@@ -4780,7 +4780,7 @@ do
         return allFishNames
     end
     FavoriteSelectedFish = function()
-        local selectedFavoriteFish = getgenv().NNVN_SelectedFavoriteFish
+        local selectedFavoriteFish = getgenv().NhoiiiX_SelectedFavoriteFish
         if not selectedFavoriteFish or selectedFavoriteFish == "" or selectedFavoriteFish == "No Selection" then
             return 0
         end
@@ -4803,71 +4803,71 @@ do
         return counter
     end
     fishSec = mainMap.Fishing:AddSection({ Title = "Fishing", Icon = "fish" })
-    fishSec:AddDropdown("NNVN_ActionMethod", {
+    fishSec:AddDropdown("NhoiiiX_ActionMethod", {
         Title = "Operation Method",
         Description = "Instant sends the remote directly. Teleport moves first. Tween is safer.",
         Values = { "Instant [Risk]", "Teleport [Risk]", "Tween [Safe]" },
-        Default = NormalizeActionMethodName(getgenv().NNVN_ActionMethod) == "Instant" and "Instant [Risk]" or NormalizeActionMethodName(getgenv().NNVN_ActionMethod) == "Teleport" and "Teleport [Risk]" or "Tween [Safe]",
+        Default = NormalizeActionMethodName(getgenv().NhoiiiX_ActionMethod) == "Instant" and "Instant [Risk]" or NormalizeActionMethodName(getgenv().NhoiiiX_ActionMethod) == "Teleport" and "Teleport [Risk]" or "Tween [Safe]",
         Callback = function(amount)
             local actionMethodName = NormalizeActionMethodName(NormalizeTranslatedChoice(amount, "Tween [Safe]"))
-            getgenv().NNVN_ActionMethod = actionMethodName == "Instant" and "Instant [Risk]" or actionMethodName == "Teleport" and "Teleport [Risk]" or "Tween [Safe]"
-            getgenv().NNVN_TicketFarmMode = actionMethodName == "Tween" and "Tween [Safe]" or "Teleport [Risk]"
-            if getgenv().NNVN_Notify then
+            getgenv().NhoiiiX_ActionMethod = actionMethodName == "Instant" and "Instant [Risk]" or actionMethodName == "Teleport" and "Teleport [Risk]" or "Tween [Safe]"
+            getgenv().NhoiiiX_TicketFarmMode = actionMethodName == "Tween" and "Tween [Safe]" or "Teleport [Risk]"
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Operation Method",
-                    Content = "Selected: " .. getgenv().NNVN_ActionMethod,
+                    Content = "Selected: " .. getgenv().NhoiiiX_ActionMethod,
                     Duration = 3
                 })
             end
         end
     })
-    fishSec:AddSlider("NNVN_TweenSpeed", {
+    fishSec:AddSlider("NhoiiiX_TweenSpeed", {
         Title = "Tween Speed",
-        Default = getgenv().NNVN_TweenSpeed or 300,
+        Default = getgenv().NhoiiiX_TweenSpeed or 300,
         Min = 80,
         Max = 600,
         Rounding = 10,
         Callback = function(enabled)
-            getgenv().NNVN_TweenSpeed = tonumber(enabled) or 300
+            getgenv().NhoiiiX_TweenSpeed = tonumber(enabled) or 300
         end
     })
     local item19
-    fishSec:AddToggle("NNVN_SkyFarm", {
+    fishSec:AddToggle("NhoiiiX_SkyFarm", {
         Title = "Sky Farm",
         Description = "Moves only the Y axis to Ticket Quest sky height and keeps the current X/Z.",
-        Default = getgenv().NNVN_SkyFarm == true,
+        Default = getgenv().NhoiiiX_SkyFarm == true,
         Callback = function(amount)
             if item19 and item19.SetVisible then
                 item19:SetVisible(amount == true)
             end
-            NNVN_SetSkyFarm(amount == true)
+            NhoiiiX_SetSkyFarm(amount == true)
         end
     })
-    item19 = fishSec:AddSlider("NNVN_SkyFarmHeight", {
+    item19 = fishSec:AddSlider("NhoiiiX_SkyFarmHeight", {
         Title = "Sky Farm Height",
         Description = "Default matches the Ticket Quest sky height.",
-        Default = tonumber(getgenv().NNVN_SkyFarmHeight) or 609,
+        Default = tonumber(getgenv().NhoiiiX_SkyFarmHeight) or 609,
         Min = 100,
         Max = 1000,
         Rounding = 1,
-        Visible = getgenv().NNVN_SkyFarm == true,
+        Visible = getgenv().NhoiiiX_SkyFarm == true,
         Callback = function(selectedValue)
-            NNVN_SetSkyFarmHeight(selectedValue)
+            NhoiiiX_SetSkyFarmHeight(selectedValue)
         end
     })
-    fishSec:AddToggle("NNVN_Anchor", {
+    fishSec:AddToggle("NhoiiiX_Anchor", {
         Title = "Anchor Bar",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_Anchor = enabled
+            getgenv().NhoiiiX_Anchor = enabled
         end
     })
     local item20
-    fishSec:AddToggle("NNVN_AutoCast", {
+    fishSec:AddToggle("NhoiiiX_AutoCast", {
         Title = "Auto Cast Rod",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoCast = enabled == true
+            getgenv().NhoiiiX_AutoCast = enabled == true
             if item20 and item20.SetVisible then
                 item20:SetVisible(enabled == true)
             end
@@ -4876,41 +4876,41 @@ do
             end
         end
     })
-    item20 = fishSec:AddSlider("NNVN_AutoCastDelay", {
+    item20 = fishSec:AddSlider("NhoiiiX_AutoCastDelay", {
         Title = "Auto Cast Delay",
         Description = "Not recommended below 3 seconds.",
-        Default = tonumber(getgenv().NNVN_AutoCastDelay) or 3,
+        Default = tonumber(getgenv().NhoiiiX_AutoCastDelay) or 3,
         Min = 0.5,
         Max = 10,
         Rounding = 1,
-        Visible = getgenv().NNVN_AutoCast == true,
+        Visible = getgenv().NhoiiiX_AutoCast == true,
         Callback = function(enabled)
-            getgenv().NNVN_AutoCastDelay = math.max(0.5, tonumber(enabled) or 3)
+            getgenv().NhoiiiX_AutoCastDelay = math.max(0.5, tonumber(enabled) or 3)
         end
     })
-    fishSec:AddToggle("NNVN_AutoSkill", {
+    fishSec:AddToggle("NhoiiiX_AutoSkill", {
         Title = "Auto Use Skills",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoSkill = enabled
+            getgenv().NhoiiiX_AutoSkill = enabled
         end
     })
-    fishSec:AddDropdown("NNVN_AutoSkillMethod", {
+    fishSec:AddDropdown("NhoiiiX_AutoSkillMethod", {
         Title = "Auto Skills Method",
         Values = { "Keyboard", "Skill Event", "Mobile (Click)" },
-        Default = getgenv().NNVN_AutoSkillMethod or "Skill Event",
+        Default = getgenv().NhoiiiX_AutoSkillMethod or "Skill Event",
         Callback = function(selectedValue)
-            getgenv().NNVN_AutoSkillMethod = selectedValue == "Skill Event" and "Skill Event" or selectedValue == "Mobile (Click)" and "Mobile (Click)" or "Keyboard"
+            getgenv().NhoiiiX_AutoSkillMethod = selectedValue == "Skill Event" and "Skill Event" or selectedValue == "Mobile (Click)" and "Mobile (Click)" or "Keyboard"
         end
     })
     for i = 1, 4 do
         local i2 = i
-        fishSec:AddDropdown("NNVN_SkillOrder" .. i2, {
+        fishSec:AddDropdown("NhoiiiX_SkillOrder" .. i2, {
             Title = "Skill Order " .. i2,
             Values = { "Z", "X", "C", "V" },
-            Default = getgenv().NNVN_SkillOrder[i2] or ({ "Z", "X", "C", "V" })[i2],
+            Default = getgenv().NhoiiiX_SkillOrder[i2] or ({ "Z", "X", "C", "V" })[i2],
             Callback = function(selectedValue)
-                local skillOrder = getgenv().NNVN_SkillOrder
+                local skillOrder = getgenv().NhoiiiX_SkillOrder
                 for i = 1, 4 do
                     if i ~= i2 and skillOrder[i] == selectedValue then
                         skillOrder[i] = skillOrder[i2]
@@ -4922,7 +4922,7 @@ do
             end
         })
     end
-    fishSec:AddDropdown("NNVN_SkillPick", {
+    fishSec:AddDropdown("NhoiiiX_SkillPick", {
         Title = "Select Skills to Auto-Press",
         Values = { "Z", "X", "C", "V" },
         Multi = true,
@@ -4934,17 +4934,17 @@ do
                     skillFlags[key] = entry
                 end
             end
-            getgenv().NNVN_Skills = skillFlags
+            getgenv().NhoiiiX_Skills = skillFlags
         end
     })
     configMainSec = mainMap.Fishing:AddSection({ Title = "Configuration", Icon = "settings-2" })
-    configMainSec:AddInput("NNVN_PositionNameInput", {
+    configMainSec:AddInput("NhoiiiX_PositionNameInput", {
         Title = "Position Name",
         Placeholder = "Type position name",
-        Default = getgenv().NNVN_PositionNameInput,
+        Default = getgenv().NhoiiiX_PositionNameInput,
         Callback = function(inputText)
             local trimTextResult = trimText(inputText)
-            getgenv().NNVN_PositionNameInput = trimTextResult ~= "" and trimTextResult or "Position 1"
+            getgenv().NhoiiiX_PositionNameInput = trimTextResult ~= "" and trimTextResult or "Position 1"
         end
     })
     configMainSec:AddButton({
@@ -4954,14 +4954,14 @@ do
             createSavedPosition()
         end
     })
-    PositionDropdown = configMainSec:AddDropdown("NNVN_SelectedPosition", {
+    PositionDropdown = configMainSec:AddDropdown("NhoiiiX_SelectedPosition", {
         Title = "Select Position",
         Values = buildCustomPositionNames(),
-        Default = getgenv().NNVN_SelectedPosition,
+        Default = getgenv().NhoiiiX_SelectedPosition,
         Searchable = true,
         Callback = function(selectedValue)
-            getgenv().NNVN_SelectedPosition = NormalizeTranslatedChoice(selectedValue, "No Position")
-            if getgenv().NNVN_PositionLock and getgenv().NNVN_PositionTeleportMode == "Save Position" then
+            getgenv().NhoiiiX_SelectedPosition = NormalizeTranslatedChoice(selectedValue, "No Position")
+            if getgenv().NhoiiiX_PositionLock and getgenv().NhoiiiX_PositionTeleportMode == "Save Position" then
                 teleportToSelectedSavedPosition()
             end
         end
@@ -4976,53 +4976,53 @@ do
             end
         end
     })
-    configMainSec:AddDropdown("NNVN_PositionTeleportMode", {
+    configMainSec:AddDropdown("NhoiiiX_PositionTeleportMode", {
         Title = "Teleport Mode",
         Values = { "No Teleport", "Save Position" },
-        Default = getgenv().NNVN_PositionTeleportMode,
+        Default = getgenv().NhoiiiX_PositionTeleportMode,
         Callback = function(enabled)
-            getgenv().NNVN_PositionTeleportMode = NormalizeTranslatedChoice(enabled, "No Teleport")
-            if getgenv().NNVN_PositionLock then
-                if getgenv().NNVN_PositionTeleportMode == "Save Position" then
+            getgenv().NhoiiiX_PositionTeleportMode = NormalizeTranslatedChoice(enabled, "No Teleport")
+            if getgenv().NhoiiiX_PositionLock then
+                if getgenv().NhoiiiX_PositionTeleportMode == "Save Position" then
                     teleportToSelectedSavedPosition()
                 end
                 startPositionLock()
             end
         end
     })
-    configMainSec:AddToggle("NNVN_PositionLock", {
+    configMainSec:AddToggle("NhoiiiX_PositionLock", {
         Title = "Position Lock",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_PositionLock = enabled and true or false
-            if getgenv().NNVN_PositionLock then
-                if getgenv().NNVN_PositionTeleportMode == "Save Position" and not teleportToSelectedSavedPosition() then
+            getgenv().NhoiiiX_PositionLock = enabled and true or false
+            if getgenv().NhoiiiX_PositionLock then
+                if getgenv().NhoiiiX_PositionTeleportMode == "Save Position" and not teleportToSelectedSavedPosition() then
                     notifyPosition("Create and select a position first.")
                 end
                 startPositionLock()
             else
-                getgenv().NNVN_PositionLockLoopId = (getgenv().NNVN_PositionLockLoopId or 0) + 1
+                getgenv().NhoiiiX_PositionLockLoopId = (getgenv().NhoiiiX_PositionLockLoopId or 0) + 1
             end
         end
     })
     equipSec = mainMap.Fishing:AddSection({ Title = "Auto Equip", Icon = "package" })
-    equipSec:AddToggle("NNVN_AutoEquipBestBait", {
+    equipSec:AddToggle("NhoiiiX_AutoEquipBestBait", {
         Title = "Auto Equip Best Bait (by Luck)",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoEquipBestBait = enabled
+            getgenv().NhoiiiX_AutoEquipBestBait = enabled
         end
     })
-    autoEquipRodToggle = equipSec:AddToggle("NNVN_AutoEquipRod", {
+    autoEquipRodToggle = equipSec:AddToggle("NhoiiiX_AutoEquipRod", {
         Title = "Auto Equip Rod",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoEquipRod = enabled
+            getgenv().NhoiiiX_AutoEquipRod = enabled
         end
     })
     activateAutoEquipRodForFarm = function()
-        if not getgenv().NNVN_AutoEquipRod then
-            getgenv().NNVN_AutoEquipRod = true
+        if not getgenv().NhoiiiX_AutoEquipRod then
+            getgenv().NhoiiiX_AutoEquipRod = true
             if autoEquipRodToggle and type(autoEquipRodToggle.SetValue) == "function" then
                 pcall(function()
                     autoEquipRodToggle:SetValue(true)
@@ -5031,11 +5031,11 @@ do
         end
         pcall(EquipSlot1)
     end
-    equipSec:AddToggle("NNVN_AutoEquipBestOrb", {
+    equipSec:AddToggle("NhoiiiX_AutoEquipBestOrb", {
         Title = "Auto Equip Best Orb (by stats)",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoEquipBestOrb = enabled
+            getgenv().NhoiiiX_AutoEquipBestOrb = enabled
         end
     })
     equipSec:AddButton({
@@ -5069,16 +5069,16 @@ do
         end
     })
     bossFishSec = mainMap.Fishing:AddSection({ Title = "Boss Fishing", Icon = "swords" })
-    bossFishSec:AddToggle("NNVN_AutoBossFishing", {
+    bossFishSec:AddToggle("NhoiiiX_AutoBossFishing", {
         Title = "Auto Farm Boss",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoBossFishing = enabled
+            getgenv().NhoiiiX_AutoBossFishing = enabled
             if enabled then
-                getgenv().NNVN_AutoCast = false
+                getgenv().NhoiiiX_AutoCast = false
             end
-            if not enabled and not getgenv().NNVN_AutoFarmSecretBoss then
-                local bossFarmState = getgenv().NNVN_BossFarmState
+            if not enabled and not getgenv().NhoiiiX_AutoFarmSecretBoss then
+                local bossFarmState = getgenv().NhoiiiX_BossFarmState
                 if bossFarmState then
                     bossFarmState.CurrentTarget = nil
                     bossFarmState.CurrentType = nil
@@ -5090,16 +5090,16 @@ do
             end
         end
     })
-    bossFishSec:AddToggle("NNVN_AutoFarmSecretBoss", {
+    bossFishSec:AddToggle("NhoiiiX_AutoFarmSecretBoss", {
         Title = "Auto Farm Secret Boss",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoFarmSecretBoss = enabled
+            getgenv().NhoiiiX_AutoFarmSecretBoss = enabled
             if enabled then
-                getgenv().NNVN_AutoCast = false
+                getgenv().NhoiiiX_AutoCast = false
             end
-            if not enabled and not getgenv().NNVN_AutoBossFishing then
-                local bossFarmState = getgenv().NNVN_BossFarmState
+            if not enabled and not getgenv().NhoiiiX_AutoBossFishing then
+                local bossFarmState = getgenv().NhoiiiX_BossFarmState
                 if bossFarmState then
                     bossFarmState.CurrentTarget = nil
                     bossFarmState.CurrentType = nil
@@ -5111,12 +5111,12 @@ do
             end
         end
     })
-    bossFishSec:AddDropdown("NNVN_AutoSecretBossMode", {
+    bossFishSec:AddDropdown("NhoiiiX_AutoSecretBossMode", {
         Title = "Secret Boss Activation",
         Values = { "Always Active", "Only When Weather" },
-        Default = getgenv().NNVN_AutoSecretBossMode or "Always Active",
+        Default = getgenv().NhoiiiX_AutoSecretBossMode or "Always Active",
         Callback = function(selectedValue)
-            getgenv().NNVN_AutoSecretBossMode = selectedValue == "Only When Weather" and selectedValue or "Always Active"
+            getgenv().NhoiiiX_AutoSecretBossMode = selectedValue == "Only When Weather" and selectedValue or "Always Active"
         end
     })
 end
@@ -5124,7 +5124,7 @@ end
 local lookupMap, enzoSection, weatherMap, executeAction, resolveAnchor
 do
     favSec = mainMap.Fishing:AddSection({ Title = "Favourite Fish", Icon = "heart" })
-    favSec:AddDropdown("NNVN_SelectedFavoriteFish", {
+    favSec:AddDropdown("NhoiiiX_SelectedFavoriteFish", {
         Title = "Select Fish",
         Values = (function()
             local fishNamesForSelection = GetFishNamesForSelection()
@@ -5134,20 +5134,20 @@ do
         Multi = false,
         Default = "No Selection",
         Callback = function(enabled)
-            getgenv().NNVN_SelectedFavoriteFish = enabled == "No Selection" and nil or enabled
+            getgenv().NhoiiiX_SelectedFavoriteFish = enabled == "No Selection" and nil or enabled
         end
     })
-    favSec:AddToggle("NNVN_AutoFavoriteFish", {
+    favSec:AddToggle("NhoiiiX_AutoFavoriteFish", {
         Title = "Auto Favourite Selected Fish",
         Default = false,
         SearchBarEnabled = true,
         Callback = function(enabled)
-            getgenv().NNVN_AutoFavoriteFish = enabled
-            getgenv().NNVN_FavoriteFishLoopId = getgenv().NNVN_FavoriteFishLoopId + 1
-            local favoriteFishLoopId = getgenv().NNVN_FavoriteFishLoopId
+            getgenv().NhoiiiX_AutoFavoriteFish = enabled
+            getgenv().NhoiiiX_FavoriteFishLoopId = getgenv().NhoiiiX_FavoriteFishLoopId + 1
+            local favoriteFishLoopId = getgenv().NhoiiiX_FavoriteFishLoopId
             if enabled then
                 task.spawn(function()
-                    while getgenv().NNVN_AutoFavoriteFish and favoriteFishLoopId == getgenv().NNVN_FavoriteFishLoopId do
+                    while getgenv().NhoiiiX_AutoFavoriteFish and favoriteFishLoopId == getgenv().NhoiiiX_FavoriteFishLoopId do
                         FavoriteSelectedFish()
                         task.wait(1)
                     end
@@ -5156,27 +5156,27 @@ do
         end
     })
     skipSec = mainMap.Fishing:AddSection({ Title = "Auto Skip Fish", Icon = "skip-forward" })
-    skipSec:AddDropdown("NNVN_SkipFishList", {
+    skipSec:AddDropdown("NhoiiiX_SkipFishList", {
         Title = "Fishes to Skip",
         Values = GetFishNamesForSelection(),
         Multi = true,
         SearchBarEnabled = true,
         Default = {},
         Callback = function(enabled)
-            getgenv().NNVN_SkipFishList = enabled or {}
+            getgenv().NhoiiiX_SkipFishList = enabled or {}
         end
     })
-    skipSec:AddToggle("NNVN_AutoSkipFish", {
+    skipSec:AddToggle("NhoiiiX_AutoSkipFish", {
         Title = "Auto Skip Selected Fish",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoSkipFish = enabled
-            getgenv().NNVN_SkipFishRequestId = (getgenv().NNVN_SkipFishRequestId or 0) + 1
-            local skipFishConnection = getgenv().NNVN_SkipFishConnection
+            getgenv().NhoiiiX_AutoSkipFish = enabled
+            getgenv().NhoiiiX_SkipFishRequestId = (getgenv().NhoiiiX_SkipFishRequestId or 0) + 1
+            local skipFishConnection = getgenv().NhoiiiX_SkipFishConnection
             if skipFishConnection then
                 skipFishConnection:Disconnect()
             end
-            getgenv().NNVN_SkipFishConnection = nil
+            getgenv().NhoiiiX_SkipFishConnection = nil
             if not enabled then
                 return
             end
@@ -5190,19 +5190,19 @@ do
                 })
                 return
             end
-            getgenv().NNVN_SkipFishConnection = fishingMinigame.OnClientEvent:Connect(function(inputValue, secondValue, thirdValue)
-                if not getgenv().NNVN_AutoSkipFish then
+            getgenv().NhoiiiX_SkipFishConnection = fishingMinigame.OnClientEvent:Connect(function(inputValue, secondValue, thirdValue)
+                if not getgenv().NhoiiiX_AutoSkipFish then
                     return
                 end
                 local fishName = inputValue and inputValue.FishName
-                local skipFishList = getgenv().NNVN_SkipFishList or {}
+                local skipFishList = getgenv().NhoiiiX_SkipFishList or {}
                 if not fishName or type(skipFishList) ~= "table" or not skipFishList[fishName] then
                     return
                 end
-                getgenv().NNVN_SkipFishRequestId = (getgenv().NNVN_SkipFishRequestId or 0) + 1
-                local skipFishRequestId = getgenv().NNVN_SkipFishRequestId
+                getgenv().NhoiiiX_SkipFishRequestId = (getgenv().NhoiiiX_SkipFishRequestId or 0) + 1
+                local skipFishRequestId = getgenv().NhoiiiX_SkipFishRequestId
                 task.delay(3, function()
-                    if getgenv().NNVN_AutoSkipFish and skipFishRequestId == getgenv().NNVN_SkipFishRequestId and thirdValue ~= nil then
+                    if getgenv().NhoiiiX_AutoSkipFish and skipFishRequestId == getgenv().NhoiiiX_SkipFishRequestId and thirdValue ~= nil then
                         pcall(function()
                             fishingMinigame:FireServer(false, thirdValue)
                         end)
@@ -5211,14 +5211,14 @@ do
             end)
         end
     })
-    skipSec:AddToggle("NNVN_HidePlayerName", {
+    skipSec:AddToggle("NhoiiiX_HidePlayerName", {
         Title = "Hide Player Name",
         Description = "Clears workspace.LocalPlayer.HumanoidRootPart.EquippedTitle.PlayerName.",
-        Default = getgenv().NNVN_HidePlayerName,
+        Default = getgenv().NhoiiiX_HidePlayerName,
         Callback = function(selectedValue)
-            getgenv().NNVN_HidePlayerName = selectedValue
+            getgenv().NhoiiiX_HidePlayerName = selectedValue
             if not selectedValue then
-                getgenv().NNVN_HidePlayerNameText = nil
+                getgenv().NhoiiiX_HidePlayerNameText = nil
             end
             applyHidePlayerName()
         end
@@ -5240,15 +5240,15 @@ do
         lookupMap[item21.label] = item21.name
         table.insert(stateMap4, item21.label)
     end
-    getgenv().NNVN_EvolveIsland = getgenv().NNVN_EvolveIsland or "Đảo 1"
-    getgenv().NNVN_EvolveSkillSlot = getgenv().NNVN_EvolveSkillSlot or "Z"
-    getgenv().NNVN_AutoEvolveSkill = false
-    getgenv().NNVN_EvolveConn = nil
-    getgenv().NNVN_EvolvePrevFlags = nil
-    getgenv().NNVN_EvolveLoopId = 0
-    getgenv().NNVN_EvolveBusy = false
+    getgenv().NhoiiiX_EvolveIsland = getgenv().NhoiiiX_EvolveIsland or "Đảo 1"
+    getgenv().NhoiiiX_EvolveSkillSlot = getgenv().NhoiiiX_EvolveSkillSlot or "Z"
+    getgenv().NhoiiiX_AutoEvolveSkill = false
+    getgenv().NhoiiiX_EvolveConn = nil
+    getgenv().NhoiiiX_EvolvePrevFlags = nil
+    getgenv().NhoiiiX_EvolveLoopId = 0
+    getgenv().NhoiiiX_EvolveBusy = false
     local function resolveEvolveIsland()
-        local lookupEntry = lookupMap[getgenv().NNVN_EvolveIsland]
+        local lookupEntry = lookupMap[getgenv().NhoiiiX_EvolveIsland]
         if not lookupEntry then
             return false
         end
@@ -5258,14 +5258,14 @@ do
         local beginningIsleMap22 = beginningIsleMap2 and beginningIsleMap2[lookupEntry]
         if beginningIsleMap22 then
             pcall(function()
-                NNVN_TweenTo(beginningIsleMap22)
+                NhoiiiX_TweenTo(beginningIsleMap22)
             end)
             return true
         end
         for _, item in ipairs(TeleportList or {}) do
             if item.name == lookupEntry then
                 pcall(function()
-                    NNVN_TweenTo(CFrame.new(item.cf.Position) + Vector3.new(0, 5, 0))
+                    NhoiiiX_TweenTo(CFrame.new(item.cf.Position) + Vector3.new(0, 5, 0))
                 end)
                 return true
             end
@@ -5273,46 +5273,46 @@ do
         return false
     end
     evolveSkillSec = mainMap.Fishing:AddSection({ Title = "Auto Evolve Skill", Icon = "zap" })
-    evolveSkillSec:AddDropdown("NNVN_EvolveIsland", {
+    evolveSkillSec:AddDropdown("NhoiiiX_EvolveIsland", {
         Title = "Select Island",
         Values = stateMap4,
         Default = "Đảo 1",
         Callback = function(selected)
-            getgenv().NNVN_EvolveIsland = selected or "Đảo 1"
-            if getgenv().NNVN_AutoEvolveSkill then
+            getgenv().NhoiiiX_EvolveIsland = selected or "Đảo 1"
+            if getgenv().NhoiiiX_AutoEvolveSkill then
                 task.spawn(resolveEvolveIsland)
             end
         end
     })
-    evolveSkillSec:AddDropdown("NNVN_EvolveSkillSlot", {
+    evolveSkillSec:AddDropdown("NhoiiiX_EvolveSkillSlot", {
         Title = "Select Skill Slot",
         Values = { "Z", "X", "C", "V" },
         Default = "Z",
         Callback = function(enabled)
-            getgenv().NNVN_EvolveSkillSlot = enabled or "Z"
+            getgenv().NhoiiiX_EvolveSkillSlot = enabled or "Z"
         end
     })
-    evolveSkillSec:AddToggle("NNVN_AutoEvolveSkill", {
+    evolveSkillSec:AddToggle("NhoiiiX_AutoEvolveSkill", {
         Title = "Auto Teleport + Auto Farm Skill To Evolve",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoEvolveSkill = enabled and true or false
-            if getgenv().NNVN_EvolveConn then
+            getgenv().NhoiiiX_AutoEvolveSkill = enabled and true or false
+            if getgenv().NhoiiiX_EvolveConn then
                 pcall(function()
-                    getgenv().NNVN_EvolveConn:Disconnect()
+                    getgenv().NhoiiiX_EvolveConn:Disconnect()
                 end)
-                getgenv().NNVN_EvolveConn = nil
+                getgenv().NhoiiiX_EvolveConn = nil
             end
-            getgenv().NNVN_EvolveLoopId = (getgenv().NNVN_EvolveLoopId or 0) + 1
-            getgenv().NNVN_EvolveBusy = false
-            if not getgenv().NNVN_AutoEvolveSkill then
-                local evolvePrevFlags = getgenv().NNVN_EvolvePrevFlags
+            getgenv().NhoiiiX_EvolveLoopId = (getgenv().NhoiiiX_EvolveLoopId or 0) + 1
+            getgenv().NhoiiiX_EvolveBusy = false
+            if not getgenv().NhoiiiX_AutoEvolveSkill then
+                local evolvePrevFlags = getgenv().NhoiiiX_EvolvePrevFlags
                 if evolvePrevFlags then
-                    getgenv().NNVN_Anchor = evolvePrevFlags.Anchor and true or false
-                    getgenv().NNVN_AutoCast = evolvePrevFlags.AutoCast and true or false
+                    getgenv().NhoiiiX_Anchor = evolvePrevFlags.Anchor and true or false
+                    getgenv().NhoiiiX_AutoCast = evolvePrevFlags.AutoCast and true or false
                 end
-                getgenv().NNVN_EvolvePrevFlags = nil
-                if getgenv().NNVN_Notify then
+                getgenv().NhoiiiX_EvolvePrevFlags = nil
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Evolve Skill",
                         Content = "Stopped. Previous Anchor / AutoCast states restored.",
@@ -5322,18 +5322,18 @@ do
                 end
                 return
             end
-            getgenv().NNVN_EvolvePrevFlags = { Anchor = getgenv().NNVN_Anchor, AutoCast = getgenv().NNVN_AutoCast }
-            getgenv().NNVN_Anchor = true
-            getgenv().NNVN_AutoCast = true
+            getgenv().NhoiiiX_EvolvePrevFlags = { Anchor = getgenv().NhoiiiX_Anchor, AutoCast = getgenv().NhoiiiX_AutoCast }
+            getgenv().NhoiiiX_Anchor = true
+            getgenv().NhoiiiX_AutoCast = true
             if not HasFishingRod() then
                 pcall(EquipSlot1)
             end
             task.spawn(function()
                 resolveEvolveIsland()
             end)
-            local evolveLoopId = getgenv().NNVN_EvolveLoopId
+            local evolveLoopId = getgenv().NhoiiiX_EvolveLoopId
             task.spawn(function()
-                while getgenv().NNVN_AutoEvolveSkill and evolveLoopId == getgenv().NNVN_EvolveLoopId do
+                while getgenv().NhoiiiX_AutoEvolveSkill and evolveLoopId == getgenv().NhoiiiX_EvolveLoopId do
                     pcall(resolveEvolveIsland)
                     task.wait(3)
                 end
@@ -5341,7 +5341,7 @@ do
             task.spawn(function()
                 local events = ReplicatedStorage:WaitForChild("Events", 10)
                 if not events then
-                    if getgenv().NNVN_Notify then
+                    if getgenv().NhoiiiX_Notify then
                         item:Notify({
                             Title = "Evolve Skill",
                             Content = "Events folder not found!",
@@ -5354,7 +5354,7 @@ do
                 local fishingMinigame = events:WaitForChild("FishingMinigame", 10)
                 local useSkill = events:WaitForChild("UseSkill", 10)
                 if not fishingMinigame or not useSkill then
-                    if getgenv().NNVN_Notify then
+                    if getgenv().NhoiiiX_Notify then
                         item:Notify({
                             Title = "Evolve Skill",
                             Content = "FishingMinigame / UseSkill remote not found!",
@@ -5364,18 +5364,18 @@ do
                     end
                     return
                 end
-                getgenv().NNVN_EvolveConn = fishingMinigame.OnClientEvent:Connect(function(inputValue, secondValue, thirdValue)
-                    if not getgenv().NNVN_AutoEvolveSkill then
+                getgenv().NhoiiiX_EvolveConn = fishingMinigame.OnClientEvent:Connect(function(inputValue, secondValue, thirdValue)
+                    if not getgenv().NhoiiiX_AutoEvolveSkill then
                         return
                     end
                     if not thirdValue or thirdValue == "" then
                         return
                     end
-                    if getgenv().NNVN_EvolveBusy then
+                    if getgenv().NhoiiiX_EvolveBusy then
                         return
                     end
-                    getgenv().NNVN_EvolveBusy = true
-                    local evolveSkillSlot = getgenv().NNVN_EvolveSkillSlot or "Z"
+                    getgenv().NhoiiiX_EvolveBusy = true
+                    local evolveSkillSlot = getgenv().NhoiiiX_EvolveSkillSlot or "Z"
                     task.spawn(function()
                         task.wait(3.5)
                         pcall(function()
@@ -5385,13 +5385,13 @@ do
                         pcall(function()
                             fishingMinigame:FireServer(false, thirdValue)
                         end)
-                        getgenv().NNVN_EvolveBusy = false
+                        getgenv().NhoiiiX_EvolveBusy = false
                     end)
                 end)
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Evolve Skill",
-                        Content = string.format("Farming on %s with skill [%s]. Waiting for fish...", tostring(getgenv().NNVN_EvolveIsland), tostring(getgenv().NNVN_EvolveSkillSlot)),
+                        Content = string.format("Farming on %s with skill [%s]. Waiting for fish...", tostring(getgenv().NhoiiiX_EvolveIsland), tostring(getgenv().NhoiiiX_EvolveSkillSlot)),
                         Duration = 4,
                         Icon = "zap"
                     })
@@ -5400,19 +5400,19 @@ do
         end
     })
     enzoSection = mainMap.Boss:AddSection({ Title = "Enzo", Icon = "swords" })
-    enzoSection:AddToggle("NNVN_AutoBoss", {
+    enzoSection:AddToggle("NhoiiiX_AutoBoss", {
         Title = "Auto Fight Enzo",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoBoss = enabled
+            getgenv().NhoiiiX_AutoBoss = enabled
         end
     })
-    enzoSection:AddDropdown("NNVN_BossDifficulty", {
+    enzoSection:AddDropdown("NhoiiiX_BossDifficulty", {
         Title = "Difficulty",
         Values = { "Normal", "Hard", "Nightmare" },
         Default = "Normal",
         Callback = function(selectedValue)
-            getgenv().NNVN_BossDifficulty = selectedValue
+            getgenv().NhoiiiX_BossDifficulty = selectedValue
         end
     })
     enzoSection:AddButton({
@@ -5428,17 +5428,17 @@ do
                         if not npcByName then
                             return false
                         end
-                        return NNVN_MoveNear(npcByName, delaySeconds2, "Teleport")
+                        return NhoiiiX_MoveNear(npcByName, delaySeconds2, "Teleport")
                     end,
                     returnAfter = false
                 }, function()
                     equipRodBeforeBossFight()
                     pcall(function()
-                        ReplicatedStorage.Events.StartBossFight:FireServer("Enzo", getgenv().NNVN_BossDifficulty)
-                        if getgenv().NNVN_Notify then
+                        ReplicatedStorage.Events.StartBossFight:FireServer("Enzo", getgenv().NhoiiiX_BossDifficulty)
+                        if getgenv().NhoiiiX_Notify then
                             item:Notify({
                                 Title = "",
-                                Content = "Enzo fight started (" .. getgenv().NNVN_BossDifficulty .. ")",
+                                Content = "Enzo fight started (" .. getgenv().NhoiiiX_BossDifficulty .. ")",
                                 Duration = 3
                             })
                         end
@@ -5447,11 +5447,11 @@ do
             end)
         end
     })
-    enzoSection:AddToggle("NNVN_AutoPhase2", {
+    enzoSection:AddToggle("NhoiiiX_AutoPhase2", {
         Title = uiStrings.auto_phase2,
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoPhase2 = enabled
+            getgenv().NhoiiiX_AutoPhase2 = enabled
         end
     })
     weatherMap = {
@@ -5513,7 +5513,7 @@ do
         end)
         return ok and result == true
     end
-    NNVN_ShouldHitBossPhase2 = function(inputValue, instance)
+    NhoiiiX_ShouldHitBossPhase2 = function(inputValue, instance)
         local bar = instance and instance:FindFirstChild("Bar")
         local hitbox = instance and instance:FindFirstChild("Hitbox")
         if not instance or not instance.Visible or not bar or not hitbox then
@@ -5605,7 +5605,7 @@ do
         end
         return true
     end
-    NNVN_FireBossPhase2Input = function()
+    NhoiiiX_FireBossPhase2Input = function()
         local mobile = item3 and item3:FindFirstChild("Mobile")
         local fishing = mobile and mobile:FindFirstChild("Fishing")
         local hasTriggered = false
@@ -5651,25 +5651,25 @@ do
             target = longDiaohai,
             forceMethod = "Teleport",
             teleport = function()
-                return NNVN_MoveNear(longDiaohai, delaySeconds2, "Teleport")
+                return NhoiiiX_MoveNear(longDiaohai, delaySeconds2, "Teleport")
             end,
             returnAfter = false
         }, function()
             local events = ReplicatedStorage:FindFirstChild("Events")
             local startBossFight = events and events:FindFirstChild("StartBossFight")
             if startBossFight then
-                startBossFight:FireServer("Long Diaohai", getgenv().NNVN_LongDiaohaiDifficulty or "Normal")
+                startBossFight:FireServer("Long Diaohai", getgenv().NhoiiiX_LongDiaohaiDifficulty or "Normal")
             end
         end)
         return true
     end
     local longDiaoHaiSection = mainMap.Boss:AddSection({ Title = "Long Diao Hai", Icon = "swords" })
-    longDiaoHaiSection:AddDropdown("NNVN_LongDiaohaiDifficulty", {
+    longDiaoHaiSection:AddDropdown("NhoiiiX_LongDiaohaiDifficulty", {
         Title = "Long Diaohai Difficulty",
         Values = { "Normal", "Hard", "Nightmare" },
-        Default = getgenv().NNVN_LongDiaohaiDifficulty or "Normal",
+        Default = getgenv().NhoiiiX_LongDiaohaiDifficulty or "Normal",
         Callback = function(selectedValue)
-            getgenv().NNVN_LongDiaohaiDifficulty = selectedValue
+            getgenv().NhoiiiX_LongDiaohaiDifficulty = selectedValue
         end
     })
     longDiaoHaiSection:AddButton({
@@ -5678,40 +5678,40 @@ do
         Callback = function()
             task.spawn(function()
                 local ok, result = pcall(startLongDiaohaiFightNow)
-                if ok and result and getgenv().NNVN_Notify then
+                if ok and result and getgenv().NhoiiiX_Notify then
                     item:Notify({ Title = "Long Diaohai", Content = "Fight started.", Duration = 3 })
                 end
             end)
         end
     })
-    longDiaoHaiSection:AddToggle("NNVN_AutoLongDiaohai", {
+    longDiaoHaiSection:AddToggle("NhoiiiX_AutoLongDiaohai", {
         Title = "Auto Fight Long Diaohai",
         Description = "Equips the rod, teleports to workspace.NPC.Boss[Long Diaohai], enables only the helpers it needs, then fires the selected difficulty.",
-        Default = getgenv().NNVN_AutoLongDiaohai == true,
+        Default = getgenv().NhoiiiX_AutoLongDiaohai == true,
         Callback = function(enabled)
-            getgenv().NNVN_AutoLongDiaohai = enabled == true
+            getgenv().NhoiiiX_AutoLongDiaohai = enabled == true
         end
     })
-    longDiaoHaiSection:AddToggle("NNVN_AutoLongDiaohaiPhase2", {
+    longDiaoHaiSection:AddToggle("NhoiiiX_AutoLongDiaohaiPhase2", {
         Title = "Auto Phase 2",
         Description = "Uses the same green-zone timing and prediction as Enzo Auto Phase 2.",
-        Default = getgenv().NNVN_AutoLongDiaohaiPhase2 == true,
+        Default = getgenv().NhoiiiX_AutoLongDiaohaiPhase2 == true,
         Callback = function(enabled)
-            getgenv().NNVN_AutoLongDiaohaiPhase2 = enabled == true
+            getgenv().NhoiiiX_AutoLongDiaohaiPhase2 = enabled == true
         end
     })
     local item22
-    item22 = longDiaoHaiSection:AddToggle("NNVN_AutoHopFightLongDiaohai", {
+    item22 = longDiaoHaiSection:AddToggle("NhoiiiX_AutoHopFightLongDiaohai", {
         Title = "Auto Hop & Fight Long Diaohai",
         Description = "Premium only. Hops while the BossFight title is not Fight, then starts the selected difficulty.",
-        Default = getgenv().NNVN_AutoHopFightLongDiaohai == true,
-        Locked = not (rawget(_G, "NNVN_IsPremium") == true or getgenv().NNVN_IsPremium == true or getgenv().NNVN_IsPremiumAccess == true),
+        Default = getgenv().NhoiiiX_AutoHopFightLongDiaohai == true,
+        Locked = not (rawget(_G, "NhoiiiX_IsPremium") == true or getgenv().NhoiiiX_IsPremium == true or getgenv().NhoiiiX_IsPremiumAccess == true),
         Callback = function(selectedValue)
-            if getgenv().NNVN_IsApplyingConfig then
+            if getgenv().NhoiiiX_IsApplyingConfig then
                 return
             end
             if selectedValue and not ensurePremiumAccess("Auto Hop & Fight Long Diaohai") then
-                getgenv().NNVN_AutoHopFightLongDiaohai = false
+                getgenv().NhoiiiX_AutoHopFightLongDiaohai = false
                 task.defer(function()
                     pcall(function()
                         if item22 and item22.SetValue then
@@ -5721,14 +5721,14 @@ do
                 end)
                 return
             end
-            getgenv().NNVN_AutoHopFightLongDiaohai = selectedValue == true and refreshPremiumAccess()
-            getgenv().NNVN_AllowAutomaticServerHop = getgenv().NNVN_AutoHopFightLongDiaohai
-            getgenv().NNVN_ServerHopArmed = getgenv().NNVN_AutoHopFightLongDiaohai
-            if not selectedValue and getgenv().NNVN_AutoHopLongDiaohaiPrevFlags then
-                local autoHopLongDiaohai = getgenv().NNVN_AutoHopLongDiaohaiPrevFlags
-                getgenv().NNVN_Anchor = autoHopLongDiaohai.Anchor
-                getgenv().NNVN_AutoSkill = autoHopLongDiaohai.AutoSkill
-                getgenv().NNVN_AutoHopLongDiaohaiPrevFlags = nil
+            getgenv().NhoiiiX_AutoHopFightLongDiaohai = selectedValue == true and refreshPremiumAccess()
+            getgenv().NhoiiiX_AllowAutomaticServerHop = getgenv().NhoiiiX_AutoHopFightLongDiaohai
+            getgenv().NhoiiiX_ServerHopArmed = getgenv().NhoiiiX_AutoHopFightLongDiaohai
+            if not selectedValue and getgenv().NhoiiiX_AutoHopLongDiaohaiPrevFlags then
+                local autoHopLongDiaohai = getgenv().NhoiiiX_AutoHopLongDiaohaiPrevFlags
+                getgenv().NhoiiiX_Anchor = autoHopLongDiaohai.Anchor
+                getgenv().NhoiiiX_AutoSkill = autoHopLongDiaohai.AutoSkill
+                getgenv().NhoiiiX_AutoHopLongDiaohaiPrevFlags = nil
             end
         end
     })
@@ -5768,23 +5768,23 @@ do
     end
     resolveAnchor = function(inputValue)
         if inputValue then
-            if not getgenv().NNVN_AutoHopLongDiaohaiPrevFlags then
-                getgenv().NNVN_AutoHopLongDiaohaiPrevFlags = {
-                    Anchor = getgenv().NNVN_Anchor == true,
-                    AutoSkill = getgenv().NNVN_AutoSkill == true
+            if not getgenv().NhoiiiX_AutoHopLongDiaohaiPrevFlags then
+                getgenv().NhoiiiX_AutoHopLongDiaohaiPrevFlags = {
+                    Anchor = getgenv().NhoiiiX_Anchor == true,
+                    AutoSkill = getgenv().NhoiiiX_AutoSkill == true
                 }
             end
-            if not getgenv().NNVN_Anchor then
-                getgenv().NNVN_Anchor = true
+            if not getgenv().NhoiiiX_Anchor then
+                getgenv().NhoiiiX_Anchor = true
             end
-            if not getgenv().NNVN_AutoSkill then
-                getgenv().NNVN_AutoSkill = true
+            if not getgenv().NhoiiiX_AutoSkill then
+                getgenv().NhoiiiX_AutoSkill = true
             end
-        elseif getgenv().NNVN_AutoHopLongDiaohaiPrevFlags then
-            local autoHopLongDiaohai = getgenv().NNVN_AutoHopLongDiaohaiPrevFlags
-            getgenv().NNVN_Anchor = autoHopLongDiaohai.Anchor
-            getgenv().NNVN_AutoSkill = autoHopLongDiaohai.AutoSkill
-            getgenv().NNVN_AutoHopLongDiaohaiPrevFlags = nil
+        elseif getgenv().NhoiiiX_AutoHopLongDiaohaiPrevFlags then
+            local autoHopLongDiaohai = getgenv().NhoiiiX_AutoHopLongDiaohaiPrevFlags
+            getgenv().NhoiiiX_Anchor = autoHopLongDiaohai.Anchor
+            getgenv().NhoiiiX_AutoSkill = autoHopLongDiaohai.AutoSkill
+            getgenv().NhoiiiX_AutoHopLongDiaohaiPrevFlags = nil
         end
     end
     local function resolveTarget()
@@ -5804,7 +5804,7 @@ do
             local events = ReplicatedStorage:FindFirstChild("Events")
             local startBossFight = events and events:FindFirstChild("StartBossFight")
             if startBossFight then
-                startBossFight:FireServer("Long Diaohai", getgenv().NNVN_LongDiaohaiDifficulty or "Normal")
+                startBossFight:FireServer("Long Diaohai", getgenv().NhoiiiX_LongDiaohaiDifficulty or "Normal")
                 hasTriggered = true
             end
         end)
@@ -5813,7 +5813,7 @@ do
     task.spawn(function()
         local item
         while task.wait(0.35) do
-            local isMatched = getgenv().NNVN_AutoLongDiaohai == true
+            local isMatched = getgenv().NhoiiiX_AutoLongDiaohai == true
             if isMatched == item then
                 continue
             end
@@ -5828,7 +5828,7 @@ do
     end)
     task.spawn(function()
         while task.wait(1) do
-            if not getgenv().NNVN_AutoHopFightLongDiaohai or not canAutoServerHop() then
+            if not getgenv().NhoiiiX_AutoHopFightLongDiaohai or not canAutoServerHop() then
                 continue
             end
             if executeAction() then
@@ -5864,7 +5864,7 @@ do
             end)
         end
         getgenv()._LongDiaohaiPhase2Conn = RunService.RenderStepped:Connect(function()
-            if not getgenv().NNVN_AutoLongDiaohaiPhase2 then
+            if not getgenv().NhoiiiX_AutoLongDiaohaiPhase2 then
                 resolveClear()
                 return
             end
@@ -5875,14 +5875,14 @@ do
                     resolveClear()
                     return
                 end
-                if NNVN_ShouldHitBossPhase2(historyMap, bossFightBar) then
-                    NNVN_FireBossPhase2Input()
+                if NhoiiiX_ShouldHitBossPhase2(historyMap, bossFightBar) then
+                    NhoiiiX_FireBossPhase2Input()
                 end
             end)
         end)
     end)
-    getgenv().NNVN_AutoHopFightEnzo = false
-    getgenv().NNVN_AutoHopEnzoPrevFlags = nil
+    getgenv().NhoiiiX_AutoHopFightEnzo = false
+    getgenv().NhoiiiX_AutoHopEnzoPrevFlags = nil
     counter2 = 0
     local function executeAction2()
         local ok, result = pcall(function()
@@ -5898,41 +5898,41 @@ do
         return ok and result == true
     end
     local function resolveAutoHopEnzo()
-        if getgenv().NNVN_AutoHopEnzoPrevFlags then
+        if getgenv().NhoiiiX_AutoHopEnzoPrevFlags then
             return
         end
-        getgenv().NNVN_AutoHopEnzoPrevFlags = {
-            AutoCast = getgenv().NNVN_AutoCast,
-            Anchor = getgenv().NNVN_Anchor,
-            AutoPhase2 = getgenv().NNVN_AutoPhase2
+        getgenv().NhoiiiX_AutoHopEnzoPrevFlags = {
+            AutoCast = getgenv().NhoiiiX_AutoCast,
+            Anchor = getgenv().NhoiiiX_Anchor,
+            AutoPhase2 = getgenv().NhoiiiX_AutoPhase2
         }
     end
     local function resolveAutoHopEnzo2()
-        local autoHopEnzoPrev = getgenv().NNVN_AutoHopEnzoPrevFlags
+        local autoHopEnzoPrev = getgenv().NhoiiiX_AutoHopEnzoPrevFlags
         if not autoHopEnzoPrev then
             return
         end
         if not autoHopEnzoPrev.AutoCast then
-            getgenv().NNVN_AutoCast = false
+            getgenv().NhoiiiX_AutoCast = false
         end
         if not autoHopEnzoPrev.Anchor then
-            getgenv().NNVN_Anchor = false
+            getgenv().NhoiiiX_Anchor = false
         end
         if not autoHopEnzoPrev.AutoPhase2 then
-            getgenv().NNVN_AutoPhase2 = false
+            getgenv().NhoiiiX_AutoPhase2 = false
         end
-        getgenv().NNVN_AutoHopEnzoPrevFlags = nil
+        getgenv().NhoiiiX_AutoHopEnzoPrevFlags = nil
     end
     refreshPremiumAccess = function()
-        local isMatched = rawget(_G, "NNVN_IsPremium") == true or getgenv().NNVN_IsPremium == true or getgenv().NNVN_IsPremiumAccess == true
-        getgenv().NNVN_IsPremiumAccess = isMatched
+        local isMatched = rawget(_G, "NhoiiiX_IsPremium") == true or getgenv().NhoiiiX_IsPremium == true or getgenv().NhoiiiX_IsPremiumAccess == true
+        getgenv().NhoiiiX_IsPremiumAccess = isMatched
         return isMatched
     end
     ensurePremiumAccess = function(inputValue)
         if refreshPremiumAccess() then
             return true
         end
-        if getgenv().NNVN_Notify and item then
+        if getgenv().NhoiiiX_Notify and item then
             pcall(function()
                 item:Notify({
                     Title = "Premium required",
@@ -5945,17 +5945,17 @@ do
         return false
     end
     local item23
-    item23 = enzoSection:AddToggle("NNVN_AutoHopFightEnzo", {
+    item23 = enzoSection:AddToggle("NhoiiiX_AutoHopFightEnzo", {
         Title = "Auto Hop & Fight Enzo",
         Description = "Hops servers until Enzo is off-cooldown, then starts the fight. Premium only.",
         Default = false,
         Locked = not refreshPremiumAccess(),
         Callback = function(selectedValue)
-            if getgenv().NNVN_IsApplyingConfig then
+            if getgenv().NhoiiiX_IsApplyingConfig then
                 return
             end
             if selectedValue and not ensurePremiumAccess("Auto Hop & Fight Enzo") then
-                getgenv().NNVN_AutoHopFightEnzo = false
+                getgenv().NhoiiiX_AutoHopFightEnzo = false
                 task.defer(function()
                     pcall(function()
                         if item23 and item23.SetValue then
@@ -5966,41 +5966,41 @@ do
                 return
             end
             if selectedValue and not refreshPremiumAccess() then
-                getgenv().NNVN_AutoHopFightEnzo = false
-                getgenv().NNVN_AllowAutomaticServerHop = false
-                getgenv().NNVN_ServerHopArmed = false
+                getgenv().NhoiiiX_AutoHopFightEnzo = false
+                getgenv().NhoiiiX_AllowAutomaticServerHop = false
+                getgenv().NhoiiiX_ServerHopArmed = false
                 return
             end
-            getgenv().NNVN_AutoHopFightEnzo = selectedValue == true and refreshPremiumAccess()
-            getgenv().NNVN_AllowAutomaticServerHop = getgenv().NNVN_AutoHopFightEnzo
-            getgenv().NNVN_ServerHopArmed = getgenv().NNVN_AutoHopFightEnzo
-            getgenv().NNVN_ServerHopArmed = selectedValue == true
+            getgenv().NhoiiiX_AutoHopFightEnzo = selectedValue == true and refreshPremiumAccess()
+            getgenv().NhoiiiX_AllowAutomaticServerHop = getgenv().NhoiiiX_AutoHopFightEnzo
+            getgenv().NhoiiiX_ServerHopArmed = getgenv().NhoiiiX_AutoHopFightEnzo
+            getgenv().NhoiiiX_ServerHopArmed = selectedValue == true
             counter2 = counter2 + 1
             local counter22 = counter2
             if selectedValue then
                 resolveAutoHopEnzo()
-                if not getgenv().NNVN_AutoCast then
-                    getgenv().NNVN_AutoCast = true
+                if not getgenv().NhoiiiX_AutoCast then
+                    getgenv().NhoiiiX_AutoCast = true
                 end
-                if not getgenv().NNVN_Anchor then
-                    getgenv().NNVN_Anchor = true
+                if not getgenv().NhoiiiX_Anchor then
+                    getgenv().NhoiiiX_Anchor = true
                 end
-                if not getgenv().NNVN_AutoPhase2 then
-                    getgenv().NNVN_AutoPhase2 = true
+                if not getgenv().NhoiiiX_AutoPhase2 then
+                    getgenv().NhoiiiX_AutoPhase2 = true
                 end
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Auto Hop Enzo",
-                        Content = "Started. Will hop until Enzo is available, then fight on " .. (getgenv().NNVN_BossDifficulty or "Normal") .. ".",
+                        Content = "Started. Will hop until Enzo is available, then fight on " .. (getgenv().NhoiiiX_BossDifficulty or "Normal") .. ".",
                         Duration = 4,
                         Icon = "swords"
                     })
                 end
                 task.spawn(function()
-                    while canAutoServerHop() and getgenv().NNVN_AutoHopFightEnzo and counter22 == counter2 do
+                    while canAutoServerHop() and getgenv().NhoiiiX_AutoHopFightEnzo and counter22 == counter2 do
                         local ok, result = pcall(function()
                             if executeAction2() then
-                                local bossDifficulty = getgenv().NNVN_BossDifficulty or "Normal"
+                                local bossDifficulty = getgenv().NhoiiiX_BossDifficulty or "Normal"
                                 local npcByName = FindNPCByName("Enzo") or FindNPCByName("Boss NPC") or FindNPCByName("BossNPC")
                                 equipRodBeforeBossFight()
                                 RunActionWithMethod({
@@ -6014,7 +6014,7 @@ do
                                 }, function()
                                     ReplicatedStorage.Events.StartBossFight:FireServer("Enzo", bossDifficulty)
                                 end)
-                                if getgenv().NNVN_Notify then
+                                if getgenv().NhoiiiX_Notify then
                                     item:Notify({
                                         Title = "Auto Hop Enzo",
                                         Content = "Enzo available — fight started on " .. bossDifficulty .. ".",
@@ -6024,7 +6024,7 @@ do
                                 end
                                 task.wait(8)
                             else
-                                if getgenv().NNVN_Notify then
+                                if getgenv().NhoiiiX_Notify then
                                     item:Notify({
                                         Title = "Auto Hop Enzo",
                                         Content = "Enzo on cooldown — hopping server...",
@@ -6040,7 +6040,7 @@ do
                                 task.wait(15)
                             end
                         end)
-                        if not ok and getgenv().NNVN_Notify then
+                        if not ok and getgenv().NhoiiiX_Notify then
                             item:Notify({
                                 Title = "Auto Hop Enzo",
                                 Content = "Loop error: " .. tostring(result),
@@ -6052,7 +6052,7 @@ do
                 end)
             else
                 resolveAutoHopEnzo2()
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Auto Hop Enzo",
                         Content = "Stopped. Previous feature states restored.",
@@ -6161,7 +6161,7 @@ do
     rhyTeleportToNameless = function()
         local rhyFindNamelessResult = rhyFindNameless()
         if not rhyFindNamelessResult then
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Nameless",
                     Content = "Cannot find " .. namelessOctoparasiteLabel .. " in Workspace (boss not spawned yet?)",
@@ -6172,7 +6172,7 @@ do
         end
         local rhyPivotOfResult = rhyPivotOf(rhyFindNamelessResult)
         if not rhyPivotOfResult then
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Nameless",
                     Content = "Found boss but could not get its position!",
@@ -6183,13 +6183,13 @@ do
         end
         local character = LocalPlayer.Character
         if not character or not character:FindFirstChild("HumanoidRootPart") and not character.PrimaryPart then
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({ Title = "Nameless", Content = "Character not found!", Duration = 2 })
             end
             return false
         end
-        NNVN_TweenTo(rhyPivotOfResult + Vector3.new(0, 12, 0))
-        if getgenv().NNVN_Notify then
+        NhoiiiX_TweenTo(rhyPivotOfResult + Vector3.new(0, 12, 0))
+        if getgenv().NhoiiiX_Notify then
             item:Notify({
                 Title = "Nameless",
                 Content = "Teleported to " .. namelessOctoparasiteLabel,
@@ -6293,12 +6293,12 @@ do
         end
         local rhythmStart = events:FindFirstChild("RhythmStart")
         if rhythmStart then
-            if getgenv()._NNVN_RhyStart then
+            if getgenv()._NhoiiiX_RhyStart then
                 pcall(function()
-                    getgenv()._NNVN_RhyStart:Disconnect()
+                    getgenv()._NhoiiiX_RhyStart:Disconnect()
                 end)
             end
-            getgenv()._NNVN_RhyStart = rhythmStart.OnClientEvent:Connect(function(inputValue)
+            getgenv()._NhoiiiX_RhyStart = rhythmStart.OnClientEvent:Connect(function(inputValue)
                 enabledMap.Config = inputValue
                 enabledMap.IsHard = type(inputValue) == "table" and tostring(inputValue.Mode):lower() == "hard"
                 enabledMap.Active = not enabledMap.IsHard
@@ -6307,7 +6307,7 @@ do
                 enabledMap.Seen = setmetatable({}, { __mode = "k" })
                 enabledMap.LastPress = { A = 0, S = 0, D = 0 }
                 enabledMap.PressBusy = { A = false, S = false, D = false }
-                if enabledMap.Enabled and not enabledMap.IsHard and getgenv().NNVN_Notify then
+                if enabledMap.Enabled and not enabledMap.IsHard and getgenv().NhoiiiX_Notify then
                     local finalMaxHp = inputValue and (inputValue.FinalMaxHP or inputValue.HPFinalPhase)
                     item:Notify({
                         Title = "Auto Nameless",
@@ -6319,25 +6319,25 @@ do
         end
         local rhythmStop = events:FindFirstChild("RhythmStop")
         if rhythmStop then
-            if getgenv()._NNVN_RhyStop then
+            if getgenv()._NhoiiiX_RhyStop then
                 pcall(function()
-                    getgenv()._NNVN_RhyStop:Disconnect()
+                    getgenv()._NhoiiiX_RhyStop:Disconnect()
                 end)
             end
-            getgenv()._NNVN_RhyStop = rhythmStop.OnClientEvent:Connect(function()
+            getgenv()._NhoiiiX_RhyStop = rhythmStop.OnClientEvent:Connect(function()
                 enabledMap.Active = false
                 enabledMap.IsHard = false
                 enabledMap.SignalUntil = 0
             end)
         end
     end)
-    if getgenv()._NNVN_RhyLoop then
+    if getgenv()._NhoiiiX_RhyLoop then
         pcall(function()
-            getgenv()._NNVN_RhyLoop:Disconnect()
+            getgenv()._NhoiiiX_RhyLoop:Disconnect()
         end)
     end
     local counter3 = 0
-    getgenv()._NNVN_RhyLoop = RunService.Heartbeat:Connect(function(deltaTime)
+    getgenv()._NhoiiiX_RhyLoop = RunService.Heartbeat:Connect(function(deltaTime)
         if not enabledMap.Enabled then
             return
         end
@@ -6349,7 +6349,7 @@ do
         if not enabledMap.Active then
             return
         end
-        if getgenv().NNVN_NamelessMinigameMode ~= "Safe" then
+        if getgenv().NhoiiiX_NamelessMinigameMode ~= "Safe" then
             return
         end
         counter3 = counter3 + deltaTime
@@ -6359,7 +6359,7 @@ do
         counter3 = 0
         rhyScan(nowTime)
     end)
-    getgenv().NNVN_TeleportToNameless = rhyTeleportToNameless
+    getgenv().NhoiiiX_TeleportToNameless = rhyTeleportToNameless
     namelessBossSec = mainMap.Boss:AddSection({ Title = "Nameless Octoparasite", Icon = "bug" })
     namelessBossSec:AddButton({
         Title = "Teleport to Nameless Octoparasite",
@@ -6368,15 +6368,15 @@ do
             pcall(rhyTeleportToNameless)
         end
     })
-    namelessBossSec:AddDropdown("NNVN_NamelessMinigameMode", {
+    namelessBossSec:AddDropdown("NhoiiiX_NamelessMinigameMode", {
         Title = "Minigame Mode",
         Values = { "Safe" },
         Default = "Safe",
         Callback = function(inputText)
-            getgenv().NNVN_NamelessMinigameMode = inputText or "Safe"
+            getgenv().NhoiiiX_NamelessMinigameMode = inputText or "Safe"
         end
     })
-    namelessBossSec:AddInput("NNVN_NamelessBand", {
+    namelessBossSec:AddInput("NhoiiiX_NamelessBand", {
         Title = "Safe Band (0.01 - 0.17)",
         Placeholder = "0.17",
         Default = "0.17",
@@ -6384,23 +6384,23 @@ do
             local parsedNum = tonumber(inputText)
             if parsedNum then
                 enabledMap.Band = math.clamp(parsedNum, 0.01, rhyMaxBand())
-                getgenv().NNVN_NamelessBand = enabledMap.Band
+                getgenv().NhoiiiX_NamelessBand = enabledMap.Band
             else
                 enabledMap.Band = 0.17
-                getgenv().NNVN_NamelessBand = 0.17
+                getgenv().NhoiiiX_NamelessBand = 0.17
             end
         end
     })
-    namelessBossSec:AddToggle("NNVN_AutoNamelessMinigame", {
+    namelessBossSec:AddToggle("NhoiiiX_AutoNamelessMinigame", {
         Title = "Auto Minigame",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoNamelessMinigame = enabled
+            getgenv().NhoiiiX_AutoNamelessMinigame = enabled
             enabledMap.Enabled = enabled
-            enabledMap.Band = getgenv().NNVN_NamelessBand or 0.17
-            enabledMap.Lag = getgenv().NNVN_NamelessLag or 0.03
+            enabledMap.Band = getgenv().NhoiiiX_NamelessBand or 0.17
+            enabledMap.Lag = getgenv().NhoiiiX_NamelessLag or 0.03
             if enabled then
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Auto Nameless",
                         Content = "Enabled [Safe]. Waiting for RhythmStart from server.",
@@ -6410,7 +6410,7 @@ do
             else
                 enabledMap.Active = false
                 enabledMap.SignalUntil = 0
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Auto Nameless",
                         Content = "Disabled | hits " .. tostring(enabledMap.Stats.hit),
@@ -6423,10 +6423,10 @@ do
     namelessBossSec:AddToggle("ESP_Nameless", {
         Title = "Nameless Octoparasite ESP",
         Description = "Highlights the Nameless Octoparasite when it is spawned.",
-        Default = getgenv().NNVN_ESP and getgenv().NNVN_ESP.Nameless or false,
+        Default = getgenv().NhoiiiX_ESP and getgenv().NhoiiiX_ESP.Nameless or false,
         Callback = function(selectedValue)
-            getgenv().NNVN_ESP = getgenv().NNVN_ESP or {}
-            getgenv().NNVN_ESP.Nameless = selectedValue
+            getgenv().NhoiiiX_ESP = getgenv().NhoiiiX_ESP or {}
+            getgenv().NhoiiiX_ESP.Nameless = selectedValue
             if selectedValue then
                 task.defer(function()
                     if type(applyESP_Nameless) == "function" then
@@ -6452,7 +6452,7 @@ do
         errorStreak = 0
     }
     blackFindBoss = function()
-        local blackTortoiseInstance = getgenv().NNVN_BlackTortoiseInstance
+        local blackTortoiseInstance = getgenv().NhoiiiX_BlackTortoiseInstance
         if blackTortoiseInstance and blackTortoiseInstance.Parent and (blackTortoiseInstance:IsA("Model") or blackTortoiseInstance:IsA("BasePart")) then
             return blackTortoiseInstance
         end
@@ -6488,7 +6488,7 @@ do
         local character = LocalPlayer.Character
         local rootPart = character and (character:FindFirstChild("HumanoidRootPart") or character.PrimaryPart)
         if not rhyPivotOfResult or not rootPart then
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = blackTortoiseBloodlineLabel,
                     Content = blackFindBossResult and "Character unavailable" or "Boss has not spawned",
@@ -6497,7 +6497,7 @@ do
             end
             return false
         end
-        NNVN_TweenTo(rhyPivotOfResult + Vector3.new(0, 12, 0))
+        NhoiiiX_TweenTo(rhyPivotOfResult + Vector3.new(0, 12, 0))
         return true
     end
     local function resolveBackgroundColor3(inputValue)
@@ -6549,7 +6549,7 @@ do
         if not ok or not ok2 or type(result) ~= "number" or type(result2) ~= "number" then
             return
         end
-        local clampResult = math.clamp((result2 - math.min(0.04, math.clamp(tonumber(getgenv().NNVN_BlackTortoiseBand) or 0.12, 0.03, 0.17) * 0.35) - result) / computedValue, 0, 2)
+        local clampResult = math.clamp((result2 - math.min(0.04, math.clamp(tonumber(getgenv().NhoiiiX_BlackTortoiseBand) or 0.12, 0.03, 0.17) * 0.35) - result) / computedValue, 0, 2)
         local function resolveGeneration(inputValue2)
             if fifthValue ~= enabledMap2.generation or not enabledMap2.active or not enabledMap2.enabled then
                 return
@@ -6595,11 +6595,11 @@ do
             end)
         end
         table.clear(enabledMap2.connections)
-        if getgenv()._NNVN_BlackRhythmLoop then
+        if getgenv()._NhoiiiX_BlackRhythmLoop then
             pcall(function()
-                getgenv()._NNVN_BlackRhythmLoop:Disconnect()
+                getgenv()._NhoiiiX_BlackRhythmLoop:Disconnect()
             end)
-            getgenv()._NNVN_BlackRhythmLoop = nil
+            getgenv()._NhoiiiX_BlackRhythmLoop = nil
         end
     end
     local function resolveMode(inputValue)
@@ -6631,7 +6631,7 @@ do
                     table.insert(enabledMap2.connections, rhyGuiResultEntry.ChildAdded:Connect(function(child)
                         local ok, result = pcall(resolveName, rhyGuiResultEntry, barFrame, item, child, generation)
                         if not ok then
-                            getgenv().NNVN_BlackTortoiseMinigameError = tostring(result)
+                            getgenv().NhoiiiX_BlackTortoiseMinigameError = tostring(result)
                         end
                     end))
                     for _, item2 in ipairs(rhyGuiResultEntry:GetChildren()) do
@@ -6644,22 +6644,22 @@ do
     events = ReplicatedStorage:FindFirstChild("Events")
     local rhythmStart = events and events:FindFirstChild("RhythmStart")
     local rhythmStop = events and events:FindFirstChild("RhythmStop")
-    if getgenv()._NNVN_BlackRhythmStart then
-        getgenv()._NNVN_BlackRhythmStart:Disconnect()
+    if getgenv()._NhoiiiX_BlackRhythmStart then
+        getgenv()._NhoiiiX_BlackRhythmStart:Disconnect()
     end
-    if getgenv()._NNVN_BlackRhythmStop then
-        getgenv()._NNVN_BlackRhythmStop:Disconnect()
+    if getgenv()._NhoiiiX_BlackRhythmStop then
+        getgenv()._NhoiiiX_BlackRhythmStop:Disconnect()
     end
-    if getgenv()._NNVN_BlackRhythmLoop then
-        getgenv()._NNVN_BlackRhythmLoop:Disconnect()
+    if getgenv()._NhoiiiX_BlackRhythmLoop then
+        getgenv()._NhoiiiX_BlackRhythmLoop:Disconnect()
     end
     if rhythmStart then
-        getgenv()._NNVN_BlackRhythmStart = rhythmStart.OnClientEvent:Connect(resolveMode)
+        getgenv()._NhoiiiX_BlackRhythmStart = rhythmStart.OnClientEvent:Connect(resolveMode)
     end
     if rhythmStop then
-        getgenv()._NNVN_BlackRhythmStop = rhythmStop.OnClientEvent:Connect(resolveActive)
+        getgenv()._NhoiiiX_BlackRhythmStop = rhythmStop.OnClientEvent:Connect(resolveActive)
     end
-    getgenv().NNVN_TeleportToBlackTortoise = resolveCharacter
+    getgenv().NhoiiiX_TeleportToBlackTortoise = resolveCharacter
     local section2 = mainMap.Boss:AddSection({ Title = blackTortoiseBloodlineLabel, Icon = "shield" })
     section2:AddButton({
         Title = "Teleport to Boss",
@@ -6668,30 +6668,30 @@ do
             pcall(resolveCharacter)
         end
     })
-    getgenv().NNVN_BlackTortoiseTrackerStatus = section2:AddParagraph({ Title = "Spawn Tracker", Desc = "Checking this server..." })
-    section2:AddDropdown("NNVN_BlackTortoiseMinigameMode", {
+    getgenv().NhoiiiX_BlackTortoiseTrackerStatus = section2:AddParagraph({ Title = "Spawn Tracker", Desc = "Checking this server..." })
+    section2:AddDropdown("NhoiiiX_BlackTortoiseMinigameMode", {
         Title = "Minigame Mode",
         Values = { "Safe (avoid Bad)" },
         Default = "Safe (avoid Bad)",
         Callback = function() end
     })
-    section2:AddInput("NNVN_BlackTortoiseBand", {
+    section2:AddInput("NhoiiiX_BlackTortoiseBand", {
         Title = "Safe Band (0.03 - 0.17)",
         Placeholder = "0.12",
-        Default = tostring(getgenv().NNVN_BlackTortoiseBand),
+        Default = tostring(getgenv().NhoiiiX_BlackTortoiseBand),
         Callback = function(enabled)
             local parsedNum = tonumber(enabled)
             if parsedNum then
-                getgenv().NNVN_BlackTortoiseBand = math.clamp(parsedNum, 0.03, 0.17)
+                getgenv().NhoiiiX_BlackTortoiseBand = math.clamp(parsedNum, 0.03, 0.17)
             end
         end
     })
-    section2:AddToggle("NNVN_AutoBlackTortoiseMinigame", {
+    section2:AddToggle("NhoiiiX_AutoBlackTortoiseMinigame", {
         Title = "Auto Minigame (avoid Bad)",
         Default = false,
         Callback = function(enabled)
             enabledMap2.enabled = enabled == true
-            getgenv().NNVN_AutoBlackTortoiseMinigame = enabledMap2.enabled
+            getgenv().NhoiiiX_AutoBlackTortoiseMinigame = enabledMap2.enabled
             if not enabledMap2.enabled then
                 resolveActive()
             end
@@ -6699,10 +6699,10 @@ do
     })
     section2:AddToggle("ESP_BlackTortoise", {
         Title = "Boss ESP",
-        Default = getgenv().NNVN_ESP and getgenv().NNVN_ESP.BlackTortoise or false,
+        Default = getgenv().NhoiiiX_ESP and getgenv().NhoiiiX_ESP.BlackTortoise or false,
         Callback = function(selectedValue)
-            getgenv().NNVN_ESP = getgenv().NNVN_ESP or {}
-            getgenv().NNVN_ESP.BlackTortoise = selectedValue == true
+            getgenv().NhoiiiX_ESP = getgenv().NhoiiiX_ESP or {}
+            getgenv().NhoiiiX_ESP.BlackTortoise = selectedValue == true
             if selectedValue then
                 task.defer(function()
                     if type(applyESP_BlackTortoise) == "function" then
@@ -6729,7 +6729,7 @@ do
         return fishName and fishName:IsA("StringValue") and vermilionNameMatches(fishName.Value) or false
     end
     vermilionFindBoss = function()
-        local vermilionInstance = getgenv().NNVN_VermilionInstance
+        local vermilionInstance = getgenv().NhoiiiX_VermilionInstance
         if vermilionInstance and vermilionInstance.Parent and vermilionObjectMatches(vermilionInstance) then
             return vermilionInstance
         end
@@ -6767,7 +6767,7 @@ do
         local character = LocalPlayer.Character
         local rootPart = character and character:FindFirstChild("HumanoidRootPart")
         if not rhyPivotOfResult or not rootPart then
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Vermilion Birdblood",
                     Content = vermilionFindBossResult and "Live encounter found, but no world model is available." or "Boss has not spawned.",
@@ -6776,14 +6776,14 @@ do
             end
             return false
         end
-        NNVN_TweenTo(rhyPivotOfResult + Vector3.new(0, 12, 0))
+        NhoiiiX_TweenTo(rhyPivotOfResult + Vector3.new(0, 12, 0))
         return true
     end
-    if getgenv().NNVN_NotifyVermilionSpawn == nil then
-        getgenv().NNVN_NotifyVermilionSpawn = true
+    if getgenv().NhoiiiX_NotifyVermilionSpawn == nil then
+        getgenv().NhoiiiX_NotifyVermilionSpawn = true
     end
     vermilionBossSec = mainMap.Boss:AddSection({ Title = "Vermilion Birdblood", Icon = "flame" })
-    getgenv().NNVN_VermilionBossStatus = vermilionBossSec:AddParagraph({
+    getgenv().NhoiiiX_VermilionBossStatus = vermilionBossSec:AddParagraph({
         Title = "Spawn Tracker",
         Desc = vermilionFindBoss() and "Detected in this server" or "Not detected in this server"
     })
@@ -6796,10 +6796,10 @@ do
     })
     vermilionBossSec:AddToggle("ESP_Vermilion", {
         Title = "Boss ESP",
-        Default = getgenv().NNVN_ESP and getgenv().NNVN_ESP.Vermilion or false,
+        Default = getgenv().NhoiiiX_ESP and getgenv().NhoiiiX_ESP.Vermilion or false,
         Callback = function(enabled)
-            getgenv().NNVN_ESP = getgenv().NNVN_ESP or {}
-            getgenv().NNVN_ESP.Vermilion = enabled == true
+            getgenv().NhoiiiX_ESP = getgenv().NhoiiiX_ESP or {}
+            getgenv().NhoiiiX_ESP.Vermilion = enabled == true
             if enabled and type(applyESP_Vermilion) == "function" then
                 pcall(applyESP_Vermilion)
             elseif not enabled and type(clearESP) == "function" then
@@ -6807,11 +6807,11 @@ do
             end
         end
     })
-    vermilionBossSec:AddToggle("NNVN_NotifyVermilionSpawn", {
+    vermilionBossSec:AddToggle("NhoiiiX_NotifyVermilionSpawn", {
         Title = "Notify on Spawn",
-        Default = getgenv().NNVN_NotifyVermilionSpawn == true,
+        Default = getgenv().NhoiiiX_NotifyVermilionSpawn == true,
         Callback = function(selectedValue)
-            getgenv().NNVN_NotifyVermilionSpawn = selectedValue == true
+            getgenv().NhoiiiX_NotifyVermilionSpawn = selectedValue == true
         end
     })
 end
@@ -6825,7 +6825,7 @@ do
     local item24
     local item25
     local function resolveTicketHardLocation2()
-        local isMatched = getgenv().NNVN_TicketHardLocation ~= "Ground"
+        local isMatched = getgenv().NhoiiiX_TicketHardLocation ~= "Ground"
         if item24 and item24.SetVisible then
             item24:SetVisible(true)
         end
@@ -6836,60 +6836,60 @@ do
     tickSec:AddDropdown("TicketDifficulty", {
         Title = "Difficulty",
         Values = { "Easy", "Hard" },
-        Default = getgenv().NNVN_TicketDifficulty or "Easy",
+        Default = getgenv().NhoiiiX_TicketDifficulty or "Easy",
         Callback = function(selected)
             selected = NormalizeTranslatedChoice(selected, "Easy")
-            getgenv().NNVN_TicketDifficulty = selected == "Hard" and "Hard" or "Easy"
-            if getgenv().NNVN_TicketDifficulty ~= "Hard" then
+            getgenv().NhoiiiX_TicketDifficulty = selected == "Hard" and "Hard" or "Easy"
+            if getgenv().NhoiiiX_TicketDifficulty ~= "Hard" then
                 cleanupResource(false)
             end
             resolveTicketHardLocation2()
-            if getgenv().NNVN_AutoTicket and getgenv().NNVN_TeleportToFishSpot then
+            if getgenv().NhoiiiX_AutoTicket and getgenv().NhoiiiX_TeleportToFishSpot then
                 pcall(function()
-                    getgenv().NNVN_TeleportToFishSpot(getgenv().NNVN_TicketDifficulty)
+                    getgenv().NhoiiiX_TeleportToFishSpot(getgenv().NhoiiiX_TicketDifficulty)
                 end)
             end
         end
     })
-    item24 = tickSec:AddDropdown("NNVN_TicketHardLocation", {
+    item24 = tickSec:AddDropdown("NhoiiiX_TicketHardLocation", {
         Title = "Farm Location",
         Description = "Choose Sky or the original ground position for Easy and Hard.",
         Values = { "Sky", "Ground" },
-        Default = getgenv().NNVN_TicketHardLocation or "Sky",
+        Default = getgenv().NhoiiiX_TicketHardLocation or "Sky",
         Visible = true,
         Callback = function(enabled)
             enabled = NormalizeTranslatedChoice(enabled, "Sky")
-            getgenv().NNVN_TicketHardLocation = enabled == "Ground" and "Ground" or "Sky"
-            if getgenv().NNVN_TicketHardLocation == "Sky" then
-                resolveRandom(getgenv().NNVN_TicketRandomSkyHeight == true)
+            getgenv().NhoiiiX_TicketHardLocation = enabled == "Ground" and "Ground" or "Sky"
+            if getgenv().NhoiiiX_TicketHardLocation == "Sky" then
+                resolveRandom(getgenv().NhoiiiX_TicketRandomSkyHeight == true)
             else
                 cleanupResource(false)
             end
             resolveTicketHardLocation2()
-            if getgenv().NNVN_AutoTicket then
+            if getgenv().NhoiiiX_AutoTicket then
                 pcall(function()
-                    getgenv().NNVN_TeleportToFishSpot(getgenv().NNVN_TicketDifficulty)
+                    getgenv().NhoiiiX_TeleportToFishSpot(getgenv().NhoiiiX_TicketDifficulty)
                 end)
             end
         end
     })
-    item25 = tickSec:AddToggle("NNVN_TicketRandomSkyHeight", {
+    item25 = tickSec:AddToggle("NhoiiiX_TicketRandomSkyHeight", {
         Title = "Random Sky Height",
         Description = "Uses a moderate random height while keeping X/Z and facing unchanged.",
-        Default = getgenv().NNVN_TicketRandomSkyHeight == true,
-        Visible = getgenv().NNVN_TicketHardLocation ~= "Ground",
+        Default = getgenv().NhoiiiX_TicketRandomSkyHeight == true,
+        Visible = getgenv().NhoiiiX_TicketHardLocation ~= "Ground",
         Callback = function(selectedValue)
-            getgenv().NNVN_TicketRandomSkyHeight = selectedValue == true
+            getgenv().NhoiiiX_TicketRandomSkyHeight = selectedValue == true
             resolveRandom(selectedValue == true)
-            if getgenv().NNVN_AutoTicket and getgenv().NNVN_TicketHardLocation ~= "Ground" then
+            if getgenv().NhoiiiX_AutoTicket and getgenv().NhoiiiX_TicketHardLocation ~= "Ground" then
                 pcall(function()
-                    getgenv().NNVN_TeleportToFishSpot(getgenv().NNVN_TicketDifficulty)
+                    getgenv().NhoiiiX_TeleportToFishSpot(getgenv().NhoiiiX_TicketDifficulty)
                 end)
             end
         end
     })
     resolveTicketHardLocation2()
-    tickSec:AddDropdown("NNVN_TicketFarmMode", {
+    tickSec:AddDropdown("NhoiiiX_TicketFarmMode", {
         Title = "Farm Movement",
         Description = "Uses the global Operation Method. Ticket Instant is treated as direct Teleport.",
         Values = { "Teleport [Risk]", "Tween [Safe]" },
@@ -6897,16 +6897,16 @@ do
         Callback = function(selected)
             selected = NormalizeTranslatedChoice(selected, "Tween [Safe]")
             local teleportRiskLabel = tostring(selected):find("Teleport", 1, true) and "Teleport [Risk]" or "Tween [Safe]"
-            getgenv().NNVN_TicketFarmMode = teleportRiskLabel
-            getgenv().NNVN_ActionMethod = teleportRiskLabel
-            if getgenv().NNVN_AutoTicket and getgenv().NNVN_TeleportToFishSpot then
+            getgenv().NhoiiiX_TicketFarmMode = teleportRiskLabel
+            getgenv().NhoiiiX_ActionMethod = teleportRiskLabel
+            if getgenv().NhoiiiX_AutoTicket and getgenv().NhoiiiX_TeleportToFishSpot then
                 pcall(function()
-                    getgenv().NNVN_TeleportToFishSpot(getgenv().NNVN_TicketDifficulty or "Easy")
+                    getgenv().NhoiiiX_TeleportToFishSpot(getgenv().NhoiiiX_TicketDifficulty or "Easy")
                 end)
             end
         end
     })
-    tickSec:AddDropdown("NNVN_QuestCustomIsland", {
+    tickSec:AddDropdown("NhoiiiX_QuestCustomIsland", {
         Title = "Custom Island - Leave Empty To Ignore",
         Values = {
             "No Selection",
@@ -6926,14 +6926,14 @@ do
         },
         Default = "No Selection",
         Callback = function(amount)
-            getgenv().NNVN_QuestCustomIsland = amount or "No Selection"
-            if getgenv().NNVN_AutoTicket and getgenv().NNVN_TeleportToFishSpot then
-                local ticketDifficulty = getgenv().NNVN_TicketDifficulty or "Easy"
+            getgenv().NhoiiiX_QuestCustomIsland = amount or "No Selection"
+            if getgenv().NhoiiiX_AutoTicket and getgenv().NhoiiiX_TeleportToFishSpot then
+                local ticketDifficulty = getgenv().NhoiiiX_TicketDifficulty or "Easy"
                 pcall(function()
-                    getgenv().NNVN_TeleportToFishSpot(ticketDifficulty)
+                    getgenv().NhoiiiX_TeleportToFishSpot(ticketDifficulty)
                 end)
             end
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Quest Island",
                     Content = amount == "No Selection" and "Using built-in Easy/Hard CFrame." or "Farming on: " .. tostring(amount),
@@ -6945,24 +6945,24 @@ do
     })
     tickSec:AddSlider("TicketAcceptDelay", {
         Title = "Delay retry accept quest (seconds)",
-        Default = math.max(1, tonumber(getgenv().NNVN_TicketAcceptDelay) or 2),
+        Default = math.max(1, tonumber(getgenv().NhoiiiX_TicketAcceptDelay) or 2),
         Min = 1,
         Max = 20,
         Rounding = 1,
         AllowRightClickInput = true,
         Callback = function(inputText)
-            getgenv().NNVN_TicketAcceptDelay = math.max(1, tonumber(inputText) or 2)
+            getgenv().NhoiiiX_TicketAcceptDelay = math.max(1, tonumber(inputText) or 2)
         end
     })
     tickSec:AddInput("TicketAcceptDelayInput", {
         Title = "Quest Retry Delay Input",
         Placeholder = "Seconds (1 - 20)",
-        Default = tostring(math.max(1, tonumber(getgenv().NNVN_TicketAcceptDelay) or 2)),
+        Default = tostring(math.max(1, tonumber(getgenv().NhoiiiX_TicketAcceptDelay) or 2)),
         Numeric = true,
         Finished = true,
         Callback = function(enabled)
             local clampResult = math.clamp(math.floor(tonumber(enabled) or 2), 1, 20)
-            getgenv().NNVN_TicketAcceptDelay = clampResult
+            getgenv().NhoiiiX_TicketAcceptDelay = clampResult
             local ticketAcceptDelay = stateMap2 and stateMap2.TicketAcceptDelay
             if ticketAcceptDelay and ticketAcceptDelay.SetValue then
                 pcall(function()
@@ -6971,14 +6971,14 @@ do
             end
         end
     })
-    tickSec:AddToggle("NNVN_TicketFishWhileWaiting", {
+    tickSec:AddToggle("NhoiiiX_TicketFishWhileWaiting", {
         Title = "Fish While Waiting",
         Description = "Returns to the saved starting position during long cooldowns or the daily 20/20 limit. At 2 minutes or less, waits beside the NPC.",
-        Default = getgenv().NNVN_TicketFishWhileWaiting == true,
+        Default = getgenv().NhoiiiX_TicketFishWhileWaiting == true,
         Callback = function(enabled)
-            getgenv().NNVN_TicketFishWhileWaiting = enabled == true
-            getgenv()._NNVN_TicketWaitState = nil
-            if not enabled and getgenv().NNVN_AutoTicket and not getActiveTicketDifficulty(getgenv().NNVN_TicketDifficulty) then
+            getgenv().NhoiiiX_TicketFishWhileWaiting = enabled == true
+            getgenv()._NhoiiiX_TicketWaitState = nil
+            if not enabled and getgenv().NhoiiiX_AutoTicket and not getActiveTicketDifficulty(getgenv().NhoiiiX_TicketDifficulty) then
                 task.spawn(moveToTicketNpcOnly)
             end
         end
@@ -6987,56 +6987,56 @@ do
         Title = "Start Auto Ticket Quest",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoTicket = enabled
+            getgenv().NhoiiiX_AutoTicket = enabled
             if enabled then
                 local character = LocalPlayer.Character
                 local rootPart = character and character:FindFirstChild("HumanoidRootPart")
-                getgenv().NNVN_TicketOriginalCFrame = rootPart and rootPart.CFrame or getgenv().NNVN_TicketOriginalCFrame
-                getgenv().NNVN_TicketDailyLimitReached = false
-                getgenv()._NNVN_TicketWaitState = nil
-                local hardLabel = getgenv().NNVN_TicketDifficulty == "Hard" and "Hard" or "Easy"
+                getgenv().NhoiiiX_TicketOriginalCFrame = rootPart and rootPart.CFrame or getgenv().NhoiiiX_TicketOriginalCFrame
+                getgenv().NhoiiiX_TicketDailyLimitReached = false
+                getgenv()._NhoiiiX_TicketWaitState = nil
+                local hardLabel = getgenv().NhoiiiX_TicketDifficulty == "Hard" and "Hard" or "Easy"
                 local hardLabel2 = hardLabel
                 if isTicketSkyMode(hardLabel2) then
-                    resolveRandom(getgenv().NNVN_TicketRandomSkyHeight == true)
+                    resolveRandom(getgenv().NhoiiiX_TicketRandomSkyHeight == true)
                 end
-                if getgenv().NNVN_SaveTicketFlags then
-                    getgenv().NNVN_SaveTicketFlags()
+                if getgenv().NhoiiiX_SaveTicketFlags then
+                    getgenv().NhoiiiX_SaveTicketFlags()
                 end
-                getgenv().NNVN_Anchor = false
-                getgenv().NNVN_AutoCast = false
-                getgenv().NNVN_AutoSkill = false
+                getgenv().NhoiiiX_Anchor = false
+                getgenv().NhoiiiX_AutoCast = false
+                getgenv().NhoiiiX_AutoSkill = false
                 local hasTriggered = false
                 if getActiveTicketDifficulty(hardLabel) then
                     hasTriggered = enableTicketFarmAfterArrival(hardLabel2)
                 elseif getTicketCooldownSeconds() > 0 then
                     handleTicketWaitingState()
-                    hasTriggered = getgenv().NNVN_TicketFishWhileWaiting == true
+                    hasTriggered = getgenv().NhoiiiX_TicketFishWhileWaiting == true
                 elseif acceptTicketQuest(hardLabel) then
                     hasTriggered = enableTicketFarmAfterArrival(hardLabel2)
                 end
                 if not hasTriggered then
                     notify("Ticket Quest", "Waiting to reach the farm position before enabling fishing functions.", 4)
                 end
-                if getgenv().NNVN_StartTicketLoop then
-                    getgenv().NNVN_StartTicketLoop()
+                if getgenv().NhoiiiX_StartTicketLoop then
+                    getgenv().NhoiiiX_StartTicketLoop()
                 end
             else
-                getgenv()._NNVN_TicketWaitState = nil
+                getgenv()._NhoiiiX_TicketWaitState = nil
                 cleanupResource(false)
-                if type(NNVN_StopTween) == "function" then
-                    pcall(NNVN_StopTween)
+                if type(NhoiiiX_StopTween) == "function" then
+                    pcall(NhoiiiX_StopTween)
                 end
-                if getgenv().NNVN_TicketCoroutine then
-                    pcall(coroutine.close, getgenv().NNVN_TicketCoroutine)
-                    getgenv().NNVN_TicketCoroutine = nil
+                if getgenv().NhoiiiX_TicketCoroutine then
+                    pcall(coroutine.close, getgenv().NhoiiiX_TicketCoroutine)
+                    getgenv().NhoiiiX_TicketCoroutine = nil
                 end
-                if getgenv().NNVN_RestoreTicketFlags then
-                    getgenv().NNVN_RestoreTicketFlags()
+                if getgenv().NhoiiiX_RestoreTicketFlags then
+                    getgenv().NhoiiiX_RestoreTicketFlags()
                 end
-                getgenv().NNVN_AutoUseBait = false
-                getgenv().NNVN_AutoBoss = false
-                getgenv().NNVN_AutoFarmSecretBoss = false
-                getgenv().NNVN_AutoBossFishing = false
+                getgenv().NhoiiiX_AutoUseBait = false
+                getgenv().NhoiiiX_AutoBoss = false
+                getgenv().NhoiiiX_AutoFarmSecretBoss = false
+                getgenv().NhoiiiX_AutoBossFishing = false
             end
         end
     })
@@ -7044,7 +7044,7 @@ do
         Title = "Auto Accept Quest (when inactive)",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoAcceptQuest = enabled
+            getgenv().NhoiiiX_AutoAcceptQuest = enabled
         end
     })
     TurnInCo = nil
@@ -7052,25 +7052,25 @@ do
         Title = "Auto Turn In Quest (every 10s)",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoTurnIn = enabled
+            getgenv().NhoiiiX_AutoTurnIn = enabled
             if enabled then
                 if TurnInCo then
                     coroutine.close(TurnInCo)
                     TurnInCo = nil
                 end
                 TurnInCo = coroutine.create(function()
-                    while getgenv().NNVN_AutoTurnIn do
+                    while getgenv().NhoiiiX_AutoTurnIn do
                         pcall(function()
-                            local ticketDifficulty = getgenv().NNVN_TicketDifficulty or "Easy"
-                            if getgenv().NNVN_TurnInTicketQuest then
-                                getgenv().NNVN_TurnInTicketQuest(ticketDifficulty)
+                            local ticketDifficulty = getgenv().NhoiiiX_TicketDifficulty or "Easy"
+                            if getgenv().NhoiiiX_TurnInTicketQuest then
+                                getgenv().NhoiiiX_TurnInTicketQuest(ticketDifficulty)
                             end
-                            if getgenv().NNVN_ClickLeaveButton then
-                                getgenv().NNVN_ClickLeaveButton()
+                            if getgenv().NhoiiiX_ClickLeaveButton then
+                                getgenv().NhoiiiX_ClickLeaveButton()
                             end
                         end)
                         for i = 1, 10 do
-                            if not getgenv().NNVN_AutoTurnIn then
+                            if not getgenv().NhoiiiX_AutoTurnIn then
                                 break
                             end
                             task.wait(1)
@@ -7088,22 +7088,22 @@ do
     manSec:AddButton({
         Title = "Turn In Easy Quest",
         Callback = function()
-            if getgenv().NNVN_TurnInTicketQuest then
-                getgenv().NNVN_TurnInTicketQuest("Easy")
+            if getgenv().NhoiiiX_TurnInTicketQuest then
+                getgenv().NhoiiiX_TurnInTicketQuest("Easy")
             end
-            if getgenv().NNVN_ClickLeaveButton then
-                getgenv().NNVN_ClickLeaveButton()
+            if getgenv().NhoiiiX_ClickLeaveButton then
+                getgenv().NhoiiiX_ClickLeaveButton()
             end
         end
     })
     manSec:AddButton({
         Title = "Turn In Hard Quest",
         Callback = function()
-            if getgenv().NNVN_TurnInTicketQuest then
-                getgenv().NNVN_TurnInTicketQuest("Hard")
+            if getgenv().NhoiiiX_TurnInTicketQuest then
+                getgenv().NhoiiiX_TurnInTicketQuest("Hard")
             end
-            if getgenv().NNVN_ClickLeaveButton then
-                getgenv().NNVN_ClickLeaveButton()
+            if getgenv().NhoiiiX_ClickLeaveButton then
+                getgenv().NhoiiiX_ClickLeaveButton()
             end
         end
     })
@@ -7112,14 +7112,14 @@ do
         Title = "Give fish at least 2,000,000 kg",
         Content = "Uses eligible fish already in the selected slot, or moves a fish of at least 2M kg from inventory. Existing slot items return to inventory when a replacement is available. Default: slot 4."
     })
-    dumpGuySec:AddSlider("NNVN_DumpGuyHotbarSlot", {
+    dumpGuySec:AddSlider("NhoiiiX_DumpGuyHotbarSlot", {
         Title = "Hotbar slot for fish",
-        Default = getgenv().NNVN_DumpGuyHotbarSlot or 4,
+        Default = getgenv().NhoiiiX_DumpGuyHotbarSlot or 4,
         Min = 1,
         Max = 10,
         Rounding = 1,
         Callback = function(selectedValue)
-            getgenv().NNVN_DumpGuyHotbarSlot = math.clamp(math.floor(tonumber(selectedValue) or 4), 1, 10)
+            getgenv().NhoiiiX_DumpGuyHotbarSlot = math.clamp(math.floor(tonumber(selectedValue) or 4), 1, 10)
         end
     })
     dumpGuySec:AddButton({
@@ -7148,18 +7148,18 @@ do
             })
         end
     })
-    dumpGuySec:AddToggle("NNVN_AutoGiveFish", {
+    dumpGuySec:AddToggle("NhoiiiX_AutoGiveFish", {
         Title = "Auto Give Fish >= 2M kg",
         Default = false,
         Callback = function(enabled)
             setAutoGiveFishEnabled(enabled)
         end
     })
-    dumpGuySec:AddToggle("NNVN_AutoFarm2MFish", {
+    dumpGuySec:AddToggle("NhoiiiX_AutoFarm2MFish", {
         Title = "Auto Farm 2M+ kg Fish",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoFarm2MFish = enabled
+            getgenv().NhoiiiX_AutoFarm2MFish = enabled
             setAutoFarm2MFish(enabled)
         end
     })
@@ -7169,22 +7169,22 @@ do
         Title = "Auto Claim Daily Reward (1-7)",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoClaimDaily = enabled
+            getgenv().NhoiiiX_AutoClaimDaily = enabled
             if enabled then
                 if dailyCo then
                     coroutine.close(dailyCo)
                     dailyCo = nil
                 end
                 dailyCo = coroutine.create(function()
-                    while getgenv().NNVN_AutoClaimDaily do
+                    while getgenv().NhoiiiX_AutoClaimDaily do
                         pcall(function()
                             RunActionWithMethod({ teleport = TPNearDailyNPC, returnAfter = true }, function()
                                 for i = 1, 7 do
-                                    if not getgenv().NNVN_AutoClaimDaily then
+                                    if not getgenv().NhoiiiX_AutoClaimDaily then
                                         break
                                     end
                                     ReplicatedStorage.Events.DailyReward:FireServer(i)
-                                    task.wait(getgenv().NNVN_ClaimDailyDelay or 1)
+                                    task.wait(getgenv().NhoiiiX_ClaimDailyDelay or 1)
                                 end
                             end)
                         end)
@@ -7205,7 +7205,7 @@ do
         Max = 5,
         Rounding = 0.5,
         Callback = function(selectedValue)
-            getgenv().NNVN_ClaimDailyDelay = selectedValue
+            getgenv().NhoiiiX_ClaimDailyDelay = selectedValue
         end
     })
     dailyQuestSec = mainMap.Quest:AddSection({ Title = "Daily Quests (Auto)", Icon = "list-checks" })
@@ -7223,7 +7223,7 @@ do
                         local playerData = data and data:FindFirstChild(tostring(LocalPlayer.UserId))
                         local daily = playerData and playerData:FindFirstChild("Quest") and playerData.Quest:FindFirstChild("Daily")
                         if not daily then
-                            if getgenv().NNVN_Notify then
+                            if getgenv().NhoiiiX_Notify then
                                 item:Notify({ Title = "", Content = "No daily quests found", Duration = 2 })
                             end
                             return
@@ -7236,7 +7236,7 @@ do
                             end)
                             task.wait(0.3)
                         end
-                        if getgenv().NNVN_Notify then
+                        if getgenv().NhoiiiX_Notify then
                             item:Notify({
                                 Title = "",
                                 Content = "Sent " .. counter .. " daily reward claims!",
@@ -7275,7 +7275,7 @@ do
             cframe = CFrame.new(-1625.88428, 11.5350533, 1622.09692, 0.224939391, 2.13587512e-08, 0.974372745, -1.33935529e-08, 1, -1.8828537e-08, -0.974372745, -8.81503315e-09, 0.224939391)
         }
     }
-    getgenv().NNVN_QuestFarmSession = (getgenv().NNVN_QuestFarmSession or 0) + 1
+    getgenv().NhoiiiX_QuestFarmSession = (getgenv().NhoiiiX_QuestFarmSession or 0) + 1
     local previousMap = { previous = nil, lastTeleport = 0 }
     local function resolveFindFirstChild3(inputValue)
         local data = ReplicatedStorage:FindFirstChild("Data")
@@ -7339,9 +7339,9 @@ do
         if not previous then
             return
         end
-        getgenv().NNVN_Anchor = previous.Anchor
-        getgenv().NNVN_AutoCast = previous.AutoCast
-        getgenv().NNVN_AutoSkill = previous.AutoSkill
+        getgenv().NhoiiiX_Anchor = previous.Anchor
+        getgenv().NhoiiiX_AutoCast = previous.AutoCast
+        getgenv().NhoiiiX_AutoSkill = previous.AutoSkill
         previousMap.previous = nil
     end
     local function resolveCharacter2(inputValue)
@@ -7351,29 +7351,29 @@ do
             return false
         end
         local computedValue = inputValue.cframe + Vector3.new(0, 3, 0)
-        if inputValue.useOperationMethod and type(GetActionMethod) == "function" and GetActionMethod() == "Tween" and type(NNVN_TweenTo) == "function" then
-            return NNVN_TweenTo(computedValue) == true
+        if inputValue.useOperationMethod and type(GetActionMethod) == "function" and GetActionMethod() == "Tween" and type(NhoiiiX_TweenTo) == "function" then
+            return NhoiiiX_TweenTo(computedValue) == true
         end
-        NNVN_TweenTo(computedValue)
+        NhoiiiX_TweenTo(computedValue)
         rootPart.AssemblyLinearVelocity = Vector3.zero
         rootPart.AssemblyAngularVelocity = Vector3.zero
         previousMap.lastTeleport = os.clock()
         return true
     end
     local function resolveAutoSelectedQuest(inputValue)
-        getgenv().NNVN_AutoSelectedQuest = inputValue == true
-        getgenv().NNVN_QuestFarmSession = (getgenv().NNVN_QuestFarmSession or 0) + 1
-        local questFarmSession = getgenv().NNVN_QuestFarmSession
+        getgenv().NhoiiiX_AutoSelectedQuest = inputValue == true
+        getgenv().NhoiiiX_QuestFarmSession = (getgenv().NhoiiiX_QuestFarmSession or 0) + 1
+        local questFarmSession = getgenv().NhoiiiX_QuestFarmSession
         if not inputValue then
             resolvePrevious()
             return
         end
         resolvePrevious()
-        local zengTianguoQuestPerch2 = zengTianguoQuestPerch[getgenv().NNVN_SelectedAutoQuest]
+        local zengTianguoQuestPerch2 = zengTianguoQuestPerch[getgenv().NhoiiiX_SelectedAutoQuest]
         local inactive = zengTianguoQuestPerch2 and resolveInactive(zengTianguoQuestPerch2) or "inactive"
         if inactive ~= "active" then
-            getgenv().NNVN_AutoSelectedQuest = false
-            if getgenv().NNVN_Notify then
+            getgenv().NhoiiiX_AutoSelectedQuest = false
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Quest Farm",
                     Content = inactive == "complete" and "Quest complete — nothing to farm." or "Selected quest is not active or its objective changed.",
@@ -7383,22 +7383,22 @@ do
             return
         end
         previousMap.previous = {
-            Anchor = getgenv().NNVN_Anchor == true,
-            AutoCast = getgenv().NNVN_AutoCast == true,
-            AutoSkill = getgenv().NNVN_AutoSkill == true
+            Anchor = getgenv().NhoiiiX_Anchor == true,
+            AutoCast = getgenv().NhoiiiX_AutoCast == true,
+            AutoSkill = getgenv().NhoiiiX_AutoSkill == true
         }
-        getgenv().NNVN_Anchor = true
-        getgenv().NNVN_AutoCast = true
-        getgenv().NNVN_AutoSkill = true
+        getgenv().NhoiiiX_Anchor = true
+        getgenv().NhoiiiX_AutoCast = true
+        getgenv().NhoiiiX_AutoSkill = true
         pcall(EquipSlot1)
         pcall(resolveCharacter2, zengTianguoQuestPerch2)
         task.spawn(function()
-            while getgenv().NNVN_AutoSelectedQuest and questFarmSession == getgenv().NNVN_QuestFarmSession do
+            while getgenv().NhoiiiX_AutoSelectedQuest and questFarmSession == getgenv().NhoiiiX_QuestFarmSession do
                 local inactive = resolveInactive(zengTianguoQuestPerch2)
                 if inactive ~= "active" then
-                    getgenv().NNVN_AutoSelectedQuest = false
+                    getgenv().NhoiiiX_AutoSelectedQuest = false
                     resolvePrevious()
-                    if not getgenv().NNVN_Notify then
+                    if not getgenv().NhoiiiX_Notify then
                         break
                     end
                     item:Notify({
@@ -7426,7 +7426,7 @@ do
         Title = "Verified quest data",
         Content = "Supported: Zeng Tianguo (25 bosses, Perch), Frost Isle (100 catches), Perch Isle (Ascended/Trueform Perch), Orb Claw (25 Trueform Jiaolongfish).\nA quest stops and notifies at its target, including values above target."
     })
-    questFarmSec:AddDropdown("NNVN_SelectedAutoQuest", {
+    questFarmSec:AddDropdown("NhoiiiX_SelectedAutoQuest", {
         Title = "Select Quest",
         Values = {
             "Zeng Tianguo Quest - Perch Isle",
@@ -7434,15 +7434,15 @@ do
             "Perch Isle Quest - Perch Isle",
             "Orb Claw - Sovereign Isle"
         },
-        Default = getgenv().NNVN_SelectedAutoQuest,
+        Default = getgenv().NhoiiiX_SelectedAutoQuest,
         Callback = function(enabled)
-            getgenv().NNVN_SelectedAutoQuest = enabled
-            if getgenv().NNVN_AutoSelectedQuest then
+            getgenv().NhoiiiX_SelectedAutoQuest = enabled
+            if getgenv().NhoiiiX_AutoSelectedQuest then
                 resolveAutoSelectedQuest(true)
             end
         end
     })
-    questFarmSec:AddToggle("NNVN_AutoSelectedQuest", {
+    questFarmSec:AddToggle("NhoiiiX_AutoSelectedQuest", {
         Title = "Auto Do Selected Quest",
         Description = "Teleports to the verified island, then enables Anchor Bar, Auto Cast and Auto Skills.",
         Default = false,
@@ -7486,18 +7486,18 @@ do
         Title = "Auto God Spirit (Teleport + Interact + Pray)",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoGodSpirit = enabled
+            getgenv().NhoiiiX_AutoGodSpirit = enabled
             if enabled then
                 if GodSpiritCo then
                     coroutine.close(GodSpiritCo)
                     GodSpiritCo = nil
                 end
                 GodSpiritCo = coroutine.create(function()
-                    while getgenv().NNVN_AutoGodSpirit do
+                    while getgenv().NhoiiiX_AutoGodSpirit do
                         local god = Workspace:FindFirstChild("NPC") and Workspace.NPC:FindFirstChild("God")
                         if god and #god:GetChildren() > 0 then
                             for _, item2 in ipairs(god:GetChildren()) do
-                                if not getgenv().NNVN_AutoGodSpirit then
+                                if not getgenv().NhoiiiX_AutoGodSpirit then
                                     break
                                 end
                                 if not item2:IsA("Model") then
@@ -7509,14 +7509,14 @@ do
                                 if not godSpirit or not godSpirit:FindFirstChild(item2.Name) or not godSpirit[item2.Name]:IsA("BoolValue") or not godSpirit[item2.Name].Value then
                                     InteractWithGodNPC(item2)
                                     task.wait(1.5)
-                                    if getgenv().NNVN_Notify then
+                                    if getgenv().NhoiiiX_Notify then
                                         item:Notify({
                                             Title = "God Spirit",
                                             Content = "Prayed to " .. item2.Name,
                                             Duration = 3
                                         })
                                     end
-                                elseif getgenv().NNVN_Notify then
+                                elseif getgenv().NhoiiiX_Notify then
                                     item:Notify({
                                         Title = "God Spirit",
                                         Content = item2.Name .. " already prayed today",
@@ -7544,7 +7544,7 @@ do
             task.spawn(function()
                 local god = Workspace:FindFirstChild("NPC") and Workspace.NPC:FindFirstChild("God")
                 if not god or #god:GetChildren() == 0 then
-                    if getgenv().NNVN_Notify then
+                    if getgenv().NhoiiiX_Notify then
                         item:Notify({ Title = "", Content = "No God Spirits in this server!", Duration = 2 })
                     end
                     return
@@ -7555,7 +7555,7 @@ do
                         task.wait(1)
                     end
                 end
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({ Title = "", Content = "Prayed to all God Spirits!", Duration = 3 })
                 end
             end)
@@ -7652,17 +7652,17 @@ do
         return "Unknown Executor"
     end
     refreshPremiumAccess = function()
-        local isMatched = rawget(_G, "NNVN_IsPremium") == true or getgenv().NNVN_IsPremium == true or getgenv().NNVN_IsPremiumAccess == true
+        local isMatched = rawget(_G, "NhoiiiX_IsPremium") == true or getgenv().NhoiiiX_IsPremium == true or getgenv().NhoiiiX_IsPremiumAccess == true
         premiumStateCache.checked = true
         premiumStateCache.value = isMatched
-        getgenv().NNVN_IsPremiumAccess = isMatched
+        getgenv().NhoiiiX_IsPremiumAccess = isMatched
         return isMatched
     end
     ensurePremiumAccess = function(inputValue)
         if refreshPremiumAccess() then
             return true
         end
-        if getgenv().NNVN_Notify and item then
+        if getgenv().NhoiiiX_Notify and item then
             item:Notify({
                 Title = "Premium required",
                 Content = tostring(inputValue or "This feature") .. " is available for Premium users only.",
@@ -7759,7 +7759,7 @@ do
         if textLabel and textLabel:IsA("TextLabel") and playerIdLabelState.originalStarterText == nil then
             playerIdLabelState.originalStarterText = textLabel.Text
         end
-        if getgenv().NNVN_BlankPlayerId then
+        if getgenv().NhoiiiX_BlankPlayerId then
             if label then
                 label.Visible = true
                 label.Text = ""
@@ -7767,8 +7767,8 @@ do
             if textLabel and textLabel:IsA("TextLabel") then
                 textLabel.Text = ""
             end
-        elseif getgenv().NNVN_HidePlayerId then
-            local customPlayerIdText = tostring(getgenv().NNVN_CustomPlayerId or "")
+        elseif getgenv().NhoiiiX_HidePlayerId then
+            local customPlayerIdText = tostring(getgenv().NhoiiiX_CustomPlayerId or "")
             if customPlayerIdText == "" then
                 customPlayerIdText = tostring(LocalPlayer.UserId)
             end
@@ -7799,16 +7799,16 @@ do
         if not playerName or not playerName:IsA("TextLabel") then
             return
         end
-        if getgenv().NNVN_HidePlayerName then
-            if getgenv().NNVN_HidePlayerNameText == nil then
-                getgenv().NNVN_HidePlayerNameText = playerName.Text
+        if getgenv().NhoiiiX_HidePlayerName then
+            if getgenv().NhoiiiX_HidePlayerNameText == nil then
+                getgenv().NhoiiiX_HidePlayerNameText = playerName.Text
             end
             playerName.Text = ""
             playerName.Visible = false
         else
             playerName.Visible = true
-            if getgenv().NNVN_HidePlayerNameText ~= nil then
-                playerName.Text = getgenv().NNVN_HidePlayerNameText
+            if getgenv().NhoiiiX_HidePlayerNameText ~= nil then
+                playerName.Text = getgenv().NhoiiiX_HidePlayerNameText
             end
         end
     end
@@ -7823,7 +7823,7 @@ do
         }
     end
     RequestHideUI = function()
-        getgenv().NNVN_HideUI = true
+        getgenv().NhoiiiX_HideUI = true
         local playerGui = LocalPlayer:FindFirstChild("PlayerGui")
         local mainGui = playerGui and playerGui:FindFirstChild("MainGui")
         if not mainGui then
@@ -7843,7 +7843,7 @@ do
         end
     end
     RequestShowUI = function()
-        getgenv().NNVN_HideUI = false
+        getgenv().NhoiiiX_HideUI = false
         for key, entry in pairs(gameUiHideState.items) do
             if not key or not key.Parent then
                 continue
@@ -7878,7 +7878,7 @@ do
         if not mainGui then
             return
         end
-        if not getgenv().NNVN_FakeVisualsEnabled then
+        if not getgenv().NhoiiiX_FakeVisualsEnabled then
             restoreFakeVisuals()
             return
         end
@@ -7893,27 +7893,27 @@ do
             local isMatched2 = textText:match("%d") ~= nil
             local findResult = formattedText2:find("friend") or formattedText2:find("boost")
             if formattedText2:find("level") or formattedText2:find("lvl") then
-                maybeRewriteLabel(item, tostring(getgenv().NNVN_FakeLevelText))
+                maybeRewriteLabel(item, tostring(getgenv().NhoiiiX_FakeLevelText))
             elseif not findResult and (formattedText2:find("money") or formattedText2:find("cash") or formattedText2:find("coin") or (formattedText:find("money") or formattedText:find("cash") or formattedText:find("coin")) and isMatched) then
-                maybeRewriteLabel(item, tostring(getgenv().NNVN_FakeMoneyText))
+                maybeRewriteLabel(item, tostring(getgenv().NhoiiiX_FakeMoneyText))
             elseif not findResult and (formattedText2:find("gem") or formattedText2:find("diamond") or formattedText2:find("crystal") or (formattedText:find("gem") or formattedText:find("diamond") or formattedText:find("crystal")) and isMatched) then
-                maybeRewriteLabel(item, tostring(getgenv().NNVN_FakeGemText))
+                maybeRewriteLabel(item, tostring(getgenv().NhoiiiX_FakeGemText))
             elseif not findResult and formattedText2:find("ticket") then
-                maybeRewriteLabel(item, tostring(getgenv().NNVN_FakeTicketText))
+                maybeRewriteLabel(item, tostring(getgenv().NhoiiiX_FakeTicketText))
             elseif not findResult and formattedText2:find("orb") then
-                maybeRewriteLabel(item, tostring(getgenv().NNVN_FakeOrbText))
+                maybeRewriteLabel(item, tostring(getgenv().NhoiiiX_FakeOrbText))
             elseif not findResult and isMatched and isMatched2 and not formattedText2:find("friend") and not formattedText2:find("boost") and not formattedText2:find("luck") then
                 if textText:find("%$") or formattedText:find("money") or formattedText:find("cash") or formattedText:find("coin") then
-                    maybeRewriteLabel(item, tostring(getgenv().NNVN_FakeMoneyText))
+                    maybeRewriteLabel(item, tostring(getgenv().NhoiiiX_FakeMoneyText))
                 elseif formattedText:find("gem") or formattedText:find("diamond") or formattedText:find("crystal") then
-                    maybeRewriteLabel(item, tostring(getgenv().NNVN_FakeGemText))
+                    maybeRewriteLabel(item, tostring(getgenv().NhoiiiX_FakeGemText))
                 elseif formattedText:find("ticket") then
-                    maybeRewriteLabel(item, tostring(getgenv().NNVN_FakeTicketText))
+                    maybeRewriteLabel(item, tostring(getgenv().NhoiiiX_FakeTicketText))
                 elseif formattedText:find("orb") then
-                    maybeRewriteLabel(item, tostring(getgenv().NNVN_FakeOrbText))
+                    maybeRewriteLabel(item, tostring(getgenv().NhoiiiX_FakeOrbText))
                 end
-            elseif getgenv().NNVN_FakeNameEnabled and (formattedText2:find(string.lower(LocalPlayer.Name)) or formattedText2:find(string.lower(LocalPlayer.DisplayName))) then
-                maybeRewriteLabel(item, tostring(getgenv().NNVN_FakeNameText))
+            elseif getgenv().NhoiiiX_FakeNameEnabled and (formattedText2:find(string.lower(LocalPlayer.Name)) or formattedText2:find(string.lower(LocalPlayer.DisplayName))) then
+                maybeRewriteLabel(item, tostring(getgenv().NhoiiiX_FakeNameText))
             end
         end
     end
@@ -7926,7 +7926,7 @@ do
         if not character then
             return
         end
-        local isMatched = getgenv().NNVN_FakeHeadless == true
+        local isMatched = getgenv().NhoiiiX_FakeHeadless == true
         for _, item in ipairs(character:GetDescendants()) do
             local formattedText = string.lower(item.Name or "")
             if not formattedText:find("head") and not formattedText:find("face") then
@@ -7950,7 +7950,7 @@ do
         if not character then
             return
         end
-        local isMatched = getgenv().NNVN_FakeKorblox == true
+        local isMatched = getgenv().NhoiiiX_FakeKorblox == true
         for _, item in ipairs(character:GetDescendants()) do
             local formattedText = string.lower(item.Name or "")
             if formattedText == "rightlowerleg" or formattedText == "rightupperleg" or formattedText == "rightfoot" or formattedText == "right leg" or formattedText == "right lower leg" or formattedText == "right upper leg" then
@@ -7972,7 +7972,7 @@ do
         end
     end
     applyFakeSkinTone = function()
-        if not getgenv().NNVN_FakeSkinEnabled then
+        if not getgenv().NhoiiiX_FakeSkinEnabled then
             return
         end
         local character = LocalPlayer.Character
@@ -7984,7 +7984,7 @@ do
             bodyColors = Instance.new("BodyColors")
             bodyColors.Parent = character
         end
-        local brickColor = BrickColor.new(tostring(getgenv().NNVN_FakeSkinTone or "Pastel brown"))
+        local brickColor = BrickColor.new(tostring(getgenv().NhoiiiX_FakeSkinTone or "Pastel brown"))
         bodyColors.HeadColor3 = brickColor.Color
         bodyColors.LeftArmColor3 = brickColor.Color
         bodyColors.RightArmColor3 = brickColor.Color
@@ -7993,7 +7993,7 @@ do
         bodyColors.TorsoColor3 = brickColor.Color
     end
     applyFakeSkinFromPlayer = function()
-        local trimTextResult = trimText(getgenv().NNVN_FakeSkinPlayerName)
+        local trimTextResult = trimText(getgenv().NhoiiiX_FakeSkinPlayerName)
         if trimTextResult == "" then
             applyFakeSkinTone()
             return true
@@ -8023,17 +8023,17 @@ do
         Content = "Farm the required fish weights for bait crafting."
     })
     matBaitOptions = { "Rainbow Bait", "Frost Bait", "Nameless Bait" }
-    selectedMatBait = getgenv().NNVN_MaterialBait or "Rainbow Bait"
+    selectedMatBait = getgenv().NhoiiiX_MaterialBait or "Rainbow Bait"
     if selectedMatBait == "Heavenpiercer Rod" or selectedMatBait == "Pure Diamond Rod" or selectedMatBait == "Sacred Bamboo Rod" then
         selectedMatBait = "Rainbow Bait"
-        getgenv().NNVN_MaterialBait = selectedMatBait
+        getgenv().NhoiiiX_MaterialBait = selectedMatBait
     end
-    matSec:AddDropdown("NNVN_MaterialBait", {
+    matSec:AddDropdown("NhoiiiX_MaterialBait", {
         Title = "Select Bait to Craft",
         Values = matBaitOptions,
         Default = selectedMatBait,
         Callback = function(selected)
-            getgenv().NNVN_MaterialBait = selected
+            getgenv().NhoiiiX_MaterialBait = selected
             selectedMatBait = selected
         end
     })
@@ -8187,7 +8187,7 @@ do
             return false
         end
         if character:FindFirstChild("HumanoidRootPart") then
-            NNVN_TweenTo(CFrame.new(matIslandNameTo.cf.Position) + Vector3.new(0, 5, 0))
+            NhoiiiX_TweenTo(CFrame.new(matIslandNameTo.cf.Position) + Vector3.new(0, 5, 0))
             return true
         end
         return false
@@ -8208,16 +8208,16 @@ do
         end
     end
     matEnableFishing = function()
-        if not getgenv().NNVN_MaterialPrevFlags then
-            getgenv().NNVN_MaterialPrevFlags = {
-                AutoCast = getgenv().NNVN_AutoCast,
-                Anchor = getgenv().NNVN_Anchor,
-                AutoSkill = getgenv().NNVN_AutoSkill
+        if not getgenv().NhoiiiX_MaterialPrevFlags then
+            getgenv().NhoiiiX_MaterialPrevFlags = {
+                AutoCast = getgenv().NhoiiiX_AutoCast,
+                Anchor = getgenv().NhoiiiX_Anchor,
+                AutoSkill = getgenv().NhoiiiX_AutoSkill
             }
         end
-        getgenv().NNVN_AutoCast = true
-        getgenv().NNVN_Anchor = true
-        getgenv().NNVN_AutoSkill = true
+        getgenv().NhoiiiX_AutoCast = true
+        getgenv().NhoiiiX_Anchor = true
+        getgenv().NhoiiiX_AutoSkill = true
     end
     matEquipBait = function(inputValue)
         local equipBait = ReplicatedStorage.Events:FindFirstChild("EquipBait")
@@ -8247,7 +8247,7 @@ do
         end
         local character = LocalPlayer.Character
         if character and character:FindFirstChild("HumanoidRootPart") then
-            NNVN_TweenTo(cframeEntry + Vector3.new(0, 5, 0))
+            NhoiiiX_TweenTo(cframeEntry + Vector3.new(0, 5, 0))
             print("[Material] Đã teleport đến khu vực đặc biệt cho", fishEntry)
         end
         matEquipBait(inputValue)
@@ -8255,17 +8255,17 @@ do
         return true
     end
     matDisableFishing = function()
-        local materialPrevFlags = getgenv().NNVN_MaterialPrevFlags
+        local materialPrevFlags = getgenv().NhoiiiX_MaterialPrevFlags
         if materialPrevFlags then
-            getgenv().NNVN_AutoCast = materialPrevFlags.AutoCast and true or false
-            getgenv().NNVN_Anchor = materialPrevFlags.Anchor and true or false
-            getgenv().NNVN_AutoSkill = materialPrevFlags.AutoSkill and true or false
+            getgenv().NhoiiiX_AutoCast = materialPrevFlags.AutoCast and true or false
+            getgenv().NhoiiiX_Anchor = materialPrevFlags.Anchor and true or false
+            getgenv().NhoiiiX_AutoSkill = materialPrevFlags.AutoSkill and true or false
         else
-            getgenv().NNVN_AutoCast = false
-            getgenv().NNVN_Anchor = false
-            getgenv().NNVN_AutoSkill = false
+            getgenv().NhoiiiX_AutoCast = false
+            getgenv().NhoiiiX_Anchor = false
+            getgenv().NhoiiiX_AutoSkill = false
         end
-        getgenv().NNVN_MaterialPrevFlags = nil
+        getgenv().NhoiiiX_MaterialPrevFlags = nil
     end
     getCurrentWeather = function()
         local info = item3:FindFirstChild("Info")
@@ -8284,7 +8284,7 @@ do
         return "Clear"
     end
     matCo = coroutine.create(function()
-        while getgenv().NNVN_MaterialFarming do
+        while getgenv().NhoiiiX_MaterialFarming do
             pcall(function()
                 if matHandleSpecialBait(selectedMatBait) then
                     task.wait(1)
@@ -8316,11 +8316,11 @@ do
                     if cframeEntry then
                         local character = LocalPlayer.Character
                         if character and character:FindFirstChild("HumanoidRootPart") then
-                            NNVN_TweenTo(cframeEntry + Vector3.new(0, 5, 0))
+                            NhoiiiX_TweenTo(cframeEntry + Vector3.new(0, 5, 0))
                         end
                     end
                     matEnableFishing()
-                    while getgenv().NNVN_MaterialFarming do
+                    while getgenv().NhoiiiX_MaterialFarming do
                         if matGetMaterialCount(name, minKg, maxKg) >= 100 then
                             break
                         end
@@ -8360,7 +8360,7 @@ do
         return weatherLookup[weatherReporterName] == true, weatherReporterName
     end
     getRecommendedWeatherIsland = function(inputValue)
-        local weatherFarmIslandText = tostring(getgenv().NNVN_WeatherFarmIsland or "Auto")
+        local weatherFarmIslandText = tostring(getgenv().NhoiiiX_WeatherFarmIsland or "Auto")
         if weatherFarmIslandText ~= "" and weatherFarmIslandText ~= "Auto" then
             return weatherFarmIslandText
         end
@@ -8376,7 +8376,7 @@ do
                     return false
                 end
                 pcall(function()
-                    NNVN_TweenTo(CFrame.new(item.cf.Position) + Vector3.new(0, 5, 0))
+                    NhoiiiX_TweenTo(CFrame.new(item.cf.Position) + Vector3.new(0, 5, 0))
                 end)
                 return true
             end
@@ -8461,7 +8461,7 @@ do
         local rootPart = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         local beginningIsleMap22 = beginningIsleMap2[inputValue]
         if rootPart and beginningIsleMap22 and pcall(function()
-            NNVN_TweenTo(beginningIsleMap22)
+            NhoiiiX_TweenTo(beginningIsleMap22)
         end) then
             return true
         end
@@ -8471,7 +8471,7 @@ do
             if nearbyWeatherWater then
                 local computedValue = nearbyWeatherWater + Vector3.new(0, 4, 0)
                 if pcall(function()
-                    NNVN_TweenTo(CFrame.new(computedValue, computedValue + Vector3.new(0, 0, -1)))
+                    NhoiiiX_TweenTo(CFrame.new(computedValue, computedValue + Vector3.new(0, 0, -1)))
                 end) then
                     return true
                 end
@@ -8482,19 +8482,19 @@ do
     saveWeatherFarmPosition = function()
         local rootPart = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if rootPart then
-            getgenv().NNVN_WeatherFarmPrevPos = rootPart.CFrame
+            getgenv().NhoiiiX_WeatherFarmPrevPos = rootPart.CFrame
             return true
         end
         return false
     end
     restoreWeatherFarmPosition = function()
-        local weatherFarmPrevPos = getgenv().NNVN_WeatherFarmPrevPos
+        local weatherFarmPrevPos = getgenv().NhoiiiX_WeatherFarmPrevPos
         if typeof(weatherFarmPrevPos) ~= "CFrame" then
             return false
         end
         for i = 1, 12 do
             if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and pcall(function()
-                NNVN_TweenTo(weatherFarmPrevPos)
+                NhoiiiX_TweenTo(weatherFarmPrevPos)
             end) then
                 return true
             end
@@ -8503,38 +8503,38 @@ do
         return false
     end
     enableWeatherFarmFishing = function()
-        if not getgenv().NNVN_WeatherFarmPrevFlags then
-            getgenv().NNVN_WeatherFarmPrevFlags = {
-                AutoCast = getgenv().NNVN_AutoCast,
-                Anchor = getgenv().NNVN_Anchor,
-                AutoSkill = getgenv().NNVN_AutoSkill
+        if not getgenv().NhoiiiX_WeatherFarmPrevFlags then
+            getgenv().NhoiiiX_WeatherFarmPrevFlags = {
+                AutoCast = getgenv().NhoiiiX_AutoCast,
+                Anchor = getgenv().NhoiiiX_Anchor,
+                AutoSkill = getgenv().NhoiiiX_AutoSkill
             }
         end
-        getgenv().NNVN_AutoCast = true
-        getgenv().NNVN_Anchor = true
-        getgenv().NNVN_AutoSkill = true
+        getgenv().NhoiiiX_AutoCast = true
+        getgenv().NhoiiiX_Anchor = true
+        getgenv().NhoiiiX_AutoSkill = true
         if type(activateAutoEquipRodForFarm) == "function" then
             activateAutoEquipRodForFarm()
         else
-            getgenv().NNVN_AutoEquipRod = true
+            getgenv().NhoiiiX_AutoEquipRod = true
             pcall(EquipSlot1)
         end
     end
     disableWeatherFarmFishing = function(inputValue)
         if inputValue then
-            getgenv().NNVN_AutoCast = false
-            getgenv().NNVN_Anchor = false
-            getgenv().NNVN_AutoSkill = false
-            getgenv().NNVN_WeatherFarmPrevFlags = nil
+            getgenv().NhoiiiX_AutoCast = false
+            getgenv().NhoiiiX_Anchor = false
+            getgenv().NhoiiiX_AutoSkill = false
+            getgenv().NhoiiiX_WeatherFarmPrevFlags = nil
             return
         end
-        local weatherFarmPrevFlags = getgenv().NNVN_WeatherFarmPrevFlags
+        local weatherFarmPrevFlags = getgenv().NhoiiiX_WeatherFarmPrevFlags
         if weatherFarmPrevFlags then
-            getgenv().NNVN_AutoCast = weatherFarmPrevFlags.AutoCast and true or false
-            getgenv().NNVN_Anchor = weatherFarmPrevFlags.Anchor and true or false
-            getgenv().NNVN_AutoSkill = weatherFarmPrevFlags.AutoSkill and true or false
+            getgenv().NhoiiiX_AutoCast = weatherFarmPrevFlags.AutoCast and true or false
+            getgenv().NhoiiiX_Anchor = weatherFarmPrevFlags.Anchor and true or false
+            getgenv().NhoiiiX_AutoSkill = weatherFarmPrevFlags.AutoSkill and true or false
         end
-        getgenv().NNVN_WeatherFarmPrevFlags = nil
+        getgenv().NhoiiiX_WeatherFarmPrevFlags = nil
     end
     refreshWeatherFarmRestoredFeatures = function(inputValue)
         if not inputValue then
@@ -8550,29 +8550,29 @@ do
                 task.wait(0.1)
                 getgenv()[inputValue] = true
             end
-            resolveWait("NNVN_AutoCast", inputValue.AutoCast)
-            resolveWait("NNVN_Anchor", inputValue.Anchor)
-            resolveWait("NNVN_AutoSkill", inputValue.AutoSkill)
+            resolveWait("NhoiiiX_AutoCast", inputValue.AutoCast)
+            resolveWait("NhoiiiX_Anchor", inputValue.Anchor)
+            resolveWait("NhoiiiX_AutoSkill", inputValue.AutoSkill)
         end)
     end
     stopWeatherFarmSession = function(inputValue)
-        local weatherFarmPrevFlags = getgenv().NNVN_WeatherFarmPrevFlags
+        local weatherFarmPrevFlags = getgenv().NhoiiiX_WeatherFarmPrevFlags
         local restoreWeatherFarmPosition2 = inputValue == false or restoreWeatherFarmPosition()
-        if getgenv().NNVN_WeatherFarmActive then
+        if getgenv().NhoiiiX_WeatherFarmActive then
             disableWeatherFarmFishing(false)
-            getgenv().NNVN_WeatherFarmActive = false
+            getgenv().NhoiiiX_WeatherFarmActive = false
         else
             disableWeatherFarmFishing(false)
         end
         if restoreWeatherFarmPosition2 then
-            getgenv().NNVN_WeatherFarmPrevPos = nil
+            getgenv().NhoiiiX_WeatherFarmPrevPos = nil
             refreshWeatherFarmRestoredFeatures(weatherFarmPrevFlags)
         end
     end
     startWeatherFarmSession = function(inputValue)
         local recommendedWeatherIsland = getRecommendedWeatherIsland(inputValue)
         if not recommendedWeatherIsland then
-            if getgenv().NNVN_Notify and item then
+            if getgenv().NhoiiiX_Notify and item then
                 item:Notify({
                     Title = "Weather Farm",
                     Content = "No recommended island for: " .. tostring(inputValue),
@@ -8581,13 +8581,13 @@ do
             end
             return false
         end
-        if not getgenv().NNVN_WeatherFarmActive then
+        if not getgenv().NhoiiiX_WeatherFarmActive then
             saveWeatherFarmPosition()
         end
         teleportNearWeatherWater(recommendedWeatherIsland)
         enableWeatherFarmFishing()
-        getgenv().NNVN_WeatherFarmActive = true
-        if getgenv().NNVN_Notify and item then
+        getgenv().NhoiiiX_WeatherFarmActive = true
+        if getgenv().NhoiiiX_Notify and item then
             item:Notify({
                 Title = "Weather Farm",
                 Content = string.format("Farming %s @ %s", tostring(inputValue), recommendedWeatherIsland),
@@ -8597,9 +8597,9 @@ do
         end
         return true
     end
-    getgenv().NNVN_IsSpecialWeather = isSpecialWeatherName
-    getgenv().NNVN_GetRecommendedWeatherIsland = getRecommendedWeatherIsland
-    getgenv().NNVN_TeleportToWeatherIsland = function()
+    getgenv().NhoiiiX_IsSpecialWeather = isSpecialWeatherName
+    getgenv().NhoiiiX_GetRecommendedWeatherIsland = getRecommendedWeatherIsland
+    getgenv().NhoiiiX_TeleportToWeatherIsland = function()
         local currentWeather = getCurrentWeather()
         local recommendedWeatherIsland = getRecommendedWeatherIsland(currentWeather)
         if not recommendedWeatherIsland then
@@ -8609,22 +8609,22 @@ do
     end
     startAutoFarmWeatherLoop = function()
         if not ensurePremiumAccess("Auto Farm Weather Event") then
-            getgenv().NNVN_AutoFarmWeatherEvent = false
+            getgenv().NhoiiiX_AutoFarmWeatherEvent = false
             stopWeatherFarmSession(true)
             return
         end
-        getgenv().NNVN_WeatherFarmLoopId = (getgenv().NNVN_WeatherFarmLoopId or 0) + 1
-        local weatherFarmLoopId = getgenv().NNVN_WeatherFarmLoopId
-        if not getgenv().NNVN_AutoFarmWeatherEvent then
+        getgenv().NhoiiiX_WeatherFarmLoopId = (getgenv().NhoiiiX_WeatherFarmLoopId or 0) + 1
+        local weatherFarmLoopId = getgenv().NhoiiiX_WeatherFarmLoopId
+        if not getgenv().NhoiiiX_AutoFarmWeatherEvent then
             stopWeatherFarmSession(true)
             return
         end
         task.spawn(function()
-            while getgenv().NNVN_AutoFarmWeatherEvent and weatherFarmLoopId == getgenv().NNVN_WeatherFarmLoopId do
+            while getgenv().NhoiiiX_AutoFarmWeatherEvent and weatherFarmLoopId == getgenv().NhoiiiX_WeatherFarmLoopId do
                 local currentWeather = getCurrentWeather()
                 local isMatched, matchedDetail = isSpecialWeatherName(currentWeather)
                 if isMatched then
-                    if not getgenv().NNVN_WeatherFarmActive then
+                    if not getgenv().NhoiiiX_WeatherFarmActive then
                         startWeatherFarmSession(currentWeather)
                     else
                         enableWeatherFarmFishing()
@@ -8648,8 +8648,8 @@ do
                             end
                         end
                     end
-                elseif getgenv().NNVN_WeatherFarmActive then
-                    if getgenv().NNVN_Notify and item then
+                elseif getgenv().NhoiiiX_WeatherFarmActive then
+                    if getgenv().NhoiiiX_Notify and item then
                         item:Notify({
                             Title = "Weather Farm",
                             Content = "Weather cleared — returning to previous position.",
@@ -8661,20 +8661,20 @@ do
                 end
                 pcall(function()
                     if weatherStatusParagraph and weatherStatusParagraph.SetDesc then
-                        weatherStatusParagraph:SetDesc(string.format("%s Weather: %s\nIsland: %s\nRecommended: %s\nFarm session: %s\nAuto Farm: %s", weatherLookup3[matchedDetail or "clear"] or "🔴", tostring(currentWeather), tostring(getCurrentIslandName and getCurrentIslandName() or "?"), tostring(getRecommendedWeatherIsland(currentWeather) or "N/A"), getgenv().NNVN_WeatherFarmActive and "ACTIVE" or "idle", getgenv().NNVN_AutoFarmWeatherEvent and "ON" or "OFF"))
+                        weatherStatusParagraph:SetDesc(string.format("%s Weather: %s\nIsland: %s\nRecommended: %s\nFarm session: %s\nAuto Farm: %s", weatherLookup3[matchedDetail or "clear"] or "🔴", tostring(currentWeather), tostring(getCurrentIslandName and getCurrentIslandName() or "?"), tostring(getRecommendedWeatherIsland(currentWeather) or "N/A"), getgenv().NhoiiiX_WeatherFarmActive and "ACTIVE" or "idle", getgenv().NhoiiiX_AutoFarmWeatherEvent and "ON" or "OFF"))
                     end
                 end)
                 task.wait(2)
             end
-            if weatherFarmLoopId == getgenv().NNVN_WeatherFarmLoopId then
+            if weatherFarmLoopId == getgenv().NhoiiiX_WeatherFarmLoopId then
                 stopWeatherFarmSession(true)
             end
         end)
     end
-    getgenv().NNVN_StartAutoFarmWeather = startAutoFarmWeatherLoop
-    getgenv().NNVN_StopWeatherFarm = function()
-        getgenv().NNVN_AutoFarmWeatherEvent = false
-        getgenv().NNVN_WeatherFarmLoopId = (getgenv().NNVN_WeatherFarmLoopId or 0) + 1
+    getgenv().NhoiiiX_StartAutoFarmWeather = startAutoFarmWeatherLoop
+    getgenv().NhoiiiX_StopWeatherFarm = function()
+        getgenv().NhoiiiX_AutoFarmWeatherEvent = false
+        getgenv().NhoiiiX_WeatherFarmLoopId = (getgenv().NhoiiiX_WeatherFarmLoopId or 0) + 1
         stopWeatherFarmSession(true)
     end
     getWeatherReportRequestFunction = function()
@@ -8704,11 +8704,11 @@ do
             maxPlayers = Players.MaxPlayers,
             ping = getWeatherReporterPing(),
             island = type(getCurrentIslandName) == "function" and getCurrentIslandName() or "Unknown",
-            source = "NNVN Hub client"
+            source = "NhoiiiX Hub client"
         }
     end
     postHeavyweightTracker = function(inputValue, secondValue, thirdValue)
-        if os.clock() < (tonumber(getgenv().NNVN_TrackerReportRetryAfter) or 0) then
+        if os.clock() < (tonumber(getgenv().NhoiiiX_TrackerReportRetryAfter) or 0) then
             return false, "Cloudflare backoff active"
         end
         local weatherReportRequestFunction = getWeatherReportRequestFunction()
@@ -8727,7 +8727,7 @@ do
             end
         end
         local formattedText2 = string.format("%s:%s:%s", weatherReportPayload.jobId, tostring(inputValue), inputValue == "weather" and normalizeWeatherReporterName(secondValue) or string.lower(tostring(secondValue or inputValue)))
-        if os.clock() - (tonumber(getgenv().NNVN_LastTrackerReportKeys[formattedText2]) or 0) < 600 then
+        if os.clock() - (tonumber(getgenv().NhoiiiX_LastTrackerReportKeys[formattedText2]) or 0) < 600 then
             return true, "Already reported"
         end
         local ok, result = pcall(weatherReportRequestFunction, {
@@ -8742,17 +8742,17 @@ do
         local parsedNum = tonumber(result.StatusCode or result.Status or result.status_code or result.statusCode) or 0
         local bodyText = tostring(result.Body or result.body or "")
         if parsedNum >= 200 and parsedNum < 300 then
-            getgenv().NNVN_LastTrackerReportKeys[formattedText2] = os.clock()
+            getgenv().NhoiiiX_LastTrackerReportKeys[formattedText2] = os.clock()
             return true, "Reported"
         end
         if parsedNum == 429 or bodyText:find("error code: 1027", 1, true) then
-            getgenv().NNVN_TrackerReportRetryAfter = os.clock() + 900
+            getgenv().NhoiiiX_TrackerReportRetryAfter = os.clock() + 900
             return false, "Cloudflare quota exceeded (1027/429)"
         end
         return false, "HTTP " .. tostring(parsedNum)
     end
     clearTrackerReportKeys = function(inputValue)
-        local lastTrackerReportKeys = getgenv().NNVN_LastTrackerReportKeys
+        local lastTrackerReportKeys = getgenv().NhoiiiX_LastTrackerReportKeys
         for entryKey in pairs(lastTrackerReportKeys) do
             if string.sub(entryKey, 1, #inputValue) == inputValue then
                 lastTrackerReportKeys[entryKey] = nil
@@ -8901,8 +8901,8 @@ do
     local blackTortoiseBloodlineLabel2 = "Black Tortoise Bloodline"
     hasTriggered2 = false
     counter6 = 0
-    getgenv().NNVN_BlackTortoiseAnnounced = false
-    getgenv().NNVN_BlackTortoiseAnnouncementUntil = 0
+    getgenv().NhoiiiX_BlackTortoiseAnnounced = false
+    getgenv().NhoiiiX_BlackTortoiseAnnouncementUntil = 0
     local function resolveLower(inputValue)
         return string.lower(tostring(inputValue or "")) == string.lower(blackTortoiseBloodlineLabel2)
     end
@@ -8977,34 +8977,34 @@ do
         if not lower3 and (not isMatched or not formattedText:find("appeared", 1, true) and not formattedText:find("spawn", 1, true) and not formattedText:find("hurry", 1, true)) then
             return
         end
-        if getgenv().NNVN_BlackTortoiseAnnounced then
+        if getgenv().NhoiiiX_BlackTortoiseAnnounced then
             return
         end
         local lower2 = resolveLower2(inputValue)
         if lower2 == "Unknown" and lower3 then
             lower2 = "Random Isle 1-13 (Chu Tianjiao signal)"
         end
-        getgenv().NNVN_BlackTortoiseAnnounced = true
-        getgenv().NNVN_BlackTortoiseAnnouncementUntil = os.clock() + 600
-        getgenv().NNVN_BlackTortoiseAnnouncedIsland = lower2
-        getgenv().NNVN_BlackTortoiseAnnouncementText = tostring(inputValue)
-        local blackTortoiseTrackerStatus = getgenv().NNVN_BlackTortoiseTrackerStatus
+        getgenv().NhoiiiX_BlackTortoiseAnnounced = true
+        getgenv().NhoiiiX_BlackTortoiseAnnouncementUntil = os.clock() + 600
+        getgenv().NhoiiiX_BlackTortoiseAnnouncedIsland = lower2
+        getgenv().NhoiiiX_BlackTortoiseAnnouncementText = tostring(inputValue)
+        local blackTortoiseTrackerStatus = getgenv().NhoiiiX_BlackTortoiseTrackerStatus
         if blackTortoiseTrackerStatus and blackTortoiseTrackerStatus.SetDesc then
             blackTortoiseTrackerStatus:SetDesc("Announced | " .. lower2 .. " | waiting for boss")
         end
-        if getgenv().NNVN_Notify then
+        if getgenv().NhoiiiX_Notify then
             item:Notify({
                 Title = blackTortoiseBloodlineLabel2,
                 Content = "Announced at " .. lower2,
                 Duration = 6
             })
         end
-        local onBlackTortoiseAnnounced = getgenv().NNVN_OnBlackTortoiseAnnounced
+        local onBlackTortoiseAnnounced = getgenv().NhoiiiX_OnBlackTortoiseAnnounced
         if type(onBlackTortoiseAnnounced) == "function" then
             task.defer(onBlackTortoiseAnnounced, lower2, secondValue, tostring(inputValue))
         end
     end
-    getgenv().NNVN_ReportBlackTortoiseAnnouncement = resolveLower4
+    getgenv().NhoiiiX_ReportBlackTortoiseAnnouncement = resolveLower4
     resolveClock = function(instance, secondValue)
         local nowTime = os.clock()
         if instance then
@@ -9015,8 +9015,8 @@ do
                     defaultStatus = tostring(result)
                 end
             end
-            if defaultStatus == "Unknown" and getgenv().NNVN_BlackTortoiseAnnounced then
-                local blackTortoiseAnnouncedIsland = tostring(getgenv().NNVN_BlackTortoiseAnnouncedIsland or "Unknown")
+            if defaultStatus == "Unknown" and getgenv().NhoiiiX_BlackTortoiseAnnounced then
+                local blackTortoiseAnnouncedIsland = tostring(getgenv().NhoiiiX_BlackTortoiseAnnouncedIsland or "Unknown")
                 if blackTortoiseAnnouncedIsland ~= "" and blackTortoiseAnnouncedIsland ~= "Unknown" then
                     defaultStatus = blackTortoiseAnnouncedIsland
                 end
@@ -9027,41 +9027,41 @@ do
                     defaultStatus = tostring(result2)
                 end
             end
-            getgenv().NNVN_BlackTortoisePresent = true
-            getgenv().NNVN_BlackTortoiseSource = secondValue
-            getgenv().NNVN_BlackTortoiseIsland = defaultStatus
-            getgenv().NNVN_BlackTortoiseInstance = instance
+            getgenv().NhoiiiX_BlackTortoisePresent = true
+            getgenv().NhoiiiX_BlackTortoiseSource = secondValue
+            getgenv().NhoiiiX_BlackTortoiseIsland = defaultStatus
+            getgenv().NhoiiiX_BlackTortoiseInstance = instance
             if not hasTriggered2 then
                 hasTriggered2 = true
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = blackTortoiseBloodlineLabel2,
                         Content = (secondValue == "Fishes" and "Fishing encounter detected" or "World boss visible") .. " | " .. defaultStatus,
                         Duration = 5
                     })
                 end
-                local onBlackTortoiseSpawn = getgenv().NNVN_OnBlackTortoiseSpawn
+                local onBlackTortoiseSpawn = getgenv().NhoiiiX_OnBlackTortoiseSpawn
                 if type(onBlackTortoiseSpawn) == "function" then
                     task.defer(onBlackTortoiseSpawn, instance, secondValue, defaultStatus)
                 end
             end
-            local blackTortoiseTrackerStatus = getgenv().NNVN_BlackTortoiseTrackerStatus
+            local blackTortoiseTrackerStatus = getgenv().NhoiiiX_BlackTortoiseTrackerStatus
             if blackTortoiseTrackerStatus and blackTortoiseTrackerStatus.SetDesc then
                 blackTortoiseTrackerStatus:SetDesc((secondValue == "Fishes" and "Encounter" or "Visible boss") .. " | " .. defaultStatus)
             end
         else
             hasTriggered2 = false
-            getgenv().NNVN_BlackTortoisePresent = false
-            getgenv().NNVN_BlackTortoiseSource = nil
-            getgenv().NNVN_BlackTortoiseIsland = nil
-            getgenv().NNVN_BlackTortoiseInstance = nil
-            if (getgenv().NNVN_BlackTortoiseAnnouncementUntil or 0) <= os.clock() then
-                getgenv().NNVN_BlackTortoiseAnnounced = false
+            getgenv().NhoiiiX_BlackTortoisePresent = false
+            getgenv().NhoiiiX_BlackTortoiseSource = nil
+            getgenv().NhoiiiX_BlackTortoiseIsland = nil
+            getgenv().NhoiiiX_BlackTortoiseInstance = nil
+            if (getgenv().NhoiiiX_BlackTortoiseAnnouncementUntil or 0) <= os.clock() then
+                getgenv().NhoiiiX_BlackTortoiseAnnounced = false
             end
-            local blackTortoiseTrackerStatus2 = getgenv().NNVN_BlackTortoiseTrackerStatus
+            local blackTortoiseTrackerStatus2 = getgenv().NhoiiiX_BlackTortoiseTrackerStatus
             if blackTortoiseTrackerStatus2 and blackTortoiseTrackerStatus2.SetDesc then
-                if getgenv().NNVN_BlackTortoiseAnnounced then
-                    blackTortoiseTrackerStatus2:SetDesc("Announced | " .. tostring(getgenv().NNVN_BlackTortoiseAnnouncedIsland or "Unknown") .. " | waiting for boss")
+                if getgenv().NhoiiiX_BlackTortoiseAnnounced then
+                    blackTortoiseTrackerStatus2:SetDesc("Announced | " .. tostring(getgenv().NhoiiiX_BlackTortoiseAnnouncedIsland or "Unknown") .. " | waiting for boss")
                 else
                     blackTortoiseTrackerStatus2:SetDesc("Not detected in this server")
                 end
@@ -9074,16 +9074,16 @@ do
         resolveClock(primaryValue, secondaryValue)
         return primaryValue ~= nil, primaryValue, secondaryValue
     end
-    getgenv().NNVN_CheckBlackTortoise = executeAction3
-    getgenv()._NNVN_BlackTortoiseTrackerGeneration = (getgenv()._NNVN_BlackTortoiseTrackerGeneration or 0) + 1
-    blackTortoiseTrackerGeneration = getgenv()._NNVN_BlackTortoiseTrackerGeneration
-    for _, item27 in ipairs(getgenv()._NNVN_BlackTortoiseTrackerConnections or {}) do
+    getgenv().NhoiiiX_CheckBlackTortoise = executeAction3
+    getgenv()._NhoiiiX_BlackTortoiseTrackerGeneration = (getgenv()._NhoiiiX_BlackTortoiseTrackerGeneration or 0) + 1
+    blackTortoiseTrackerGeneration = getgenv()._NhoiiiX_BlackTortoiseTrackerGeneration
+    for _, item27 in ipairs(getgenv()._NhoiiiX_BlackTortoiseTrackerConnections or {}) do
         pcall(function()
             item27:Disconnect()
         end)
     end
     local stateMap7 = {}
-    getgenv()._NNVN_BlackTortoiseTrackerConnections = stateMap7
+    getgenv()._NhoiiiX_BlackTortoiseTrackerConnections = stateMap7
     setmetatableResult = setmetatable({}, { __mode = "k" })
     local function resolveDescendantAdded(inputValue)
         if not inputValue or setmetatableResult[inputValue] then
@@ -9138,10 +9138,10 @@ local resolveInsert
 do
     task.spawn(function()
         executeAction3()
-        while getgenv().NNVN_Loaded ~= true do
+        while getgenv().NhoiiiX_Loaded ~= true do
             task.wait(0.5)
         end
-        while getgenv().NNVN_Loaded == true and blackTortoiseTrackerGeneration == getgenv()._NNVN_BlackTortoiseTrackerGeneration do
+        while getgenv().NhoiiiX_Loaded == true and blackTortoiseTrackerGeneration == getgenv()._NhoiiiX_BlackTortoiseTrackerGeneration do
             task.wait(12)
             if os.clock() - counter6 >= 10 then
                 executeAction3()
@@ -9217,7 +9217,7 @@ do
         }
     end
     whOnCooldown = function(inputValue)
-        local parsedNum = tonumber(getgenv().NNVN_WebhookCooldown) or 300
+        local parsedNum = tonumber(getgenv().NhoiiiX_WebhookCooldown) or 300
         if not stateMap9[inputValue] then
             return false
         end
@@ -9263,23 +9263,23 @@ do
         return false, { primary = item, backup = item2 }
     end
     whIsPremium = function()
-        return rawget(_G, "NNVN_IsPremium") == true or getgenv().NNVN_IsPremiumAccess == true or getgenv().NNVN_IsPremium == true
+        return rawget(_G, "NhoiiiX_IsPremium") == true or getgenv().NhoiiiX_IsPremiumAccess == true or getgenv().NhoiiiX_IsPremium == true
     end
     whSend = function(text, secondValue, thirdValue)
         secondValue = secondValue or {}
         thirdValue = thirdValue or secondValue.force
         local weatherMap3 = weatherMap and weatherMap[text] == true
-        if not weatherMap3 and getgenv().NNVN_WebhookEnabled == false and not thirdValue then
+        if not weatherMap3 and getgenv().NhoiiiX_WebhookEnabled == false and not thirdValue then
             return
         end
         if not thirdValue and whOnCooldown(text) then
             return
         end
-        local globalEnvEntry = getgenv()["NNVN_Webhook" .. text:gsub("^%l", string.upper) .. "Url"]
-        local globalEnvEntry2 = getgenv()["NNVN_Webhook" .. text:gsub("^%l", string.upper) .. "UrlBackup"]
-        local urlsEntry = weatherMap[text] and (NNVN_SYSTEM_WEBHOOK_URLS[text] or NNVN_SYSTEM_WEBHOOK_URLS[text:gsub("^%l", string.upper)])
-        local urlsEntry2 = NNVN_BACKUP_WEBHOOK_URLS[text] or NNVN_BACKUP_WEBHOOK_URLS[text:gsub("^%l", string.upper)]
-        local urlsEntry3 = weatherMap3 and (urlsEntry or globalEnvEntry) or secondValue.url or globalEnvEntry or getgenv().NNVN_WebhookUrl
+        local globalEnvEntry = getgenv()["NhoiiiX_Webhook" .. text:gsub("^%l", string.upper) .. "Url"]
+        local globalEnvEntry2 = getgenv()["NhoiiiX_Webhook" .. text:gsub("^%l", string.upper) .. "UrlBackup"]
+        local urlsEntry = weatherMap[text] and (NhoiiiX_SYSTEM_WEBHOOK_URLS[text] or NhoiiiX_SYSTEM_WEBHOOK_URLS[text:gsub("^%l", string.upper)])
+        local urlsEntry2 = NhoiiiX_BACKUP_WEBHOOK_URLS[text] or NhoiiiX_BACKUP_WEBHOOK_URLS[text:gsub("^%l", string.upper)]
+        local urlsEntry3 = weatherMap3 and (urlsEntry or globalEnvEntry) or secondValue.url or globalEnvEntry or getgenv().NhoiiiX_WebhookUrl
         local urlsEntry22 = weatherMap3 and (urlsEntry2 or globalEnvEntry2) or secondValue.backupUrl or globalEnvEntry2
         if not urlsEntry3 or urlsEntry3 == "" then
             return
@@ -9348,11 +9348,11 @@ do
             inline = false
         })
         table.insert(stateMap, { name = "How to use", value = "`Tab Teleport → Job ID`", inline = false })
-        local nnvnHubTrackerPremiumLabel = whIsPremiumResult and "NNVN Hub Tracker ⭐ PREMIUM" or "NNVN Hub Tracker"
-        local nnvnHubPremiumByLabel = whIsPremiumResult and "NNVN Hub Premium • By N0NAMEVN" or "NNVN Hub • By N0NAMEVN"
+        local nnvnHubTrackerPremiumLabel = whIsPremiumResult and "NhoiiiX Hub Tracker ⭐ PREMIUM" or "NhoiiiX Hub Tracker"
+        local nnvnHubPremiumByLabel = whIsPremiumResult and "NhoiiiX Hub Premium • By N0NAMEVN" or "NhoiiiX Hub • By N0NAMEVN"
         local description = secondValue.description or ""
         if whIsPremiumResult then
-            description = description .. "\n\n⭐ *Reported by a Premium NNVN Hub client — priority signal.*"
+            description = description .. "\n\n⭐ *Reported by a Premium NhoiiiX Hub client — priority signal.*"
         end
         local whHttpPostWith = whHttpPostWithFallback(urlsEntry3, urlsEntry22, {
             username = nnvnHubTrackerPremiumLabel,
@@ -9373,7 +9373,7 @@ do
         end
         return whHttpPostWith
     end
-    getgenv().NNVN_OnBlackTortoiseAnnounced = function(inputValue, secondValue, thirdValue)
+    getgenv().NhoiiiX_OnBlackTortoiseAnnounced = function(inputValue, secondValue, thirdValue)
         postHeavyweightTracker("blacktortoise", "Black Tortoise Bloodline Announced", {
             island = inputValue,
             source = secondValue or "NPC",
@@ -9399,7 +9399,7 @@ do
             }
         }, true)
     end
-    getgenv().NNVN_OnBlackTortoiseSpawn = function(inputValue, secondValue, thirdValue)
+    getgenv().NhoiiiX_OnBlackTortoiseSpawn = function(inputValue, secondValue, thirdValue)
         maoshanMap.blacktortoise = true
         local isMatched = secondValue == "Fishes"
         postHeavyweightTracker("blacktortoise", "Black Tortoise Bloodline", { island = thirdValue, source = secondValue or "WorldBoss", live = true })
@@ -9419,25 +9419,25 @@ do
         }, true)
     end
     startServerAgeTracker = function()
-        if getgenv()._NNVN_ServerAgeTrackerStarted then
+        if getgenv()._NhoiiiX_ServerAgeTrackerStarted then
             return
         end
-        getgenv()._NNVN_ServerAgeTrackerStarted = true
-        getgenv().NNVN_ServerAgeSignals = getgenv().NNVN_ServerAgeSignals or {}
+        getgenv()._NhoiiiX_ServerAgeTrackerStarted = true
+        getgenv().NhoiiiX_ServerAgeSignals = getgenv().NhoiiiX_ServerAgeSignals or {}
         task.spawn(function()
-            while getgenv()._NNVN_ServerAgeTrackerStarted do
-                local serverUptimeSeconds = NNVN_GetServerUptimeSeconds()
+            while getgenv()._NhoiiiX_ServerAgeTrackerStarted do
+                local serverUptimeSeconds = NhoiiiX_GetServerUptimeSeconds()
                 local floorResult = serverUptimeSeconds and math.floor(serverUptimeSeconds / 10800) or 0
                 if serverUptimeSeconds and floorResult >= 1 then
                     local combinedText = tostring(game.JobId) .. ":" .. tostring(floorResult)
-                    if not getgenv().NNVN_ServerAgeSignals[combinedText] and whSend("serverage", {
+                    if not getgenv().NhoiiiX_ServerAgeSignals[combinedText] and whSend("serverage", {
                         eventEmoji = "⏱️",
                         title = "Long-Running Server Alert",
-                        description = "This server has reached the **" .. NNVN_FormatServerTime(serverUptimeSeconds) .. "** runtime milestone.",
+                        description = "This server has reached the **" .. NhoiiiX_FormatServerTime(serverUptimeSeconds) .. "** runtime milestone.",
                         extraFields = {
                             {
                                 name = "🕒 Server Uptime",
-                                value = "**" .. NNVN_FormatServerTime(serverUptimeSeconds) .. "**",
+                                value = "**" .. NhoiiiX_FormatServerTime(serverUptimeSeconds) .. "**",
                                 inline = true
                             },
                             {
@@ -9447,7 +9447,7 @@ do
                             }
                         }
                     }, true) then
-                        getgenv().NNVN_ServerAgeSignals[combinedText] = true
+                        getgenv().NhoiiiX_ServerAgeSignals[combinedText] = true
                     end
                 end
                 task.wait(10)
@@ -9455,18 +9455,18 @@ do
         end)
     end
     whStartAll = function()
-        if getgenv()._NNVN_DiscordWebhookStarted then
+        if getgenv()._NhoiiiX_DiscordWebhookStarted then
             return
         end
-        getgenv()._NNVN_DiscordWebhookStarted = true
+        getgenv()._NhoiiiX_DiscordWebhookStarted = true
         task.spawn(function()
             while true do
-                task.wait(math.max(5, tonumber(getgenv().NNVN_WebhookScanInterval) or 12))
+                task.wait(math.max(5, tonumber(getgenv().NhoiiiX_WebhookScanInterval) or 12))
                 local ok, result = pcall(getCurrentWeather)
                 if ok and result then
                     local weatherReporterName = normalizeWeatherReporterName(result)
                     local weatherLookup4Entry = weatherLookup4[weatherReporterName]
-                    if (weatherMap.weather or getgenv().NNVN_WebhookWeather) and weatherLookup4Entry and weatherReporterName ~= item28 then
+                    if (weatherMap.weather or getgenv().NhoiiiX_WebhookWeather) and weatherLookup4Entry and weatherReporterName ~= item28 then
                         item28 = weatherReporterName
                         whSend("weather", {
                             eventEmoji = weatherLookup4Entry.emoji,
@@ -9487,7 +9487,7 @@ do
                 local ok2, result2 = pcall(function()
                     return findTrackerObject("maoshan") ~= nil
                 end)
-                if (weatherMap.maoshan or getgenv().NNVN_WebhookMaoshan) and ok2 and result2 then
+                if (weatherMap.maoshan or getgenv().NhoiiiX_WebhookMaoshan) and ok2 and result2 then
                     if not maoshanMap.maoshan then
                         maoshanMap.maoshan = true
                         whSend("maoshan", {
@@ -9508,7 +9508,7 @@ do
                 end
                 local ok3, result3 = pcall(getGodSpiritCount)
                 result3 = tonumber(result3) or 0
-                if (weatherMap.spirit or getgenv().NNVN_WebhookSpirit) and ok3 and result3 > 0 then
+                if (weatherMap.spirit or getgenv().NhoiiiX_WebhookSpirit) and ok3 and result3 > 0 then
                     if not maoshanMap.spirit then
                         maoshanMap.spirit = true
                         local primaryValue, secondaryValue = resolveFindFirstChild4()
@@ -9533,7 +9533,7 @@ do
                 local ok4, result4 = pcall(function()
                     return findTrackerObject("taoist") ~= nil
                 end)
-                if (weatherMap.taoist or getgenv().NNVN_WebhookTaoist) and ok4 and result4 then
+                if (weatherMap.taoist or getgenv().NhoiiiX_WebhookTaoist) and ok4 and result4 then
                     if not maoshanMap.taoist then
                         maoshanMap.taoist = true
                         whSend("taoist", {
@@ -9557,7 +9557,7 @@ do
     end
     local vermilionBirdbloodLabel = "Vermilion Birdblood"
     local hasTriggered3 = false
-    getgenv().NNVN_VermilionAnnouncementSent = false
+    getgenv().NhoiiiX_VermilionAnnouncementSent = false
     local stateMap10 = {}
     local function resolveLower5(inputValue)
         local formattedText = string.lower(tostring(inputValue or ""))
@@ -9649,20 +9649,20 @@ do
         end
         islandForTarget = islandForTarget or "Unknown"
         hasTriggered3 = true
-        getgenv().NNVN_VermilionInstance = inputValue
+        getgenv().NhoiiiX_VermilionInstance = inputValue
         maoshanMap.vermilion = true
-        local vermilionBossStatus = getgenv().NNVN_VermilionBossStatus
+        local vermilionBossStatus = getgenv().NhoiiiX_VermilionBossStatus
         if vermilionBossStatus and vermilionBossStatus.SetDesc then
             vermilionBossStatus:SetDesc("Detected | " .. tostring(secondValue or "WorldBoss"))
         end
-        if getgenv().NNVN_NotifyVermilionSpawn and getgenv().NNVN_Notify then
+        if getgenv().NhoiiiX_NotifyVermilionSpawn and getgenv().NhoiiiX_Notify then
             item:Notify({
                 Title = "Vermilion Birdblood",
                 Content = "Boss detected in this server.",
                 Duration = 5
             })
         end
-        if getgenv().NNVN_ESP and getgenv().NNVN_ESP.Vermilion and type(applyESP_Vermilion) == "function" then
+        if getgenv().NhoiiiX_ESP and getgenv().NhoiiiX_ESP.Vermilion and type(applyESP_Vermilion) == "function" then
             task.defer(function()
                 pcall(applyESP_Vermilion)
             end)
@@ -9697,11 +9697,11 @@ do
         }, true)
     end
     local function resolveClock2(inputValue)
-        if getgenv().NNVN_VermilionAnnouncementSent or hasTriggered3 then
+        if getgenv().NhoiiiX_VermilionAnnouncementSent or hasTriggered3 then
             return
         end
-        getgenv().NNVN_VermilionAnnouncementSent = true
-        getgenv().NNVN_VermilionAnnouncementUntil = os.clock() + 600
+        getgenv().NhoiiiX_VermilionAnnouncementSent = true
+        getgenv().NhoiiiX_VermilionAnnouncementUntil = os.clock() + 600
         local lower6 = resolveLower6(inputValue) or "Random Isle 1-13 (pending WorldBoss)"
         postHeavyweightTracker("vermilion", "Vermilion Birdblood Announced", {
             island = lower6,
@@ -9725,10 +9725,10 @@ do
         }, true)
     end
     resolveInsert = function()
-        if getgenv()._NNVN_VermilionTrackerStarted then
+        if getgenv()._NhoiiiX_VermilionTrackerStarted then
             return
         end
-        getgenv()._NNVN_VermilionTrackerStarted = true
+        getgenv()._NhoiiiX_VermilionTrackerStarted = true
         table.insert(stateMap10, Workspace.DescendantAdded:Connect(function(instance)
             if instance and resolveLower5(instance.Name) then
                 task.defer(resolveUnknown2, instance, "WorldBoss", nil)
@@ -9779,10 +9779,10 @@ do
                 return not (dialogue and dialogue.Visible == true) and not (fishing and fishing.Visible == true) and humanoid and humanoid.Health > 0 and humanoid.SeatPart == nil
             end
             local function resolveHuge(inputValue)
-                getgenv().NNVN_ChuTianjiaoLastResponse = tostring(inputValue or "")
-                getgenv().NNVN_ChuTianjiaoNextCheckAt = math.huge
-                getgenv().NNVN_ChuTianjiaoNextCheckDelay = 0
-                getgenv().NNVN_ChuTianjiaoNextCheckReason = "One-time startup check completed"
+                getgenv().NhoiiiX_ChuTianjiaoLastResponse = tostring(inputValue or "")
+                getgenv().NhoiiiX_ChuTianjiaoNextCheckAt = math.huge
+                getgenv().NhoiiiX_ChuTianjiaoNextCheckDelay = 0
+                getgenv().NhoiiiX_ChuTianjiaoNextCheckReason = "One-time startup check completed"
             end
             local function teleportCharacter(inputValue)
                 local character = LocalPlayer.Character
@@ -9795,8 +9795,8 @@ do
                 local cFrame = rootPart.CFrame
                 local assemblyLinearVelocity = rootPart.AssemblyLinearVelocity
                 local assemblyAngularVelocity = rootPart.AssemblyAngularVelocity
-                if type(NNVN_StopTween) == "function" then
-                    pcall(NNVN_StopTween)
+                if type(NhoiiiX_StopTween) == "function" then
+                    pcall(NhoiiiX_StopTween)
                 end
                 local currentCamera = Workspace.CurrentCamera
                 local cameraType = currentCamera and currentCamera.CameraType
@@ -9866,7 +9866,7 @@ do
                         currentCamera.CameraType = Enum.CameraType.Scriptable
                         currentCamera.CFrame = cFrame2
                     end
-                    NNVN_TweenTo(rootPart2.CFrame * CFrame.new(0, 0, -5))
+                    NhoiiiX_TweenTo(rootPart2.CFrame * CFrame.new(0, 0, -5))
                     rootPart.AssemblyLinearVelocity = Vector3.zero
                     rootPart.AssemblyAngularVelocity = Vector3.zero
                     RunService.Heartbeat:Wait()
@@ -9882,7 +9882,7 @@ do
                     until computedValue <= nowTime
                     resolveFindFirstChild()
                 end)
-                NNVN_TweenTo(cFrame)
+                NhoiiiX_TweenTo(cFrame)
                 rootPart.AssemblyLinearVelocity = assemblyLinearVelocity
                 rootPart.AssemblyAngularVelocity = assemblyAngularVelocity
                 if connection then
@@ -9914,7 +9914,7 @@ do
                 end)
                 if item2 ~= nil then
                     resolveHuge(item2)
-                    local reportBlackTortoiseAnnouncement = getgenv().NNVN_ReportBlackTortoiseAnnouncement
+                    local reportBlackTortoiseAnnouncement = getgenv().NhoiiiX_ReportBlackTortoiseAnnouncement
                     if type(reportBlackTortoiseAnnouncement) == "function" then
                         reportBlackTortoiseAnnouncement(item2, "NPC", item3)
                     end
@@ -9925,25 +9925,25 @@ do
                     resolveHuge(nil)
                 end
                 if not ok then
-                    getgenv().NNVN_ChuTianjiaoPollError = tostring(result)
+                    getgenv().NhoiiiX_ChuTianjiaoPollError = tostring(result)
                 end
             end
             task.wait(30)
-            if not getgenv()._NNVN_VermilionTrackerStarted then
+            if not getgenv()._NhoiiiX_VermilionTrackerStarted then
                 return
             end
             if whIsPremium() then
-                getgenv().NNVN_ChuTianjiaoNextCheckAt = math.huge
-                getgenv().NNVN_ChuTianjiaoNextCheckReason = "Premium auto NPC check disabled"
+                getgenv().NhoiiiX_ChuTianjiaoNextCheckAt = math.huge
+                getgenv().NhoiiiX_ChuTianjiaoNextCheckReason = "Premium auto NPC check disabled"
                 return
             end
-            getgenv().NNVN_ChuTianjiaoNextCheckAt = math.huge
+            getgenv().NhoiiiX_ChuTianjiaoNextCheckAt = math.huge
             local checkAttributeResult = checkAttribute()
             if checkAttributeResult and checkAttributeResult.Enabled and type(fireproximityprompt) == "function" then
-                getgenv().NNVN_ChuTianjiaoNextCheckReason = "One-time startup check running"
+                getgenv().NhoiiiX_ChuTianjiaoNextCheckReason = "One-time startup check running"
                 teleportCharacter(checkAttributeResult)
             else
-                getgenv().NNVN_ChuTianjiaoNextCheckReason = "One-time startup check failed: prompt unavailable"
+                getgenv().NhoiiiX_ChuTianjiaoNextCheckReason = "One-time startup check failed: prompt unavailable"
             end
         end)
         local setmetatableResult = setmetatable({}, { __mode = "k" })
@@ -9952,7 +9952,7 @@ do
                 return
             end
             local parent3 = resolveParent3(instance)
-            local reportBlackTortoiseAnnouncement = getgenv().NNVN_ReportBlackTortoiseAnnouncement
+            local reportBlackTortoiseAnnouncement = getgenv().NhoiiiX_ReportBlackTortoiseAnnouncement
             if type(reportBlackTortoiseAnnouncement) == "function" then
                 reportBlackTortoiseAnnouncement(parent3, "NPC")
             end
@@ -9986,19 +9986,19 @@ do
             table.insert(stateMap10, playerGui.DescendantAdded:Connect(resolveIsA2))
         end)
         task.spawn(function()
-            while getgenv()._NNVN_VermilionTrackerStarted do
+            while getgenv()._NhoiiiX_VermilionTrackerStarted do
                 local findFirstChild6 = resolveFindFirstChild6()
                 if findFirstChild6 then
                     resolveUnknown2(findFirstChild6, "WorldBoss", nil)
                 else
                     hasTriggered3 = false
-                    getgenv().NNVN_VermilionInstance = nil
-                    local vermilionBossStatus = getgenv().NNVN_VermilionBossStatus
+                    getgenv().NhoiiiX_VermilionInstance = nil
+                    local vermilionBossStatus = getgenv().NhoiiiX_VermilionBossStatus
                     if vermilionBossStatus and vermilionBossStatus.SetDesc then
                         vermilionBossStatus:SetDesc("Not detected in this server")
                     end
-                    if (tonumber(getgenv().NNVN_VermilionAnnouncementUntil) or 0) <= os.clock() then
-                        getgenv().NNVN_VermilionAnnouncementSent = false
+                    if (tonumber(getgenv().NhoiiiX_VermilionAnnouncementUntil) or 0) <= os.clock() then
+                        getgenv().NhoiiiX_VermilionAnnouncementSent = false
                         maoshanMap.vermilion = false
                     end
                 end
@@ -10006,8 +10006,8 @@ do
             end
         end)
     end
-    getgenv().NNVN_SendDiscordWebhook = whSend
-    getgenv().NNVN_StartDiscordWebhooks = whStartAll
+    getgenv().NhoiiiX_SendDiscordWebhook = whSend
+    getgenv().NhoiiiX_StartDiscordWebhooks = whStartAll
     stateMap8.Send = whSend
     stateMap8.Start = whStartAll
     local function resolveMatch(inputValue)
@@ -10021,20 +10021,20 @@ do
         local data = ReplicatedStorage:FindFirstChild("Data")
         local playerData = data and data:FindFirstChild(tostring(LocalPlayer.UserId))
         local inventory = playerData and playerData:FindFirstChild("Inventory")
-        if not inventory or inventory:GetAttribute("NNVN_WebhookWatching") then
+        if not inventory or inventory:GetAttribute("NhoiiiX_WebhookWatching") then
             return
         end
-        inventory:SetAttribute("NNVN_WebhookWatching", true)
+        inventory:SetAttribute("NhoiiiX_WebhookWatching", true)
         inventory.ChildAdded:Connect(function(child)
             task.delay(0.35, function()
-                if not child or child:GetAttribute("NNVN_VirtualDupe") == true then
+                if not child or child:GetAttribute("NhoiiiX_VirtualDupe") == true then
                     return
                 end
-                if not getgenv().NNVN_WebhookEnabled or not child.Parent then
+                if not getgenv().NhoiiiX_WebhookEnabled or not child.Parent then
                     return
                 end
                 local primaryValue, secondaryValue = resolveMatch(child.Name)
-                if (secondaryValue ~= "secret_boss" or not getgenv().NNVN_WebhookCatchSecretBoss) and (secondaryValue ~= "boss" or not getgenv().NNVN_WebhookCatchBoss) and (secondaryValue ~= "fish" or not getgenv().NNVN_WebhookCatchFish) then
+                if (secondaryValue ~= "secret_boss" or not getgenv().NhoiiiX_WebhookCatchSecretBoss) and (secondaryValue ~= "boss" or not getgenv().NhoiiiX_WebhookCatchBoss) and (secondaryValue ~= "fish" or not getgenv().NhoiiiX_WebhookCatchFish) then
                     return
                 end
                 whSend("catch:" .. secondaryValue .. ":" .. string.lower(primaryValue), {
@@ -10057,7 +10057,7 @@ do
                 local data = ReplicatedStorage:FindFirstChild("Data")
                 local playerData = data and data:FindFirstChild(tostring(LocalPlayer.UserId))
                 local inventory = playerData and playerData:FindFirstChild("Inventory")
-                if inventory and inventory:GetAttribute("NNVN_WebhookWatching") then
+                if inventory and inventory:GetAttribute("NhoiiiX_WebhookWatching") then
                     return
                 end
                 task.wait(3)
@@ -10067,7 +10067,7 @@ do
     task.spawn(function()
         local item
         while task.wait(30) do
-            if not getgenv().NNVN_LegacyNetworkTracker then
+            if not getgenv().NhoiiiX_LegacyNetworkTracker then
             else
                 local currentWeather = getCurrentWeather()
                 local weatherReporterName = normalizeWeatherReporterName(currentWeather)
@@ -10179,7 +10179,7 @@ do
             return premiumRelayMenuState.gui
         end
         local screenGui = Instance.new("ScreenGui")
-        screenGui.Name = "NNVN_PremiumRelayMenu"
+        screenGui.Name = "NhoiiiX_PremiumRelayMenu"
         screenGui.ResetOnSpawn = false
         screenGui.IgnoreGuiInset = true
         screenGui.DisplayOrder = 9998
@@ -10205,7 +10205,7 @@ do
         textLabel.TextSize = 18
         textLabel.TextXAlignment = Enum.TextXAlignment.Left
         textLabel.TextColor3 = Color3.fromRGB(32, 38, 46)
-        textLabel.Text = "NNVN Premium Relay"
+        textLabel.Text = "NhoiiiX Premium Relay"
         textLabel.Parent = frame
         local textButton = Instance.new("TextButton")
         textButton.Name = "Close"
@@ -10219,7 +10219,7 @@ do
         textButton.Parent = frame
         Instance.new("UICorner", textButton).CornerRadius = UDim.new(0, 10)
         textButton.MouseButton1Click:Connect(function()
-            getgenv().NNVN_ShowPremiumRelayMenu = false
+            getgenv().NhoiiiX_ShowPremiumRelayMenu = false
             screenGui.Enabled = false
         end)
         local textLabel2 = Instance.new("TextLabel")
@@ -10305,7 +10305,7 @@ do
     end
     updatePremiumRelayMenu = function()
         local ensurePremiumRelayMenu2 = ensurePremiumRelayMenu()
-        local refreshPremiumAccessResult = getgenv().NNVN_ShowPremiumRelayMenu == true and refreshPremiumAccess()
+        local refreshPremiumAccessResult = getgenv().NhoiiiX_ShowPremiumRelayMenu == true and refreshPremiumAccess()
         ensurePremiumRelayMenu2.Enabled = refreshPremiumAccessResult
         if not refreshPremiumAccessResult then
             return
@@ -10322,7 +10322,7 @@ do
                 lookupMap[#lookupMap + 1] = "Job ID: " .. tostring(premiumSignalBoardCache2.jobId)
                 lookupMap[#lookupMap + 1] = string.format("%s | %s/%s", tostring(premiumSignalBoardCache2.island or "Unknown"), tostring(premiumSignalBoardCache2.players or "?"), tostring(premiumSignalBoardCache2.maxPlayers or "?"))
                 if item == "weather" then
-                    lookupMap[#lookupMap + 1] = "Weather: " .. tostring(premiumSignalBoardCache2.weather or getgenv().NNVN_PremiumSelectedWeather)
+                    lookupMap[#lookupMap + 1] = "Weather: " .. tostring(premiumSignalBoardCache2.weather or getgenv().NhoiiiX_PremiumSelectedWeather)
                 elseif item == "spirit" then
                     lookupMap[#lookupMap + 1] = "Spirit: " .. tostring(premiumSignalBoardCache2.count or 1)
                 end
@@ -10483,7 +10483,7 @@ do
         }
         if inputValue == "weather" then
             local currentWeather = getCurrentWeather()
-            if normalizeWeatherReporterName(currentWeather) ~= normalizeWeatherReporterName(getgenv().NNVN_PremiumSelectedWeather) then
+            if normalizeWeatherReporterName(currentWeather) ~= normalizeWeatherReporterName(getgenv().NhoiiiX_PremiumSelectedWeather) then
                 return nil
             end
             signalMap.weather = currentWeather
@@ -10515,17 +10515,17 @@ do
         end
         if inputValue == "blacktortoise" then
             local blackFindBossResult = type(blackFindBoss) == "function" and blackFindBoss() or nil
-            if not blackFindBossResult and not getgenv().NNVN_BlackTortoisePresent then
+            if not blackFindBossResult and not getgenv().NhoiiiX_BlackTortoisePresent then
                 return nil
             end
-            signalMap.island = tostring(getgenv().NNVN_BlackTortoiseIsland or currentIslandName)
+            signalMap.island = tostring(getgenv().NhoiiiX_BlackTortoiseIsland or currentIslandName)
             signalMap.value = "Black Tortoise Bloodline"
             signalMap.live = blackFindBossResult ~= nil
             return signalMap
         end
         if inputValue == "vermilion" then
             local findFirstChild6 = type(resolveFindFirstChild6) == "function" and resolveFindFirstChild6() or nil
-            if not findFirstChild6 and not getgenv().NNVN_VermilionInstance then
+            if not findFirstChild6 and not getgenv().NhoiiiX_VermilionInstance then
                 return nil
             end
             signalMap.value = "Vermilion Birdblood"
@@ -10577,7 +10577,7 @@ do
     end
     pickPremiumSignalEntry = function(inputValue, secondValue)
         local stateMap = {}
-        local weatherReporterName = normalizeWeatherReporterName(getgenv().NNVN_PremiumSelectedWeather)
+        local weatherReporterName = normalizeWeatherReporterName(getgenv().NhoiiiX_PremiumSelectedWeather)
         for _, item in ipairs(secondValue or {}) do
             local trackerEntry = normalizeTrackerEntry(inputValue, item)
             local isAllowed = not (trackerEntry and trackerEntry.players and trackerEntry.maxPlayers and trackerEntry.maxPlayers > 0 and trackerEntry.maxPlayers <= trackerEntry.players)
@@ -10614,7 +10614,7 @@ do
             "Status: " .. (secondValue.relayStale and "Cached report (relay retrying)" or secondValue.live and "Live spawn" or "Active report")
         }
         if inputValue == "weather" then
-            itemList[#itemList + 1] = "Weather: " .. tostring(secondValue.weather or getgenv().NNVN_PremiumSelectedWeather)
+            itemList[#itemList + 1] = "Weather: " .. tostring(secondValue.weather or getgenv().NhoiiiX_PremiumSelectedWeather)
         elseif inputValue == "spirit" then
             itemList[#itemList + 1] = "Name: " .. tostring(secondValue.value or "God Spirit")
             itemList[#itemList + 1] = "Spirit count: " .. tostring(secondValue.count or 1)
@@ -10661,7 +10661,7 @@ do
                     premiumSignalParagraph:SetDesc(buildPremiumSignalText(item, nil))
                 end
             end
-            getgenv().NNVN_ShowPremiumRelayMenu = false
+            getgenv().NhoiiiX_ShowPremiumRelayMenu = false
             pcall(updatePremiumRelayMenu)
             return
         end
@@ -10685,7 +10685,7 @@ do
             premiumTrackerStatus:SetDesc(table.concat({
                 "Current island: " .. tostring(getCurrentIslandName()),
                 "Current weather: " .. tostring(getCurrentWeather()),
-                "Target weather: " .. tostring(getgenv().NNVN_PremiumSelectedWeather),
+                "Target weather: " .. tostring(getgenv().NhoiiiX_PremiumSelectedWeather),
                 "Current job: " .. tostring(game.JobId)
             }, "\n"))
         end
@@ -10841,7 +10841,7 @@ do
         end
         local premiumSignalBoardCache2 = premiumSignalBoardCache[inputValue]
         if not premiumSignalBoardCache2 or premiumSignalBoardCache2.relayStale or not isValidRelayJobId(premiumSignalBoardCache2.jobId) then
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Premium",
                     Content = "No relay server found for " .. tostring(configEntry.title) .. ".",
@@ -10852,7 +10852,7 @@ do
             return false
         end
         if tostring(premiumSignalBoardCache2.jobId) == tostring(game.JobId) then
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Premium",
                     Content = "You are already in that server.",
@@ -10863,7 +10863,7 @@ do
             return true
         end
         if tick() - premiumJoinCooldownAt < 8 then
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Premium",
                     Content = "Join cooldown active. Wait a moment.",
@@ -10874,8 +10874,8 @@ do
             return false
         end
         premiumJoinCooldownAt = tick()
-        getgenv().NNVN_JobIdInput = tostring(premiumSignalBoardCache2.jobId)
-        if getgenv().NNVN_Notify then
+        getgenv().NhoiiiX_JobIdInput = tostring(premiumSignalBoardCache2.jobId)
+        if getgenv().NhoiiiX_Notify then
             item:Notify({
                 Title = "Premium",
                 Content = "Joining " .. tostring(configEntry.title) .. "...",
@@ -10919,16 +10919,16 @@ do
             Content = buildPremiumSignalText(inputValue, premiumSignalBoardCache[inputValue])
         })
         if inputValue == "weather" then
-            section:AddDropdown("NNVN_PremiumWeatherDropdown", {
+            section:AddDropdown("NhoiiiX_PremiumWeatherDropdown", {
                 Title = "Weather",
                 Values = PREMIUM_WEATHER_OPTIONS,
-                Default = getgenv().NNVN_PremiumSelectedWeather,
+                Default = getgenv().NhoiiiX_PremiumSelectedWeather,
                 Locked = not refreshPremiumAccess(),
                 Callback = function(enabled)
                     if not ensurePremiumAccess("Weather Tracker") then
                         return
                     end
-                    getgenv().NNVN_PremiumSelectedWeather = tostring(enabled or "Clear")
+                    getgenv().NhoiiiX_PremiumSelectedWeather = tostring(enabled or "Clear")
                     premiumSignalBoardCache.weather = nil
                     refreshPremiumSignalEntry("weather", true)
                 end
@@ -10972,10 +10972,10 @@ do
         })
         return section
     end
-    premiumWeatherSec = addPremiumTrackerSection("weather", "Weather", "cloud-sun", "NNVN_PremiumWeatherEnabled", "Auto Join Selected Weather")
-    premiumSpiritSec = addPremiumTrackerSection("spirit", "God Spirit", "sparkles", "NNVN_PremiumSpiritEnabled", "Auto Join God Spirit")
-    premiumTaoistSec = addPremiumTrackerSection("taoist", "Taoist", "user-round-search", "NNVN_PremiumTaoistEnabled", "Auto Join Taoist")
-    premiumMaoshanSec = addPremiumTrackerSection("maoshan", "Maoshan", "scan-search", "NNVN_PremiumMaoshanEnabled", "Auto Join Maoshan")
+    premiumWeatherSec = addPremiumTrackerSection("weather", "Weather", "cloud-sun", "NhoiiiX_PremiumWeatherEnabled", "Auto Join Selected Weather")
+    premiumSpiritSec = addPremiumTrackerSection("spirit", "God Spirit", "sparkles", "NhoiiiX_PremiumSpiritEnabled", "Auto Join God Spirit")
+    premiumTaoistSec = addPremiumTrackerSection("taoist", "Taoist", "user-round-search", "NhoiiiX_PremiumTaoistEnabled", "Auto Join Taoist")
+    premiumMaoshanSec = addPremiumTrackerSection("maoshan", "Maoshan", "scan-search", "NhoiiiX_PremiumMaoshanEnabled", "Auto Join Maoshan")
     premiumBlackTortoiseSec = addPremiumTrackerSection("blacktortoise", "Black Tortoise Bloodline", "shield", nil, nil)
     premiumVermilionSec = addPremiumTrackerSection("vermilion", "Vermilion Birdblood", "flame", nil, nil)
     task.defer(function()
@@ -10984,19 +10984,19 @@ do
     end)
     matCo = nil
     materialCurrentTarget = nil
-    matSec:AddToggle("NNVN_MaterialFarming", {
+    matSec:AddToggle("NhoiiiX_MaterialFarming", {
         Title = "Auto Farm Materials",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_MaterialFarming = enabled
+            getgenv().NhoiiiX_MaterialFarming = enabled
             if enabled then
-                getgenv().NNVN_MaterialRodFarming = false
+                getgenv().NhoiiiX_MaterialRodFarming = false
                 if matCo then
                     coroutine.close(matCo)
                     matCo = nil
                 end
                 matCo = coroutine.create(function()
-                    while getgenv().NNVN_MaterialFarming do
+                    while getgenv().NhoiiiX_MaterialFarming do
                         pcall(function()
                             if selectedMatBait == "Nameless Bait" then
                                 local character = LocalPlayer.Character
@@ -11006,7 +11006,7 @@ do
                                         matCancelFishing()
                                         task.wait(0.1)
                                     end
-                                    NNVN_TweenTo(NAMELESS_BAIT_FARM_CFRAME)
+                                    NhoiiiX_TweenTo(NAMELESS_BAIT_FARM_CFRAME)
                                 end
                                 matEnableFishing()
                                 materialCurrentTarget = "Nameless Bait"
@@ -11057,7 +11057,7 @@ do
                                             matCancelFishing()
                                             task.wait(0.1)
                                         end
-                                        NNVN_TweenTo(cframeEntry)
+                                        NhoiiiX_TweenTo(cframeEntry)
                                     end
                                 else
                                     matTeleportToIsland(requiredEntry.island)
@@ -11114,36 +11114,36 @@ do
         Content = "Farm the required fish weights for rod crafting."
     })
     matRodOptions = { "Heavenpiercer Rod", "Pure Diamond Rod", "Sacred Bamboo Rod" }
-    selectedMatRod = getgenv().NNVN_MaterialRod or "Heavenpiercer Rod"
-    rodMatSec:AddDropdown("NNVN_MaterialRod", {
+    selectedMatRod = getgenv().NhoiiiX_MaterialRod or "Heavenpiercer Rod"
+    rodMatSec:AddDropdown("NhoiiiX_MaterialRod", {
         Title = "Select Rod to Craft",
         Values = matRodOptions,
         Default = selectedMatRod,
         Callback = function(selected)
-            getgenv().NNVN_MaterialRod = selected or "Heavenpiercer Rod"
-            selectedMatRod = getgenv().NNVN_MaterialRod
+            getgenv().NhoiiiX_MaterialRod = selected or "Heavenpiercer Rod"
+            selectedMatRod = getgenv().NhoiiiX_MaterialRod
         end
     })
-    rodMatSec:AddToggle("NNVN_MaterialRodFarming", {
+    rodMatSec:AddToggle("NhoiiiX_MaterialRodFarming", {
         Title = "Auto Farm Materials",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_MaterialRodFarming = enabled
+            getgenv().NhoiiiX_MaterialRodFarming = enabled
             if enabled then
-                getgenv().NNVN_MaterialFarming = false
-                local selectedMatRod2 = selectedMatRod or getgenv().NNVN_MaterialRod or "Heavenpiercer Rod"
+                getgenv().NhoiiiX_MaterialFarming = false
+                local selectedMatRod2 = selectedMatRod or getgenv().NhoiiiX_MaterialRod or "Heavenpiercer Rod"
                 selectedMatBait = selectedMatRod2
-                getgenv().NNVN_MaterialBait = selectedMatRod2
+                getgenv().NhoiiiX_MaterialBait = selectedMatRod2
                 if matCo then
                     coroutine.close(matCo)
                     matCo = nil
                 end
                 matCo = coroutine.create(function()
-                    while getgenv().NNVN_MaterialRodFarming do
+                    while getgenv().NhoiiiX_MaterialRodFarming do
                         pcall(function()
-                            local selectedMatRod2 = selectedMatRod or getgenv().NNVN_MaterialRod or "Heavenpiercer Rod"
+                            local selectedMatRod2 = selectedMatRod or getgenv().NhoiiiX_MaterialRod or "Heavenpiercer Rod"
                             selectedMatBait = selectedMatRod2
-                            getgenv().NNVN_MaterialBait = selectedMatRod2
+                            getgenv().NhoiiiX_MaterialBait = selectedMatRod2
                             local recipe = BAIT_RECIPES[selectedMatBait]
                             if not recipe or #recipe == 0 then
                                 return
@@ -11189,7 +11189,7 @@ do
                                             matCancelFishing()
                                             task.wait(0.1)
                                         end
-                                        NNVN_TweenTo(cframeEntry)
+                                        NhoiiiX_TweenTo(cframeEntry)
                                     end
                                 else
                                     matTeleportToIsland(requiredEntry.island)
@@ -11226,7 +11226,7 @@ do
                     matDisableFishing()
                 end)
                 coroutine.resume(matCo)
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Material Rod",
                         Content = "Auto farm materials for rod enabled",
@@ -11240,7 +11240,7 @@ do
                 end
                 matDisableFishing()
                 materialCurrentTarget = nil
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({ Title = "Material Rod", Content = "Stopped", Duration = 2 })
                 end
             end
@@ -11252,28 +11252,28 @@ do
         Content = "Craft selected bait at the bait seller. Quantity is clamped from 1 to 100."
     })
     craftBaitOptions = { "Rainbow Bait", "Frost Bait", "Nameless Bait" }
-    selectedCraftBait = getgenv().NNVN_CraftBaitName or "Rainbow Bait"
-    craftSec:AddDropdown("NNVN_CraftBaitName", {
+    selectedCraftBait = getgenv().NhoiiiX_CraftBaitName or "Rainbow Bait"
+    craftSec:AddDropdown("NhoiiiX_CraftBaitName", {
         Title = "Select Bait",
         Values = craftBaitOptions,
         Default = selectedCraftBait,
         Callback = function(selected)
             selectedCraftBait = selected or "Rainbow Bait"
-            getgenv().NNVN_CraftBaitName = selectedCraftBait
+            getgenv().NhoiiiX_CraftBaitName = selectedCraftBait
         end
     })
-    craftSec:AddInput("NNVN_CraftBaitQuantityInput", {
+    craftSec:AddInput("NhoiiiX_CraftBaitQuantityInput", {
         Title = "Craft Quantity",
         Placeholder = "1 - 100",
-        Default = tostring(getgenv().NNVN_CraftBaitQuantity or 1),
+        Default = tostring(getgenv().NhoiiiX_CraftBaitQuantity or 1),
         Callback = function(selectedValue)
             craftAmount = math.clamp(math.floor(tonumber(selectedValue) or 1), 1, 100)
-            getgenv().NNVN_CraftBaitQuantity = craftAmount
+            getgenv().NhoiiiX_CraftBaitQuantity = craftAmount
         end
     })
     CraftSelectedBait = function(inputValue)
-        craftAmount = math.clamp(math.floor(tonumber(inputValue) or getgenv().NNVN_CraftBaitQuantity or 1), 1, 100)
-        craftName = selectedCraftBait or getgenv().NNVN_CraftBaitName or "Rainbow Bait"
+        craftAmount = math.clamp(math.floor(tonumber(inputValue) or getgenv().NhoiiiX_CraftBaitQuantity or 1), 1, 100)
+        craftName = selectedCraftBait or getgenv().NhoiiiX_CraftBaitName or "Rainbow Bait"
         RunActionWithMethod({ teleport = TPNearBaitSeller, returnAfter = true }, function()
             task.wait(0.25)
             ReplicatedStorage.Events.CraftBait:FireServer(craftName, craftAmount)
@@ -11283,22 +11283,22 @@ do
     craftSec:AddButton({
         Title = "Craft Once",
         Callback = function()
-            CraftSelectedBait(getgenv().NNVN_CraftBaitQuantity or 1)
-            if getgenv().NNVN_Notify then
+            CraftSelectedBait(getgenv().NhoiiiX_CraftBaitQuantity or 1)
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Craft Bait",
-                    Content = "Crafted " .. tostring(getgenv().NNVN_CraftBaitQuantity or 1) .. "x " .. tostring(selectedCraftBait or "Rainbow Bait"),
+                    Content = "Crafted " .. tostring(getgenv().NhoiiiX_CraftBaitQuantity or 1) .. "x " .. tostring(selectedCraftBait or "Rainbow Bait"),
                     Duration = 2
                 })
             end
         end
     })
-    craftSec:AddToggle("NNVN_AutoCraftBait", {
+    craftSec:AddToggle("NhoiiiX_AutoCraftBait", {
         Title = "Auto Craft Bait",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoCraftBait = enabled
-            if getgenv().NNVN_Notify then
+            getgenv().NhoiiiX_AutoCraftBait = enabled
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Craft Bait",
                     Content = enabled and "Auto craft enabled" or "Auto craft disabled",
@@ -11307,108 +11307,108 @@ do
             end
         end
     })
-    if not getgenv().NNVN_AutoCraftBaitLoop then
-        getgenv().NNVN_AutoCraftBaitLoop = true
+    if not getgenv().NhoiiiX_AutoCraftBaitLoop then
+        getgenv().NhoiiiX_AutoCraftBaitLoop = true
         task.spawn(function()
             while task.wait(3) do
-                if getgenv().NNVN_AutoCraftBait then
-                    CraftSelectedBait(getgenv().NNVN_CraftBaitQuantity or 1)
+                if getgenv().NhoiiiX_AutoCraftBait then
+                    CraftSelectedBait(getgenv().NhoiiiX_CraftBaitQuantity or 1)
                 end
             end
         end)
     end
     sellSec = mainMap.Sell:AddSection({ Title = "Auto Sell Fish", Icon = "shopping-bag" })
-    sellSec:AddToggle("NNVN_AutoSell", {
+    sellSec:AddToggle("NhoiiiX_AutoSell", {
         Title = "Auto Sell All Fish",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoSell = enabled
-            if enabled and type(getgenv().NNVN_RequestAutoSellCheck) == "function" then
-                getgenv().NNVN_RequestAutoSellCheck(true)
+            getgenv().NhoiiiX_AutoSell = enabled
+            if enabled and type(getgenv().NhoiiiX_RequestAutoSellCheck) == "function" then
+                getgenv().NhoiiiX_RequestAutoSellCheck(true)
             end
-            if enabled and getgenv().NNVN_Notify then
+            if enabled and getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Auto Sell",
-                    Content = "Enabled (every " .. (getgenv().NNVN_SellDelay or 5) .. "s)",
+                    Content = "Enabled (every " .. (getgenv().NhoiiiX_SellDelay or 5) .. "s)",
                     Duration = 2
                 })
             end
         end
     })
-    sellSec:AddToggle("NNVN_AutoSellNormalFish", {
+    sellSec:AddToggle("NhoiiiX_AutoSellNormalFish", {
         Title = "Auto Sell Normal Fish",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoSellNormalFish = enabled
+            getgenv().NhoiiiX_AutoSellNormalFish = enabled
         end
     })
-    sellSec:AddToggle("NNVN_AutoSellOnlyBoss", {
+    sellSec:AddToggle("NhoiiiX_AutoSellOnlyBoss", {
         Title = "Auto Sell Only Boss",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoSellOnlyBoss = enabled
+            getgenv().NhoiiiX_AutoSellOnlyBoss = enabled
         end
     })
-    sellSec:AddToggle("NNVN_AutoSellOnlySecretBoss", {
+    sellSec:AddToggle("NhoiiiX_AutoSellOnlySecretBoss", {
         Title = "Auto Sell Only Secret Boss",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoSellOnlySecretBoss = enabled
+            getgenv().NhoiiiX_AutoSellOnlySecretBoss = enabled
         end
     })
-    sellSec:AddToggle("NNVN_AutoSellWhenFull", {
+    sellSec:AddToggle("NhoiiiX_AutoSellWhenFull", {
         Title = "Auto Sell When Full Backpack",
         Description = "Checks the backpack counter and inventory data, then sells only after capacity is full.",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoSellWhenFull = enabled
-            if enabled and type(getgenv().NNVN_RequestAutoSellCheck) == "function" then
-                getgenv().NNVN_RequestAutoSellCheck(false)
+            getgenv().NhoiiiX_AutoSellWhenFull = enabled
+            if enabled and type(getgenv().NhoiiiX_RequestAutoSellCheck) == "function" then
+                getgenv().NhoiiiX_RequestAutoSellCheck(false)
             end
         end
     })
-    sellSec:AddDropdown("NNVN_SellActionMethod", {
+    sellSec:AddDropdown("NhoiiiX_SellActionMethod", {
         Title = "Sell Movement Method",
         Description = "Tween travels to the NPC. Instant sends the sell remote directly.",
         Values = { "Tween [Safe]", "Instant [Risk]" },
-        Default = tostring(getgenv().NNVN_SellActionMethod):find("Instant", 1, true) and "Instant [Risk]" or "Tween [Safe]",
+        Default = tostring(getgenv().NhoiiiX_SellActionMethod):find("Instant", 1, true) and "Instant [Risk]" or "Tween [Safe]",
         Callback = function(amount)
             amount = NormalizeTranslatedChoice(amount, "Tween [Safe]")
-            getgenv().NNVN_SellActionMethod = tostring(amount):find("Instant", 1, true) and "Instant [Risk]" or "Tween [Safe]"
+            getgenv().NhoiiiX_SellActionMethod = tostring(amount):find("Instant", 1, true) and "Instant [Risk]" or "Tween [Safe]"
         end
     })
-    sellSec:AddSlider("NNVN_SellDelayMinutes", {
+    sellSec:AddSlider("NhoiiiX_SellDelayMinutes", {
         Title = "Sell Interval Minutes",
         Description = "Minutes to wait between auto-sell checks. Right-click or double-tap the slider value to type a number.",
-        Default = tonumber(getgenv().NNVN_SellDelayMinutes) or 0,
+        Default = tonumber(getgenv().NhoiiiX_SellDelayMinutes) or 0,
         Min = 0,
         Max = 60,
         Rounding = 1,
         AllowRightClickInput = true,
         Callback = function(amount)
-            getgenv().NNVN_SellDelayMinutes = math.max(0, math.floor(tonumber(amount) or 0))
+            getgenv().NhoiiiX_SellDelayMinutes = math.max(0, math.floor(tonumber(amount) or 0))
         end
     })
-    sellSec:AddSlider("NNVN_SellDelaySeconds", {
+    sellSec:AddSlider("NhoiiiX_SellDelaySeconds", {
         Title = "Sell Interval Seconds",
         Description = "Extra seconds to wait. Right-click or double-tap the slider value to type a number.",
-        Default = tonumber(getgenv().NNVN_SellDelaySeconds) or 5,
+        Default = tonumber(getgenv().NhoiiiX_SellDelaySeconds) or 5,
         Min = 0,
         Max = 59,
         Rounding = 1,
         AllowRightClickInput = true,
         Callback = function(selectedValue)
-            getgenv().NNVN_SellDelaySeconds = math.max(0, math.floor(tonumber(selectedValue) or 0))
+            getgenv().NhoiiiX_SellDelaySeconds = math.max(0, math.floor(tonumber(selectedValue) or 0))
         end
     })
     sellSec:AddButton({
         Title = "Sell All Fish Now",
         Callback = function()
             task.spawn(function()
-                if type(getgenv().NNVN_SellFishMode) == "function" then
-                    getgenv().NNVN_SellFishMode("All")
+                if type(getgenv().NhoiiiX_SellFishMode) == "function" then
+                    getgenv().NhoiiiX_SellFishMode("All")
                 end
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({ Title = "Sell", Content = "Sold all fish!", Duration = 2 })
                 end
             end)
@@ -11436,7 +11436,7 @@ do
         table.insert(islandNames, item29.name)
     end
     selectedIslandName = islandNames[1] or "Beginning Isle"
-    islandTpSec:AddDropdown("NNVN_IslandTeleport", {
+    islandTpSec:AddDropdown("NhoiiiX_IslandTeleport", {
         Title = "Select Island",
         Values = islandNames,
         Default = selectedIslandName,
@@ -11451,7 +11451,7 @@ do
                 return
             end
             matTeleportToIsland(selectedIslandName)
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Teleport",
                     Content = "Teleported to " .. selectedIslandName,
@@ -11493,7 +11493,7 @@ do
             local callOk = pcall(function()
                 setclipboard(tostring(game.JobId))
             end)
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Job ID",
                     Content = callOk and "Copied current server Job ID." or "Clipboard is unavailable.",
@@ -11502,7 +11502,7 @@ do
             end
         end
     })
-    jobIdSec:AddInput("NNVN_JobIdInput", {
+    jobIdSec:AddInput("NhoiiiX_JobIdInput", {
         Title = "Enter Job ID",
         Placeholder = "Paste Job ID here...",
         Default = "",
@@ -11535,7 +11535,7 @@ do
                     return string.char(counter)
                 end)
             end
-            local matchedText = string.match(inputText, "NNVNHUB|([^%s]+)")
+            local matchedText = string.match(inputText, "NhoiiiXHUB|([^%s]+)")
             if matchedText then
                 local ok, result = pcall(resolveGsub, matchedText)
                 if ok and type(result) == "string" and result ~= "" then
@@ -11658,7 +11658,7 @@ do
         if not character or not character:FindFirstChild("HumanoidRootPart") or not rootPart or not rootPart:IsA("BasePart") then
             return false
         end
-        NNVN_TweenTo(rootPart.CFrame * CFrame.new(0, 2, 3))
+        NhoiiiX_TweenTo(rootPart.CFrame * CFrame.new(0, 2, 3))
         return true
     end
     GetOtherPlayerNames = function()
@@ -11688,7 +11688,7 @@ do
             return false
         end
         pcall(function()
-            NNVN_TweenTo(rootPart.CFrame * CFrame.new(0, 0, 3) + Vector3.new(0, 2, 0))
+            NhoiiiX_TweenTo(rootPart.CFrame * CFrame.new(0, 0, 3) + Vector3.new(0, 2, 0))
         end)
         return true
     end
@@ -11706,7 +11706,7 @@ do
             Title = "Teleport to Select NPC",
             Callback = function()
                 local selectedNpC = selectedNPCs[title]
-                if selectedNpC and selectedNpC ~= "Select..." and not TeleportToNPCFolderItem(title, selectedNpC) and getgenv().NNVN_Notify then
+                if selectedNpC and selectedNpC ~= "Select..." and not TeleportToNPCFolderItem(title, selectedNpC) and getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "NPC Teleport",
                         Content = "NPC is no longer available.",
@@ -11737,7 +11737,7 @@ do
     })
     local playerTeleportSection = mainMap.Teleport:AddSection({ Title = "Player Teleport", Icon = "user" })
     local noPlayersLabel = "No Players"
-    local teleportplayertargetDropdown = playerTeleportSection:AddDropdown("NNVN_TeleportPlayerTarget", {
+    local teleportplayertargetDropdown = playerTeleportSection:AddDropdown("NhoiiiX_TeleportPlayerTarget", {
         Title = "Select Player",
         Values = GetOtherPlayerNames(),
         Default = "No Players",
@@ -11761,7 +11761,7 @@ do
         Title = "Teleport to Selected Player",
         Callback = function()
             local teleportToPlayerBy = TeleportToPlayerByName(noPlayersLabel)
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Teleport Player",
                     Content = teleportToPlayerBy and "Teleported to " .. noPlayersLabel or "Could not teleport to that player",
@@ -11830,7 +11830,7 @@ do
                 end
                 pvpQueue:FireServer()
             end)
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "PVP",
                     Content = ok and "Finding match..." or "Failed: " .. tostring(result),
@@ -11853,27 +11853,27 @@ do
         Content = "Craft selected rod. Quantity is clamped from 1 to 100."
     })
     craftRodOptions = { "Heavenpiercer Rod", "Pure Diamond Rod", "Sacred Bamboo Rod" }
-    selectedCraftRod = getgenv().NNVN_CraftRodName or "Heavenpiercer Rod"
-    craftRodSec:AddDropdown("NNVN_CraftRodName", {
+    selectedCraftRod = getgenv().NhoiiiX_CraftRodName or "Heavenpiercer Rod"
+    craftRodSec:AddDropdown("NhoiiiX_CraftRodName", {
         Title = "Select Rod",
         Values = craftRodOptions,
         Default = selectedCraftRod,
         Callback = function(selected)
             selectedCraftRod = selected or "Heavenpiercer Rod"
-            getgenv().NNVN_CraftRodName = selectedCraftRod
+            getgenv().NhoiiiX_CraftRodName = selectedCraftRod
         end
     })
-    craftRodSec:AddInput("NNVN_CraftRodQuantityInput", {
+    craftRodSec:AddInput("NhoiiiX_CraftRodQuantityInput", {
         Title = "Craft Quantity",
         Placeholder = "1 - 100",
-        Default = tostring(getgenv().NNVN_CraftRodQuantity or 1),
+        Default = tostring(getgenv().NhoiiiX_CraftRodQuantity or 1),
         Callback = function(selectedValue)
-            getgenv().NNVN_CraftRodQuantity = math.clamp(math.floor(tonumber(selectedValue) or 1), 1, 100)
+            getgenv().NhoiiiX_CraftRodQuantity = math.clamp(math.floor(tonumber(selectedValue) or 1), 1, 100)
         end
     })
     CraftSelectedRod = function(inputValue)
-        local clampResult = math.clamp(math.floor(tonumber(inputValue) or getgenv().NNVN_CraftRodQuantity or 1), 1, 100)
-        local selectedCraftRod2 = selectedCraftRod or getgenv().NNVN_CraftRodName or "Heavenpiercer Rod"
+        local clampResult = math.clamp(math.floor(tonumber(inputValue) or getgenv().NhoiiiX_CraftRodQuantity or 1), 1, 100)
+        local selectedCraftRod2 = selectedCraftRod or getgenv().NhoiiiX_CraftRodName or "Heavenpiercer Rod"
         RunActionWithMethod({ teleport = TPNearBaitSeller, returnAfter = true }, function()
             task.wait(0.25)
             ReplicatedStorage.Events.CraftBait:FireServer(selectedCraftRod2, clampResult)
@@ -11883,22 +11883,22 @@ do
     craftRodSec:AddButton({
         Title = "Craft Once",
         Callback = function()
-            CraftSelectedRod(getgenv().NNVN_CraftRodQuantity or 1)
-            if getgenv().NNVN_Notify then
+            CraftSelectedRod(getgenv().NhoiiiX_CraftRodQuantity or 1)
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Craft Rod",
-                    Content = "Crafted " .. tostring(getgenv().NNVN_CraftRodQuantity or 1) .. "x " .. tostring(selectedCraftRod or "Heavenpiercer Rod"),
+                    Content = "Crafted " .. tostring(getgenv().NhoiiiX_CraftRodQuantity or 1) .. "x " .. tostring(selectedCraftRod or "Heavenpiercer Rod"),
                     Duration = 2
                 })
             end
         end
     })
-    craftRodSec:AddToggle("NNVN_AutoCraftRod", {
+    craftRodSec:AddToggle("NhoiiiX_AutoCraftRod", {
         Title = "Auto Craft Rod",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoCraftRod = enabled
-            if getgenv().NNVN_Notify then
+            getgenv().NhoiiiX_AutoCraftRod = enabled
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Craft Rod",
                     Content = enabled and "Auto craft rod enabled" or "Auto craft rod disabled",
@@ -11907,12 +11907,12 @@ do
             end
         end
     })
-    if not getgenv().NNVN_AutoCraftRodLoop then
-        getgenv().NNVN_AutoCraftRodLoop = true
+    if not getgenv().NhoiiiX_AutoCraftRodLoop then
+        getgenv().NhoiiiX_AutoCraftRodLoop = true
         task.spawn(function()
             while task.wait(3) do
-                if getgenv().NNVN_AutoCraftRod then
-                    CraftSelectedRod(getgenv().NNVN_CraftRodQuantity or 1)
+                if getgenv().NhoiiiX_AutoCraftRod then
+                    CraftSelectedRod(getgenv().NhoiiiX_CraftRodQuantity or 1)
                 end
             end
         end)
@@ -12073,7 +12073,7 @@ do
                                 ReplicatedStorage.Events.BuyFishingRod:FireServer(item342.name)
                             end)
                         end)
-                        if getgenv().NNVN_Notify then
+                        if getgenv().NhoiiiX_Notify then
                             item:Notify({ Title = "Buy Rod", Content = "Bought " .. item342.name, Duration = 2 })
                         end
                     end)
@@ -12104,7 +12104,7 @@ do
                             ReplicatedStorage.Events.BuyFishingRod:FireServer(item352.name)
                         end)
                     end)
-                    if getgenv().NNVN_Notify then
+                    if getgenv().NhoiiiX_Notify then
                         item:Notify({ Title = "Buy Rod", Content = "Bought " .. item352.name, Duration = 2 })
                     end
                 end)
@@ -12156,7 +12156,7 @@ do
                         ReplicatedStorage.Events.BuySkill:FireServer(selSkillName)
                     end)
                 end)
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({ Title = "Skill", Content = "Bought " .. selSkillName, Duration = 2 })
                 end
             end)
@@ -12168,8 +12168,8 @@ do
             TeleportToNPCWithFallback("Sage Yijiu")
         end
     })
-    getgenv().NNVN_SelectedSkill = getgenv().NNVN_SelectedSkill or nil
-    getgenv().NNVN_UpgradeMethod = getgenv().NNVN_UpgradeMethod or "Instant"
+    getgenv().NhoiiiX_SelectedSkill = getgenv().NhoiiiX_SelectedSkill or nil
+    getgenv().NhoiiiX_UpgradeMethod = getgenv().NhoiiiX_UpgradeMethod or "Instant"
     local function resolveData()
         local stateMap = {}
         local playerData = ReplicatedStorage.Data:FindFirstChild(tostring(LocalPlayer.UserId))
@@ -12212,33 +12212,33 @@ do
     if #data == 0 then
         data = { "No owned skills" }
     end
-    skillUpgradeDropdown = upgradeSkillSec:AddDropdown("NNVN_SelectedSkill", {
+    skillUpgradeDropdown = upgradeSkillSec:AddDropdown("NhoiiiX_SelectedSkill", {
         Title = "Select Skill",
         Values = data,
         Default = data[1],
         SearchBarEnabled = true,
         Callback = function(selected)
             if selected == "No owned skills" then
-                getgenv().NNVN_SelectedSkill = nil
+                getgenv().NhoiiiX_SelectedSkill = nil
             else
-                getgenv().NNVN_SelectedSkill = selected
+                getgenv().NhoiiiX_SelectedSkill = selected
             end
         end
     })
-    upgradeSkillSec:AddDropdown("NNVN_UpgradeMethod", {
+    upgradeSkillSec:AddDropdown("NhoiiiX_UpgradeMethod", {
         Title = "Select Method",
         Values = { "Instant", "Teleport" },
-        Default = getgenv().NNVN_UpgradeMethod or "Instant",
+        Default = getgenv().NhoiiiX_UpgradeMethod or "Instant",
         Callback = function(selectedValue)
-            getgenv().NNVN_UpgradeMethod = selectedValue
+            getgenv().NhoiiiX_UpgradeMethod = selectedValue
         end
     })
     upgradeSkillSec:AddButton({
         Title = "Upgrade Selected Skill",
         Callback = function()
-            local selectedSkill = getgenv().NNVN_SelectedSkill
+            local selectedSkill = getgenv().NhoiiiX_SelectedSkill
             if not selectedSkill or selectedSkill == "" or selectedSkill == "No owned skills" then
-                if getgenv().NNVN_Notify and item then
+                if getgenv().NhoiiiX_Notify and item then
                     item:Notify({
                         Title = "Upgrade",
                         Content = "Please select a skill first.",
@@ -12248,15 +12248,15 @@ do
                 return
             end
             if checkAttribute3() <= 0 then
-                if getgenv().NNVN_Notify and item then
+                if getgenv().NhoiiiX_Notify and item then
                     item:Notify({ Title = "Upgrade", Content = "Not Enough EssenceOrb", Duration = 3 })
                 end
                 return
             end
-            local upgradeMethod = getgenv().NNVN_UpgradeMethod or "Instant"
+            local upgradeMethod = getgenv().NhoiiiX_UpgradeMethod or "Instant"
             local upgradeSkill = ReplicatedStorage.Events:FindFirstChild("UpgradeSkill")
             if not upgradeSkill then
-                if getgenv().NNVN_Notify and item then
+                if getgenv().NhoiiiX_Notify and item then
                     item:Notify({
                         Title = "Upgrade",
                         Content = "UpgradeSkill event not found",
@@ -12270,7 +12270,7 @@ do
                     upgradeSkill:InvokeServer(selectedSkill)
                 end)
                 if ok then
-                    if getgenv().NNVN_Notify and item then
+                    if getgenv().NhoiiiX_Notify and item then
                         item:Notify({
                             Title = "Upgrade",
                             Content = "Skill upgraded successfully!",
@@ -12286,7 +12286,7 @@ do
                             skillUpgradeDropdown:Refresh(data)
                         end)
                     end
-                elseif getgenv().NNVN_Notify and item then
+                elseif getgenv().NhoiiiX_Notify and item then
                     item:Notify({
                         Title = "Upgrade",
                         Content = "Failed: " .. tostring(result),
@@ -12300,7 +12300,7 @@ do
                 local character = LocalPlayer.Character
                 local rootPart = character and character:FindFirstChild("HumanoidRootPart")
                 if not rootPart then
-                    if getgenv().NNVN_Notify and item then
+                    if getgenv().NhoiiiX_Notify and item then
                         item:Notify({ Title = "Upgrade", Content = "Character not found.", Duration = 3 })
                     end
                     return
@@ -12316,7 +12316,7 @@ do
                     item2 = FindNPCByName("Zeng Tianguo")
                 end
                 if not item2 then
-                    if getgenv().NNVN_Notify and item then
+                    if getgenv().NhoiiiX_Notify and item then
                         item:Notify({
                             Title = "Upgrade",
                             Content = "NPC Zeng Tianguo not found.",
@@ -12342,18 +12342,18 @@ do
                     end
                 end
                 if not item3 then
-                    if getgenv().NNVN_Notify and item then
+                    if getgenv().NhoiiiX_Notify and item then
                         item:Notify({ Title = "Upgrade", Content = "Cannot get NPC CFrame.", Duration = 3 })
                     end
                     return
                 end
                 pcall(function()
-                    NNVN_TweenTo(item3 + Vector3.new(0, 5, 0))
+                    NhoiiiX_TweenTo(item3 + Vector3.new(0, 5, 0))
                 end)
                 task.wait(0.5)
                 resolveNotify()
                 pcall(function()
-                    NNVN_TweenTo(cFrame)
+                    NhoiiiX_TweenTo(cFrame)
                 end)
             end
         end
@@ -12364,10 +12364,10 @@ do
             local data = resolveData()
             if #data == 0 then
                 data = { "No owned skills" }
-                if getgenv().NNVN_Notify and item then
+                if getgenv().NhoiiiX_Notify and item then
                     item:Notify({ Title = "Refresh", Content = "No owned skills found.", Duration = 3 })
                 end
-            elseif getgenv().NNVN_Notify and item then
+            elseif getgenv().NhoiiiX_Notify and item then
                 item:Notify({
                     Title = "Refresh",
                     Content = "Skill list refreshed. (" .. #data .. " skills)",
@@ -12381,45 +12381,45 @@ do
             end
         end
     })
-    getgenv().NNVN_ExchangeMethod = getgenv().NNVN_ExchangeMethod or "Instant"
-    getgenv().NNVN_ExchangeObject = getgenv().NNVN_ExchangeObject or "EssenceOrb"
-    getgenv().NNVN_ExchangeQuantity = getgenv().NNVN_ExchangeQuantity or "1"
+    getgenv().NhoiiiX_ExchangeMethod = getgenv().NhoiiiX_ExchangeMethod or "Instant"
+    getgenv().NhoiiiX_ExchangeObject = getgenv().NhoiiiX_ExchangeObject or "EssenceOrb"
+    getgenv().NhoiiiX_ExchangeQuantity = getgenv().NhoiiiX_ExchangeQuantity or "1"
     local function resolveExchangeMethod()
-        return getgenv().NNVN_ExchangeMethod or "Instant"
+        return getgenv().NhoiiiX_ExchangeMethod or "Instant"
     end
     local function resolveExchangeObject()
-        return getgenv().NNVN_ExchangeObject or "EssenceOrb"
+        return getgenv().NhoiiiX_ExchangeObject or "EssenceOrb"
     end
     local function resolveExchangeQuantity()
-        return tonumber(getgenv().NNVN_ExchangeQuantity) or 1
+        return tonumber(getgenv().NhoiiiX_ExchangeQuantity) or 1
     end
     exchangeSec = mainMap.Learn:AddSection({ Title = "Exchange", Icon = "repeat" })
-    exchangeSec:AddDropdown("NNVN_ExchangeMethod", {
+    exchangeSec:AddDropdown("NhoiiiX_ExchangeMethod", {
         Title = "Select Method",
         Values = { "Instant", "Teleport" },
-        Default = getgenv().NNVN_ExchangeMethod or "Instant",
+        Default = getgenv().NhoiiiX_ExchangeMethod or "Instant",
         Callback = function(selected)
-            getgenv().NNVN_ExchangeMethod = selected
+            getgenv().NhoiiiX_ExchangeMethod = selected
         end
     })
-    exchangeSec:AddDropdown("NNVN_ExchangeObject", {
+    exchangeSec:AddDropdown("NhoiiiX_ExchangeObject", {
         Title = "Select Objects That Need To Exchange",
         Values = { "EssenceOrb", "Trait Reroll" },
-        Default = getgenv().NNVN_ExchangeObject or "EssenceOrb",
+        Default = getgenv().NhoiiiX_ExchangeObject or "EssenceOrb",
         Callback = function(inputText)
-            getgenv().NNVN_ExchangeObject = inputText
+            getgenv().NhoiiiX_ExchangeObject = inputText
         end
     })
-    exchangeSec:AddInput("NNVN_ExchangeQuantity", {
+    exchangeSec:AddInput("NhoiiiX_ExchangeQuantity", {
         Title = "Quantity",
         Placeholder = "Enter quantity",
-        Default = tostring(getgenv().NNVN_ExchangeQuantity or "1"),
+        Default = tostring(getgenv().NhoiiiX_ExchangeQuantity or "1"),
         Callback = function(selectedValue)
             local parsedNum = tonumber(selectedValue)
             if parsedNum and parsedNum > 0 then
-                getgenv().NNVN_ExchangeQuantity = tostring(math.floor(parsedNum))
+                getgenv().NhoiiiX_ExchangeQuantity = tostring(math.floor(parsedNum))
             else
-                getgenv().NNVN_ExchangeQuantity = "1"
+                getgenv().NhoiiiX_ExchangeQuantity = "1"
             end
         end
     })
@@ -12430,7 +12430,7 @@ do
             local exchangeObject = resolveExchangeObject()
             local exchangeQuantity = resolveExchangeQuantity()
             if exchangeQuantity < 1 then
-                if getgenv().NNVN_Notify and item then
+                if getgenv().NhoiiiX_Notify and item then
                     item:Notify({
                         Title = "Exchange",
                         Content = "Quantity must be at least 1.",
@@ -12441,7 +12441,7 @@ do
             end
             local exchange = ReplicatedStorage.Events:FindFirstChild("Exchange")
             if not exchange then
-                if getgenv().NNVN_Notify and item then
+                if getgenv().NhoiiiX_Notify and item then
                     item:Notify({
                         Title = "Exchange",
                         Content = "Exchange event not found.",
@@ -12455,10 +12455,10 @@ do
                     exchange:FireServer(exchangeObject, exchangeQuantity)
                 end)
                 if ok then
-                    if getgenv().NNVN_Notify and item then
+                    if getgenv().NhoiiiX_Notify and item then
                         item:Notify({ Title = "Exchange", Content = "Exchange successful!", Duration = 3 })
                     end
-                elseif getgenv().NNVN_Notify and item then
+                elseif getgenv().NhoiiiX_Notify and item then
                     item:Notify({
                         Title = "Exchange",
                         Content = "Exchange failed: " .. tostring(result),
@@ -12472,7 +12472,7 @@ do
                 local character = LocalPlayer.Character
                 local rootPart = character and character:FindFirstChild("HumanoidRootPart")
                 if not rootPart then
-                    if getgenv().NNVN_Notify and item then
+                    if getgenv().NhoiiiX_Notify and item then
                         item:Notify({ Title = "Exchange", Content = "Character not found.", Duration = 3 })
                     end
                     return
@@ -12488,7 +12488,7 @@ do
                     item2 = FindNPCByName("Nanjiang")
                 end
                 if not item2 then
-                    if getgenv().NNVN_Notify and item then
+                    if getgenv().NhoiiiX_Notify and item then
                         item:Notify({ Title = "Exchange", Content = "NPC Nanjiang not found.", Duration = 3 })
                     end
                     return
@@ -12510,18 +12510,18 @@ do
                     end
                 end
                 if not item3 then
-                    if getgenv().NNVN_Notify and item then
+                    if getgenv().NhoiiiX_Notify and item then
                         item:Notify({ Title = "Exchange", Content = "Cannot get NPC CFrame.", Duration = 3 })
                     end
                     return
                 end
                 pcall(function()
-                    NNVN_TweenTo(item3 + Vector3.new(0, 5, 0))
+                    NhoiiiX_TweenTo(item3 + Vector3.new(0, 5, 0))
                 end)
                 task.wait(0.5)
                 resolveNotify()
                 pcall(function()
-                    NNVN_TweenTo(cFrame)
+                    NhoiiiX_TweenTo(cFrame)
                 end)
             end
         end
@@ -12537,7 +12537,7 @@ do
     for _, item37 in ipairs(baitData) do
         table.insert(baitDisplayNames, item37.name .. " - $" .. formatPrice(item37.price))
     end
-    NNVN_FireBuyBait = function(inputValue, secondValue)
+    NhoiiiX_FireBuyBait = function(inputValue, secondValue)
         inputValue = tostring(inputValue or "Basic Bait")
         secondValue = math.clamp(math.floor(tonumber(secondValue) or 1), 1, 999)
         local events = ReplicatedStorage:FindFirstChild("Events")
@@ -12572,7 +12572,7 @@ do
             selected = tostring(selected or "")
             for _, item in ipairs(baitData) do
                 if selected == item.name .. " - $" .. formatPrice(item.price) then
-                    getgenv().NNVN_SelectedBait = item.name
+                    getgenv().NhoiiiX_SelectedBait = item.name
                     break
                 end
             end
@@ -12582,10 +12582,10 @@ do
         Title = "Auto Buy Bait",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoBuyBait = enabled == true
+            getgenv().NhoiiiX_AutoBuyBait = enabled == true
             if enabled then
                 task.defer(function()
-                    NNVN_FireBuyBait(getgenv().NNVN_SelectedBait or "Basic Bait", getgenv().NNVN_BaitQuantity)
+                    NhoiiiX_FireBuyBait(getgenv().NhoiiiX_SelectedBait or "Basic Bait", getgenv().NhoiiiX_BaitQuantity)
                 end)
             end
         end
@@ -12597,29 +12597,29 @@ do
         Max = 60,
         Rounding = 1,
         Callback = function(amount)
-            getgenv().NNVN_AutoBuyBaitDelay = amount
+            getgenv().NhoiiiX_AutoBuyBaitDelay = amount
         end
     })
     baitSec:AddSlider("BaitQuantity", {
         Title = "Quantity per Buy",
-        Default = getgenv().NNVN_BaitQuantity,
+        Default = getgenv().NhoiiiX_BaitQuantity,
         Min = 1,
         Max = 999,
         Rounding = 1,
         AllowRightClickInput = true,
         Callback = function(inputText)
-            getgenv().NNVN_BaitQuantity = math.max(1, math.floor(tonumber(inputText) or 1))
+            getgenv().NhoiiiX_BaitQuantity = math.max(1, math.floor(tonumber(inputText) or 1))
         end
     })
     baitSec:AddInput("BaitQuantityInput", {
         Title = "Bait Quantity Input",
         Placeholder = "Quantity to buy",
-        Default = tostring(getgenv().NNVN_BaitQuantity),
+        Default = tostring(getgenv().NhoiiiX_BaitQuantity),
         Numeric = true,
         Finished = true,
         Callback = function(selectedValue)
             local clampResult = math.clamp(math.floor(tonumber(selectedValue) or 1), 1, 999)
-            getgenv().NNVN_BaitQuantity = clampResult
+            getgenv().NhoiiiX_BaitQuantity = clampResult
             local baitQuantity = stateMap2 and stateMap2.BaitQuantity
             if baitQuantity and baitQuantity.SetValue then
                 pcall(function()
@@ -12632,16 +12632,16 @@ do
         Title = "Buy Selected Bait Now",
         Description = "Sends BuyBait with the selected bait and Quantity per Buy.",
         Callback = function()
-            local selectedBait = getgenv().NNVN_SelectedBait or "Basic Bait"
-            local maxResult = math.max(1, math.floor(tonumber(getgenv().NNVN_BaitQuantity) or 1))
-            local primaryValue, secondaryValue = NNVN_FireBuyBait(selectedBait, maxResult)
-            if primaryValue and getgenv().NNVN_Notify then
+            local selectedBait = getgenv().NhoiiiX_SelectedBait or "Basic Bait"
+            local maxResult = math.max(1, math.floor(tonumber(getgenv().NhoiiiX_BaitQuantity) or 1))
+            local primaryValue, secondaryValue = NhoiiiX_FireBuyBait(selectedBait, maxResult)
+            if primaryValue and getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Buy Bait",
                     Content = "Bought " .. maxResult .. "x " .. selectedBait,
                     Duration = 2
                 })
-            elseif not primaryValue and getgenv().NNVN_Notify then
+            elseif not primaryValue and getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Buy Bait",
                     Content = tostring(secondaryValue or "Remote failed."),
@@ -12650,63 +12650,63 @@ do
             end
         end
     })
-    baitSec:AddSlider("NNVN_AutoBuyBaitThreshold", {
+    baitSec:AddSlider("NhoiiiX_AutoBuyBaitThreshold", {
         Title = "Buy When Below",
         Default = 5,
         Min = 0,
         Max = 50,
         Rounding = 1,
         Callback = function(selectedValue)
-            getgenv().NNVN_AutoBuyBaitThreshold = selectedValue
+            getgenv().NhoiiiX_AutoBuyBaitThreshold = selectedValue
         end
     })
     visualStatsSec = mainMap.Visual:AddSection({ Title = "Fake Stats", Icon = "badge-dollar-sign" })
-    visualStatsSec:AddToggle("NNVN_FakeVisualsEnabled", {
+    visualStatsSec:AddToggle("NhoiiiX_FakeVisualsEnabled", {
         Title = "Enable Fake Visual Stats",
         Description = "Client-side only. Edits level, money, and gem text in your UI.",
-        Default = getgenv().NNVN_FakeVisualsEnabled,
+        Default = getgenv().NhoiiiX_FakeVisualsEnabled,
         Callback = function(inputText)
-            getgenv().NNVN_FakeVisualsEnabled = inputText
+            getgenv().NhoiiiX_FakeVisualsEnabled = inputText
             applyFakeVisuals()
         end
     })
-    visualStatsSec:AddInput("NNVN_FakeLevelText", {
+    visualStatsSec:AddInput("NhoiiiX_FakeLevelText", {
         Title = "Fake Level",
-        Default = tostring(getgenv().NNVN_FakeLevelText),
+        Default = tostring(getgenv().NhoiiiX_FakeLevelText),
         Callback = function(inputText)
-            getgenv().NNVN_FakeLevelText = numericOnlyText(inputText, 100)
+            getgenv().NhoiiiX_FakeLevelText = numericOnlyText(inputText, 100)
             applyFakeVisuals()
         end
     })
-    visualStatsSec:AddInput("NNVN_FakeMoneyText", {
+    visualStatsSec:AddInput("NhoiiiX_FakeMoneyText", {
         Title = "Fake Money",
-        Default = tostring(getgenv().NNVN_FakeMoneyText),
+        Default = tostring(getgenv().NhoiiiX_FakeMoneyText),
         Callback = function(inputText)
-            getgenv().NNVN_FakeMoneyText = numericOnlyText(inputText, 999999999)
+            getgenv().NhoiiiX_FakeMoneyText = numericOnlyText(inputText, 999999999)
             applyFakeVisuals()
         end
     })
-    visualStatsSec:AddInput("NNVN_FakeGemText", {
+    visualStatsSec:AddInput("NhoiiiX_FakeGemText", {
         Title = "Fake Gems",
-        Default = tostring(getgenv().NNVN_FakeGemText),
+        Default = tostring(getgenv().NhoiiiX_FakeGemText),
         Callback = function(inputText)
-            getgenv().NNVN_FakeGemText = numericOnlyText(inputText, 9999)
+            getgenv().NhoiiiX_FakeGemText = numericOnlyText(inputText, 9999)
             applyFakeVisuals()
         end
     })
-    visualStatsSec:AddInput("NNVN_FakeTicketText", {
+    visualStatsSec:AddInput("NhoiiiX_FakeTicketText", {
         Title = "Fake Tickets",
-        Default = tostring(getgenv().NNVN_FakeTicketText),
+        Default = tostring(getgenv().NhoiiiX_FakeTicketText),
         Callback = function(inputText)
-            getgenv().NNVN_FakeTicketText = numericOnlyText(inputText, 999)
+            getgenv().NhoiiiX_FakeTicketText = numericOnlyText(inputText, 999)
             applyFakeVisuals()
         end
     })
-    visualStatsSec:AddInput("NNVN_FakeOrbText", {
+    visualStatsSec:AddInput("NhoiiiX_FakeOrbText", {
         Title = "Fake Orbs",
-        Default = tostring(getgenv().NNVN_FakeOrbText),
+        Default = tostring(getgenv().NhoiiiX_FakeOrbText),
         Callback = function(selectedValue)
-            getgenv().NNVN_FakeOrbText = numericOnlyText(selectedValue, 999)
+            getgenv().NhoiiiX_FakeOrbText = numericOnlyText(selectedValue, 999)
             applyFakeVisuals()
         end
     })
@@ -12714,7 +12714,7 @@ do
         Title = "Apply Fake Stats",
         Icon = "wand-2",
         Callback = function()
-            getgenv().NNVN_FakeVisualsEnabled = true
+            getgenv().NhoiiiX_FakeVisualsEnabled = true
             applyFakeVisuals()
         end
     })
@@ -12722,12 +12722,12 @@ do
         Title = "Reset Fake Stats",
         Icon = "rotate-ccw",
         Callback = function()
-            getgenv().NNVN_FakeVisualsEnabled = false
+            getgenv().NhoiiiX_FakeVisualsEnabled = false
             restoreFakeVisuals()
         end
     })
     dupeSec = mainMap.Visual:AddSection({ Title = "Dupe (Visual Only)", Icon = "copy" })
-    getgenv().NNVN_VirtualDupeAmount = math.clamp(math.floor(tonumber(getgenv().NNVN_VirtualDupeAmount) or 1), 1, 100)
+    getgenv().NhoiiiX_VirtualDupeAmount = math.clamp(math.floor(tonumber(getgenv().NhoiiiX_VirtualDupeAmount) or 1), 1, 100)
     virtualDupeSources = {}
     selectedVirtualDupe = nil
     GetLocalInventory = function()
@@ -12744,7 +12744,7 @@ do
         end
         local counter = 0
         for _, item in ipairs(localInventory:GetChildren()) do
-            if item:GetAttribute("NNVN_VirtualDupe") == true then
+            if item:GetAttribute("NhoiiiX_VirtualDupe") == true then
                 continue
             end
             counter = counter + 1
@@ -12770,7 +12770,7 @@ do
         Title = "Local inventory preview",
         Content = "Copies only appear on this client and disappear after rejoin. They cannot be sold or traded."
     })
-    virtualDupeDropdown = dupeSec:AddDropdown("NNVN_VirtualDupeItem", {
+    virtualDupeDropdown = dupeSec:AddDropdown("NhoiiiX_VirtualDupeItem", {
         Title = "Inventory Item",
         Values = GetVirtualDupeChoices(),
         Default = "Select an item...",
@@ -12778,14 +12778,14 @@ do
             selectedVirtualDupe = virtualDupeSources[selected]
         end
     })
-    dupeSec:AddSlider("NNVN_VirtualDupeAmount", {
+    dupeSec:AddSlider("NhoiiiX_VirtualDupeAmount", {
         Title = "Number of Visual Copies",
-        Default = getgenv().NNVN_VirtualDupeAmount,
+        Default = getgenv().NhoiiiX_VirtualDupeAmount,
         Min = 1,
         Max = 100,
         Rounding = 1,
         Callback = function(selectedValue)
-            getgenv().NNVN_VirtualDupeAmount = math.clamp(math.floor(tonumber(selectedValue) or 1), 1, 100)
+            getgenv().NhoiiiX_VirtualDupeAmount = math.clamp(math.floor(tonumber(selectedValue) or 1), 1, 100)
         end
     })
     dupeSec:AddButton({
@@ -12795,7 +12795,7 @@ do
             local selectedVirtualDupe2 = selectedVirtualDupe
             local localInventory = GetLocalInventory()
             if not localInventory or not selectedVirtualDupe2 or selectedVirtualDupe2.Parent ~= localInventory then
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Visual Dupe",
                         Content = "Select an inventory item first.",
@@ -12805,19 +12805,19 @@ do
                 return
             end
             local counter = 0
-            for i = 1, getgenv().NNVN_VirtualDupeAmount do
+            for i = 1, getgenv().NhoiiiX_VirtualDupeAmount do
                 local ok, result = pcall(function()
                     return selectedVirtualDupe2:Clone()
                 end)
                 if not ok or not result then
                     continue
                 end
-                result:SetAttribute("NNVN_VirtualDupe", true)
-                result:SetAttribute("NNVN_VirtualDupeSource", selectedVirtualDupe2.Name)
+                result:SetAttribute("NhoiiiX_VirtualDupe", true)
+                result:SetAttribute("NhoiiiX_VirtualDupeSource", selectedVirtualDupe2.Name)
                 result.Parent = localInventory
                 counter = counter + 1
             end
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Visual Dupe",
                     Content = "Created " .. counter .. " local visual copy/copies.",
@@ -12839,13 +12839,13 @@ do
             local counter = 0
             if localInventory then
                 for _, item2 in ipairs(localInventory:GetChildren()) do
-                    if item2:GetAttribute("NNVN_VirtualDupe") == true then
+                    if item2:GetAttribute("NhoiiiX_VirtualDupe") == true then
                         item2:Destroy()
                         counter = counter + 1
                     end
                 end
             end
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Visual Dupe",
                     Content = "Removed " .. counter .. " local visual copy/copies.",
@@ -12855,70 +12855,70 @@ do
         end
     })
     visualIdentitySec = mainMap.Visual:AddSection({ Title = "Identity Spoof", Icon = "masks" })
-    visualIdentitySec:AddToggle("NNVN_FakeNameEnabled", {
+    visualIdentitySec:AddToggle("NhoiiiX_FakeNameEnabled", {
         Title = "Fake Name",
-        Default = getgenv().NNVN_FakeNameEnabled,
+        Default = getgenv().NhoiiiX_FakeNameEnabled,
         Callback = function(enabled)
-            getgenv().NNVN_FakeNameEnabled = enabled
+            getgenv().NhoiiiX_FakeNameEnabled = enabled
             applyFakeVisuals()
         end
     })
-    visualIdentitySec:AddInput("NNVN_FakeNameText", {
+    visualIdentitySec:AddInput("NhoiiiX_FakeNameText", {
         Title = "Fake Display Name",
-        Default = tostring(getgenv().NNVN_FakeNameText),
+        Default = tostring(getgenv().NhoiiiX_FakeNameText),
         Callback = function(selectedValue)
-            getgenv().NNVN_FakeNameText = trimText(selectedValue)
+            getgenv().NhoiiiX_FakeNameText = trimText(selectedValue)
             applyFakeVisuals()
             local localHumanoid = getLocalHumanoid()
-            if localHumanoid and getgenv().NNVN_FakeNameEnabled then
+            if localHumanoid and getgenv().NhoiiiX_FakeNameEnabled then
                 pcall(function()
-                    localHumanoid.DisplayName = getgenv().NNVN_FakeNameText
+                    localHumanoid.DisplayName = getgenv().NhoiiiX_FakeNameText
                 end)
             end
         end
     })
     visualAvatarSec = mainMap.Visual:AddSection({ Title = "Avatar Visuals", Icon = "shirt" })
-    visualAvatarSec:AddToggle("NNVN_FakeHeadless", {
+    visualAvatarSec:AddToggle("NhoiiiX_FakeHeadless", {
         Title = "Fake Headless",
-        Default = getgenv().NNVN_FakeHeadless,
+        Default = getgenv().NhoiiiX_FakeHeadless,
         Callback = function(enabled)
-            getgenv().NNVN_FakeHeadless = enabled
+            getgenv().NhoiiiX_FakeHeadless = enabled
             applyFakeHeadless()
         end
     })
-    visualAvatarSec:AddToggle("NNVN_FakeKorblox", {
+    visualAvatarSec:AddToggle("NhoiiiX_FakeKorblox", {
         Title = "Fake Korblox",
-        Default = getgenv().NNVN_FakeKorblox,
+        Default = getgenv().NhoiiiX_FakeKorblox,
         Callback = function(enabled)
-            getgenv().NNVN_FakeKorblox = enabled
+            getgenv().NhoiiiX_FakeKorblox = enabled
             applyFakeKorblox()
         end
     })
-    visualAvatarSec:AddToggle("NNVN_FakeSkinEnabled", {
+    visualAvatarSec:AddToggle("NhoiiiX_FakeSkinEnabled", {
         Title = "Fake Skin",
-        Default = getgenv().NNVN_FakeSkinEnabled,
+        Default = getgenv().NhoiiiX_FakeSkinEnabled,
         Callback = function(enabled)
-            getgenv().NNVN_FakeSkinEnabled = enabled
+            getgenv().NhoiiiX_FakeSkinEnabled = enabled
             if enabled then
                 applyFakeSkinFromPlayer()
             end
         end
     })
-    visualAvatarSec:AddInput("NNVN_FakeSkinPlayerName", {
+    visualAvatarSec:AddInput("NhoiiiX_FakeSkinPlayerName", {
         Title = "Skin Player Name",
         Description = "Optional. Leave blank to use the tone dropdown only.",
-        Default = tostring(getgenv().NNVN_FakeSkinPlayerName),
+        Default = tostring(getgenv().NhoiiiX_FakeSkinPlayerName),
         Callback = function(selected)
-            getgenv().NNVN_FakeSkinPlayerName = trimText(selected)
+            getgenv().NhoiiiX_FakeSkinPlayerName = trimText(selected)
         end
     })
-    visualAvatarSec:AddDropdown("NNVN_FakeSkinTone", {
+    visualAvatarSec:AddDropdown("NhoiiiX_FakeSkinTone", {
         Title = "Skin Tone",
         Values = VISUAL_SKIN_TONES,
-        Default = getgenv().NNVN_FakeSkinTone,
+        Default = getgenv().NhoiiiX_FakeSkinTone,
         Callback = function(selectedValue)
-            getgenv().NNVN_FakeSkinTone = selectedValue or getgenv().NNVN_FakeSkinTone
-            if getgenv().NNVN_FakeSkinEnabled then
+            getgenv().NhoiiiX_FakeSkinTone = selectedValue or getgenv().NhoiiiX_FakeSkinTone
+            if getgenv().NhoiiiX_FakeSkinEnabled then
                 applyFakeSkinTone()
             end
         end
@@ -12927,9 +12927,9 @@ do
         Title = "Apply Fake Skin",
         Icon = "paintbrush",
         Callback = function()
-            getgenv().NNVN_FakeSkinEnabled = true
+            getgenv().NhoiiiX_FakeSkinEnabled = true
             local applyFakeSkinFrom = applyFakeSkinFromPlayer()
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Fake Skin",
                     Content = applyFakeSkinFrom and "Fake skin applied." or "Could not load that player skin. Using tone only if available.",
@@ -12946,7 +12946,7 @@ do
             applyFakeVisuals()
             applyFakeHeadless()
             applyFakeKorblox()
-            if getgenv().NNVN_FakeSkinEnabled then
+            if getgenv().NhoiiiX_FakeSkinEnabled then
                 applyFakeSkinFromPlayer()
             end
         end
@@ -12962,13 +12962,13 @@ do
         Callback = function()
             local currentWeather = getCurrentWeather()
             local currentIslandName = getCurrentIslandName and getCurrentIslandName() or "?"
-            local recommendedWeatherIsland = getgenv().NNVN_GetRecommendedWeatherIsland and getgenv().NNVN_GetRecommendedWeatherIsland(currentWeather) or "N/A"
+            local recommendedWeatherIsland = getgenv().NhoiiiX_GetRecommendedWeatherIsland and getgenv().NhoiiiX_GetRecommendedWeatherIsland(currentWeather) or "N/A"
             local isMatched = weatherLookup[normalizeWeatherReporterName(currentWeather)] == true
-            weatherStatusParagraph:SetDesc(string.format("%s Weather: %s%s\nIsland: %s\nRecommended farm island: %s\nSpecial event: %s\nFarm session: %s", formatStatusDot(true, "Online", "Offline"), tostring(currentWeather), isMatched and " ?" or "", tostring(currentIslandName), tostring(recommendedWeatherIsland), isMatched and "YES" or "NO", getgenv().NNVN_WeatherFarmActive and "ACTIVE" or "idle"))
+            weatherStatusParagraph:SetDesc(string.format("%s Weather: %s%s\nIsland: %s\nRecommended farm island: %s\nSpecial event: %s\nFarm session: %s", formatStatusDot(true, "Online", "Offline"), tostring(currentWeather), isMatched and " ?" or "", tostring(currentIslandName), tostring(recommendedWeatherIsland), isMatched and "YES" or "NO", getgenv().NhoiiiX_WeatherFarmActive and "ACTIVE" or "idle"))
         end
     })
     weatherTpSec = mainMap.Weather:AddSection({ Title = "Teleport", Icon = "map-pin" })
-    weatherTpSec:AddDropdown("NNVN_WeatherFarmIsland", {
+    weatherTpSec:AddDropdown("NhoiiiX_WeatherFarmIsland", {
         Title = "Farm Island Override",
         Values = {
             "Auto",
@@ -12983,9 +12983,9 @@ do
             "Battlefield Isle",
             "Mistpeak Isle"
         },
-        Default = getgenv().NNVN_WeatherFarmIsland or "Auto",
+        Default = getgenv().NhoiiiX_WeatherFarmIsland or "Auto",
         Callback = function(selectedValue)
-            getgenv().NNVN_WeatherFarmIsland = selectedValue or "Auto"
+            getgenv().NhoiiiX_WeatherFarmIsland = selectedValue or "Auto"
         end
     })
     weatherTpSec:AddButton({
@@ -12995,13 +12995,13 @@ do
             local hasTriggered = false
             local currentWeather = getCurrentWeather()
             local item2
-            if type(getgenv().NNVN_TeleportToWeatherIsland) == "function" then
-                local primaryValue, secondaryValue, thirdValue = getgenv().NNVN_TeleportToWeatherIsland()
+            if type(getgenv().NhoiiiX_TeleportToWeatherIsland) == "function" then
+                local primaryValue, secondaryValue, thirdValue = getgenv().NhoiiiX_TeleportToWeatherIsland()
                 hasTriggered = primaryValue
                 currentWeather = secondaryValue
                 item2 = thirdValue
             end
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Weather Teleport",
                     Content = hasTriggered and string.format("Teleported for %s ? %s", tostring(currentWeather), tostring(item2)) or "No island mapped for weather: " .. tostring(currentWeather),
@@ -13015,9 +13015,9 @@ do
         Title = "Teleport to Selected Override Island",
         Icon = "map",
         Callback = function()
-            local weatherFarmIsland = getgenv().NNVN_WeatherFarmIsland
+            local weatherFarmIsland = getgenv().NhoiiiX_WeatherFarmIsland
             if not weatherFarmIsland or weatherFarmIsland == "Auto" then
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Weather",
                         Content = "Pick an island override first (not Auto).",
@@ -13031,14 +13031,14 @@ do
                 if item2.name == weatherFarmIsland then
                     if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
                         pcall(function()
-                            NNVN_TweenTo(CFrame.new(item2.cf.Position) + Vector3.new(0, 5, 0))
+                            NhoiiiX_TweenTo(CFrame.new(item2.cf.Position) + Vector3.new(0, 5, 0))
                         end)
                         hasTriggered = true
                     end
                     break
                 end
             end
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Weather Teleport",
                     Content = hasTriggered and "Teleported to " .. weatherFarmIsland or "Could not teleport to " .. tostring(weatherFarmIsland),
@@ -13055,27 +13055,27 @@ do
         Title = "How it works",
         Content = "Premium required. When special weather is active, this enables Auto Cast + Anchor Bar + Auto Skills. When it ends or this toggle is OFF, it returns to your old position and restores your previous toggle states."
     })
-    weatherFarmToggle = weatherPremiumSec:AddToggle("NNVN_AutoFarmWeatherEvent", {
+    weatherFarmToggle = weatherPremiumSec:AddToggle("NhoiiiX_AutoFarmWeatherEvent", {
         Title = "Auto Farm Weather Event",
-        Default = getgenv().NNVN_AutoFarmWeatherEvent == true and refreshPremiumAccess() or false,
+        Default = getgenv().NhoiiiX_AutoFarmWeatherEvent == true and refreshPremiumAccess() or false,
         Locked = not refreshPremiumAccess(),
         Callback = function(selectedValue)
             if selectedValue and not ensurePremiumAccess("Auto Farm Weather Event") then
-                getgenv().NNVN_AutoFarmWeatherEvent = false
-                if type(getgenv().NNVN_StopWeatherFarm) == "function" then
-                    getgenv().NNVN_StopWeatherFarm()
+                getgenv().NhoiiiX_AutoFarmWeatherEvent = false
+                if type(getgenv().NhoiiiX_StopWeatherFarm) == "function" then
+                    getgenv().NhoiiiX_StopWeatherFarm()
                 end
                 pcall(function()
                     weatherFarmToggle:SetValue(false)
                 end)
                 return
             end
-            getgenv().NNVN_AutoFarmWeatherEvent = selectedValue and true or false
-            if getgenv().NNVN_AutoFarmWeatherEvent then
-                if type(getgenv().NNVN_StartAutoFarmWeather) == "function" then
-                    getgenv().NNVN_StartAutoFarmWeather()
+            getgenv().NhoiiiX_AutoFarmWeatherEvent = selectedValue and true or false
+            if getgenv().NhoiiiX_AutoFarmWeatherEvent then
+                if type(getgenv().NhoiiiX_StartAutoFarmWeather) == "function" then
+                    getgenv().NhoiiiX_StartAutoFarmWeather()
                 end
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Weather Farm",
                         Content = "Auto Farm Weather Event enabled.",
@@ -13084,15 +13084,15 @@ do
                     })
                 end
             else
-                if type(getgenv().NNVN_StopWeatherFarm) == "function" then
-                    getgenv().NNVN_StopWeatherFarm()
+                if type(getgenv().NhoiiiX_StopWeatherFarm) == "function" then
+                    getgenv().NhoiiiX_StopWeatherFarm()
                 else
-                    getgenv().NNVN_AutoCast = false
-                    getgenv().NNVN_Anchor = false
-                    getgenv().NNVN_AutoSkill = false
-                    getgenv().NNVN_WeatherFarmActive = false
+                    getgenv().NhoiiiX_AutoCast = false
+                    getgenv().NhoiiiX_Anchor = false
+                    getgenv().NhoiiiX_AutoSkill = false
+                    getgenv().NhoiiiX_WeatherFarmActive = false
                 end
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Weather Farm",
                         Content = "Disabled. Previous Auto Cast / Anchor / Skills states restored.",
@@ -13111,10 +13111,10 @@ do
                     if weatherFarmToggle.SetLocked then
                         weatherFarmToggle:SetLocked(not refreshPremiumAccessResult)
                     end
-                    if not refreshPremiumAccessResult and getgenv().NNVN_AutoFarmWeatherEvent then
-                        getgenv().NNVN_AutoFarmWeatherEvent = false
-                        if type(getgenv().NNVN_StopWeatherFarm) == "function" then
-                            getgenv().NNVN_StopWeatherFarm()
+                    if not refreshPremiumAccessResult and getgenv().NhoiiiX_AutoFarmWeatherEvent then
+                        getgenv().NhoiiiX_AutoFarmWeatherEvent = false
+                        if type(getgenv().NhoiiiX_StopWeatherFarm) == "function" then
+                            getgenv().NhoiiiX_StopWeatherFarm()
                         end
                         if weatherFarmToggle.SetValue then
                             weatherFarmToggle:SetValue(false)
@@ -13128,11 +13128,11 @@ do
         Title = "Stop Weather Farm Now",
         Icon = "square",
         Callback = function()
-            if type(getgenv().NNVN_StopWeatherFarm) == "function" then
-                getgenv().NNVN_StopWeatherFarm()
+            if type(getgenv().NhoiiiX_StopWeatherFarm) == "function" then
+                getgenv().NhoiiiX_StopWeatherFarm()
             end
-            getgenv().NNVN_AutoFarmWeatherEvent = false
-            if getgenv().NNVN_Notify then
+            getgenv().NhoiiiX_AutoFarmWeatherEvent = false
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Weather Farm",
                     Content = "Stopped. Returned home flags cleared.",
@@ -13150,10 +13150,10 @@ do
     weatherEspSec:AddToggle("ESP_Weather_WeatherTab", {
         Title = "Weather ESP",
         Description = "Highlights the island recommended for the current special weather.",
-        Default = getgenv().NNVN_ESP and getgenv().NNVN_ESP.Weather or false,
+        Default = getgenv().NhoiiiX_ESP and getgenv().NhoiiiX_ESP.Weather or false,
         Callback = function(selectedValue)
-            getgenv().NNVN_ESP = getgenv().NNVN_ESP or {}
-            getgenv().NNVN_ESP.Weather = selectedValue
+            getgenv().NhoiiiX_ESP = getgenv().NhoiiiX_ESP or {}
+            getgenv().NhoiiiX_ESP.Weather = selectedValue
             if selectedValue then
                 task.defer(function()
                     if type(applyESP_Weather) == "function" then
@@ -13165,8 +13165,8 @@ do
             end
         end
     })
-    if not getgenv()._NNVN_WeatherStatusLoop then
-        getgenv()._NNVN_WeatherStatusLoop = true
+    if not getgenv()._NhoiiiX_WeatherStatusLoop then
+        getgenv()._NhoiiiX_WeatherStatusLoop = true
         task.spawn(function()
             while task.wait(3) do
                 pcall(function()
@@ -13174,12 +13174,12 @@ do
                         return
                     end
                     local currentWeather = getCurrentWeather()
-                    weatherStatusParagraph:SetDesc(string.format("%s Weather: %s\nIsland: %s\nRecommended: %s\nSpecial: %s\nFarm session: %s | Auto: %s", formatStatusDot(true, "Online", "Offline"), tostring(currentWeather), tostring(getCurrentIslandName and getCurrentIslandName() or "?"), tostring(getgenv().NNVN_GetRecommendedWeatherIsland and getgenv().NNVN_GetRecommendedWeatherIsland(currentWeather) or "N/A"), weatherLookup[normalizeWeatherReporterName(currentWeather)] and "YES" or "NO", getgenv().NNVN_WeatherFarmActive and "ACTIVE" or "idle", getgenv().NNVN_AutoFarmWeatherEvent and "ON" or "OFF"))
+                    weatherStatusParagraph:SetDesc(string.format("%s Weather: %s\nIsland: %s\nRecommended: %s\nSpecial: %s\nFarm session: %s | Auto: %s", formatStatusDot(true, "Online", "Offline"), tostring(currentWeather), tostring(getCurrentIslandName and getCurrentIslandName() or "?"), tostring(getgenv().NhoiiiX_GetRecommendedWeatherIsland and getgenv().NhoiiiX_GetRecommendedWeatherIsland(currentWeather) or "N/A"), weatherLookup[normalizeWeatherReporterName(currentWeather)] and "YES" or "NO", getgenv().NhoiiiX_WeatherFarmActive and "ACTIVE" or "idle", getgenv().NhoiiiX_AutoFarmWeatherEvent and "ON" or "OFF"))
                 end)
             end
         end)
     end
-    getgenv().NNVN_ESP = {
+    getgenv().NhoiiiX_ESP = {
         GodSpirit = false,
         SecretRod = false,
         Boats = false,
@@ -13441,7 +13441,7 @@ do
     task.spawn(function()
         while true do
             task.wait(10)
-            for key, entry in pairs(getgenv().NNVN_ESP) do
+            for key, entry in pairs(getgenv().NhoiiiX_ESP) do
                 if entry then
                     pcall(espApplyFns[key] or function() end)
                 end
@@ -13484,7 +13484,7 @@ do
             Description = item38.desc,
             Default = false,
             Callback = function(selectedValue)
-                getgenv().NNVN_ESP[item38.key] = selectedValue
+                getgenv().NhoiiiX_ESP[item38.key] = selectedValue
                 if selectedValue then
                     pcall(espApplyFns[item38.key] or function() end)
                 else
@@ -13493,27 +13493,27 @@ do
             end
         })
     end
-    espSec:AddToggle("NNVN_SkillsESP_ESP", {
+    espSec:AddToggle("NhoiiiX_SkillsESP_ESP", {
         Title = "Skills ESP",
         Description = "Show equipped rod skills above all other players' heads.",
-        Default = getgenv().NNVN_SkillsESP == true,
+        Default = getgenv().NhoiiiX_SkillsESP == true,
         Callback = function(selectedValue)
-            if type(NNVN_SetSkillsESP) == "function" then
-                NNVN_SetSkillsESP(selectedValue == true)
+            if type(NhoiiiX_SetSkillsESP) == "function" then
+                NhoiiiX_SetSkillsESP(selectedValue == true)
             else
-                getgenv().NNVN_SkillsESP = selectedValue == true
+                getgenv().NhoiiiX_SkillsESP = selectedValue == true
             end
         end
     })
     espSec:AddButton({
         Title = "Refresh All Active ESP",
         Callback = function()
-            for key, entry in pairs(getgenv().NNVN_ESP) do
+            for key, entry in pairs(getgenv().NhoiiiX_ESP) do
                 if entry then
                     pcall(espApplyFns[key] or function() end)
                 end
             end
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({ Title = "", Content = "ESP refreshed!", Duration = 2 })
             end
         end
@@ -13521,11 +13521,11 @@ do
     espSec:AddButton({
         Title = "Clear All ESP",
         Callback = function()
-            for entryKey in pairs(getgenv().NNVN_ESP) do
-                getgenv().NNVN_ESP[entryKey] = false
+            for entryKey in pairs(getgenv().NhoiiiX_ESP) do
+                getgenv().NhoiiiX_ESP[entryKey] = false
                 clearESP(entryKey)
             end
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({ Title = "", Content = "All ESP cleared!", Duration = 2 })
             end
         end
@@ -13574,39 +13574,39 @@ do
         return counter > 0, "Tried " .. tostring(counter) .. " index unlock calls on " .. tostring(#indexRemoteCandidates) .. " remote(s)."
     end
     afkSec = mainMap.Extra:AddSection({ Title = "AFK", Icon = "timer" })
-    afkSec:AddToggle("NNVN_AntiAFK", {
+    afkSec:AddToggle("NhoiiiX_AntiAFK", {
         Title = "Anti AFK",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AntiAFK = enabled
+            getgenv().NhoiiiX_AntiAFK = enabled
         end
     })
-    afkSec:AddToggle("NNVN_AntiStaff", {
+    afkSec:AddToggle("NhoiiiX_AntiStaff", {
         Title = "Anti Staff",
         Description = "Anti-staff disabled.",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AntiStaff = false
+            getgenv().NhoiiiX_AntiStaff = false
         end
     })
-    afkSec:AddDropdown("NNVN_AntiStaffAction", {
+    afkSec:AddDropdown("NhoiiiX_AntiStaffAction", {
         Title = "Anti Staff Action",
         Description = "What to do when staff is detected",
         Values = { "Notify", "Kick", "ServerHop" },
         Value = "Notify",
         Callback = function(selectedValue)
-            getgenv().NNVN_AntiStaffAction = "Notify"
+            getgenv().NhoiiiX_AntiStaffAction = "Notify"
         end
     })
-    NNVN_SetInvisible = function(inputValue)
+    NhoiiiX_SetInvisible = function(inputValue)
         local isMatched = inputValue == true
         local character = LocalPlayer.Character
-        if isMatched and getgenv().NNVN_Invisible and getgenv()._NNVN_InvisibleSaved and getgenv()._NNVN_InvisibleCharacter == character then
+        if isMatched and getgenv().NhoiiiX_Invisible and getgenv()._NhoiiiX_InvisibleSaved and getgenv()._NhoiiiX_InvisibleCharacter == character then
             return
         end
-        getgenv().NNVN_Invisible = isMatched
-        local invisibleCamFocus = workspace:FindFirstChild("NNVN_InvisibleCamFocus")
-        local invisibleFloor = workspace:FindFirstChild("NNVN_InvisibleFloor")
+        getgenv().NhoiiiX_Invisible = isMatched
+        local invisibleCamFocus = workspace:FindFirstChild("NhoiiiX_InvisibleCamFocus")
+        local invisibleFloor = workspace:FindFirstChild("NhoiiiX_InvisibleFloor")
         if invisibleCamFocus and currentCamera.CameraSubject == invisibleCamFocus then
             local character2 = LocalPlayer.Character
             local humanoid = character2 and character2:FindFirstChildOfClass("Humanoid")
@@ -13621,27 +13621,27 @@ do
         if invisibleFloor then
             invisibleFloor:Destroy()
         end
-        if getgenv()._NNVN_InvisibleConn then
+        if getgenv()._NhoiiiX_InvisibleConn then
             pcall(function()
-                getgenv()._NNVN_InvisibleConn:Disconnect()
+                getgenv()._NhoiiiX_InvisibleConn:Disconnect()
             end)
-            getgenv()._NNVN_InvisibleConn = nil
+            getgenv()._NhoiiiX_InvisibleConn = nil
         end
-        for _, item in ipairs(getgenv()._NNVN_InvisibleConnections or {}) do
+        for _, item in ipairs(getgenv()._NhoiiiX_InvisibleConnections or {}) do
             pcall(function()
                 item:Disconnect()
             end)
         end
-        getgenv()._NNVN_InvisibleConnections = {}
-        if getgenv().NNVN_Invisible then
+        getgenv()._NhoiiiX_InvisibleConnections = {}
+        if getgenv().NhoiiiX_Invisible then
             local character3 = LocalPlayer.Character
             if not character3 then
-                getgenv().NNVN_Invisible = false
+                getgenv().NhoiiiX_Invisible = false
                 return
             end
-            getgenv()._NNVN_InvisibleSaved = {}
-            getgenv()._NNVN_InvisibleCharacter = character3
-            local invisibleConnections = getgenv()._NNVN_InvisibleConnections
+            getgenv()._NhoiiiX_InvisibleSaved = {}
+            getgenv()._NhoiiiX_InvisibleCharacter = character3
+            local invisibleConnections = getgenv()._NhoiiiX_InvisibleConnections
             local function updateBillboard(instance)
                 if instance:IsA("BasePart") then
                     instance.LocalTransparencyModifier = 1
@@ -13657,7 +13657,7 @@ do
                 end
             end
             local function updateBillboard2(instance)
-                local invisibleSaved = getgenv()._NNVN_InvisibleSaved
+                local invisibleSaved = getgenv()._NhoiiiX_InvisibleSaved
                 if not invisibleSaved then
                     return
                 end
@@ -13691,7 +13691,7 @@ do
             end
             local humanoid2 = character3:FindFirstChildOfClass("Humanoid")
             if humanoid2 then
-                getgenv()._NNVN_InvisibleHumanoid = {
+                getgenv()._NhoiiiX_InvisibleHumanoid = {
                     object = humanoid2,
                     display = humanoid2.DisplayDistanceType,
                     health = humanoid2.HealthDisplayDistance,
@@ -13701,17 +13701,17 @@ do
                 humanoid2.HealthDisplayDistance = 0
                 humanoid2.NameDisplayDistance = 0
             end
-            getgenv()._NNVN_InvisibleConn = character3.DescendantAdded:Connect(function(child)
-                if getgenv().NNVN_Invisible then
+            getgenv()._NhoiiiX_InvisibleConn = character3.DescendantAdded:Connect(function(child)
+                if getgenv().NhoiiiX_Invisible then
                     task.delay(0.12, function()
-                        if getgenv().NNVN_Invisible and LocalPlayer.Character == character3 and child.Parent then
+                        if getgenv().NhoiiiX_Invisible and LocalPlayer.Character == character3 and child.Parent then
                             pcall(updateBillboard2, child)
                         end
                     end)
                 end
             end)
         else
-            for key, entry in pairs(getgenv()._NNVN_InvisibleSaved or {}) do
+            for key, entry in pairs(getgenv()._NhoiiiX_InvisibleSaved or {}) do
                 if key and key.Parent then
                     pcall(function()
                         if entry.kind == "part" then
@@ -13727,9 +13727,9 @@ do
                     end)
                 end
             end
-            getgenv()._NNVN_InvisibleSaved = nil
-            getgenv()._NNVN_InvisibleCharacter = nil
-            local invisibleHumanoid = getgenv()._NNVN_InvisibleHumanoid
+            getgenv()._NhoiiiX_InvisibleSaved = nil
+            getgenv()._NhoiiiX_InvisibleCharacter = nil
+            local invisibleHumanoid = getgenv()._NhoiiiX_InvisibleHumanoid
             if invisibleHumanoid and invisibleHumanoid.object and invisibleHumanoid.object.Parent then
                 pcall(function()
                     invisibleHumanoid.object.DisplayDistanceType = invisibleHumanoid.display
@@ -13737,11 +13737,11 @@ do
                     invisibleHumanoid.object.NameDisplayDistance = invisibleHumanoid.name
                 end)
             end
-            getgenv()._NNVN_InvisibleHumanoid = nil
+            getgenv()._NhoiiiX_InvisibleHumanoid = nil
         end
     end
-    getgenv().NNVN_NormalFPSBoost = getgenv().NNVN_NormalFPSBoost == true
-    getgenv().NNVN_UltraFPSBoost = getgenv().NNVN_UltraFPSBoost == true
+    getgenv().NhoiiiX_NormalFPSBoost = getgenv().NhoiiiX_NormalFPSBoost == true
+    getgenv().NhoiiiX_UltraFPSBoost = getgenv().NhoiiiX_UltraFPSBoost == true
     local stateMap11 = {}
     local stateMap12 = {}
     local hasTriggered4 = false
@@ -13770,7 +13770,7 @@ do
         end
         stateMap12 = {}
     end
-    restoreNNVNFPSBoost = function()
+    restoreNhoiiiXFPSBoost = function()
         executeAction6()
         for key, entry in pairs(stateMap11) do
             if key then
@@ -13829,16 +13829,16 @@ do
             executeAction5(instance, "Parent", nil)
         end
     end
-    applyNNVNFPSBoost = function(inputValue)
+    applyNhoiiiXFPSBoost = function(inputValue)
         if hasTriggered4 then
-            getgenv().NNVN_PendingFPSMode = inputValue
+            getgenv().NhoiiiX_PendingFPSMode = inputValue
             return
         end
         hasTriggered4 = true
         task.spawn(function()
             local isMatched = tostring(inputValue) == "Ultra"
-            getgenv().NNVN_NormalFPSBoost = not isMatched
-            getgenv().NNVN_UltraFPSBoost = isMatched
+            getgenv().NhoiiiX_NormalFPSBoost = not isMatched
+            getgenv().NhoiiiX_UltraFPSBoost = isMatched
             executeAction6()
             pcall(function()
                 settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
@@ -13870,9 +13870,9 @@ do
             end
             local function resolveInsert(inputValue)
                 table.insert(stateMap12, inputValue.DescendantAdded:Connect(function(child)
-                    if getgenv().NNVN_NormalFPSBoost or getgenv().NNVN_UltraFPSBoost then
+                    if getgenv().NhoiiiX_NormalFPSBoost or getgenv().NhoiiiX_UltraFPSBoost then
                         task.defer(function()
-                            pcall(applyHighlight, child, getgenv().NNVN_UltraFPSBoost == true)
+                            pcall(applyHighlight, child, getgenv().NhoiiiX_UltraFPSBoost == true)
                         end)
                     end
                 end))
@@ -13880,65 +13880,65 @@ do
             resolveInsert(Workspace)
             resolveInsert(Lighting)
             hasTriggered4 = false
-            local pendingFpsMode = getgenv().NNVN_PendingFPSMode
-            getgenv().NNVN_PendingFPSMode = nil
+            local pendingFpsMode = getgenv().NhoiiiX_PendingFPSMode
+            getgenv().NhoiiiX_PendingFPSMode = nil
             if pendingFpsMode and tostring(pendingFpsMode) ~= tostring(inputValue) then
-                applyNNVNFPSBoost(pendingFpsMode)
+                applyNhoiiiXFPSBoost(pendingFpsMode)
             end
         end)
     end
     local performanceSection = mainMap.Visual:AddSection({ Title = "Performance", Icon = "gauge" })
-    performanceSection:AddDropdown("NNVN_PerformanceMode", {
+    performanceSection:AddDropdown("NhoiiiX_PerformanceMode", {
         Title = "Performance Mode",
         Description = "Off restores graphics. Normal reduces effects. Ultra applies the strongest FPS reduction.",
         Values = { "Off", "Normal", "Ultra" },
-        Default = getgenv().NNVN_UltraFPSBoost and "Ultra" or getgenv().NNVN_NormalFPSBoost and "Normal" or "Off",
+        Default = getgenv().NhoiiiX_UltraFPSBoost and "Ultra" or getgenv().NhoiiiX_NormalFPSBoost and "Normal" or "Off",
         Callback = function(enabled)
             if enabled == "Ultra" then
-                getgenv().NNVN_NormalFPSBoost = false
-                applyNNVNFPSBoost("Ultra")
+                getgenv().NhoiiiX_NormalFPSBoost = false
+                applyNhoiiiXFPSBoost("Ultra")
             elseif enabled == "Normal" then
-                getgenv().NNVN_UltraFPSBoost = false
-                applyNNVNFPSBoost("Normal")
+                getgenv().NhoiiiX_UltraFPSBoost = false
+                applyNhoiiiXFPSBoost("Normal")
             else
-                getgenv().NNVN_NormalFPSBoost = false
-                getgenv().NNVN_UltraFPSBoost = false
-                restoreNNVNFPSBoost()
+                getgenv().NhoiiiX_NormalFPSBoost = false
+                getgenv().NhoiiiX_UltraFPSBoost = false
+                restoreNhoiiiXFPSBoost()
             end
         end
     })
-    performanceSection:AddToggle("NNVN_NormalFPSBoost", {
+    performanceSection:AddToggle("NhoiiiX_NormalFPSBoost", {
         Title = "Normal FPS Boost",
         Description = "Reduces shadows, effects, textures, and water detail.",
-        Default = getgenv().NNVN_NormalFPSBoost,
+        Default = getgenv().NhoiiiX_NormalFPSBoost,
         Callback = function(enabled)
             if enabled then
-                getgenv().NNVN_UltraFPSBoost = false
-                applyNNVNFPSBoost("Normal")
-            elseif not getgenv().NNVN_UltraFPSBoost then
-                restoreNNVNFPSBoost()
+                getgenv().NhoiiiX_UltraFPSBoost = false
+                applyNhoiiiXFPSBoost("Normal")
+            elseif not getgenv().NhoiiiX_UltraFPSBoost then
+                restoreNhoiiiXFPSBoost()
             end
         end
     })
-    performanceSection:AddToggle("NNVN_UltraFPSBoost", {
+    performanceSection:AddToggle("NhoiiiX_UltraFPSBoost", {
         Title = "Ultra FPS Boost",
         Description = "More aggressive rendering reduction; visuals may become very basic.",
-        Default = getgenv().NNVN_UltraFPSBoost,
+        Default = getgenv().NhoiiiX_UltraFPSBoost,
         Callback = function(selectedValue)
             if selectedValue then
-                getgenv().NNVN_NormalFPSBoost = false
-                applyNNVNFPSBoost("Ultra")
-            elseif not getgenv().NNVN_NormalFPSBoost then
-                restoreNNVNFPSBoost()
+                getgenv().NhoiiiX_NormalFPSBoost = false
+                applyNhoiiiXFPSBoost("Ultra")
+            elseif not getgenv().NhoiiiX_NormalFPSBoost then
+                restoreNhoiiiXFPSBoost()
             end
         end
     })
     pcall(function()
-        local lowFpsWarning = LocalPlayer:FindFirstChild("PlayerGui") and LocalPlayer.PlayerGui:FindFirstChild("NNVN_LowFPSWarning")
+        local lowFpsWarning = LocalPlayer:FindFirstChild("PlayerGui") and LocalPlayer.PlayerGui:FindFirstChild("NhoiiiX_LowFPSWarning")
         if lowFpsWarning then
             lowFpsWarning:Destroy()
         end
-        local lowFpsBlur = Lighting:FindFirstChild("NNVN_LowFPSBlur")
+        local lowFpsBlur = Lighting:FindFirstChild("NhoiiiX_LowFPSBlur")
         if lowFpsBlur then
             lowFpsBlur:Destroy()
         end
@@ -13951,24 +13951,24 @@ do
         if not item39 then
             return
         end
-        local lowFpsBlur = Lighting:FindFirstChild("NNVN_LowFPSBlur")
+        local lowFpsBlur = Lighting:FindFirstChild("NhoiiiX_LowFPSBlur")
         if lowFpsBlur then
             lowFpsBlur:Destroy()
         end
         item39.Enabled = false
     end
     local function resolveUltraFpsBoost(inputValue)
-        if getgenv().NNVN_UltraFPSBoost or getgenv().NNVN_LowFPSPromptShown or item39 and item39.Enabled then
+        if getgenv().NhoiiiX_UltraFPSBoost or getgenv().NhoiiiX_LowFPSPromptShown or item39 and item39.Enabled then
             return
         end
-        getgenv().NNVN_LowFPSPromptShown = true
+        getgenv().NhoiiiX_LowFPSPromptShown = true
         local playerGui = LocalPlayer:FindFirstChild("PlayerGui")
         if not playerGui then
             return
         end
         if not item39 then
             item39 = Instance.new("ScreenGui")
-            item39.Name = "NNVN_LowFPSWarning"
+            item39.Name = "NhoiiiX_LowFPSWarning"
             item39.ResetOnSpawn = false
             item39.DisplayOrder = 1000
             item39.Parent = playerGui
@@ -14018,9 +14018,9 @@ do
             textButton.Parent = frame2
             Instance.new("UICorner", textButton).CornerRadius = UDim.new(0, 7)
             textButton.Activated:Connect(function()
-                getgenv().NNVN_UltraFPSBoost = true
-                getgenv().NNVN_NormalFPSBoost = false
-                applyNNVNFPSBoost("Ultra")
+                getgenv().NhoiiiX_UltraFPSBoost = true
+                getgenv().NhoiiiX_NormalFPSBoost = false
+                applyNhoiiiXFPSBoost("Ultra")
                 cleanupResource3()
             end)
             local textButton2 = Instance.new("TextButton")
@@ -14048,7 +14048,7 @@ do
             textButton3.ZIndex = 3
             textButton3.Parent = frame2
             textButton3.Activated:Connect(function()
-                getgenv().NNVN_DisableUltraFPSPrompt = true
+                getgenv().NhoiiiX_DisableUltraFPSPrompt = true
                 cleanupResource3()
             end)
         end
@@ -14067,7 +14067,7 @@ do
         end)
     end
     task.spawn(function()
-        while getgenv().NNVN_Loaded ~= true do
+        while getgenv().NhoiiiX_Loaded ~= true do
             task.wait(0.25)
         end
         huge = os.clock() + 8
@@ -14082,10 +14082,10 @@ do
                 return
             end
             local computedValue = counter / counter2
-            getgenv().NNVN_StatusFPS = math.floor(computedValue + 0.5)
+            getgenv().NhoiiiX_StatusFPS = math.floor(computedValue + 0.5)
             counter = 0
             counter2 = 0
-            if getgenv().NNVN_Loaded == true and huge <= os.clock() and not getgenv().NNVN_DisableUltraFPSPrompt and not getgenv().NNVN_LowFPSPromptShown and computedValue <= 20 and not getgenv().NNVN_UltraFPSBoost then
+            if getgenv().NhoiiiX_Loaded == true and huge <= os.clock() and not getgenv().NhoiiiX_DisableUltraFPSPrompt and not getgenv().NhoiiiX_LowFPSPromptShown and computedValue <= 20 and not getgenv().NhoiiiX_UltraFPSBoost then
                 resolveUltraFpsBoost(computedValue)
             end
         end)
@@ -14095,71 +14095,71 @@ do
         end
     end)
     utilSec = mainMap.Extra:AddSection({ Title = "Utilities", Icon = "wrench" })
-    utilSec:AddToggle("NNVN_AutoRejoin", {
+    utilSec:AddToggle("NhoiiiX_AutoRejoin", {
         Title = "Auto Rejoin",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_AutoRejoin = enabled
+            getgenv().NhoiiiX_AutoRejoin = enabled
         end
     })
-    utilSec:AddToggle("NNVN_Notify", {
+    utilSec:AddToggle("NhoiiiX_Notify", {
         Title = "Notifications",
         Default = true,
         Callback = function(enabled)
-            getgenv().NNVN_Notify = enabled
+            getgenv().NhoiiiX_Notify = enabled
         end
     })
-    utilSec:AddToggle("NNVN_Watermark", {
+    utilSec:AddToggle("NhoiiiX_Watermark", {
         Title = "Show Watermark",
         Description = "Shows or hides the hub status watermark.",
-        Default = getgenv().NNVN_Watermark == true,
+        Default = getgenv().NhoiiiX_Watermark == true,
         Callback = function(enabled)
-            NNVN_SetWatermarkVisible(enabled == true)
+            NhoiiiX_SetWatermarkVisible(enabled == true)
         end
     })
     local item40
-    utilSec:AddToggle("NNVN_BlankPlayerId", {
+    utilSec:AddToggle("NhoiiiX_BlankPlayerId", {
         Title = "Hide Player ID",
         Description = "Sets the top-right player ID text to blank.",
-        Default = getgenv().NNVN_BlankPlayerId == true,
+        Default = getgenv().NhoiiiX_BlankPlayerId == true,
         Callback = function(enabled)
-            getgenv().NNVN_BlankPlayerId = enabled == true
+            getgenv().NhoiiiX_BlankPlayerId = enabled == true
             applyHidePlayerId()
         end
     })
-    utilSec:AddToggle("NNVN_HidePlayerId", {
+    utilSec:AddToggle("NhoiiiX_HidePlayerId", {
         Title = "Custom Player ID",
         Description = "Replaces the top-right player ID text.",
-        Default = getgenv().NNVN_HidePlayerId,
+        Default = getgenv().NhoiiiX_HidePlayerId,
         Callback = function(inputText)
-            getgenv().NNVN_HidePlayerId = inputText == true
+            getgenv().NhoiiiX_HidePlayerId = inputText == true
             if item40 and item40.SetVisible then
                 item40:SetVisible(inputText == true)
             end
             applyHidePlayerId()
         end
     })
-    item40 = utilSec:AddInput("NNVN_CustomPlayerId", {
+    item40 = utilSec:AddInput("NhoiiiX_CustomPlayerId", {
         Title = "Custom ID",
         Placeholder = tostring(LocalPlayer.UserId),
-        Default = getgenv().NNVN_CustomPlayerId,
+        Default = getgenv().NhoiiiX_CustomPlayerId,
         Finished = true,
-        Visible = getgenv().NNVN_HidePlayerId == true,
+        Visible = getgenv().NhoiiiX_HidePlayerId == true,
         Callback = function(amount)
-            getgenv().NNVN_CustomPlayerId = tostring(amount or "")
-            if getgenv().NNVN_HidePlayerId then
+            getgenv().NhoiiiX_CustomPlayerId = tostring(amount or "")
+            if getgenv().NhoiiiX_HidePlayerId then
                 applyHidePlayerId()
             end
         end
     })
-    utilSec:AddSlider("NNVN_WalkSpeed", {
+    utilSec:AddSlider("NhoiiiX_WalkSpeed", {
         Title = "WalkSpeed",
         Default = 16,
         Min = 8,
         Max = 100,
         Rounding = 1,
         Callback = function(selectedValue)
-            getgenv().NNVN_WalkSpeed = selectedValue
+            getgenv().NhoiiiX_WalkSpeed = selectedValue
             local character = LocalPlayer.Character
             if character then
                 local humanoid = character:FindFirstChild("Humanoid")
@@ -14232,7 +14232,7 @@ do
                 }) do
                     resolveGsub(item2)
                 end
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Redeem Codes",
                         Content = string.format("Sent %d code(s)! Mode: %s", counter, hasTriggered and "Dynamic+Fallback" or "Fallback only"),
@@ -14245,7 +14245,7 @@ do
     utilSec:AddButton({
         Title = "Rejoin",
         Callback = function()
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({ Title = "", Content = "Rejoining in 3 seconds...", Duration = 3 })
             end
             task.wait(3)
@@ -14259,14 +14259,14 @@ do
             local data = ReplicatedStorage:FindFirstChild("Data")
             local playerData = data and data:FindFirstChild(tostring(LocalPlayer.UserId))
             if not playerData then
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({ Title = "Index", Content = "User data not found!", Duration = 2 })
                 end
                 return
             end
             local index = playerData:FindFirstChild("Index")
             if not index then
-                if getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Notify then
                     item:Notify({ Title = "Index", Content = "Index folder not found!", Duration = 2 })
                 end
                 return
@@ -14281,7 +14281,7 @@ do
                     counter = counter + 1
                 end
             end
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({
                     Title = "Index",
                     Content = "Unlocked " .. counter .. " fish!",
@@ -14347,11 +14347,11 @@ do
     end
     flyInputCon = nil
     flyInputEndCon = nil
-    utilSec:AddToggle("NNVN_FlyMode", {
+    utilSec:AddToggle("NhoiiiX_FlyMode", {
         Title = "Fly Mode",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_FlyMode = enabled
+            getgenv().NhoiiiX_FlyMode = enabled
             if enabled then
                 startFly()
                 if flyInputCon then
@@ -14389,44 +14389,44 @@ do
             end
         end
     })
-    utilSec:AddSlider("NNVN_FlySpeed", {
+    utilSec:AddSlider("NhoiiiX_FlySpeed", {
         Title = "Fly Speed",
         Default = 50,
         Min = 10,
         Max = 200,
         Rounding = 1,
         Callback = function(enabled)
-            getgenv().NNVN_FlySpeed = enabled
+            getgenv().NhoiiiX_FlySpeed = enabled
             flyState.speed = enabled
         end
     })
-    utilSec:AddToggle("NNVN_InfiniteJump", {
+    utilSec:AddToggle("NhoiiiX_InfiniteJump", {
         Title = "Infinite Jump",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_InfiniteJump = enabled
+            getgenv().NhoiiiX_InfiniteJump = enabled
         end
     })
 end
 
 do
     trollSec = mainMap.Extra:AddSection({ Title = "Backflip", Icon = "rotate-cw" })
-    trollSec:AddToggle("NNVN_Backflip", {
+    trollSec:AddToggle("NhoiiiX_Backflip", {
         Title = "Backflip",
         Description = "Flip forward repeatedly. Adjust distance below.",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_Backflip = enabled and true or false
-            getgenv().NNVN_BackflipLoopId = (getgenv().NNVN_BackflipLoopId or 0) + 1
-            local backflipLoopId = getgenv().NNVN_BackflipLoopId
-            if not getgenv().NNVN_Backflip then
+            getgenv().NhoiiiX_Backflip = enabled and true or false
+            getgenv().NhoiiiX_BackflipLoopId = (getgenv().NhoiiiX_BackflipLoopId or 0) + 1
+            local backflipLoopId = getgenv().NhoiiiX_BackflipLoopId
+            if not getgenv().NhoiiiX_Backflip then
                 return
             end
             task.spawn(function()
-                while getgenv().NNVN_Backflip and backflipLoopId == getgenv().NNVN_BackflipLoopId do
+                while getgenv().NhoiiiX_Backflip and backflipLoopId == getgenv().NhoiiiX_BackflipLoopId do
                     pcall(function()
-                        if type(getgenv().NNVN_DoBackflip) == "function" then
-                            getgenv().NNVN_DoBackflip()
+                        if type(getgenv().NhoiiiX_DoBackflip) == "function" then
+                            getgenv().NhoiiiX_DoBackflip()
                         end
                     end)
                     task.wait(1.15)
@@ -14434,14 +14434,14 @@ do
             end)
         end
     })
-    trollSec:AddSlider("NNVN_BackflipDistance", {
+    trollSec:AddSlider("NhoiiiX_BackflipDistance", {
         Title = "Backflip Distance",
-        Default = tonumber(getgenv().NNVN_BackflipDistance) or 8,
+        Default = tonumber(getgenv().NhoiiiX_BackflipDistance) or 8,
         Min = 1,
         Max = 15,
         Rounding = 1,
         Callback = function(selectedValue)
-            getgenv().NNVN_BackflipDistance = math.clamp(tonumber(selectedValue) or 8, 1, 15)
+            getgenv().NhoiiiX_BackflipDistance = math.clamp(tonumber(selectedValue) or 8, 1, 15)
         end
     })
     trollSec:AddButton({
@@ -14449,8 +14449,8 @@ do
         Icon = "rotate-cw",
         Callback = function()
             pcall(function()
-                if type(getgenv().NNVN_DoBackflip) == "function" then
-                    getgenv().NNVN_DoBackflip()
+                if type(getgenv().NhoiiiX_DoBackflip) == "function" then
+                    getgenv().NhoiiiX_DoBackflip()
                 end
             end)
         end
@@ -14537,11 +14537,11 @@ do
         end
         waterWalk.waterPartsList = {}
     end
-    utilSec:AddToggle("NNVN_WalkOnWater", {
+    utilSec:AddToggle("NhoiiiX_WalkOnWater", {
         Title = "Walk on Water",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_WalkOnWater = enabled
+            getgenv().NhoiiiX_WalkOnWater = enabled
             if enabled then
                 enableWaterWalk()
             else
@@ -14550,11 +14550,11 @@ do
         end
     })
     worldSec = mainMap.Extra:AddSection({ Title = "World", Icon = "globe" })
-    worldSec:AddToggle("NNVN_NoClip", {
+    worldSec:AddToggle("NhoiiiX_NoClip", {
         Title = "No Clip",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_NoClip = enabled
+            getgenv().NhoiiiX_NoClip = enabled
             local character = LocalPlayer.Character
             if not character then
                 return
@@ -14569,11 +14569,11 @@ do
     })
     origFogEnd = Lighting.FogEnd
     origFogStart = Lighting.FogStart
-    worldSec:AddToggle("NNVN_NoFog", {
+    worldSec:AddToggle("NhoiiiX_NoFog", {
         Title = "No Fog",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_NoFog = enabled
+            getgenv().NhoiiiX_NoFog = enabled
             pcall(function()
                 if enabled then
                     Lighting.FogEnd = 100000
@@ -14599,11 +14599,11 @@ do
     origT = colorShiftTop
     origBr = brightness
     origOA = outdoorAmbient
-    worldSec:AddToggle("NNVN_FullBright", {
+    worldSec:AddToggle("NhoiiiX_FullBright", {
         Title = "Full Bright",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_FullBright = enabled
+            getgenv().NhoiiiX_FullBright = enabled
             if not enabled then
                 Lighting.Ambient = origA
                 Lighting.ColorShift_Bottom = origB
@@ -14648,12 +14648,12 @@ do
             end)
         end
     })
-    screenOverlay = CoreGui:FindFirstChild("NNVN_PerformanceOverlay")
+    screenOverlay = CoreGui:FindFirstChild("NhoiiiX_PerformanceOverlay")
     if screenOverlay then
         screenOverlay:Destroy()
     end
     screenOverlay = Instance.new("ScreenGui")
-    screenOverlay.Name = "NNVN_PerformanceOverlay"
+    screenOverlay.Name = "NhoiiiX_PerformanceOverlay"
     screenOverlay.IgnoreGuiInset = true
     screenOverlay.ResetOnSpawn = false
     screenOverlay.DisplayOrder = 0
@@ -14668,43 +14668,43 @@ do
     whiteToggle = nil
     darkToggle = nil
     updateScreenOverlay = function()
-        if getgenv().NNVN_WhiteScreen then
+        if getgenv().NhoiiiX_WhiteScreen then
             screenFrame.BackgroundColor3 = Color3.new(1, 1, 1)
             screenOverlay.Enabled = true
-        elseif getgenv().NNVN_DarkScreen then
+        elseif getgenv().NhoiiiX_DarkScreen then
             screenFrame.BackgroundColor3 = Color3.new(0, 0, 0)
             screenOverlay.Enabled = true
         else
             screenOverlay.Enabled = false
         end
     end
-    whiteToggle = displaySec:AddToggle("NNVN_WhiteScreen", {
+    whiteToggle = displaySec:AddToggle("NhoiiiX_WhiteScreen", {
         Title = "White Screen",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_WhiteScreen = enabled
+            getgenv().NhoiiiX_WhiteScreen = enabled
             if enabled and darkToggle then
                 darkToggle:SetValue(false)
             end
             updateScreenOverlay()
         end
     })
-    darkToggle = displaySec:AddToggle("NNVN_DarkScreen", {
+    darkToggle = displaySec:AddToggle("NhoiiiX_DarkScreen", {
         Title = "Dark Screen",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_DarkScreen = enabled
+            getgenv().NhoiiiX_DarkScreen = enabled
             if enabled and whiteToggle then
                 whiteToggle:SetValue(false)
             end
             updateScreenOverlay()
         end
     })
-    displaySec:AddToggle("NNVN_HideUI", {
+    displaySec:AddToggle("NhoiiiX_HideUI", {
         Title = "Hide Game UI",
         Default = false,
         Callback = function(enabled)
-            getgenv().NNVN_HideUI = enabled
+            getgenv().NhoiiiX_HideUI = enabled
             if enabled then
                 RequestHideUI()
             else
@@ -14713,11 +14713,11 @@ do
         end
     })
     startupSec = mainMap.Extra:AddSection({ Title = "Startup", Icon = "play" })
-    startupSec:AddToggle("NNVN_AutoExecuteScript", {
+    startupSec:AddToggle("NhoiiiX_AutoExecuteScript", {
         Title = "Auto Execute Script on Join",
         Default = true,
         Callback = function(enabled)
-            getgenv().NNVN_AutoExecuteScript = enabled
+            getgenv().NhoiiiX_AutoExecuteScript = enabled
         end
     })
     local stateMap13 = {}
@@ -14778,35 +14778,35 @@ do
         return false
     end
     canAutoServerHop = function()
-        if getgenv().NNVN_IsApplyingConfig then
+        if getgenv().NhoiiiX_IsApplyingConfig then
             return false
         end
-        if getgenv().NNVN_HopBootLocked then
+        if getgenv().NhoiiiX_HopBootLocked then
             return false
         end
-        if os.clock() - (tonumber(getgenv().NNVN_ScriptBootTime) or 0) < (tonumber(getgenv().NNVN_HopGraceSeconds) or 20) then
+        if os.clock() - (tonumber(getgenv().NhoiiiX_ScriptBootTime) or 0) < (tonumber(getgenv().NhoiiiX_HopGraceSeconds) or 20) then
             return false
         end
-        if not getgenv().NNVN_Loaded then
+        if not getgenv().NhoiiiX_Loaded then
             return false
         end
-        if getgenv().NNVN_AutoHopFightEnzo ~= true and getgenv().NNVN_PremiumWeatherEnabled ~= true and getgenv().NNVN_PremiumSpiritEnabled ~= true and getgenv().NNVN_PremiumTaoistEnabled ~= true and getgenv().NNVN_PremiumMaoshanEnabled ~= true and getgenv().NNVN_AutoHopGod ~= true and getgenv().NNVN_AutoHopMaoshan ~= true and getgenv().NNVN_AutoHopTaoist ~= true then
+        if getgenv().NhoiiiX_AutoHopFightEnzo ~= true and getgenv().NhoiiiX_PremiumWeatherEnabled ~= true and getgenv().NhoiiiX_PremiumSpiritEnabled ~= true and getgenv().NhoiiiX_PremiumTaoistEnabled ~= true and getgenv().NhoiiiX_PremiumMaoshanEnabled ~= true and getgenv().NhoiiiX_AutoHopGod ~= true and getgenv().NhoiiiX_AutoHopMaoshan ~= true and getgenv().NhoiiiX_AutoHopTaoist ~= true then
             return false
         end
-        return getgenv().NNVN_AllowAutomaticServerHop == true and getgenv().NNVN_ServerHopArmed == true
+        return getgenv().NhoiiiX_AllowAutomaticServerHop == true and getgenv().NhoiiiX_ServerHopArmed == true
     end
     disarmAutomaticServerHop = function(inputValue)
-        getgenv().NNVN_AllowAutomaticServerHop = false
-        getgenv().NNVN_ServerHopArmed = false
-        getgenv().NNVN_AutoHopFightEnzo = false
-        getgenv().NNVN_AutoHopGod = false
-        getgenv().NNVN_AutoHopMaoshan = false
-        getgenv().NNVN_AutoHopTaoist = false
+        getgenv().NhoiiiX_AllowAutomaticServerHop = false
+        getgenv().NhoiiiX_ServerHopArmed = false
+        getgenv().NhoiiiX_AutoHopFightEnzo = false
+        getgenv().NhoiiiX_AutoHopGod = false
+        getgenv().NhoiiiX_AutoHopMaoshan = false
+        getgenv().NhoiiiX_AutoHopTaoist = false
         if inputValue == "config" or inputValue == "boot" then
-            getgenv().NNVN_PremiumWeatherEnabled = false
-            getgenv().NNVN_PremiumSpiritEnabled = false
-            getgenv().NNVN_PremiumTaoistEnabled = false
-            getgenv().NNVN_PremiumMaoshanEnabled = false
+            getgenv().NhoiiiX_PremiumWeatherEnabled = false
+            getgenv().NhoiiiX_PremiumSpiritEnabled = false
+            getgenv().NhoiiiX_PremiumTaoistEnabled = false
+            getgenv().NhoiiiX_PremiumMaoshanEnabled = false
         end
     end
     local autoHopGodSpirit = {
@@ -14814,17 +14814,17 @@ do
         AutoHopMaoshan = true,
         AutoHopTaoist = true,
         ["AutoHopGod Spirit"] = true,
-        NNVN_AutoHopFightEnzo = true,
-        NNVN_PremiumWeatherEnabled = true,
-        NNVN_PremiumSpiritEnabled = true,
-        NNVN_PremiumTaoistEnabled = true,
-        NNVN_PremiumMaoshanEnabled = true,
-        NNVN_AllowAutomaticServerHop = true,
-        NNVN_ServerHopArmed = true,
-        NNVN_AutoHopGod = true,
-        NNVN_AutoHopMaoshan = true,
-        NNVN_AutoHopTaoist = true,
-        NNVN_AntiStaff = true
+        NhoiiiX_AutoHopFightEnzo = true,
+        NhoiiiX_PremiumWeatherEnabled = true,
+        NhoiiiX_PremiumSpiritEnabled = true,
+        NhoiiiX_PremiumTaoistEnabled = true,
+        NhoiiiX_PremiumMaoshanEnabled = true,
+        NhoiiiX_AllowAutomaticServerHop = true,
+        NhoiiiX_ServerHopArmed = true,
+        NhoiiiX_AutoHopGod = true,
+        NhoiiiX_AutoHopMaoshan = true,
+        NhoiiiX_AutoHopTaoist = true,
+        NhoiiiX_AntiStaff = true
     }
     isHopRelatedFlag = function(inputValue)
         if not inputValue then
@@ -14860,13 +14860,13 @@ do
     ServerHop = {}
     ServerHop.Teleport = function(inputValue, secondValue)
         if not canAutoServerHop() then
-            warn("[NNVN Hub] Server hop blocked — not armed / boot lock / config apply")
+            warn("[NhoiiiX Hub] Server hop blocked — not armed / boot lock / config apply")
             return false
         end
         local hasTriggered = false
         while not hasTriggered do
             if not canAutoServerHop() then
-                warn("[NNVN Hub] Server hop aborted mid-loop — disarmed")
+                warn("[NhoiiiX Hub] Server hop aborted mid-loop — disarmed")
                 return false
             end
             pcall(function()
@@ -14878,16 +14878,16 @@ do
         end
     end
     ServerHop.TeleportManual = function(inputValue, secondValue)
-        if getgenv().NNVN_IsApplyingConfig or getgenv().NNVN_HopBootLocked then
-            warn("[NNVN Hub] Manual hop blocked during boot/config")
+        if getgenv().NhoiiiX_IsApplyingConfig or getgenv().NhoiiiX_HopBootLocked then
+            warn("[NhoiiiX Hub] Manual hop blocked during boot/config")
             return false
         end
-        local allowAutomaticServerHop = getgenv().NNVN_AllowAutomaticServerHop
-        local serverHopArmed = getgenv().NNVN_ServerHopArmed
-        getgenv().NNVN_AllowAutomaticServerHop = true
-        getgenv().NNVN_ServerHopArmed = true
-        local autoHopGod = getgenv().NNVN_AutoHopGod
-        getgenv().NNVN_AutoHopGod = true
+        local allowAutomaticServerHop = getgenv().NhoiiiX_AllowAutomaticServerHop
+        local serverHopArmed = getgenv().NhoiiiX_ServerHopArmed
+        getgenv().NhoiiiX_AllowAutomaticServerHop = true
+        getgenv().NhoiiiX_ServerHopArmed = true
+        local autoHopGod = getgenv().NhoiiiX_AutoHopGod
+        getgenv().NhoiiiX_AutoHopGod = true
         local hasTriggered = false
         pcall(function()
             local hasTriggered2 = false
@@ -14903,9 +14903,9 @@ do
             end
             hasTriggered = hasTriggered2
         end)
-        getgenv().NNVN_AutoHopGod = autoHopGod
-        getgenv().NNVN_AllowAutomaticServerHop = allowAutomaticServerHop and true or false
-        getgenv().NNVN_ServerHopArmed = serverHopArmed and true or false
+        getgenv().NhoiiiX_AutoHopGod = autoHopGod
+        getgenv().NhoiiiX_AllowAutomaticServerHop = allowAutomaticServerHop and true or false
+        getgenv().NhoiiiX_ServerHopArmed = serverHopArmed and true or false
         return hasTriggered
     end
     addHopSection = function(control, secondValue, thirdValue)
@@ -14948,19 +14948,19 @@ do
             Title = "Auto Hop to " .. secondValue .. " Server",
             Default = false,
             Callback = function(selectedValue)
-                if getgenv().NNVN_IsApplyingConfig then
+                if getgenv().NhoiiiX_IsApplyingConfig then
                     return
                 end
-                local combinedText = "NNVN_AutoHop" .. secondValue:gsub("%s+", "")
+                local combinedText = "NhoiiiX_AutoHop" .. secondValue:gsub("%s+", "")
                 if secondValue == "God Spirit" then
-                    combinedText = "NNVN_AutoHopGod"
+                    combinedText = "NhoiiiX_AutoHopGod"
                 elseif secondValue == "Maoshan" then
-                    combinedText = "NNVN_AutoHopMaoshan"
+                    combinedText = "NhoiiiX_AutoHopMaoshan"
                 elseif secondValue == "Taoist" then
-                    combinedText = "NNVN_AutoHopTaoist"
+                    combinedText = "NhoiiiX_AutoHopTaoist"
                 end
                 if selectedValue then
-                    if not getgenv().NNVN_Loaded or getgenv().NNVN_HopBootLocked then
+                    if not getgenv().NhoiiiX_Loaded or getgenv().NhoiiiX_HopBootLocked then
                         task.defer(function()
                             pcall(function()
                                 if item4 and item4.SetValue then
@@ -14971,8 +14971,8 @@ do
                         return
                     end
                     getgenv()[combinedText] = true
-                    getgenv().NNVN_AllowAutomaticServerHop = true
-                    getgenv().NNVN_ServerHopArmed = true
+                    getgenv().NhoiiiX_AllowAutomaticServerHop = true
+                    getgenv().NhoiiiX_ServerHopArmed = true
                     if item3 then
                         coroutine.close(item3)
                         item3 = nil
@@ -14987,9 +14987,9 @@ do
                                     item4:SetValue(false)
                                 end)
                                 getgenv()[combinedText] = false
-                                getgenv().NNVN_ServerHopArmed = false
-                                getgenv().NNVN_AllowAutomaticServerHop = false
-                                if not getgenv().NNVN_Notify then
+                                getgenv().NhoiiiX_ServerHopArmed = false
+                                getgenv().NhoiiiX_AllowAutomaticServerHop = false
+                                if not getgenv().NhoiiiX_Notify then
                                     break
                                 end
                                 item:Notify({
@@ -14999,19 +14999,19 @@ do
                                 })
                                 break
                             else
-                                if getgenv().NNVN_Notify then
+                                if getgenv().NhoiiiX_Notify then
                                     item:Notify({
                                         Title = "",
                                         Content = secondValue .. " not found. Hopping...",
                                         Duration = 2
                                     })
                                 end
-                                getgenv().NNVN_ServerHopArmed = true
-                                getgenv().NNVN_AllowAutomaticServerHop = true
+                                getgenv().NhoiiiX_ServerHopArmed = true
+                                getgenv().NhoiiiX_AllowAutomaticServerHop = true
                                 pcall(function()
                                     ServerHop:Teleport(placeId)
                                 end)
-                                getgenv().NNVN_ServerHopArmed = false
+                                getgenv().NhoiiiX_ServerHopArmed = false
                                 break
                             end
                         end
@@ -15019,8 +15019,8 @@ do
                     coroutine.resume(item3)
                 else
                     getgenv()[combinedText] = false
-                    getgenv().NNVN_ServerHopArmed = false
-                    getgenv().NNVN_AllowAutomaticServerHop = false
+                    getgenv().NhoiiiX_ServerHopArmed = false
+                    getgenv().NhoiiiX_AllowAutomaticServerHop = false
                     if item3 then
                         coroutine.close(item3)
                         item3 = nil
@@ -15035,7 +15035,7 @@ do
                     pcall(function()
                         ServerHop:TeleportManual(placeId)
                     end)
-                elseif getgenv().NNVN_Notify then
+                elseif getgenv().NhoiiiX_Notify then
                     item:Notify({ Title = "", Content = secondValue .. " already here!", Duration = 2 })
                 end
             end
@@ -15051,79 +15051,79 @@ do
         return findTrackerObject("taoist") ~= nil
     end)
     webhookMainSec = mainMap.Webhook:AddSection({ Title = "Discord Webhook", Icon = "webhook" })
-    webhookMainSec:AddInput("NNVN_WebhookUrl", {
+    webhookMainSec:AddInput("NhoiiiX_WebhookUrl", {
         Title = "Webhook URL",
-        Default = getgenv().NNVN_WebhookUrl or "",
+        Default = getgenv().NhoiiiX_WebhookUrl or "",
         Placeholder = "https://discord.com/api/webhooks/...",
         Callback = function(enabled)
-            getgenv().NNVN_WebhookUrl = tostring(enabled or "")
+            getgenv().NhoiiiX_WebhookUrl = tostring(enabled or "")
         end
     })
-    webhookMainSec:AddToggle("NNVN_WebhookEnabled", {
+    webhookMainSec:AddToggle("NhoiiiX_WebhookEnabled", {
         Title = "Enable Webhook",
-        Default = getgenv().NNVN_WebhookEnabled == true,
+        Default = getgenv().NhoiiiX_WebhookEnabled == true,
         Callback = function(selectedValue)
-            getgenv().NNVN_WebhookEnabled = selectedValue == true
+            getgenv().NhoiiiX_WebhookEnabled = selectedValue == true
         end
     })
 end
 
 do
     webhookEventsSec = mainMap.Webhook:AddSection({ Title = "Webhook Events", Icon = "bell" })
-    webhookEventsSec:AddToggle("NNVN_WebhookCatchFish", {
+    webhookEventsSec:AddToggle("NhoiiiX_WebhookCatchFish", {
         Title = "Normal Fish Caught",
-        Default = getgenv().NNVN_WebhookCatchFish == true,
+        Default = getgenv().NhoiiiX_WebhookCatchFish == true,
         Callback = function(enabled)
-            getgenv().NNVN_WebhookCatchFish = enabled == true
+            getgenv().NhoiiiX_WebhookCatchFish = enabled == true
         end
     })
-    webhookEventsSec:AddToggle("NNVN_WebhookCatchBoss", {
+    webhookEventsSec:AddToggle("NhoiiiX_WebhookCatchBoss", {
         Title = "Boss Fish Caught",
-        Default = getgenv().NNVN_WebhookCatchBoss == true,
+        Default = getgenv().NhoiiiX_WebhookCatchBoss == true,
         Callback = function(enabled)
-            getgenv().NNVN_WebhookCatchBoss = enabled == true
+            getgenv().NhoiiiX_WebhookCatchBoss = enabled == true
         end
     })
-    webhookEventsSec:AddToggle("NNVN_WebhookCatchSecretBoss", {
+    webhookEventsSec:AddToggle("NhoiiiX_WebhookCatchSecretBoss", {
         Title = "Secret Boss Caught",
-        Default = getgenv().NNVN_WebhookCatchSecretBoss == true,
+        Default = getgenv().NhoiiiX_WebhookCatchSecretBoss == true,
         Callback = function(enabled)
-            getgenv().NNVN_WebhookCatchSecretBoss = enabled == true
+            getgenv().NhoiiiX_WebhookCatchSecretBoss = enabled == true
         end
     })
-    webhookEventsSec:AddToggle("NNVN_WebhookSell", {
+    webhookEventsSec:AddToggle("NhoiiiX_WebhookSell", {
         Title = "Fish Sold",
-        Default = getgenv().NNVN_WebhookSell == true,
+        Default = getgenv().NhoiiiX_WebhookSell == true,
         Callback = function(enabled)
-            getgenv().NNVN_WebhookSell = enabled == true
+            getgenv().NhoiiiX_WebhookSell = enabled == true
         end
     })
-    webhookEventsSec:AddToggle("NNVN_WebhookWeather", {
+    webhookEventsSec:AddToggle("NhoiiiX_WebhookWeather", {
         Title = "Weather and Island",
-        Default = getgenv().NNVN_WebhookWeather == true,
+        Default = getgenv().NhoiiiX_WebhookWeather == true,
         Callback = function(enabled)
-            getgenv().NNVN_WebhookWeather = enabled == true
+            getgenv().NhoiiiX_WebhookWeather = enabled == true
         end
     })
-    webhookEventsSec:AddToggle("NNVN_WebhookSpirit", {
+    webhookEventsSec:AddToggle("NhoiiiX_WebhookSpirit", {
         Title = "God Spirit",
-        Default = getgenv().NNVN_WebhookSpirit == true,
+        Default = getgenv().NhoiiiX_WebhookSpirit == true,
         Callback = function(enabled)
-            getgenv().NNVN_WebhookSpirit = enabled == true
+            getgenv().NhoiiiX_WebhookSpirit = enabled == true
         end
     })
-    webhookEventsSec:AddToggle("NNVN_WebhookMaoshan", {
+    webhookEventsSec:AddToggle("NhoiiiX_WebhookMaoshan", {
         Title = "Maoshan",
-        Default = getgenv().NNVN_WebhookMaoshan == true,
+        Default = getgenv().NhoiiiX_WebhookMaoshan == true,
         Callback = function(enabled)
-            getgenv().NNVN_WebhookMaoshan = enabled == true
+            getgenv().NhoiiiX_WebhookMaoshan = enabled == true
         end
     })
-    webhookEventsSec:AddToggle("NNVN_WebhookTaoist", {
+    webhookEventsSec:AddToggle("NhoiiiX_WebhookTaoist", {
         Title = "Taoist",
-        Default = getgenv().NNVN_WebhookTaoist == true,
+        Default = getgenv().NhoiiiX_WebhookTaoist == true,
         Callback = function(selectedValue)
-            getgenv().NNVN_WebhookTaoist = selectedValue == true
+            getgenv().NhoiiiX_WebhookTaoist = selectedValue == true
         end
     })
     webhookMainSec:AddParagraph({
@@ -15304,21 +15304,21 @@ do
             end)
         end
     })
-    DISCORD_INVITE = "https://discord.gg/5JJAuHRUgJ"
+    DISCORD_INVITE = "https://https://discord.gg/aXWW8hytgX"
     DISCORD_CODE = "5JJAuHRUgJ"
-    infoSec = mainMap.Main:AddSection({ Title = "NNVN Hub", Icon = "home" })
+    infoSec = mainMap.Main:AddSection({ Title = "NhoiiiX Hub", Icon = "home" })
     hubRuntimeStatus = infoSec:AddParagraph({ Title = "Status", Content = "Loading hub info..." })
     discordStatus = infoSec:AddParagraph({ Title = "Discord", Content = "Loading invite info..." })
     infoSec:AddParagraph({
         Title = "Update Log",
-        Content = "NNVN Hub v" .. hubVersion .. "\n• Restore Methods" .. "\n• Arrival Gating" .. "\n• Quest Guard" .. "\n• Sky Lock Fix" .. "\n• Executor Check" .. "\n• Mobile UI" .. "\n• Midnight Theme" .. "\n• Image Background" .. "\n• Auto Cast Delay" .. "\n• Safety Controls" .. "\n• Remote Spam Guard" .. "\n• One-Time NPC Check" .. "\n• Hard Sky Farm"
+        Content = "NhoiiiX Hub v" .. hubVersion .. "\n• Restore Methods" .. "\n• Arrival Gating" .. "\n• Quest Guard" .. "\n• Sky Lock Fix" .. "\n• Executor Check" .. "\n• Mobile UI" .. "\n• Midnight Theme" .. "\n• Image Background" .. "\n• Auto Cast Delay" .. "\n• Safety Controls" .. "\n• Remote Spam Guard" .. "\n• One-Time NPC Check" .. "\n• Hard Sky Farm"
     })
     if infoSec.AddDiscordBox then
-        infoSec:AddDiscordBox("NNVN_DiscordBox", {
-            Title = "NNVN Hub",
+        infoSec:AddDiscordBox("NhoiiiX_DiscordBox", {
+            Title = "NhoiiiX Hub",
             Subtitle = "Join Discord for updates and support",
-            Banner = "rbxassetid://138952058031836",
-            Avatar = "rbxassetid://138952058031836",
+            Banner = "rbxassetid://75850663384500",
+            Avatar = "rbxassetid://75850663384500",
             Status = "online",
             Accent = Color3.fromRGB(88, 101, 242),
             Link = DISCORD_INVITE,
@@ -15394,14 +15394,14 @@ do
         local checkAttribute4Result2 = checkAttribute4("Crystal")
         local checkAttribute4Result3 = checkAttribute4("Ticket")
         local checkAttribute4Result4 = checkAttribute4("EssenceOrb")
-        getgenv().NNVN_MainEssenceOrbValue = checkAttribute4Result4
+        getgenv().NhoiiiX_MainEssenceOrbValue = checkAttribute4Result4
         playerStatsParagraph:SetDesc(string.format("Cash: %s\nGems: %s\nTicket: %s\nEssence Orbs: %s", checkAttribute4Result, checkAttribute4Result2, checkAttribute4Result3, checkAttribute4Result4))
         if hubRuntimeStatus and type(UpdateHubRuntimeInfo) == "function" then
             UpdateHubRuntimeInfo()
         end
     end
     UpdateHubRuntimeInfo = function()
-        hubRuntimeStatus:SetDesc(string.format("NNVN Hub v%s\nIsland: %s\nWeather: %s\nEssence Orbs: %s", tostring(hubVersion), getCurrentIslandName(), getCurrentWeather(), tostring(getgenv().NNVN_MainEssenceOrbValue or checkAttribute4("EssenceOrb"))))
+        hubRuntimeStatus:SetDesc(string.format("NhoiiiX Hub v%s\nIsland: %s\nWeather: %s\nEssence Orbs: %s", tostring(hubVersion), getCurrentIslandName(), getCurrentWeather(), tostring(getgenv().NhoiiiX_MainEssenceOrbValue or checkAttribute4("EssenceOrb"))))
     end
     UpdateDiscordInfo = function()
         task.spawn(function()
@@ -15409,7 +15409,7 @@ do
                 return HttpService:JSONDecode(game:HttpGet("https://discord.com/api/v10/invites/" .. DISCORD_CODE .. "?with_counts=true&with_expiration=true"))
             end)
             if ok and result then
-                local name = result.guild and result.guild.name or "NNVN Discord"
+                local name = result.guild and result.guild.name or "NhoiiiX Discord"
                 local parsedNum = tonumber(result.approximate_member_count) or 0
                 local parsedNum2 = tonumber(result.approximate_presence_count) or 0
                 discordStatus:SetDesc(string.format("%s\n🟢 Online Members: %d\n🔴 Offline Members: %d\nInvite: %s", name, parsedNum2, math.max(0, parsedNum - parsedNum2), DISCORD_INVITE))
@@ -15433,7 +15433,7 @@ do
             pcall(function()
                 setclipboard(DISCORD_INVITE)
             end)
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 item:Notify({ Title = "Discord", Content = "Invite copied!", Duration = 2 })
             end
         end
@@ -15461,10 +15461,10 @@ do
     LanguageSection:Dropdown({
         Title = "Select Language",
         Values = languageOptions,
-        Value = getgenv().NNVN_Language,
+        Value = getgenv().NhoiiiX_Language,
         Callback = function(selected)
             local translatedChoice = NormalizeTranslatedChoice(selected, "English")
-            getgenv().NNVN_Language = languageDict[translatedChoice] and translatedChoice or "English"
+            getgenv().NhoiiiX_Language = languageDict[translatedChoice] and translatedChoice or "English"
             task.defer(function()
                 pcall(ApplyUILanguage)
             end)
@@ -15472,10 +15472,10 @@ do
                 pcall(ApplyUILanguage)
             end)
             task.defer(function()
-                if getgenv().NNVN_Loaded and getgenv().NNVN_Notify then
+                if getgenv().NhoiiiX_Loaded and getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = TranslateText("Language"),
-                        Content = TranslateText("Select Language") .. ": " .. getgenv().NNVN_Language,
+                        Content = TranslateText("Select Language") .. ": " .. getgenv().NhoiiiX_Language,
                         Duration = 2,
                         Icon = "languages"
                     })
@@ -15484,19 +15484,19 @@ do
         end
     })
     DisplaySection = patchContainer(SettingsTab:Section({ Title = "Display", Icon = "monitor", Opened = true }))
-    DisplaySection:AddToggle("NNVN_WatermarkSettings", {
+    DisplaySection:AddToggle("NhoiiiX_WatermarkSettings", {
         Title = "Show Watermark",
         Description = "Shows or hides the hub status watermark.",
-        Default = getgenv().NNVN_Watermark == true,
+        Default = getgenv().NhoiiiX_Watermark == true,
         Callback = function(inputText)
-            NNVN_SetWatermarkVisible(inputText == true)
+            NhoiiiX_SetWatermarkVisible(inputText == true)
         end
     })
-    DisplaySection:AddInput("NNVN_AccentColorHex", {
+    DisplaySection:AddInput("NhoiiiX_AccentColorHex", {
         Title = "Accent Color",
         Description = "Hex color for highlights and effects. Default: #568CFF.",
         Placeholder = "#568CFF",
-        Default = tostring(getgenv().NNVN_AccentColorHex or "#568CFF"),
+        Default = tostring(getgenv().NhoiiiX_AccentColorHex or "#568CFF"),
         Finished = true,
         Callback = function(selectedValue)
             local selectedValueText = tostring(selectedValue or "#568CFF")
@@ -15505,12 +15505,12 @@ do
             elseif selectedValueText:sub(1, 1) ~= "#" then
                 selectedValueText = "#" .. selectedValueText
             end
-            getgenv().NNVN_AccentColorHex = selectedValueText:upper()
+            getgenv().NhoiiiX_AccentColorHex = selectedValueText:upper()
             pcall(applyWindowScheme)
         end
     })
-    BackgroundInputValue = getgenv().NNVN_BackgroundImage or ""
-    DisplaySection:AddInput("NNVN_BackgroundImage", {
+    BackgroundInputValue = getgenv().NhoiiiX_BackgroundImage or ""
+    DisplaySection:AddInput("NhoiiiX_BackgroundImage", {
         Title = "Background Asset",
         Description = "Supports rbxassetid://123456789 and direct image URLs.",
         Placeholder = "rbxassetid://123456789",
@@ -15518,7 +15518,7 @@ do
         Finished = true,
         Callback = function(amount)
             BackgroundInputValue = tostring(amount or "")
-            getgenv().NNVN_BackgroundImage = BackgroundInputValue
+            getgenv().NhoiiiX_BackgroundImage = BackgroundInputValue
             if Window.SetBackgroundImage then
                 pcall(function()
                     Window:SetBackgroundImage(BackgroundInputValue)
@@ -15526,18 +15526,18 @@ do
             end
         end
     })
-    DisplaySection:AddSlider("NNVN_BackgroundTransparency", {
+    DisplaySection:AddSlider("NhoiiiX_BackgroundTransparency", {
         Title = "Background Transparency",
         Description = "Higher values keep controls easier to read.",
-        Default = tonumber(getgenv().NNVN_BackgroundTransparency) or 0.72,
+        Default = tonumber(getgenv().NhoiiiX_BackgroundTransparency) or 0.72,
         Min = 0,
         Max = 0.95,
         Rounding = 2,
         Callback = function(selectedValue)
-            getgenv().NNVN_BackgroundTransparency = tonumber(selectedValue) or 0.72
+            getgenv().NhoiiiX_BackgroundTransparency = tonumber(selectedValue) or 0.72
             if Window.SetBackgroundImageTransparency then
                 pcall(function()
-                    Window:SetBackgroundImageTransparency(getgenv().NNVN_BackgroundTransparency)
+                    Window:SetBackgroundImageTransparency(getgenv().NhoiiiX_BackgroundTransparency)
                 end)
             end
         end
@@ -15546,7 +15546,7 @@ do
         Title = "Clear Background",
         Callback = function()
             BackgroundInputValue = ""
-            getgenv().NNVN_BackgroundImage = ""
+            getgenv().NhoiiiX_BackgroundImage = ""
             if Window.SetBackgroundImage then
                 pcall(function()
                     Window:SetBackgroundImage("")
@@ -15566,7 +15566,7 @@ do
     WindUIConfigManager = nil
     WindUIConfigFile = nil
     NotifySettings = function(inputValue, secondValue)
-        if getgenv().NNVN_Notify then
+        if getgenv().NhoiiiX_Notify then
             item:Notify({
                 Title = inputValue or "Settings",
                 Content = secondValue or "",
@@ -15575,8 +15575,8 @@ do
             })
         end
     end
-    ConfigFolder = "NNVN_HeavyweightFishing/configs"
-    AutoLoadMetaPath = "NNVN_HeavyweightFishing/autoload.txt"
+    ConfigFolder = "NhoiiiX_HeavyweightFishing/configs"
+    AutoLoadMetaPath = "NhoiiiX_HeavyweightFishing/autoload.txt"
     KnownConfigNames = {}
     initWindUIConfig = function()
         local configManager = Window and Window.ConfigManager
@@ -15632,8 +15632,8 @@ do
     ensureConfigFolder = function()
         if type(makefolder) == "function" then
             pcall(function()
-                if type(isfolder) ~= "function" or not isfolder("NNVN_HeavyweightFishing") then
-                    makefolder("NNVN_HeavyweightFishing")
+                if type(isfolder) ~= "function" or not isfolder("NhoiiiX_HeavyweightFishing") then
+                    makefolder("NhoiiiX_HeavyweightFishing")
                 end
                 if type(isfolder) ~= "function" or not isfolder(ConfigFolder) then
                     makefolder(ConfigFolder)
@@ -15682,7 +15682,7 @@ do
         end
         return stateMap
     end
-    NNVN_ConfigJSONValue = function(inputValue, secondValue)
+    NhoiiiX_ConfigJSONValue = function(inputValue, secondValue)
         local typeofResult = typeof(inputValue)
         if typeofResult == "string" or typeofResult == "number" or typeofResult == "boolean" then
             return inputValue
@@ -15698,7 +15698,7 @@ do
         local lookupMap = {}
         for key, entry in pairs(inputValue) do
             local isMatched = type(key) == "string" or type(key) == "number"
-            local configJsonValueResult = NNVN_ConfigJSONValue(entry, secondValue)
+            local configJsonValueResult = NhoiiiX_ConfigJSONValue(entry, secondValue)
             if isMatched and configJsonValueResult ~= nil then
                 lookupMap[key] = configJsonValueResult
             end
@@ -15710,7 +15710,7 @@ do
         local themeMap = {
             __theme = SelectedTheme or "Dark",
             __background = BackgroundInputValue or "",
-            __background_transparency = tonumber(getgenv().NNVN_BackgroundTransparency) or 0.72,
+            __background_transparency = tonumber(getgenv().NhoiiiX_BackgroundTransparency) or 0.72,
             __auto_load = AutoLoadConfig == true,
             __auto_save = AutoSaveConfig == true,
             __custom_positions = serializeCustomPositions()
@@ -15719,7 +15719,7 @@ do
             if isHopRelatedFlag(key) then
                 themeMap[key] = false
             else
-                local configJsonValueResult = NNVN_ConfigJSONValue(entry and entry.Value)
+                local configJsonValueResult = NhoiiiX_ConfigJSONValue(entry and entry.Value)
                 if configJsonValueResult ~= nil then
                     themeMap[key] = configJsonValueResult
                 end
@@ -15731,7 +15731,7 @@ do
         if type(inputValue) ~= "table" then
             return false
         end
-        getgenv().NNVN_IsApplyingConfig = true
+        getgenv().NhoiiiX_IsApplyingConfig = true
         local ok, result = pcall(function()
             if type(inputValue.__custom_positions) == "table" then
                 applyCustomPositions(inputValue.__custom_positions)
@@ -15765,10 +15765,10 @@ do
                 end
             end
             if inputValue.__background_transparency ~= nil then
-                getgenv().NNVN_BackgroundTransparency = tonumber(inputValue.__background_transparency) or 0.72
+                getgenv().NhoiiiX_BackgroundTransparency = tonumber(inputValue.__background_transparency) or 0.72
                 if Window.SetBackgroundImageTransparency then
                     pcall(function()
-                        Window:SetBackgroundImageTransparency(getgenv().NNVN_BackgroundTransparency)
+                        Window:SetBackgroundImageTransparency(getgenv().NhoiiiX_BackgroundTransparency)
                     end)
                 end
             end
@@ -15776,20 +15776,20 @@ do
             AutoSaveConfig = inputValue.__auto_save == true
         end)
         disarmAutomaticServerHop("config")
-        getgenv().NNVN_AllowAutomaticServerHop = false
-        getgenv().NNVN_ServerHopArmed = false
-        getgenv().NNVN_AutoHopFightEnzo = false
-        getgenv().NNVN_AutoHopGod = false
-        getgenv().NNVN_AutoHopMaoshan = false
-        getgenv().NNVN_AutoHopTaoist = false
-        getgenv().NNVN_PremiumWeatherEnabled = false
-        getgenv().NNVN_PremiumSpiritEnabled = false
-        getgenv().NNVN_PremiumTaoistEnabled = false
-        getgenv().NNVN_PremiumMaoshanEnabled = false
-        getgenv().NNVN_AntiStaff = false
-        getgenv().NNVN_IsApplyingConfig = false
+        getgenv().NhoiiiX_AllowAutomaticServerHop = false
+        getgenv().NhoiiiX_ServerHopArmed = false
+        getgenv().NhoiiiX_AutoHopFightEnzo = false
+        getgenv().NhoiiiX_AutoHopGod = false
+        getgenv().NhoiiiX_AutoHopMaoshan = false
+        getgenv().NhoiiiX_AutoHopTaoist = false
+        getgenv().NhoiiiX_PremiumWeatherEnabled = false
+        getgenv().NhoiiiX_PremiumSpiritEnabled = false
+        getgenv().NhoiiiX_PremiumTaoistEnabled = false
+        getgenv().NhoiiiX_PremiumMaoshanEnabled = false
+        getgenv().NhoiiiX_AntiStaff = false
+        getgenv().NhoiiiX_IsApplyingConfig = false
         if not ok then
-            warn("[NNVN Hub] applySavedConfig error: " .. tostring(result))
+            warn("[NhoiiiX Hub] applySavedConfig error: " .. tostring(result))
             return false
         end
         return true
@@ -16079,11 +16079,11 @@ do
         end
     end)
     local stateMap14 = {}
-    getgenv().NNVN_ConfigAutoSaveToken = stateMap14
+    getgenv().NhoiiiX_ConfigAutoSaveToken = stateMap14
     task.spawn(function()
-        while getgenv().NNVN_ConfigAutoSaveToken == stateMap14 do
+        while getgenv().NhoiiiX_ConfigAutoSaveToken == stateMap14 do
             task.wait(30)
-            if not AutoSaveConfig or getgenv().NNVN_IsApplyingConfig then
+            if not AutoSaveConfig or getgenv().NhoiiiX_IsApplyingConfig then
                 continue
             end
             saveConfig(SelectedConfigName ~= "-- no config --" and SelectedConfigName or ConfigName)
@@ -16091,12 +16091,12 @@ do
     end)
     task.spawn(function()
         while true do
-            task.wait(math.max(0.5, tonumber(getgenv().NNVN_AutoCastDelay) or 3))
-            if not getgenv().NNVN_AutoCast then
+            task.wait(math.max(0.5, tonumber(getgenv().NhoiiiX_AutoCastDelay) or 3))
+            if not getgenv().NhoiiiX_AutoCast then
             else
                 pcall(function()
                     local character = LocalPlayer.Character
-                    if character and not character:GetAttribute("Fishing") and not item3.Fishing.Visible and NNVN_RemoteAllowed("AutoCast", getgenv().NNVN_AutoCastDelay) then
+                    if character and not character:GetAttribute("Fishing") and not item3.Fishing.Visible and NhoiiiX_RemoteAllowed("AutoCast", getgenv().NhoiiiX_AutoCastDelay) then
                         ReplicatedStorage.Events.Fishing:FireServer()
                     end
                 end)
@@ -16112,11 +16112,11 @@ do
             return
         end
         while task.wait(1) do
-            local autoCast = getgenv().NNVN_AutoCast or getgenv().NNVN_AutoBossFishing or getgenv().NNVN_AutoFarmSecretBoss or getgenv().NNVN_AutoTicket or getgenv().NNVN_AutoFarm2MFish or getgenv().NNVN_MaterialFarming or getgenv().NNVN_MaterialRodFarming or getgenv().NNVN_AutoFarmWeatherEvent
-            if autoCast and not getgenv().NNVN_AutoEquipRod then
+            local autoCast = getgenv().NhoiiiX_AutoCast or getgenv().NhoiiiX_AutoBossFishing or getgenv().NhoiiiX_AutoFarmSecretBoss or getgenv().NhoiiiX_AutoTicket or getgenv().NhoiiiX_AutoFarm2MFish or getgenv().NhoiiiX_MaterialFarming or getgenv().NhoiiiX_MaterialRodFarming or getgenv().NhoiiiX_AutoFarmWeatherEvent
+            if autoCast and not getgenv().NhoiiiX_AutoEquipRod then
                 activateAutoEquipRodForFarm()
             end
-            if getgenv().NNVN_AutoEquipRod or autoCast then
+            if getgenv().NhoiiiX_AutoEquipRod or autoCast then
                 pcall(function()
                     if not isHoldingFishingRod() then
                         toggleHotbar:InvokeServer("1", nil)
@@ -16125,7 +16125,7 @@ do
             end
         end
     end)
-    BossFarmState = getgenv().NNVN_BossFarmState
+    BossFarmState = getgenv().NhoiiiX_BossFarmState
     BossKeywords = {
         "boss",
         "raid",
@@ -16190,10 +16190,10 @@ do
         end
     end)
     secretBossWeatherAllowed = function()
-        if not getgenv().NNVN_AutoFarmSecretBoss then
+        if not getgenv().NhoiiiX_AutoFarmSecretBoss then
             return false
         end
-        if getgenv().NNVN_AutoSecretBossMode ~= "Only When Weather" then
+        if getgenv().NhoiiiX_AutoSecretBossMode ~= "Only When Weather" then
             return true
         end
         if type(getCurrentWeather) ~= "function" or type(isSpecialWeatherName) ~= "function" then
@@ -16202,7 +16202,7 @@ do
         return isSpecialWeatherName(getCurrentWeather()) == true
     end
     bossFarmEnabled = function()
-        return getgenv().NNVN_AutoBossFishing or secretBossWeatherAllowed()
+        return getgenv().NhoiiiX_AutoBossFishing or secretBossWeatherAllowed()
     end
     textHasKeyword = function(inputValue, secondValue)
         inputValue = string.lower(tostring(inputValue or ""))
@@ -16268,15 +16268,15 @@ do
     shouldFarmBossTarget = function(inputValue)
         local inputValue2 = inputValue or getCurrentHookTarget()
         if isSecretBossTarget(inputValue2) then
-            if getgenv().NNVN_AutoBossFishing or secretBossWeatherAllowed() then
+            if getgenv().NhoiiiX_AutoBossFishing or secretBossWeatherAllowed() then
                 return true, "Secret Boss"
             end
             return false, "Normal"
         end
-        if secretBossWeatherAllowed() and not getgenv().NNVN_AutoBossFishing then
+        if secretBossWeatherAllowed() and not getgenv().NhoiiiX_AutoBossFishing then
             return false, "Normal"
         end
-        if getgenv().NNVN_AutoBossFishing and isBossTarget(inputValue2) then
+        if getgenv().NhoiiiX_AutoBossFishing and isBossTarget(inputValue2) then
             return true, "Boss"
         end
         return false, "Normal"
@@ -16367,7 +16367,7 @@ do
         local combinedText = secondaryValue .. tostring(instance.Name)
         if BossFarmState.LastNotify ~= combinedText then
             BossFarmState.LastNotify = combinedText
-            if getgenv().NNVN_Notify and item then
+            if getgenv().NhoiiiX_Notify and item then
                 item:Notify({
                     Title = "Boss Farm",
                     Content = "Farming " .. secondaryValue .. ": " .. tostring(instance.Name or "Unknown"),
@@ -16438,7 +16438,7 @@ do
                 task.delay(0.15, cancelOrReleaseNormalFish)
                 return
             end
-            if getgenv().NNVN_AutoCast or bossFarmEnabled() and shouldFarmBossTarget2 then
+            if getgenv().NhoiiiX_AutoCast or bossFarmEnabled() and shouldFarmBossTarget2 then
                 task.spawn(function()
                     local isEnabled = true
                     local item
@@ -16687,7 +16687,7 @@ do
         return math.max(1, math.floor(secondaryValue)) <= primaryValue
     end
     local function resolveSellActionMethod()
-        local sellActionMethodText = tostring(getgenv().NNVN_SellActionMethod or "Tween [Safe]")
+        local sellActionMethodText = tostring(getgenv().NhoiiiX_SellActionMethod or "Tween [Safe]")
         if sellActionMethodText:find("Instant", 1, true) then
             return "Instant"
         end
@@ -16697,8 +16697,8 @@ do
         return "Tween"
     end
     local function resolveMax2()
-        getgenv().NNVN_SellDelay = math.max(1, math.max(0, math.floor(tonumber(getgenv().NNVN_SellDelayMinutes) or 0)) * 60 + math.max(0, math.floor(tonumber(getgenv().NNVN_SellDelaySeconds) or 0)))
-        return getgenv().NNVN_SellDelay
+        getgenv().NhoiiiX_SellDelay = math.max(1, math.max(0, math.floor(tonumber(getgenv().NhoiiiX_SellDelayMinutes) or 0)) * 60 + math.max(0, math.floor(tonumber(getgenv().NhoiiiX_SellDelaySeconds) or 0)))
+        return getgenv().NhoiiiX_SellDelay
     end
     local function checkAttribute6(inputValue)
         local findFirstChild7 = resolveFindFirstChild7()
@@ -16707,7 +16707,7 @@ do
         end
         local stateMap = {}
         for _, item in ipairs(findFirstChild7:GetChildren()) do
-            if item:GetAttribute("NNVN_VirtualDupe") == true then
+            if item:GetAttribute("NhoiiiX_VirtualDupe") == true then
             else
                 local name2 = resolveName2(item)
                 local formattedText = string.lower(name2)
@@ -16773,7 +16773,7 @@ do
         local stateMap = {}
         local findFirstChild7 = resolveFindFirstChild7()
         for _, item in ipairs(findFirstChild7 and findFirstChild7:GetChildren() or {}) do
-            if item:GetAttribute("NNVN_VirtualDupe") ~= true then
+            if item:GetAttribute("NhoiiiX_VirtualDupe") ~= true then
                 table.insert(stateMap, item.Name)
             end
         end
@@ -16813,7 +16813,7 @@ do
             }, function()
                 if inputValue == "All" then
                     resolveAll()
-                    if getgenv().NNVN_WebhookSell then
+                    if getgenv().NhoiiiX_WebhookSell then
                         whSend("sell", {
                             eventEmoji = "💰",
                             title = "Fish Sold",
@@ -16826,7 +16826,7 @@ do
                     resolveFindFirstChild9(item)
                     task.wait(0.08)
                 end
-                if getgenv().NNVN_WebhookSell then
+                if getgenv().NhoiiiX_WebhookSell then
                     whSend("sell:" .. string.lower(inputValue), {
                         eventEmoji = "💰",
                         title = "Fish Sold",
@@ -16837,10 +16837,10 @@ do
         end)
         hasTriggered5 = false
         if not ok then
-            warn("[NNVN Auto Sell] " .. tostring(result))
+            warn("[NhoiiiX Auto Sell] " .. tostring(result))
         end
     end
-    getgenv().NNVN_SellFishMode = runWarn
+    getgenv().NhoiiiX_SellFishMode = runWarn
     local hasTriggered6 = false
     local function resolveDelay(inputValue)
         if hasTriggered6 then
@@ -16849,16 +16849,16 @@ do
         hasTriggered6 = true
         task.delay(0.25, function()
             hasTriggered6 = false
-            if inputValue and getgenv().NNVN_AutoSell then
+            if inputValue and getgenv().NhoiiiX_AutoSell then
                 runWarn("All")
                 return
             end
-            if getgenv().NNVN_AutoSellWhenFull and resolveMax() then
+            if getgenv().NhoiiiX_AutoSellWhenFull and resolveMax() then
                 runWarn("All")
             end
         end)
     end
-    getgenv().NNVN_RequestAutoSellCheck = resolveDelay
+    getgenv().NhoiiiX_RequestAutoSellCheck = resolveDelay
     task.spawn(function()
         local item
         while not item do
@@ -16869,7 +16869,7 @@ do
         end
         item.ChildAdded:Connect(function()
             labelMap.nextScan = 0
-            if getgenv().NNVN_AutoSellWhenFull then
+            if getgenv().NhoiiiX_AutoSellWhenFull then
                 resolveDelay(false)
             end
         end)
@@ -16880,14 +16880,14 @@ do
     task.spawn(function()
         while true do
             task.wait(resolveMax2())
-            local autoSell = getgenv().NNVN_AutoSell
-            local max = getgenv().NNVN_AutoSellWhenFull and resolveMax()
-            local secretBossLabel = getgenv().NNVN_AutoSellOnlySecretBoss and "SecretBoss"
+            local autoSell = getgenv().NhoiiiX_AutoSell
+            local max = getgenv().NhoiiiX_AutoSellWhenFull and resolveMax()
+            local secretBossLabel = getgenv().NhoiiiX_AutoSellOnlySecretBoss and "SecretBoss"
             if not secretBossLabel then
-                secretBossLabel = getgenv().NNVN_AutoSellOnlyBoss and "Boss"
+                secretBossLabel = getgenv().NhoiiiX_AutoSellOnlyBoss and "Boss"
             end
             if not secretBossLabel then
-                secretBossLabel = getgenv().NNVN_AutoSellNormalFish and "Normal"
+                secretBossLabel = getgenv().NhoiiiX_AutoSellNormalFish and "Normal"
             end
             if not autoSell and not max and not secretBossLabel then
             else
@@ -16897,7 +16897,7 @@ do
             end
         end
     end)
-    NNVN_GetSkillButton = function(inputValue)
+    NhoiiiX_GetSkillButton = function(inputValue)
         local playerGui = LocalPlayer:FindFirstChild("PlayerGui")
         local mainGui = playerGui and playerGui:FindFirstChild("MainGui") or item3
         local fishing = mainGui and mainGui:FindFirstChild("Fishing")
@@ -16907,7 +16907,7 @@ do
     end
     local function executeAction7(inputValue)
         local ok, result = pcall(function()
-            local skillButton = NNVN_GetSkillButton(inputValue)
+            local skillButton = NhoiiiX_GetSkillButton(inputValue)
             if not skillButton then
                 return nil
             end
@@ -16948,7 +16948,7 @@ do
         local function resolveSkillOrder()
             local stateMap = {}
             local lookupMap = {}
-            for _, item in ipairs(getgenv().NNVN_SkillOrder or {}) do
+            for _, item in ipairs(getgenv().NhoiiiX_SkillOrder or {}) do
                 item = string.upper(tostring(item))
                 if skillFlags[item] and not lookupMap[item] then
                     lookupMap[item] = true
@@ -16963,7 +16963,7 @@ do
             return stateMap
         end
         local function resolveAutoSkillMethod(inputValue)
-            local autoSkillMethod = getgenv().NNVN_AutoSkillMethod
+            local autoSkillMethod = getgenv().NhoiiiX_AutoSkillMethod
             if autoSkillMethod == "Skill Event" then
                 local events = ReplicatedStorage:FindFirstChild("Events")
                 local useSkill = events and events:FindFirstChild("UseSkill")
@@ -16971,7 +16971,7 @@ do
                     return false
                 end
                 local nowTime = os.clock()
-                if nowTime - (tonumber(getgenv().NNVN_AutoSkillLastRemote) or 0) < 0.9 or not NNVN_RemoteAllowed("AutoSkill:" .. inputValue, 0.9) then
+                if nowTime - (tonumber(getgenv().NhoiiiX_AutoSkillLastRemote) or 0) < 0.9 or not NhoiiiX_RemoteAllowed("AutoSkill:" .. inputValue, 0.9) then
                     return false
                 end
                 local hasTriggered = false
@@ -16985,12 +16985,12 @@ do
                     end)
                 end
                 if hasTriggered then
-                    getgenv().NNVN_AutoSkillLastRemote = nowTime
+                    getgenv().NhoiiiX_AutoSkillLastRemote = nowTime
                 end
                 return hasTriggered
             end
             if autoSkillMethod == "Mobile (Click)" then
-                local skillButton = NNVN_GetSkillButton(inputValue)
+                local skillButton = NhoiiiX_GetSkillButton(inputValue)
                 local skillButton2 = skillButton
                 if skillButton2 then
                     skillButton2 = skillButton:IsA("GuiButton") and skillButton or skillButton:FindFirstChildWhichIsA("GuiButton", true)
@@ -17031,15 +17031,15 @@ do
             end)
         end
         while true do
-            if not getgenv().NNVN_AutoSkill then
+            if not getgenv().NhoiiiX_AutoSkill then
                 counter = 0
                 task.wait(1.5)
             else
                 task.wait(0.35)
                 local skillOrder = resolveSkillOrder()
-                local skills = getgenv().NNVN_Skills or { Z = true, X = true, C = true, V = true }
+                local skills = getgenv().NhoiiiX_Skills or { Z = true, X = true, C = true, V = true }
                 for i = 1, #skillOrder do
-                    if not getgenv().NNVN_AutoSkill then
+                    if not getgenv().NhoiiiX_AutoSkill then
                         break
                     end
                     local computedValue = (counter + i - 1) % #skillOrder + 1
@@ -17056,7 +17056,7 @@ do
     local counter8 = 0
     local counter9 = 0
     RunService.RenderStepped:Connect(function()
-        if not getgenv().NNVN_Anchor then
+        if not getgenv().NhoiiiX_Anchor then
             return
         end
         local nowTime = os.clock()
@@ -17069,7 +17069,7 @@ do
             if fishing.Visible then
                 local bar = fishing.BarFrame.Bar
                 bar.Position = UDim2.new(0.5, 0, bar.Position.Y.Scale, 0)
-                if nowTime - counter8 >= 0.65 and NNVN_RemoteAllowed("AnchorBar", 0.65) then
+                if nowTime - counter8 >= 0.65 and NhoiiiX_RemoteAllowed("AnchorBar", 0.65) then
                     counter8 = nowTime
                     ReplicatedStorage.Fishing:FireServer("1")
                 end
@@ -17080,12 +17080,12 @@ do
         task.wait(0.5)
         local humanoid = character:FindFirstChild("Humanoid")
         if humanoid then
-            humanoid.WalkSpeed = getgenv().NNVN_WalkSpeed
+            humanoid.WalkSpeed = getgenv().NhoiiiX_WalkSpeed
         end
-        if getgenv().NNVN_AutoCast and not HasFishingRod() then
+        if getgenv().NhoiiiX_AutoCast and not HasFishingRod() then
             pcall(EquipSlot1)
         end
-        if getgenv().NNVN_NoClip then
+        if getgenv().NhoiiiX_NoClip then
             for _, item in ipairs(character:GetChildren()) do
                 if item:IsA("BasePart") then
                     item.CanCollide = false
@@ -17093,7 +17093,7 @@ do
                 end
             end
         end
-        if getgenv().NNVN_AutoEquipRod then
+        if getgenv().NhoiiiX_AutoEquipRod then
             pcall(EquipSlot1)
         end
         task.defer(applyHidePlayerId)
@@ -17101,15 +17101,15 @@ do
         task.defer(applyFakeVisuals)
         task.defer(applyFakeHeadless)
         task.defer(applyFakeKorblox)
-        if getgenv().NNVN_FakeSkinEnabled then
+        if getgenv().NhoiiiX_FakeSkinEnabled then
             task.defer(applyFakeSkinFromPlayer)
         end
     end)
-    if not getgenv()._NNVN_AntiAfkIdledHooked then
-        getgenv()._NNVN_AntiAfkIdledHooked = true
+    if not getgenv()._NhoiiiX_AntiAfkIdledHooked then
+        getgenv()._NhoiiiX_AntiAfkIdledHooked = true
         pcall(function()
             LocalPlayer.Idled:Connect(function()
-                if not getgenv().NNVN_AntiAFK then
+                if not getgenv().NhoiiiX_AntiAFK then
                     return
                 end
                 pcall(function()
@@ -17127,7 +17127,7 @@ do
     end
     task.spawn(function()
         while true do
-            if getgenv().NNVN_AntiAFK then
+            if getgenv().NhoiiiX_AntiAFK then
                 pcall(function()
                     local events = ReplicatedStorage:FindFirstChild("Events")
                     local afk = events and events:FindFirstChild("AFK")
@@ -17147,7 +17147,7 @@ do
     task.spawn(function()
         local function resolveAntiStaffUser()
             local lookupMap = {}
-            for _, item in ipairs(getgenv().NNVN_AntiStaffUserIds or {}) do
+            for _, item in ipairs(getgenv().NhoiiiX_AntiStaffUserIds or {}) do
                 local parsedNum = tonumber(item)
                 if parsedNum then
                     lookupMap[parsedNum] = true
@@ -17184,21 +17184,21 @@ do
         end
         local function resolveClock(player, secondValue, thirdValue)
             local nowTime = os.clock()
-            if nowTime - (tonumber(getgenv().NNVN_AntiStaffCooldown) or 0) < 8 then
+            if nowTime - (tonumber(getgenv().NhoiiiX_AntiStaffCooldown) or 0) < 8 then
                 return
             end
-            getgenv().NNVN_AntiStaffCooldown = nowTime
+            getgenv().NhoiiiX_AntiStaffCooldown = nowTime
             local formattedText = string.format("Staff detected: %s (@%s) | %s=%s", tostring(player.DisplayName or player.Name), tostring(player.Name), tostring(secondValue or "?"), tostring(thirdValue or ""))
-            if getgenv().NNVN_Notify then
+            if getgenv().NhoiiiX_Notify then
                 pcall(function()
                     item:Notify({ Title = "Anti Staff", Content = formattedText, Duration = 6 })
                 end)
             end
-            getgenv().NNVN_AutoCast = false
-            getgenv().NNVN_AutoBossFishing = false
-            getgenv().NNVN_AutoFarmSecretBoss = false
-            getgenv().NNVN_AutoBoss = false
-            local antiStaffActionText = tostring(getgenv().NNVN_AntiStaffAction or "ServerHop")
+            getgenv().NhoiiiX_AutoCast = false
+            getgenv().NhoiiiX_AutoBossFishing = false
+            getgenv().NhoiiiX_AutoFarmSecretBoss = false
+            getgenv().NhoiiiX_AutoBoss = false
+            local antiStaffActionText = tostring(getgenv().NhoiiiX_AntiStaffAction or "ServerHop")
             if antiStaffActionText == "Kick" then
                 pcall(function()
                     LocalPlayer:Kick("Staff Detected: " .. tostring(player.Name))
@@ -17209,7 +17209,7 @@ do
         end
         task.spawn(function()
             while task.wait(4) do
-                if not getgenv().NNVN_AntiStaff then
+                if not getgenv().NhoiiiX_AntiStaff then
                 else
                     pcall(function()
                         for _, item in ipairs(Players:GetPlayers()) do
@@ -17224,7 +17224,7 @@ do
             end
         end)
         Players.PlayerAdded:Connect(function(player)
-            if not getgenv().NNVN_AntiStaff then
+            if not getgenv().NhoiiiX_AntiStaff then
                 return
             end
             task.delay(1.5, function()
@@ -17236,7 +17236,7 @@ do
         end)
     end)
     LocalPlayer.CharacterRemoving:Connect(function()
-        if not getgenv().NNVN_AutoRejoin then
+        if not getgenv().NhoiiiX_AutoRejoin then
             return
         end
         task.delay(3, function()
@@ -17248,8 +17248,8 @@ do
     task.spawn(function()
         local counter = 0
         while true do
-            local isAllowed = (getgenv().NNVN_BlankPlayerId == true or getgenv().NNVN_HidePlayerId ~= false or getgenv().NNVN_HidePlayerName ~= false) and not getgenv().NNVN_HideUI and not getgenv().NNVN_FakeVisualsEnabled and not getgenv().NNVN_FakeHeadless and not getgenv().NNVN_FakeKorblox and not getgenv().NNVN_FakeSkinEnabled and not getgenv().NNVN_ShowPremiumRelayMenu
-            local hideUi = getgenv().NNVN_HideUI or getgenv().NNVN_FakeVisualsEnabled or getgenv().NNVN_FakeHeadless or getgenv().NNVN_FakeKorblox or getgenv().NNVN_FakeSkinEnabled or getgenv().NNVN_ShowPremiumRelayMenu
+            local isAllowed = (getgenv().NhoiiiX_BlankPlayerId == true or getgenv().NhoiiiX_HidePlayerId ~= false or getgenv().NhoiiiX_HidePlayerName ~= false) and not getgenv().NhoiiiX_HideUI and not getgenv().NhoiiiX_FakeVisualsEnabled and not getgenv().NhoiiiX_FakeHeadless and not getgenv().NhoiiiX_FakeKorblox and not getgenv().NhoiiiX_FakeSkinEnabled and not getgenv().NhoiiiX_ShowPremiumRelayMenu
+            local hideUi = getgenv().NhoiiiX_HideUI or getgenv().NhoiiiX_FakeVisualsEnabled or getgenv().NhoiiiX_FakeHeadless or getgenv().NhoiiiX_FakeKorblox or getgenv().NhoiiiX_FakeSkinEnabled or getgenv().NhoiiiX_ShowPremiumRelayMenu
             if isAllowed then
                 pcall(applyHidePlayerId)
                 pcall(applyHidePlayerName)
@@ -17257,21 +17257,21 @@ do
             elseif hideUi then
                 pcall(applyHidePlayerId)
                 pcall(applyHidePlayerName)
-                if getgenv().NNVN_HideUI then
+                if getgenv().NhoiiiX_HideUI then
                     pcall(RequestHideUI)
                 else
                     pcall(RequestShowUI)
                 end
-                if getgenv().NNVN_FakeVisualsEnabled then
+                if getgenv().NhoiiiX_FakeVisualsEnabled then
                     pcall(applyFakeVisuals)
                 end
-                if getgenv().NNVN_FakeHeadless then
+                if getgenv().NhoiiiX_FakeHeadless then
                     pcall(applyFakeHeadless)
                 end
-                if getgenv().NNVN_FakeKorblox then
+                if getgenv().NhoiiiX_FakeKorblox then
                     pcall(applyFakeKorblox)
                 end
-                if getgenv().NNVN_FakeSkinEnabled then
+                if getgenv().NhoiiiX_FakeSkinEnabled then
                     pcall(applyFakeSkinTone)
                 end
                 pcall(updatePremiumRelayMenu)
@@ -17281,20 +17281,20 @@ do
             end
         end
     end)
-    getgenv().NNVN_PremiumRelayLoopId = (tonumber(getgenv().NNVN_PremiumRelayLoopId) or 0) + 1
+    getgenv().NhoiiiX_PremiumRelayLoopId = (tonumber(getgenv().NhoiiiX_PremiumRelayLoopId) or 0) + 1
     task.spawn(function(inputValue)
         local counter = 0
-        while task.wait(6) and inputValue == getgenv().NNVN_PremiumRelayLoopId do
+        while task.wait(6) and inputValue == getgenv().NhoiiiX_PremiumRelayLoopId do
             local weatherReporterName = normalizeWeatherReporterName(getCurrentWeather())
-            local weatherReporterName2 = normalizeWeatherReporterName(getgenv().NNVN_PremiumSelectedWeather)
+            local weatherReporterName2 = normalizeWeatherReporterName(getgenv().NhoiiiX_PremiumSelectedWeather)
             local isMatched = getGodSpiritCount() > 0
             local isMatched2 = findTrackerObject("taoist") ~= nil
             local isMatched3 = findTrackerObject("maoshan") ~= nil
             if not refreshPremiumAccess() then
-                getgenv().NNVN_PremiumWeatherEnabled = false
-                getgenv().NNVN_PremiumSpiritEnabled = false
-                getgenv().NNVN_PremiumTaoistEnabled = false
-                getgenv().NNVN_PremiumMaoshanEnabled = false
+                getgenv().NhoiiiX_PremiumWeatherEnabled = false
+                getgenv().NhoiiiX_PremiumSpiritEnabled = false
+                getgenv().NhoiiiX_PremiumTaoistEnabled = false
+                getgenv().NhoiiiX_PremiumMaoshanEnabled = false
                 if premiumStatusParagraph then
                     premiumStatusParagraph:SetDesc(table.concat({
                         "Tier: FREE",
@@ -17308,27 +17308,27 @@ do
             local hasTriggered = false
             local item
             if refreshPremiumAccess() then
-                if getgenv().NNVN_PremiumWeatherEnabled and weatherReporterName ~= weatherReporterName2 then
+                if getgenv().NhoiiiX_PremiumWeatherEnabled and weatherReporterName ~= weatherReporterName2 then
                     hasTriggered = true
                     item = "weather"
-                elseif getgenv().NNVN_PremiumSpiritEnabled and not isMatched then
+                elseif getgenv().NhoiiiX_PremiumSpiritEnabled and not isMatched then
                     hasTriggered = true
                     item = "spirit"
-                elseif getgenv().NNVN_PremiumTaoistEnabled and not isMatched2 then
+                elseif getgenv().NhoiiiX_PremiumTaoistEnabled and not isMatched2 then
                     hasTriggered = true
                     item = "taoist"
-                elseif getgenv().NNVN_PremiumMaoshanEnabled and not isMatched3 then
+                elseif getgenv().NhoiiiX_PremiumMaoshanEnabled and not isMatched3 then
                     hasTriggered = true
                     item = "maoshan"
                 end
             end
-            if not getgenv().NNVN_IsApplyingConfig and canAutoServerHop() and hasTriggered and os.clock() - counter >= 8 then
+            if not getgenv().NhoiiiX_IsApplyingConfig and canAutoServerHop() and hasTriggered and os.clock() - counter >= 8 then
                 pcall(refreshPremiumSignalEntry, item, false)
                 local premiumSignalBoardCache2 = item and premiumSignalBoardCache[item] or nil
                 if premiumSignalBoardCache2 and not premiumSignalBoardCache2.relayStale and isValidRelayJobId(premiumSignalBoardCache2.jobId) and tostring(premiumSignalBoardCache2.jobId) ~= tostring(game.JobId) then
                     counter = os.clock()
                     pcall(function()
-                        getgenv().NNVN_JobIdInput = tostring(premiumSignalBoardCache2.jobId)
+                        getgenv().NhoiiiX_JobIdInput = tostring(premiumSignalBoardCache2.jobId)
                         TeleportService:TeleportToPlaceInstance(tonumber(premiumSignalBoardCache2.placeId) or placeId, tostring(premiumSignalBoardCache2.jobId), LocalPlayer)
                     end)
                 end
@@ -17337,7 +17337,7 @@ do
                 pcall(UpdateHubRuntimeInfo)
             end
         end
-    end, getgenv().NNVN_PremiumRelayLoopId)
+    end, getgenv().NhoiiiX_PremiumRelayLoopId)
     task.spawn(function()
         local item
         local function resolveSetValue(inputValue, secondValue)
@@ -17366,7 +17366,7 @@ do
                 local events = ReplicatedStorage:FindFirstChild("Events")
                 local startBossFight = events and events:FindFirstChild("StartBossFight")
                 if startBossFight then
-                    startBossFight:FireServer("Enzo", getgenv().NNVN_BossDifficulty)
+                    startBossFight:FireServer("Enzo", getgenv().NhoiiiX_BossDifficulty)
                     hasTriggered = true
                 end
             end)
@@ -17381,27 +17381,27 @@ do
                     return
                 end
                 item = {
-                    Anchor = getgenv().NNVN_Anchor == true,
-                    AutoSkill = getgenv().NNVN_AutoSkill == true
+                    Anchor = getgenv().NhoiiiX_Anchor == true,
+                    AutoSkill = getgenv().NhoiiiX_AutoSkill == true
                 }
-                if not getgenv().NNVN_Anchor then
-                    resolveSetValue("NNVN_Anchor", true)
+                if not getgenv().NhoiiiX_Anchor then
+                    resolveSetValue("NhoiiiX_Anchor", true)
                 end
-                if not getgenv().NNVN_AutoSkill then
-                    resolveSetValue("NNVN_AutoSkill", true)
+                if not getgenv().NhoiiiX_AutoSkill then
+                    resolveSetValue("NhoiiiX_AutoSkill", true)
                 end
                 return
             end
             if item then
-                resolveSetValue("NNVN_Anchor", item.Anchor)
-                resolveSetValue("NNVN_AutoSkill", item.AutoSkill)
+                resolveSetValue("NhoiiiX_Anchor", item.Anchor)
+                resolveSetValue("NhoiiiX_AutoSkill", item.AutoSkill)
                 item = nil
             end
         end
         task.spawn(function()
             local item
             while task.wait(0.35) do
-                local isMatched = getgenv().NNVN_AutoBoss == true
+                local isMatched = getgenv().NhoiiiX_AutoBoss == true
                 if isMatched ~= item then
                     item = isMatched
                     pcall(resolveAnchor, isMatched)
@@ -17424,7 +17424,7 @@ do
             end)
         end
         getgenv()._EnzoP2ClickConn = RunService.RenderStepped:Connect(function()
-            if not getgenv().NNVN_AutoPhase2 then
+            if not getgenv().NhoiiiX_AutoPhase2 then
                 resolveClear()
                 return
             end
@@ -17435,15 +17435,15 @@ do
                     resolveClear()
                     return
                 end
-                if NNVN_ShouldHitBossPhase2(historyMap, bossFightBar) then
-                    NNVN_FireBossPhase2Input()
+                if NhoiiiX_ShouldHitBossPhase2(historyMap, bossFightBar) then
+                    NhoiiiX_FireBossPhase2Input()
                 end
             end)
         end)
     end)
     task.spawn(function()
         while task.wait(3) do
-            if not getgenv().NNVN_AutoEquipBestBait then
+            if not getgenv().NhoiiiX_AutoEquipBestBait then
             else
                 pcall(function()
                     local playerData = GetPlayerData()
@@ -17470,7 +17470,7 @@ do
     end)
     task.spawn(function()
         while task.wait(5) do
-            if not getgenv().NNVN_AutoEquipBestOrb then
+            if not getgenv().NhoiiiX_AutoEquipBestOrb then
             else
                 pcall(function()
                     local bestOrb = GetBestOrb()
@@ -17481,28 +17481,28 @@ do
             end
         end
     end)
-    getgenv().NNVN_AutoBuyBaitLoopId = (getgenv().NNVN_AutoBuyBaitLoopId or 0) + 1
+    getgenv().NhoiiiX_AutoBuyBaitLoopId = (getgenv().NhoiiiX_AutoBuyBaitLoopId or 0) + 1
     task.spawn(function()
-        local autoBuyBaitLoop = getgenv().NNVN_AutoBuyBaitLoopId
-        while autoBuyBaitLoop == getgenv().NNVN_AutoBuyBaitLoopId do
-            if not getgenv().NNVN_AutoBuyBait then
+        local autoBuyBaitLoop = getgenv().NhoiiiX_AutoBuyBaitLoopId
+        while autoBuyBaitLoop == getgenv().NhoiiiX_AutoBuyBaitLoopId do
+            if not getgenv().NhoiiiX_AutoBuyBait then
                 task.wait(0.5)
             else
-                local selectedBait = getgenv().NNVN_SelectedBait or "Basic Bait"
-                local maxResult = math.max(1, math.floor(tonumber(getgenv().NNVN_BaitQuantity) or 1))
-                if NNVN_FireBuyBait(selectedBait, maxResult) and getgenv().NNVN_Notify then
+                local selectedBait = getgenv().NhoiiiX_SelectedBait or "Basic Bait"
+                local maxResult = math.max(1, math.floor(tonumber(getgenv().NhoiiiX_BaitQuantity) or 1))
+                if NhoiiiX_FireBuyBait(selectedBait, maxResult) and getgenv().NhoiiiX_Notify then
                     item:Notify({
                         Title = "Auto Buy",
                         Content = "Bought " .. maxResult .. "x " .. selectedBait,
                         Duration = 2
                     })
                 end
-                task.wait(math.max(1, tonumber(getgenv().NNVN_AutoBuyBaitDelay) or 3))
+                task.wait(math.max(1, tonumber(getgenv().NhoiiiX_AutoBuyBaitDelay) or 3))
             end
         end
     end)
     UserInputService.JumpRequest:Connect(function()
-        if getgenv().NNVN_InfiniteJump and LocalPlayer.Character then
+        if getgenv().NhoiiiX_InfiniteJump and LocalPlayer.Character then
             local humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
             if humanoid then
                 humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
@@ -17522,7 +17522,7 @@ do
         if humanoid.Sit then
             return
         end
-        local clampResult = math.clamp(tonumber(getgenv().NNVN_BackflipDistance) or 8, 1, 15)
+        local clampResult = math.clamp(tonumber(getgenv().NhoiiiX_BackflipDistance) or 8, 1, 15)
         local cFrame = rootPart.CFrame
         local lookVector = cFrame.LookVector
         local vector3 = Vector3.new(0, 1, 0)
@@ -17559,11 +17559,11 @@ do
             end)
         end
     end
-    getgenv().NNVN_DoBackflip = doBackflip
+    getgenv().NhoiiiX_DoBackflip = doBackflip
     task.spawn(function()
         local hasTriggered = false
         RunService.Heartbeat:Connect(function()
-            if getgenv().NNVN_FlyMode and flyState and flyState.flying and flyState.bg and flyState.bv and LocalPlayer.Character then
+            if getgenv().NhoiiiX_FlyMode and flyState and flyState.flying and flyState.bg and flyState.bv and LocalPlayer.Character then
                 local rootPart = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
                 local humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
                 if rootPart and humanoid then
@@ -17575,7 +17575,7 @@ do
                     end
                 end
             end
-            if getgenv().NNVN_FullBright then
+            if getgenv().NhoiiiX_FullBright then
                 if not hasTriggered then
                     Lighting.Ambient = Color3.new(1, 1, 1)
                     Lighting.ColorShift_Bottom = Color3.new(1, 1, 1)
@@ -17607,7 +17607,7 @@ do
             counter = os.clock()
         end
         RunService.Heartbeat:Connect(function()
-            if not getgenv().NNVN_NoClip then
+            if not getgenv().NhoiiiX_NoClip then
                 return
             end
             local character = LocalPlayer.Character
@@ -17626,40 +17626,40 @@ do
         end)
     end)
     task.spawn(function()
-        getgenv().NNVN_AllowAutomaticServerHop = false
-        getgenv().NNVN_ServerHopArmed = false
-        getgenv().NNVN_AutoHopFightEnzo = false
-        getgenv().NNVN_AutoRejoin = false
-        getgenv().NNVN_PremiumWeatherEnabled = false
-        getgenv().NNVN_PremiumSpiritEnabled = false
-        getgenv().NNVN_PremiumTaoistEnabled = false
-        getgenv().NNVN_PremiumMaoshanEnabled = false
+        getgenv().NhoiiiX_AllowAutomaticServerHop = false
+        getgenv().NhoiiiX_ServerHopArmed = false
+        getgenv().NhoiiiX_AutoHopFightEnzo = false
+        getgenv().NhoiiiX_AutoRejoin = false
+        getgenv().NhoiiiX_PremiumWeatherEnabled = false
+        getgenv().NhoiiiX_PremiumSpiritEnabled = false
+        getgenv().NhoiiiX_PremiumTaoistEnabled = false
+        getgenv().NhoiiiX_PremiumMaoshanEnabled = false
         refreshPremiumAccess = function()
-            local isMatched = rawget(_G, "NNVN_IsPremium") == true or getgenv().NNVN_IsPremium == true or rawget(_G, "SCRIPT_IsPremium") == true or getgenv().SCRIPT_IsPremium == true
-            getgenv().NNVN_IsPremiumAccess = isMatched
+            local isMatched = rawget(_G, "NhoiiiX_IsPremium") == true or getgenv().NhoiiiX_IsPremium == true or rawget(_G, "SCRIPT_IsPremium") == true or getgenv().SCRIPT_IsPremium == true
+            getgenv().NhoiiiX_IsPremiumAccess = isMatched
             return isMatched
         end
-        getgenv().NNVN_IsPremiumAccess = refreshPremiumAccess()
+        getgenv().NhoiiiX_IsPremiumAccess = refreshPremiumAccess()
         if type(updatePremiumSignalBoardUI) == "function" then
             pcall(updatePremiumSignalBoardUI)
         end
         task.spawn(function()
-            task.wait(tonumber(getgenv().NNVN_HopGraceSeconds) or 20)
-            getgenv().NNVN_HopBootLocked = false
-            getgenv().NNVN_AllowAutomaticServerHop = false
-            getgenv().NNVN_ServerHopArmed = false
+            task.wait(tonumber(getgenv().NhoiiiX_HopGraceSeconds) or 20)
+            getgenv().NhoiiiX_HopBootLocked = false
+            getgenv().NhoiiiX_AllowAutomaticServerHop = false
+            getgenv().NhoiiiX_ServerHopArmed = false
         end)
     end)
     Window:SelectTab(1)
-    if getgenv().NNVN_Notify then
+    if getgenv().NhoiiiX_Notify then
         item:Notify({
-            Title = "🎣 NNVN Hub v" .. hubVersion .. " [UltraObsidian]",
+            Title = "🎣 NhoiiiX Hub v" .. hubVersion .. " [UltraObsidian]",
             Content = uiStrings.loaded .. "\ndiscord.gg/5JJAuHRUgJ\nUltraObsidian loaded",
             Duration = 3
         })
     end
-    getgenv().NNVN_Loaded = true
-    if (getgenv().NNVN_Language or "English") ~= "English" then
+    getgenv().NhoiiiX_Loaded = true
+    if (getgenv().NhoiiiX_Language or "English") ~= "English" then
         task.delay(2, function()
             pcall(ApplyUILanguage)
         end)
