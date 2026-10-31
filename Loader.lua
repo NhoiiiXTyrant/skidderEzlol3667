@@ -6236,7 +6236,7 @@ end);
 	end)
 
 	local Window = Fluent:CreateWindow({
-		Title = "NhoiiiX",
+		Title = "NhoiiiXHub",
 		SubTitle = " | Heavyweigh Fishing",
 		TabWidth = 130,
 		Size = UDim2.fromOffset(460, 400),
@@ -7154,23 +7154,29 @@ end);
 		local originalTexts = setmetatable({}, { __mode = "k" })
 		local isHiding = false
 
+		local protectedTexts = { ["NhoiiiXHub"] = true, [fakeName] = true }
+		local MASK, PLACEHOLDER = "\2", "\1"
+		local function esc(str)
+			return (string.gsub(str, "%W", "%%%0"))
+		end
+
 		local function replaceInText(text)
 			if typeof(text) ~= "string" or text == "" then
 				return text, false
 			end
+			if protectedTexts[text] then
+				return text, false
+			end
 			local changed = false
-			if string.find(text, oldUserId, 1, true) then
-				text = string.gsub(text, oldUserId, fakeName)
-				changed = true
+			text = string.gsub(text, esc(fakeName), MASK)
+			for _, old in ipairs({ oldUserId, oldDisplayName, oldName }) do
+				if old ~= "" and string.find(text, old, 1, true) then
+					text = string.gsub(text, esc(old), PLACEHOLDER)
+					changed = true
+				end
 			end
-			if string.find(text, oldDisplayName, 1, true) then
-				text = string.gsub(text, oldDisplayName, fakeName)
-				changed = true
-			end
-			if string.find(text, oldName, 1, true) then
-				text = string.gsub(text, oldName, fakeName)
-				changed = true
-			end
+			text = string.gsub(text, PLACEHOLDER, fakeName)
+			text = string.gsub(text, MASK, fakeName)
 			return text, changed
 		end
 
