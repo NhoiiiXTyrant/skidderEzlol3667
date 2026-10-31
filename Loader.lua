@@ -6236,7 +6236,7 @@ end);
 	end)
 
 	local Window = Fluent:CreateWindow({
-		Title = "NhoiiiXHub",
+		Title = "NhoiiiX",
 		SubTitle = " | Heavyweigh Fishing",
 		TabWidth = 130,
 		Size = UDim2.fromOffset(460, 400),
