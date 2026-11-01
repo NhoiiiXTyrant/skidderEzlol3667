@@ -1710,7 +1710,7 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 end)
 local A =
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/zzzz.lua"))()
-Main = A.CreateMain({ Title = "NhoiiiX", Desc = " - Blox Fruit", Logo = "rbxassetid://75850663384500", Icon = "rbxassetid://75850663384500" })
+Main = A.CreateMain({ Title = "NhoiiiX", Desc = " - skid by NhoiiiX", Logo = "rbxassetid://75850663384500", Icon = "rbxassetid://75850663384500" })
 
 -- ============================================================================
 -- PASS 30 - GUARANTEED TAB REGISTRY
