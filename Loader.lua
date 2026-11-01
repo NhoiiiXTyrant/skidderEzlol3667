@@ -44,7 +44,7 @@ do
 	uiElement.TextSize = 15
 	uiElement.TextColor3 = Color3.fromRGB(255, 255, 255)
 	uiElement.TextXAlignment = Enum.TextXAlignment.Left
-	uiElement.Text = "ThanhDuyHub"
+	uiElement.Text = "NhoiiiX Hub"
 	uiElement.Parent = chilliHubLoading
 	local textLabel = Instance.new("TextLabel")
 	textLabel.BackgroundTransparency = 1
@@ -747,7 +747,7 @@ local function createUiLibrary()
 				Position = uDim2FromScale(0.5, 0.5), Size = uDim2FromScale(0.988,
 				0.87), BackgroundColor3 = color3FromRGBResult2, BackgroundTransparency = 0.9})
 			local checkState2Result = checkState2({Parent = computed, Name = "Label", AnchorPoint = vector2New(0.5,
-				0.5), Text = data.Title or "ThanhDuyHub", TextWrapped = true, TextXAlignment = left, ZIndex = 6}, font2)
+				0.5), Text = data.Title or "NhoiiiX Hub", TextWrapped = true, TextXAlignment = left, ZIndex = 6}, font2)
 			local TextButton = createInstance("TextButton", {Parent = Frame2, Name = "Close",
 				AnchorPoint = vector2New(0.5, 0.5), LayoutOrder = 1, ZIndex = 99, getUIAspectRatioConstraint(1)})
 			computed2 = createInstance("Frame", {Parent = createInstance("Frame", {Parent = TextButton, Name = "Main",
@@ -6975,7 +6975,7 @@ local function loadAllSections()
 		return true
 	end
 
-	local mainWindow = uiLibrary.Window({Title = "ThanhDuyHub",
+	local mainWindow = uiLibrary.Window({Title = "NhoiiiX Hub",
 		Game = ((gameRef.GameId ~= 0) and gameRef.GameId) or gameRef.PlaceId, Key = Enum.KeyCode.LeftControl})
 
 	genv.ChilliHubSaeCleanup = function()
@@ -7046,7 +7046,7 @@ local function loadAllSections()
 				if state > 60 then
 					local state4 = ctx.state
 					state4.warned[status] = os.clock()
-					uiLibrary.Notify("ThanhDuyHub", status)
+					uiLibrary.Notify("NhoiiiX Hub", status)
 				end
 			end
 		end
@@ -42994,7 +42994,7 @@ local function loadAllSections()
 				local ImageLabel = createInstanceFarmhud("ImageLabel", {BackgroundTransparency = 1, Image = assetId2,
 					ScaleType = Enum.ScaleType.Crop, Size = UDim2.fromScale(1, 1)}, Frame2)
 				createInstanceFarmhud("UICorner", {CornerRadius = UDim.new(0, 12)}, ImageLabel)
-				getUIGradient2(doStep18(Frame, true, 24, {Text = "THANHDUYHUB", Position = UDim2.fromOffset(64, 8),
+				getUIGradient2(doStep18(Frame, true, 24, {Text = "NHOIIIX HUB", Position = UDim2.fromOffset(64, 8),
 					Size = UDim2.fromOffset(200, 26)}), Color3.fromRGB(255, 226, 120), Color3.fromRGB(255, 80, 40), 90)
 				doStep18(Frame, false, 12, {Text = "FARM STATS  |  STEAL AN EGG", TextColor3 = color4,
 					Position = UDim2.fromOffset(65, 36), Size = UDim2.fromOffset(200, 16)})
@@ -43433,7 +43433,7 @@ local function loadAllSections()
 			0.86), BackgroundTransparency = 1, Image = "rbxassetid://128961717706452", ImageTransparency = 0.35, ScaleType = Enum.ScaleType.Crop, ZIndex = 3, fieldValue("UICorner", {CornerRadius = UDim.new(0, 8)})})
 		local UIScale3 = fieldValue("UIScale", {Parent = ImageLabel})
 		getUIGradient(fieldValue("TextLabel", {Parent = Frame2, Position = uDim2FromOffset(56, 7), Size = uDim2New(1,
-			-112, 0, 15), Font = Enum.Font.BuilderSansExtraBold, TextSize = 14, TextXAlignment = Enum.TextXAlignment.Left, TextColor3 = Color3.new(1, 1, 1), Text = "ThanhDuyHub", ZIndex = 2}), color3FromRGB(255, 120, 100), color3FromRGB(255, 190, 110), 0)
+			-112, 0, 15), Font = Enum.Font.BuilderSansExtraBold, TextSize = 14, TextXAlignment = Enum.TextXAlignment.Left, TextColor3 = Color3.new(1, 1, 1), Text = "NhoiiiX Hub", ZIndex = 2}), color3FromRGB(255, 120, 100), color3FromRGB(255, 190, 110), 0)
 		fieldValue("TextLabel", {Parent = Frame2, Position = uDim2FromOffset(56, 22), Size = uDim2New(1, -112, 0,
 			20), Font = Enum.Font.GothamBlack, TextSize = 15, TextXAlignment = Enum.TextXAlignment.Left, TextColor3 = state10.Text, Text = "Anti Guard", ZIndex = 2})
 		local Frame4 = fieldValue("Frame", {Parent = Frame2, AnchorPoint = Vector2.new(1, 0.5),
@@ -44142,9 +44142,9 @@ local function loadAllSections()
 			author.icon_url = checkState2()
 			input.author = author
 			localPlayerSystem, author = DateTime.now():ToIsoDate(), {}
-			author.text, author.icon_url, input.timestamp = "ThanhDuyHub" .. (textValueSystem .. "Steal An Egg"), losslessUrl, localPlayerSystem
+			author.text, author.icon_url, input.timestamp = "NhoiiiX Hub" .. (textValueSystem .. "Steal An Egg"), losslessUrl, localPlayerSystem
 			input.footer = author
-			local stateSystem, tempValue6, tempValue7 = {username = "ThanhDuyHub", avatar_url = losslessUrl,
+			local stateSystem, tempValue6, tempValue7 = {username = "NhoiiiX Hub", avatar_url = losslessUrl,
 				embeds = {input}}, inputSystem
 				and (clampValueSystem(inputSystem)), inputSystem and (checkStateSystem(inputSystem))
 
@@ -50650,7 +50650,7 @@ local function loadAllSections()
 			options.Logo = input:Image({Parent = options.Hero, X = 0.5, Y = (factor3 - factor4) / 2, Width = factor4,
 				Height = factor4, Image = assetId})
 			options.Title = input:Text({Parent = options.Hero, X = factor5, Y = 0.45, Width = 1, Height = 1.6,
-				Scale = 1.45, Wrap = false, Text = "<b>ThanhDuyHub</b>", Gradient = colorSequence, GradientRotation = 0, TextStrokeTransparency = 1})
+				Scale = 1.45, Wrap = false, Text = "<b>NhoiiiX Hub</b>", Gradient = colorSequence, GradientRotation = 0, TextStrokeTransparency = 1})
 			options.Subtitle = input:Text({Parent = options.Hero, X = factor5, Y = 2.1, Width = 1, Height = 1,
 				Wrap = false, Text = "Official Discord Community", Color = "#DCDCE8"})
 			options.Members = input:Text({Parent = options.Hero, X = factor5, Y = 3.3, Width = 1, Height = 1.2, Wrap = false, Text = string.format("<font color=\"#6EE49C\">%s</font>  <b>%s</b>  <font color=\"#B8B8CC\">Members</font>", utf8.char(9679), textValue)})
@@ -50740,8 +50740,8 @@ local function loadAllSections()
 					end
 
 					pcall(function()
-						if not (isfolder("ThanhDuyHub")) then
-							makefolder("ThanhDuyHub")
+						if not (isfolder("NhoiiiX Hub")) then
+							makefolder("NhoiiiX Hub")
 						end
 
 						writefile(filePath, result3)
