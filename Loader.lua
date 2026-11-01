@@ -14,13 +14,13 @@ v = loadstring(
     "https://raw.githubusercontent.com/bloxfruitsnokey/Redz-Hub/refs/heads/main/Gavz/ui.luau"
   )
 )():MakeWindow({
-  Title = "NhoiiiX Hub : Blox Fruits",
-  SubTitle = "discord.gg/aXWW8hytgX",
+  Title = "Gavz Hub : Blox Fruits",
+  SubTitle = "discord.gg/pKS6qzcaqB",
   SaveFolder = "oknaiget.json",
 })
 
 v:NewMinimizer({ KeyCode = Enum.KeyCode.LeftControl }):CreateMobileMinimizer({
-  Image = "rbxassetid://75850663384500",
+  Image = "rbxassetid://108267040590174",
   BackgroundColor3 = Color3.fromRGB(25, 25, 25),
 })
 local n3
