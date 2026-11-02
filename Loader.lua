@@ -224,7 +224,7 @@ Btn.Size = UDim2.new(0, 320, 0, 38)
 Btn.Position = UDim2.new(0.5, -160, 0, 84)
 Btn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 Btn.TextColor3 = Color3.fromRGB(0, 255, 127)
-Btn.Text = "🎃Hop Server Ít Người"
+Btn.Text = "Hop Server"
 Btn.TextSize = 16
 Btn.Font = Enum.Font.SourceSansBold
 
