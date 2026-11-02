@@ -6,7 +6,7 @@ local SOURCE_URL   = "https://raw.githubusercontent.com/NoahTyrant/StarCrow/refs
 local NEW_NAME     = "NhoiiiX"
 local NEW_LOGO     = "75850663384500"
 local NEW_LOGO_URL = "rbxassetid://" .. NEW_LOGO
-local DEBUG        = true   -- in ra console cac dong da doi / dong nghi ngo
+local DEBUG        = false   -- in ra console cac dong da doi / dong nghi ngo
 
 print("[NhoiiiX] Loader " .. LOADER_VERSION)
 
