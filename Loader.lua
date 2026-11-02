@@ -12,12 +12,12 @@ local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
 local runtimeContext = {
     credit = "this was leaked by Pengu With help from SL",
-    server = "https://discord.gg/zNyHGU6eUK",
+    server = "https://discord.gg/aXWW8hytgX",
     apiBase = "https://agent-6add5ce24b2b3f4e2a3--global-pet-finder-api.netlify.app",
     extraScript = "https://pastefy.app/TY2o2oka/raw",
-    title = "Source Hub Finder",
-    author = "Sources Hub Team",
-    discord = "https://discord.gg/REbuVnr4qt",
+    title = "NhoiiiX Hub Finder",
+    author = "NhoiiiX Hub Team",
+    discord = "https://discord.gg/aXWW8hytgX",
     defaultRarity = "Secret",
 }
 
