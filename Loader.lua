@@ -1,9 +1,10 @@
--- NhoiiiX | Heavyweight Fishing loader
+-- NhoiiiX | Heavyweight Fishing loader (v2)
 -- Tai script goc tu link, doi ten -> NhoiiiX, doi logo -> 75850663384500, roi chay.
 
 local SOURCE_URL = "https://raw.githubusercontent.com/NoahTyrant/StarCrow/refs/heads/main/Heavyweigh%20Fishing"
 local NEW_NAME   = "NhoiiiX"
 local NEW_LOGO   = "75850663384500"
+local DEBUG      = true   -- in ra console (F9) cac dong da doi / dong nghi ngo
 
 local ok, src = pcall(function()
     return game:HttpGet(SOURCE_URL)
@@ -48,15 +49,69 @@ for _, pair in ipairs(nameMap) do
     nameCount = nameCount + n
 end
 
--- 2) Doi logo: moi gan Image = "rbxassetid://..." / Icon = "rbxassetid://..."
-local logoCount = 0
-for _, key in ipairs({ "Image", "Icon" }) do
-    local n
-    src, n = src:gsub("(%f[%w]" .. key .. "%s*=%s*)([\"'])rbxassetid://%d+%2", "%1%2rbxassetid://" .. NEW_LOGO .. "%2")
-    logoCount = logoCount + n
+-- 2) Doi logo theo tung dong
+--    Doi moi tham chieu anh: rbxassetid://..., roblox.com/asset/?id=..., rbxthumb://...
+--    Bo qua dong co Sound / Animation / so sanh (==, ~=) de khong lam hong script.
+local lines = {}
+for line in (src .. "\n"):gmatch("(.-)\n") do
+    lines[#lines + 1] = line
 end
 
-print(("[NhoiiiX] Da doi ten: %d cho | Da doi logo: %d cho"):format(nameCount, logoCount))
+local logoCount = 0
+local changed, candidates = {}, {}
+
+for i, line in ipairs(lines) do
+    local lower = line:lower()
+    local skip = lower:find("sound", 1, true)
+        or lower:find("animation", 1, true)
+        or line:find("==", 1, true)
+        or line:find("~=", 1, true)
+    local hit = false
+
+    if not skip then
+        local n1, n2, n3, n4 = 0, 0, 0, 0
+        line, n1 = line:gsub("rbxassetid://%d+", "rbxassetid://" .. NEW_LOGO)
+        line, n2 = line:gsub("(roblox%.com/asset/%?id=)%d+", "%1" .. NEW_LOGO)
+        line, n3 = line:gsub("rbxthumb://[^\"'%s]+", "rbxassetid://" .. NEW_LOGO)
+        if lower:find("logo", 1, true) then
+            -- dong kieu: Logo = 123456789012,
+            line, n4 = line:gsub("(=%s*)%d%d%d%d%d%d%d%d+(%s*[,;]?%s*)$", "%1" .. NEW_LOGO .. "%2")
+        end
+        hit = (n1 + n2 + n3 + n4) > 0
+        if hit then
+            lines[i] = line
+        end
+    end
+
+    if hit then
+        logoCount = logoCount + 1
+        if #changed < 15 then
+            changed[#changed + 1] = ("  L%d: %s"):format(i, (line:gsub("^%s+", "")):sub(1, 90))
+        end
+    elseif #candidates < 25
+        and (lower:find("logo", 1, true) or lower:find("image", 1, true)
+            or lower:find("icon", 1, true) or lower:find("getcustomasset", 1, true)) then
+        candidates[#candidates + 1] = ("  L%d: %s"):format(i, (line:gsub("^%s+", "")):sub(1, 90))
+    end
+end
+
+src = table.concat(lines, "\n")
+
+print(("[NhoiiiX] Da doi ten: %d cho | Da doi logo: %d dong"):format(nameCount, logoCount))
+if DEBUG then
+    if #changed > 0 then
+        print("[NhoiiiX] Cac dong logo da doi:")
+        for _, l in ipairs(changed) do
+            print(l)
+        end
+    end
+    if #candidates > 0 then
+        print("[NhoiiiX] Cac dong con lien quan toi anh/logo (chua doi):")
+        for _, l in ipairs(candidates) do
+            print(l)
+        end
+    end
+end
 
 -- 3) Chay script
 local fn, err = loadstring(src)
