@@ -37,7 +37,7 @@ task.spawn(function()
     ) pcall(function()
         local cp = game:GetService("ContentProvider")
         local pre = {}
-        for _, id in ipairs({LOGO_ID, HEADER_BAR_IMG_ID, STEAL_TAB_ICON_ID, WALLPAPER_IMAGE_ID, "rbxassetid://91322208361913"}) do
+        for _, id in ipairs({LOGO_ID, HEADER_BAR_IMG_ID, STEAL_TAB_ICON_ID, WALLPAPER_IMAGE_ID, "rbxassetid://75850663384500"}) do
             local im = Instance.new("ImageLabel") im.Image = id table.insert(pre, im)
         end
         cp:PreloadAsync(pre)
@@ -1985,7 +1985,7 @@ local function applySenaV7Architecture(win, titleLbl)
         mainChilliLogo = mk("Frame", {Name = "ChilliMainChilliLogo", AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.new(0, 23, 0, 19), Size = UDim2.new(0, 27, 0, 27), BackgroundColor3 = Color3.fromRGB(12, 15, 24), BackgroundTransparency = 0, BorderSizePixel = 0, ClipsDescendants = true, Active = false, ZIndex = hdrBaseZ}, win)
         mk("UICorner", {CornerRadius = UDim.new(1, 0)}, mainChilliLogo)
         mk("UIStroke", {Thickness = 1.3, Color = Color3.fromRGB(255, 95, 75), Transparency = 0.25, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, mainChilliLogo)
-        mk("ImageLabel", {Name = "LogoImg", AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromScale(0.90, 0.90), BackgroundTransparency = 1, Image = "rbxassetid://74441610995894", ScaleType = Enum.ScaleType.Fit, Active = false, ZIndex = hdrBaseZ + 1}, mainChilliLogo)
+        mk("ImageLabel", {Name = "LogoImg", AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromScale(0.90, 0.90), BackgroundTransparency = 1, Image = "rbxassetid://75850663384500", ScaleType = Enum.ScaleType.Fit, Active = false, ZIndex = hdrBaseZ + 1}, mainChilliLogo)
     else
         local oldMcStroke = mainChilliLogo:FindFirstChildOfClass("UIStroke")
         if oldMcStroke then
@@ -2539,7 +2539,7 @@ local function setupBubbleToggle(gui, win, titleLbl)
         pepperLogo.Position = UDim2.fromScale(0.5, 0.5)
         pepperLogo.Size = UDim2.fromScale(0.92, 0.92)
         pepperLogo.BackgroundTransparency = 1
-        pepperLogo.Image = "rbxassetid://74441610995894"
+        pepperLogo.Image = "rbxassetid://75850663384500"
         pepperLogo.ScaleType = Enum.ScaleType.Fit
         pepperLogo.Active = false
         pepperLogo.ZIndex = container.ZIndex + 2
