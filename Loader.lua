@@ -6,7 +6,7 @@ local LP = P.LocalPlayer
 -- 1. UI
 -- ===================================================
 local Gui = Instance.new("ScreenGui")
-Gui.Name = "NetRobloc"
+Gui.Name = "NhoiiiX"
 Gui.ResetOnSpawn = false
 Gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 -- Thử nhiều nơi gắn UI để chạy được trên nhiều executor
@@ -37,7 +37,7 @@ local HubTitle = Instance.new("TextLabel", Frame)
 HubTitle.Size = UDim2.new(1, -164, 0, 28)
 HubTitle.Position = UDim2.new(0, 84, 0, 8)
 HubTitle.BackgroundTransparency = 1
-HubTitle.Text = "NetRobloc"
+HubTitle.Text = "NhoiiiX"
 HubTitle.TextSize = 22
 HubTitle.Font = Enum.Font.SourceSansBold
 
@@ -61,8 +61,8 @@ TimeLabel.TextSize = 14
 TimeLabel.Font = Enum.Font.SourceSans
 
 -- Ảnh logo (góc trái)
-local IMAGE_ID  = "0"  -- << ĐỔI: ID ảnh Roblox (số), ví dụ "1234567890"
-local IMAGE_URL = "https://files.catbox.moe/xymm7j.jpg"   -- << HOẶC dán link ảnh trực tiếp (.png/.jpg), cần executor hỗ trợ writefile/getcustomasset
+local IMAGE_ID  = "75850663384500"  -- << ĐỔI: ID ảnh Roblox (số), ví dụ "1234567890"
+local IMAGE_URL = ""   -- << HOẶC dán link ảnh trực tiếp (.png/.jpg), cần executor hỗ trợ writefile/getcustomasset
 
 -- Nền ảnh (ảnh logo phủ kín khung, phủ lớp đen mờ để chữ dễ đọc)
 local BG_DARKNESS = 0.75 -- 0 = ảnh rõ nhất, 1 = đen hoàn toàn (nên để 0.7 - 0.85)
@@ -94,11 +94,11 @@ LogoCorner.CornerRadius = UDim.new(1, 0) -- ảnh tròn (đổi thành UDim.new(
 local LogoStroke = Instance.new("UIStroke", Logo)
 LogoStroke.Thickness = 2
 
--- Chữ "NR" hiện tạm trong lúc ảnh đang tải (hoặc khi ảnh không tải được)
+-- Chữ "NX" hiện tạm trong lúc ảnh đang tải (hoặc khi ảnh không tải được)
 local LogoText = Instance.new("TextLabel", Logo)
 LogoText.Size = UDim2.new(1, 0, 1, 0)
 LogoText.BackgroundTransparency = 1
-LogoText.Text = "NR"
+LogoText.Text = "NX"
 LogoText.TextColor3 = Color3.fromRGB(255, 255, 255)
 LogoText.TextSize = 22
 LogoText.Font = Enum.Font.SourceSansBold
@@ -156,7 +156,7 @@ task.spawn(function()
 
     if IMAGE_URL ~= "" then
         for attempt = 1, 3 do
-            asset, lastErr = DownloadImage(IMAGE_URL, "NetRobloc_logo_v2.jpg")
+            asset, lastErr = DownloadImage(IMAGE_URL, "NhoiiiX_logo_v2.jpg")
             if asset then break end
             task.wait(1)
         end
@@ -172,7 +172,7 @@ task.spawn(function()
         LogoText:Destroy()
     else
         local reason = tostring(lastErr or "chưa đặt IMAGE_URL/IMAGE_ID")
-        warn("[NetRobloc] Không hiện được logo: " .. reason)
+        warn("[NhoiiiX] Không hiện được logo: " .. reason)
         LogoText.Text = "✖"
         LogoText.TextColor3 = Color3.fromRGB(255, 90, 90)
         StatusLabel.Text = "Logo lỗi: " .. reason
@@ -232,7 +232,7 @@ local BtnCorner = Instance.new("UICorner", Btn)
 BtnCorner.CornerRadius = UDim.new(0, 6)
 
 -- Nút Join Discord (nằm dưới nút Hop)
-local DISCORD_INVITE = "https://discord.gg/5vppsXWTqg" -- << THAY LINK DISCORD CỦA BẠN VÀO ĐÂY
+local DISCORD_INVITE = "https://discord.gg/aXWW8hytgX" -- << THAY LINK DISCORD CỦA BẠN VÀO ĐÂY
 local DISCORD_CODE = DISCORD_INVITE:match("discord%.gg/(%w+)") or DISCORD_INVITE:match("discord%.com/invite/(%w+)")
 
 local DcBtn = Instance.new("TextButton", Frame)
@@ -240,7 +240,7 @@ DcBtn.Size = UDim2.new(0, 320, 0, 38)
 DcBtn.Position = UDim2.new(0.5, -160, 0, 128)
 DcBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242) -- màu Discord
 DcBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-DcBtn.Text = "💬 Join Discord có script free"
+DcBtn.Text = "Join Discord"
 DcBtn.TextSize = 16
 DcBtn.Font = Enum.Font.SourceSansBold
 
@@ -288,7 +288,7 @@ DcBtn.MouseButton1Click:Connect(function()
     end
 
     task.wait(2)
-    DcBtn.Text = "💬 Join Discord"
+    DcBtn.Text = "Join Discord"
     dcBusy = false
 end)
 
@@ -300,7 +300,7 @@ ListBtn.Size = UDim2.new(0, 320, 0, 38)
 ListBtn.Position = UDim2.new(0.5, -160, 0, 172)
 ListBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 ListBtn.TextColor3 = Color3.fromRGB(255, 200, 0)
-ListBtn.Text = "👥 Danh Sách Người Chơi"
+ListBtn.Text = "Player List"
 ListBtn.TextSize = 16
 ListBtn.Font = Enum.Font.SourceSansBold
 Instance.new("UICorner", ListBtn).CornerRadius = UDim.new(0, 6)
@@ -559,7 +559,7 @@ local function SafeHop()
     end
 
     isRunning = false
-    Btn.Text = "🎃 Hop Server Ít Người"
+    Btn.Text = "Hop Server"
 end
 
 Btn.MouseButton1Click:Connect(SafeHop)
