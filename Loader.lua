@@ -4,6 +4,42 @@ pcall(function()
 		Fluent.GUI.DisplayOrder = 5000
 	end
 end)
+pcall(function()
+	-- Remove leftover windows from an older run (old StarCrow title / previous NhoiiiX logo) so only the new UI is shown
+	local oldLogoNames = { StarCrowLogoGui = true, NhoiiiXLogoGui = true }
+	local roots = {}
+	pcall(function()
+		table.insert(roots, game:GetService("CoreGui"))
+	end)
+	if gethui then
+		pcall(function()
+			table.insert(roots, gethui())
+		end)
+	end
+	for _, root in ipairs(roots) do
+		for _, gui in ipairs(root:GetChildren()) do
+			if gui:IsA("ScreenGui") and gui ~= Fluent.GUI then
+				local isOld = oldLogoNames[gui.Name] == true
+				if not isOld and gui.Name == "ScreenGui" then
+					for _, d in ipairs(gui:GetDescendants()) do
+						if
+							d:IsA("TextLabel")
+							and (d.Text == "StarCrowHub" or d.Text:find("Heavyweigh Fishing", 1, true))
+						then
+							isOld = true
+							break
+						end
+					end
+				end
+				if isOld then
+					pcall(function()
+						gui:Destroy()
+					end)
+				end
+			end
+		end
+	end
+end)
 
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
