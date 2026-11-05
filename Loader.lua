@@ -6829,6 +6829,13 @@ end);
 	})
 	WindowRef = Window
 	pcall(function()
+		Fluent:Notify({
+			Title = "NhoiiiX",
+			Content = "NhoiiiX loaded (build 05-11)",
+			Duration = 6,
+		})
+	end)
+	pcall(function()
 		if Fluent and Fluent.GUI then
 			Fluent.GUI.DisplayOrder = 5000
 		end
