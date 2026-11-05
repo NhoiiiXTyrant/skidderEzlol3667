@@ -6688,34 +6688,68 @@ end);
 	local lastToggleTime = 0
 	local cachedMainHubFrame = nil
 
+	local WindowRef = nil
+
+	local function FindMainFrame()
+		if cachedMainHubFrame and cachedMainHubFrame.Parent then
+			return cachedMainHubFrame
+		end
+		cachedMainHubFrame = nil
+		local win = WindowRef
+		if win and win.Root and win.Root.Parent then
+			cachedMainHubFrame = win.Root
+			return cachedMainHubFrame
+		end
+		local roots = {}
+		if Fluent and Fluent.GUI then
+			table.insert(roots, Fluent.GUI)
+		end
+		pcall(function()
+			table.insert(roots, game:GetService("CoreGui"))
+		end)
+		if gethui then
+			pcall(function()
+				table.insert(roots, gethui())
+			end)
+		end
+		for _, root in ipairs(roots) do
+			local guis = root:IsA("ScreenGui") and { root } or root:GetChildren()
+			for _, gui in ipairs(guis) do
+				if gui:IsA("ScreenGui") and gui.Name ~= "NhoiiiXLogoGui" then
+					for _, desc in ipairs(gui:GetDescendants()) do
+						if desc:IsA("TextLabel") and desc.Text:find("NhoiiiX", 1, true) then
+							local p = desc.Parent
+							while p and p.Parent ~= gui do
+								p = p.Parent
+							end
+							if p and p:IsA("Frame") then
+								cachedMainHubFrame = p
+								return p
+							end
+						end
+					end
+				end
+			end
+		end
+		return nil
+	end
+
 	local function toggleUI()
 		local now = tick()
 		if now - lastToggleTime < 0.3 then
 			return
 		end
 		lastToggleTime = now
-		uiVisible = not uiVisible
-		if cachedMainHubFrame and cachedMainHubFrame.Parent then
-			cachedMainHubFrame.Visible = uiVisible
+		local frame = FindMainFrame()
+		if not frame then
 			return
 		end
-		for _, gui in ipairs(game:GetService("CoreGui"):GetChildren()) do
-			if gui:IsA("ScreenGui") then
-				for _, desc in ipairs(gui:GetDescendants()) do
-					if desc:IsA("TextLabel") and (desc.Text == "NhoiiiX" or desc.Text:find("NhoiiiX")) then
-						local p = desc.Parent
-						while p and p.Parent ~= gui do
-							p = p.Parent
-						end
-						if p and p:IsA("Frame") then
-							cachedMainHubFrame = p
-							p.Visible = uiVisible
-							return
-						end
-					end
-				end
-			end
+		local show = not frame.Visible
+		uiVisible = show
+		if WindowRef then
+			WindowRef.Minimized = not show
 		end
+		frame.Visible = show
 	end
 
 	UserInputService.InputBegan:Connect(function(input, processed)
@@ -6757,6 +6791,7 @@ end);
 		Theme = "Amethyst",
 		MinimizeKey = Enum.KeyCode.LeftControl,
 	})
+	WindowRef = Window
 	pcall(function()
 		if Fluent and Fluent.GUI then
 			Fluent.GUI.DisplayOrder = 5000
